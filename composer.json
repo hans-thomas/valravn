@@ -1,0 +1,43 @@
+{
+    "name": "hans-thomas/starter",
+    "description": "package-starter is a predefined laravel packages scaffold",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mortazavi",
+            "email": "s.mohammad027@live.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0",
+        "nunomaduro/collision": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hans\\Starter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hans\\Starter\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hans\\Starter\\StarterServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "testbench": "./vendor/bin/testbench",
+        "test": "./vendor/bin/testbench package:test",
+        "unit": "./vendor/bin/phpunit"
+    }
+}

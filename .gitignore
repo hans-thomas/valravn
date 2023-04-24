@@ -1,0 +1,5 @@
+.idea/
+vendor/
+ffmpeg-*/
+composer.lock
+.phpunit.result.cache

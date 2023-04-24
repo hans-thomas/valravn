@@ -1,0 +1,100 @@
+<?php
+
+	namespace Hans\Starter\Tests;
+
+	use Hans\Starter\StarterServiceProvider;
+	use Illuminate\Contracts\Filesystem\Filesystem;
+	use Illuminate\Foundation\Application;
+	use Illuminate\Foundation\Testing\RefreshDatabase;
+	use Illuminate\Routing\Router;
+	use Illuminate\Support\Arr;
+	use Illuminate\Support\Facades\Storage;
+	use Orchestra\Testbench\TestCase as BaseTestCase;
+
+	class TestCase extends BaseTestCase {
+		use RefreshDatabase;
+
+		public Filesystem $storage;
+		private array $config;
+
+		public function getConfig( string $key, $default ) {
+			return Arr::get( $this->config, $key, $default );
+		}
+
+		/**
+		 * Setup the test environment.
+		 */
+		protected function setUp(): void {
+			// Code before application created.
+
+			parent::setUp();
+
+			// Code after application created.
+			$this->config  = config( 'starter' );
+			$this->storage = Storage::disk( 'public' );
+		}
+
+		/**
+		 * Get application timezone.
+		 *
+		 * @param Application $app
+		 *
+		 * @return string|null
+		 */
+		protected function getApplicationTimezone( $app ) {
+			return 'UTC';
+		}
+
+		/**
+		 * Get package providers.
+		 *
+		 * @param Application $app
+		 *
+		 * @return array
+		 */
+		protected function getPackageProviders( $app ) {
+			return [
+				StarterServiceProvider::class
+			];
+		}
+
+		/**
+		 * Override application aliases.
+		 *
+		 * @param Application $app
+		 *
+		 * @return array
+		 */
+		protected function getPackageAliases( $app ) {
+			return [ /* 'Acme' => 'Acme\Facade' */ ];
+		}
+
+		/**
+		 * Define environment setup.
+		 *
+		 * @param Application $app
+		 *
+		 * @return void
+		 */
+		protected function defineEnvironment( $app ) {
+			// Setup default database to use sqlite :memory:
+			$app[ 'config' ]->set( 'database.default', 'testbench' );
+			$app[ 'config' ]->set( 'database.connections.testbench', [
+				'driver'   => 'sqlite',
+				'database' => ':memory:',
+				'prefix'   => '',
+			] );
+		}
+
+		/**
+		 * Define routes setup.
+		 *
+		 * @param Router $router
+		 *
+		 * @return void
+		 */
+		protected function defineRoutes( $router ) {
+			//
+		}
+
+	}

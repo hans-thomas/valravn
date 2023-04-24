@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  app:
+    build: .
+    working_dir: $APP_DEST
+    volumes:
+      - $APP_SRC:$APP_DEST
+      - ./xdebug/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - php:/usr/local/etc/php
+      - ./php/conf.d/php.ini-development:/usr/local/etc/php/php.ini
+
+volumes:
+  php:
