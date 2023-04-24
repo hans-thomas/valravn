@@ -1,6 +1,6 @@
 {
-    "name": "hans-thomas/starter",
-    "description": "package-starter is a predefined laravel packages scaffold",
+    "name": "hans-thomas/valravn",
+    "description": "valravn is a sets of predefined classes for laravel.",
     "license": "MIT",
     "authors": [
         {
@@ -9,26 +9,31 @@
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "spatie/crawler": "^7.1",
+        "mavinoo/laravel-batch": "^2.3"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0",
-        "nunomaduro/collision": "^6.0"
+        "orchestra/testbench": "^8.0",
+        "nunomaduro/collision": "^7.0"
     },
     "autoload": {
         "psr-4": {
-            "Hans\\Starter\\": "src/"
-        }
+            "Hans\\Valravn\\": "src/"
+        },
+        "files": [
+            "./src/Heplers/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Hans\\Starter\\Tests\\": "tests/"
+            "Hans\\Valravn\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Hans\\Starter\\StarterServiceProvider"
+              "ValravnServiceProvider"
             ]
         }
     },

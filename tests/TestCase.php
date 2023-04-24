@@ -2,7 +2,7 @@
 
 	namespace Hans\Starter\Tests;
 
-	use Hans\Starter\StarterServiceProvider;
+	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Contracts\Filesystem\Filesystem;
 	use Illuminate\Foundation\Application;
 	use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +30,7 @@
 			parent::setUp();
 
 			// Code after application created.
-			$this->config  = config( 'starter' );
+			$this->config  = config( 'valravn' );
 			$this->storage = Storage::disk( 'public' );
 		}
 
@@ -54,7 +54,7 @@
 		 */
 		protected function getPackageProviders( $app ) {
 			return [
-				StarterServiceProvider::class
+				ValravnServiceProvider::class
 			];
 		}
 
