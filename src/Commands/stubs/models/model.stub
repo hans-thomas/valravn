@@ -1,0 +1,58 @@
+<?php
+
+    namespace App\Models\{{MODEL::NAMESPACE}};
+
+    use App\Models\BaseModel;
+    use App\Models\Contracts\EntityClasses;
+    use App\Models\Contracts\Filtering\Filterable;
+    use App\Models\Contracts\Filtering\Loadable;
+    use App\Models\Contracts\ResourceCollectionable;
+    use App\Models\Traits\Paginatable;
+    use App\Repositories\Contracts\Repository;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Illuminate\Http\Resources\Json\ResourceCollection;
+
+    class {{MODEL::CLASS}} extends BaseModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
+        use HasFactory;
+        use Paginatable;
+
+        protected $table = '{{MODEL::TABLE}}';
+        protected $fillable = [ ];
+
+        public function getForeignKey() {
+            return '{{MODEL::FOREIGNKEY}}';
+        }
+
+        public function getRepository(): Repository {
+            // TODO: Implement getRepository() method.
+        }
+
+        public function getService(): object {
+            // TODO: Implement getService() method.
+        }
+
+        public function getRelationsService(): object {
+            // TODO: Implement getRelationsService() method.
+        }
+
+        public function getFilterableAttributes(): array {
+            // TODO: Implement getFilterableAttributes() method.
+        }
+
+        public function getLoadableRelations(): array {
+            // TODO: Implement getLoadableRelations() method.
+        }
+
+        public static function getResource(): JsonResource {
+            // TODO: Implement getResource() method.
+        }
+
+        public function toResource(): JsonResource {
+            // TODO: Implement toResource() method.
+        }
+
+        public static function getResourceCollection(): ResourceCollection {
+            // TODO: Implement getResourceCollection() method.
+        }
+    }

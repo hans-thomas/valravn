@@ -1,0 +1,30 @@
+<?php
+
+    namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
+
+    use App\Exceptions\BaseException;
+    use Symfony\Component\HttpFoundation\Response;
+
+    class {{ENTITY::NAME}}Exception extends BaseException {
+
+        public static function failedToCreate(): BaseException {
+            return self::make( "Failed to create the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToCreate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToUpdate(): BaseException {
+            return self::make( "Failed to update the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToUpdate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToBatchUpdate(): BaseException {
+            return self::make( "Failed to update the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToBatchUpdate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToDelete(): BaseException {
+            return self::make( "Failed to delete the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToDelete(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+    }

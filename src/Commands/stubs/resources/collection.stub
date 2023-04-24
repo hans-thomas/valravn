@@ -1,0 +1,30 @@
+<?php
+
+    namespace App\Http\Resources\{{COLLECTION::VERSION}}\{{COLLECTION::NAMESPACE}}\{{COLLECTION::MODEL}};
+
+    use App\Http\Resources\Contracts\BaseJsonResource;
+    use App\Http\Resources\Contracts\BaseResourceCollection;
+
+    class {{COLLECTION::MODEL}}Collection extends BaseResourceCollection {
+
+        /**
+         * Extract your custom attributes of the resource
+         * return null for parent::toArray default value
+         *
+         * @param BaseJsonResource $item
+         *
+         * @return array|null
+         */
+        public function extract( BaseJsonResource $item ): ?array {
+            return null;
+        }
+
+        /**
+         * Specify the type of your resource
+         *
+         * @return string
+         */
+        public function type(): string {
+            return '{{COLLECTION::PLURAL}}';
+        }
+    }

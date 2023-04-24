@@ -1,0 +1,96 @@
+<?php
+
+    namespace App\Http\Controllers\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
+
+    use App\DTOs\BatchUpdateDto;
+    use App\Exceptions\BaseException;
+    use App\Http\Controllers\Controller;
+    use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}BatchUpdateRequest;
+    use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}StoreRequest;
+    use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}UpdateRequest;
+    use App\Http\Resources\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Collection;
+    use App\Http\Resources\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Resource;
+    use App\Models\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
+    use App\Services\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Service;
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Illuminate\Http\Resources\Json\ResourceCollection;
+    use Throwable;
+
+    class {{CRUD::MODEL}}CrudController extends Controller {
+        private {{CRUD::MODEL}}Service $service;
+
+        public function __construct() {
+            $this->service    = app( {{CRUD::MODEL}}Service::class );
+        }
+
+        /**
+         * Display a listing of the resource.
+         *
+         * @return ResourceCollection
+         */
+        public function index(): ResourceCollection {
+            return {{CRUD::MODEL}}::getResourceCollection( $this->service->all() );
+        }
+
+        /**
+         * Store a newly created resource in storage.
+         *
+         * @param {{CRUD::MODEL}}StoreRequest $request
+         *
+         * @return JsonResource
+         * @throws Throwable
+         */
+        public function store( {{CRUD::MODEL}}StoreRequest $request ): JsonResource {
+            return $this->service->create( $request->validated() )->toResource();
+        }
+
+        /**
+         * Display the specified resource.
+         *
+         * @param int ${{CRUD::MODEL-lower}}
+         *
+         * @return JsonResource
+         */
+        public function show( int ${{CRUD::MODEL-lower}} ): JsonResource {
+            return $this->service->find( ${{CRUD::MODEL-lower}} )->toResource();
+        }
+
+        /**
+         * Update the specified resource in storage.
+         *
+         * @param {{CRUD::MODEL}}UpdateRequest $request
+         * @param {{CRUD::MODEL}}              ${{CRUD::MODEL-lower}}
+         *
+         * @return JsonResource
+         * @throws Throwable
+         */
+        public function update( {{CRUD::MODEL}}UpdateRequest $request, {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): JsonResource {
+            return $this->service->update( ${{CRUD::MODEL-lower}}, $request->validated() )->toResource();
+        }
+
+        /**
+         * Batch update the specified resource in storage.
+         *
+         * @param {{CRUD::MODEL}}BatchUpdateRequest $request
+         *
+         * @return ResourceCollection
+         * @throws BaseException
+         */
+        public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): ResourceCollection {
+            return {{CRUD::MODEL}}::getResourceCollection(
+                $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
+            );
+        }
+
+        /**
+         * Remove the specified resource from storage.
+         *
+         * @param {{CRUD::MODEL}} ${{CRUD::MODEL-lower}}
+         *
+         * @return JsonResource
+         * @throws BaseException
+         */
+        public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): JsonResource {
+            return $this->service->delete( ${{CRUD::MODEL-lower}} )->toResource();
+        }
+    }

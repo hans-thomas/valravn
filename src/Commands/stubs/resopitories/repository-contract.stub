@@ -1,0 +1,10 @@
+<?php
+
+    namespace App\Repositories\Contracts\{{IREPOSITORY::NAMESPACE}};
+
+    use App\Models\{{IREPOSITORY::NAMESPACE}}\{{IREPOSITORY::MODEL}};
+    use App\Repositories\Contracts\Repository;
+
+    abstract class I{{IREPOSITORY::MODEL}}Repository extends Repository {
+
+    }

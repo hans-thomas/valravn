@@ -1,0 +1,22 @@
+<?php
+
+    namespace App\Policies\{{POLICY::NAMESPACE}};
+
+    use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
+    use App\Models\Core\User;
+    use App\Policies\Contracts\BasePolicy;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Collection;
+
+    class {{POLICY::MODEL}}Policy extends BasePolicy {
+
+        /**
+         * Set the related model class
+         *
+         * @return string
+         */
+        protected function getModel(): string {
+            return {{POLICY::MODEL}}::class;
+        }
+
+    }

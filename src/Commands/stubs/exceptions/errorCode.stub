@@ -1,0 +1,14 @@
+<?php
+
+    namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
+
+    use App\Exceptions\ErrorCode;
+
+    class {{ENTITY::NAME}}ErrorCode extends ErrorCode {
+        protected static string $prefix = 'ECx';
+
+        protected int $FAILED_TO_CREATE = 1;
+        protected int $FAILED_TO_UPDATE = 2;
+        protected int $FAILED_TO_BATCH_UPDATE = 3;
+        protected int $FAILED_TO_DELETE = 4;
+    }

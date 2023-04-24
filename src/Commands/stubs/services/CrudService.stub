@@ -1,0 +1,67 @@
+<?php
+
+    namespace App\Services\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
+
+    use App\DTOs\BatchUpdateDto;
+    use App\Exceptions\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}}\{{CRUD-SERVICE::MODEL}}Exception;
+    use App\Models\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
+    use App\Repositories\Contracts\{{CRUD-SERVICE::NAMESPACE}}\I{{CRUD-SERVICE::MODEL}}Repository;
+    use Illuminate\Contracts\Pagination\Paginator;
+    use Illuminate\Support\Facades\DB;
+    use Throwable;
+
+    class {{CRUD-SERVICE::MODEL}}Service {
+        private I{{CRUD-SERVICE::MODEL}}Repository $repository;
+
+        public function __construct() {
+            $this->repository = app( I{{CRUD-SERVICE::MODEL}}Repository::class );
+        }
+
+        public function all(): Paginator {
+            return $this->repository->all()->applyFilters()->paginate();
+        }
+
+        public function create( array $data ): {{CRUD-SERVICE::MODEL}} {
+            DB::beginTransaction();
+            try {
+                throw_unless( $model = $this->repository->create( $data ), {{CRUD-SERVICE::MODEL}}Exception::failedToCreate() );
+            } catch ( Throwable $e ) {
+                DB::rollBack();
+                throw $e;
+            }
+            DB::commit();
+
+            return $model;
+        }
+
+        public function find( int $model ): {{CRUD-SERVICE::MODEL}} {
+            return $this->repository->find( $model );
+        }
+
+        public function update( {{CRUD-SERVICE::MODEL}} $model, array $data ): {{CRUD-SERVICE::MODEL}} {
+            if ( $this->repository->update( $model, $data ) ) {
+                return $model;
+            }
+
+            throw {{CRUD-SERVICE::MODEL}}Exception::failedToUpdate();
+        }
+
+        public function batchUpdate( BatchUpdateDto $dto ): Paginator {
+            if ( $this->repository->batchUpdate( $dto ) ) {
+                return $this->repository->all()
+                                        ->whereIn( 'id', $dto->getData()->pluck( 'id' ) )
+                                        ->applyFilters()
+                                        ->paginate();
+            }
+
+            throw {{CRUD-SERVICE::MODEL}}Exception::failedToBatchUpdate();
+        }
+
+        public function delete( {{CRUD-SERVICE::MODEL}} $model ): {{CRUD-SERVICE::MODEL}} {
+            if ( $this->repository->delete( $model ) ) {
+                return $model;
+            }
+
+            throw {{CRUD-SERVICE::MODEL}}Exception::failedToDelete();
+        }
+    }

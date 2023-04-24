@@ -1,0 +1,29 @@
+<?php
+
+    namespace App\Http\Resources\{{RESOURCE::VERSION}}\{{RESOURCE::NAMESPACE}}\{{RESOURCE::MODEL}};
+
+    use App\Http\Resources\Contracts\BaseJsonResource;
+
+    class {{RESOURCE::MODEL}}Resource extends BaseJsonResource {
+
+        /**
+         * Extract your custom attributes of the resource
+         * return null for parent::toArray default value
+         *
+         * @return array
+         */
+        public function extract(): array {
+            return [
+                //
+            ];
+        }
+
+        /**
+         * Specify the type of your resource
+         *
+         * @return string
+         */
+        public function type(): string {
+            return '{{RESOURCE::PLURAL}}';
+        }
+    }

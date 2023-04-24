@@ -1,0 +1,19 @@
+<?php
+
+    namespace App\Services\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
+
+    use App\Exceptions\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}}\{{CRUD-SERVICE::MODEL}}Exception;
+    use App\Models\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
+    use App\Repositories\Contracts\{{CRUD-SERVICE::NAMESPACE}}\I{{CRUD-SERVICE::MODEL}}Repository;
+    use Illuminate\Contracts\Pagination\Paginator;
+    use Illuminate\Support\Facades\DB;
+    use Throwable;
+
+    class {{CRUD-SERVICE::MODEL}}RelationsService {
+        private I{{CRUD-SERVICE::MODEL}}Repository $repository;
+
+        public function __construct() {
+            $this->repository = app( I{{CRUD-SERVICE::MODEL}}Repository::class );
+        }
+
+    }

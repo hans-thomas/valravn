@@ -1,0 +1,16 @@
+<?php
+
+    namespace App\Repositories\{{REPOSITORY::NAMESPACE}};
+
+    use App\Models\{{REPOSITORY::NAMESPACE}}\{{REPOSITORY::MODEL}};
+    use App\Repositories\Contracts\{{REPOSITORY::NAMESPACE}}\I{{REPOSITORY::MODEL}}Repository;
+    use Illuminate\Contracts\Database\Eloquent\Builder;
+    use Illuminate\Support\Facades\Gate;
+
+    class {{REPOSITORY::MODEL}}Repository extends I{{REPOSITORY::MODEL}}Repository {
+
+        protected function getQueryBuilder(): Builder {
+            return {{REPOSITORY::MODEL}}::query();
+        }
+
+    }
