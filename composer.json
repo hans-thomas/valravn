@@ -22,7 +22,7 @@
             "Hans\\Valravn\\": "src/"
         },
         "files": [
-            "./src/Heplers/functions.php"
+            "./src/Helpers/functions.php"
         ]
     },
     "autoload-dev": {
