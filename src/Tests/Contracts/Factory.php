@@ -2,25 +2,25 @@
 
 	namespace Hans\Valravn\Tests\Contracts;
 
-	use App\Repositories\Contracts\Repository;
-	use Illuminate\Database\Eloquent\Factories\Factory;
+	use Hans\Valravn\Repositories\Contracts\Repository;
+	use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Support\Collection;
 
-	abstract class FactoryContract {
+	abstract class Factory {
 		protected Model $model;
 
 		public function __construct( array $data = [] ) {
 			$this->model = static::factory()->create( $data );
 		}
 
-		abstract protected static function getFactory(): Factory;
+		abstract protected static function getFactory(): EloquentFactory;
 
 		abstract public static function getRepository(): Repository;
 
 		protected static function preCreateHook(): void { }
 
-		protected static function factory(): Factory {
+		protected static function factory(): EloquentFactory {
 			static::preCreateHook();
 
 			return static::getFactory();
