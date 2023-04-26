@@ -2,12 +2,13 @@
 
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
+	use Illuminate\Contracts\Auth\Authenticatable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Resources\Json\JsonResource;
 	use Illuminate\Support\Optional;
 
 	if ( ! function_exists( 'user' ) ) {
-		function user(): User|Optional {
+		function user(): Authenticatable|Optional {
 			return Auth::check() ? Auth::user() : optional();
 		}
 	}
