@@ -62,7 +62,7 @@
 		 *
 		 * @return self
 		 */
-		public function setRegistered( array $filters ): self {
+		public function registerFilters( array $filters ): self {
 			$this->registered = array_merge( $this->getRegistered(), $filters );
 
 			return $this;

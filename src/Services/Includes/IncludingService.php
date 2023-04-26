@@ -151,7 +151,7 @@
 		 *
 		 * @return self
 		 */
-		public function setRegisteredActions( array $actions ): self {
+		public function registerActions( array $actions ): self {
 			$this->registeredActions = array_merge( $this->getRegisteredActions(), $actions );
 
 			return $this;
