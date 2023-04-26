@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Services\Contracts\Notification;
+    namespace Hans\Valravn\Services\Contracts\Notification;
 
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Http\Resources\Json\JsonResource;
