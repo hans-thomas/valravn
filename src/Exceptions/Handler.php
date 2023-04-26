@@ -2,7 +2,6 @@
 
 	namespace Hans\Valravn\Exceptions;
 
-	use Hans\Valravn\Exceptions\BaseException;
 	use Illuminate\Auth\Access\AuthorizationException;
 	use Illuminate\Database\Eloquent\ModelNotFoundException;
 	use Illuminate\Database\QueryException;

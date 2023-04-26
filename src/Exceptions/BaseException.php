@@ -14,8 +14,8 @@
             $this->errorCode = $errorCode;
         }
 
-        public static function make( string $message = "", int|string $ErrorCode = 0, int $responseCode = 500, Throwable $previous = null ): self {
-            return new self( $message, $ErrorCode, $responseCode, $previous );
+        public static function make( string $message = "", int|string $errorCode = 0, int $responseCode = 500, Throwable $previous = null ): self {
+            return new self( $message, $errorCode, $responseCode, $previous );
         }
 
         /**

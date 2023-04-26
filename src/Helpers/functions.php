@@ -5,6 +5,7 @@
 	use Illuminate\Contracts\Auth\Authenticatable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Resources\Json\JsonResource;
+	use Illuminate\Support\Facades\Log;
 	use Illuminate\Support\Optional;
 
 	if ( ! function_exists( 'user' ) ) {
@@ -174,6 +175,7 @@
 
 	if ( ! function_exists( 'logg' ) ) {
 		function logg( string $location, Throwable $e, array $context = [] ) {
+			// TODO: add custom a channel for debugging
 			Log::channel( 'starter' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
 		}
 	}
