@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -51,13 +51,13 @@
             }
 
             // repository contract
-            $iRepositoryStub = $this->fs->read( "app/Repositories/stubs/irepository.stub" );
+            $iRepositoryStub = $this->fs->read( "stubs/repositories/irepository.stub" );
             $iRepositoryStub = Str::replace( "{{IREPOSITORY::NAMESPACE}}", $namespace, $iRepositoryStub );
             $iRepositoryStub = Str::replace( "{{IREPOSITORY::MODEL}}", $singular, $iRepositoryStub );
             $this->fs->write( "app/Repositories/Contracts/$namespace/I{$singular}Repository.php", $iRepositoryStub );
 
             // repository class
-            $repositoryStub = $this->fs->read( "app/Repositories/stubs/repository.stub" );
+            $repositoryStub = $this->fs->read( "stubs/repositories/repository.stub" );
             $repositoryStub = Str::replace( "{{REPOSITORY::NAMESPACE}}", $namespace, $repositoryStub );
             $repositoryStub = Str::replace( "{{REPOSITORY::MODEL}}", $singular, $repositoryStub );
             $this->fs->write( "app/Repositories/$namespace/{$singular}Repository.php", $repositoryStub );

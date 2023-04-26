@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -52,7 +52,7 @@
             }
 
             // controllers: crud
-            $errorCodeStub = $this->fs->read( 'app/Http/Controllers/stubs/crud.stub' );
+            $errorCodeStub = $this->fs->read( 'stubs/controllers/crud.stub' );
             $errorCodeStub = Str::replace( '{{CRUD::VERSION}}', $version, $errorCodeStub );
             $errorCodeStub = Str::replace( '{{CRUD::NAMESPACE}}', $namespace, $errorCodeStub );
             $errorCodeStub = Str::replace( '{{CRUD::MODEL}}', $singular, $errorCodeStub );

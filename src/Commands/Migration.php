@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -51,13 +51,17 @@
                 return;
             }
 
-            $migrationStub = $this->fs->read( 'database/migrations/stubs/migration.stub' );
-            $migrationStub = Str::replace( "{{MODEL::NAMESPACE}}", "App\\Models\\$namespace\\$singular",
-                $migrationStub );
+            $migrationStub = $this->fs->read( 'stubs/migrations/migration.stub' );
+            $migrationStub = Str::replace(
+				"{{MODEL::NAMESPACE}}", "App\\Models\\$namespace\\$singular",
+                $migrationStub
+            );
             $migrationStub = Str::replace( "{{MODEL::CLASS}}", $singular, $migrationStub );
             $datePrefix    = now()->format( 'Y_m_d_His' );
-            $this->fs->write( "database/migrations/$namespace/{$datePrefix}_create_" . Str::snake( $plural ) . "_table.php",
-                $migrationStub );
+            $this->fs->write(
+				"database/migrations/$namespace/{$datePrefix}_create_" . Str::snake( $plural ) . "_table.php",
+                $migrationStub
+            );
 
             $this->info( "migration class successfully created!" );
         }

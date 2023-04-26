@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -53,7 +53,7 @@
             }
 
             // resource class
-            $policyStub = $this->fs->read( 'app/Http/Resources/stubs/resource.stub' );
+            $policyStub = $this->fs->read( 'stubs/resources/resource.stub' );
             $policyStub = Str::replace( "{{RESOURCE::NAMESPACE}}", $namespace, $policyStub );
             $policyStub = Str::replace( "{{RESOURCE::MODEL}}", $singular, $policyStub );
             $policyStub = Str::replace( "{{RESOURCE::PLURAL}}", $plural, $policyStub );
@@ -61,7 +61,7 @@
             $this->fs->write( "app/Http/Resources/$version/$namespace/$singular/{$singular}Resource.php", $policyStub );
 
             // resource collection class
-            $policyStub = $this->fs->read( 'app/Http/Resources/stubs/collection.stub' );
+            $policyStub = $this->fs->read( 'stubs/resources/collection.stub' );
             $policyStub = Str::replace( "{{COLLECTION::NAMESPACE}}", $namespace, $policyStub );
             $policyStub = Str::replace( "{{COLLECTION::MODEL}}", $singular, $policyStub );
             $policyStub = Str::replace( "{{COLLECTION::PLURAL}}", $plural, $policyStub );

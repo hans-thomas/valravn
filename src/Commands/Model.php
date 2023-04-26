@@ -30,7 +30,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -52,12 +52,14 @@
                 return;
             }
 
-            $modelStub = $this->fs->read( 'app/Models/stubs/model.stub' );
+            $modelStub = $this->fs->read( 'stubs/models/model.stub' );
             $modelStub = Str::replace( "{{MODEL::NAMESPACE}}", $namespace, $modelStub );
             $modelStub = Str::replace( "{{MODEL::CLASS}}", $singular, $modelStub );
             $modelStub = Str::replace( "{{MODEL::TABLE}}",
-                $table = strtolower( "{$namespace}_" . Str::snake( $plural ) ),
-                $modelStub );
+                $table = strtolower(
+					"{$namespace}_" . Str::snake( $plural ) ),
+                $modelStub
+            );
             $modelStub = Str::replace( "{{MODEL::FOREIGNKEY}}", Str::singular( $table ) . '_id', $modelStub );
             $this->fs->write( "app/Models/$namespace/$singular.php", $modelStub );
 

@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -51,14 +51,14 @@
             }
 
             // exceptions: error code
-            $errorCodeStub = $this->fs->read( 'app/Exceptions/stubs/errorCode.stub' );
+            $errorCodeStub = $this->fs->read( 'stubs/exceptions/error-code.stub' );
             $errorCodeStub = Str::replace( '{{ENTITY::NAMESPACE}}', $namespace, $errorCodeStub );
             $errorCodeStub = Str::replace( '{{ENTITY::NAME}}', $singular, $errorCodeStub );
             $errorCode     = "app/Exceptions/$namespace/$singular/{$singular}ErrorCode.php";
 
             $this->fs->write( $errorCode, $errorCodeStub );
             // exceptions: exception
-            $exceptionStub = $this->fs->read( 'app/Exceptions/stubs/exception.stub' );
+            $exceptionStub = $this->fs->read( 'stubs/exceptions/exception.stub' );
             $exceptionStub = Str::replace( '{{ENTITY::NAMESPACE}}', $namespace, $exceptionStub );
             $exceptionStub = Str::replace( '{{ENTITY::NAME}}', $singular, $exceptionStub );
             $exception     = "app/Exceptions/$namespace/$singular/{$singular}Exception.php";

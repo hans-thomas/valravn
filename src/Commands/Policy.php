@@ -29,7 +29,7 @@
         public function __construct() {
             parent::__construct();
             $this->fs = Storage::createLocalDriver( [
-                'root'       => base_path(),
+                'root'       => __DIR__,
                 'visibility' => Visibility::PUBLIC
             ] );
         }
@@ -50,7 +50,7 @@
                 return;
             }
 
-            $policyStub = $this->fs->read( 'app/Policies/stubs/policy.stub' );
+            $policyStub = $this->fs->read( 'stubs/policies/policy.stub' );
             $policyStub = Str::replace( "{{POLICY::NAMESPACE}}", $namespace, $policyStub );
             $policyStub = Str::replace( "{{POLICY::MODEL}}", $singular, $policyStub );
             $this->fs->write( "app/Policies/$namespace/{$singular}Policy.php", $policyStub );
