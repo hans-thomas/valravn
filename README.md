@@ -1,18 +1,14 @@
-# Package Starter
+# Valravn
 
-It's a predefined laravel package scaffold that has features like:
+Valravn is a sets of predefined classes for laravel which features below:
 
 - easy-to-use
-- customizable
-- dockerized
-- phpunit support
+- lots of predefined classes
+- fully customizable
+- reduce development and maintenance time
 
 ## Installation
 
-clone via SSH
-> git clone git@github.com:hans-thomas/package-starter.git
+install via composer
+> composer require hans-thomas/valravn
 
-or clone using HTTPS
-> git clone https://github.com/hans-thomas/package-starter.git
-
-then, create something amazing🔥
