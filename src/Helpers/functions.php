@@ -1,5 +1,7 @@
 <?php
 
+	use Hans\Valravn\Exceptions\BaseException;
+	use Hans\Valravn\Exceptions\Valravn\ValravnException;
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
 	use Illuminate\Contracts\Auth\Authenticatable;
@@ -176,7 +178,6 @@
 
 	if ( ! function_exists( 'logg' ) ) {
 		function logg( string $location, Throwable $e, array $context = [] ) {
-			// TODO: add custom a channel for debugging
-			Log::channel( 'starter' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
+			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
 		}
 	}

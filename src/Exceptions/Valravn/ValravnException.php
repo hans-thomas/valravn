@@ -2,7 +2,6 @@
 
 	namespace Hans\Valravn\Exceptions\Valravn;
 
-	use App\Exceptions\App\AppErrorCode;
 	use Hans\Valravn\Exceptions\BaseException;
 	use Illuminate\Database\Eloquent\Model;
 	use Symfony\Component\HttpFoundation\Response;
