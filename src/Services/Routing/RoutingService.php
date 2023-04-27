@@ -19,9 +19,12 @@
         public function resource( string $name, string $controller ): self {
             $this->name = $name;
 
-            if ( class_exists( $this->controller = $controller ) ) {
-                $this->pendingResourceRegistration = $this->registrar->apiResource( $this->name, $this->controller );
-            }
+	        if ( class_exists( $this->controller = $controller ) ) {
+		        $this->pendingResourceRegistration = tap(
+			        $this->registrar->apiResource( $this->name, $this->controller ),
+			        fn( PendingResourceRegistration $registration ) => $registration->register()
+		        );
+	        }
 
             return $this;
         }
@@ -56,7 +59,9 @@
 
         public function __call( string $method, array $parameters ) {
             if ( method_exists( $this->pendingResourceRegistration, $method ) ) {
-                return $this->pendingResourceRegistration->{$method}( ...$parameters );
+	            $this->pendingResourceRegistration->{$method}( ...$parameters );
+
+	            return $this;
             }
 
             throw new BadMethodCallException( sprintf(
