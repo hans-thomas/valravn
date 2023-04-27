@@ -34,12 +34,7 @@
         "laravel": {
             "providers": [
               "Hans\\Valravn\\ValravnServiceProvider"
-            ],
-            "aliases": {
-                "Cache": "Hans\\Valravn\\Facades\\Cache",
-                "Filter": "Hans\\Valravn\\Facades\\Filter",
-                "Router": "Hans\\Valravn\\Facades\\Router"
-            }
+            ]
         }
     },
     "scripts": {
