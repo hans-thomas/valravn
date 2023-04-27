@@ -4,7 +4,7 @@
 
 	use Hans\Valravn\DTOs\BatchUpdateDto;
 	use Hans\Valravn\Exceptions\BaseException;
-	use Batch;
+	use Hans\Valravn\Exceptions\Valravn\ValravnException;
 	use Illuminate\Auth\Access\AuthorizationException;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Database\Eloquent\Model;
@@ -69,6 +69,9 @@
 			return $this;
 		}
 
+		/**
+		 * @throws AuthorizationException
+		 */
 		protected function authorize( $ability = null, ...$params ): void {
 			if ( $ability instanceof Model ) {
 				$params[] = $ability;
@@ -123,8 +126,7 @@
 				$this->deleting( $model );
 				$model->delete();
 			} catch ( Throwable $e ) {
-				// TODO: replace AppException with package exception
-				throw AppException::failedToExecuteDeletingHook( $model );
+				throw ValravnException::failedToExecuteDeletingHook( $model );
 			}
 			DB::commit();
 
@@ -156,7 +158,7 @@
 		public function batchUpdate( BatchUpdateDto $dto ): bool {
 			$this->authorize( 'batchUpdate', $this->getModelClassName(), $dto->getData() );
 
-			return Batch::update(
+			return batch()->update(
 				$this->query()->getModel(),
 				$dto->getData()->toArray(),
 				$this->query()->getModel()->getKeyName()
