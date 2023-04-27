@@ -17,6 +17,7 @@
 	use Hans\Valravn\Commands\Service;
 	use Hans\Valravn\Services\Caching\CachingService;
 	use Hans\Valravn\Services\Filtering\FilteringService;
+	use Hans\Valravn\Services\Routing\RoutingService;
 	use Illuminate\Support\Facades\Route;
 	use Illuminate\Support\ServiceProvider;
 
@@ -28,8 +29,9 @@
 		 * @return void
 		 */
 		public function register() {
-			$this->app->singleton( FilteringService::class, FilteringService::class );
-			$this->app->singleton( CachingService::class, CachingService::class );
+			$this->app->bind( 'routing-service', RoutingService::class );
+			$this->app->singleton( 'caching-service', CachingService::class );
+			$this->app->singleton( 'filtering-service', FilteringService::class );
 		}
 
 		/**
