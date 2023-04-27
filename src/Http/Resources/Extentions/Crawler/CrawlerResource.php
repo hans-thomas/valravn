@@ -16,7 +16,6 @@
          * @return array|null
          */
         public function extract( Model|array $model ): ?array {
-            // TODO: Error possibility around Model $model parameter
             $data = optional( $model );
 
             return [

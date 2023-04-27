@@ -5,6 +5,7 @@
 	use Illuminate\Contracts\Auth\Authenticatable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Resources\Json\JsonResource;
+	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Support\Facades\Log;
 	use Illuminate\Support\Optional;
 
