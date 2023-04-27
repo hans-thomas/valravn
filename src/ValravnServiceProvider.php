@@ -29,9 +29,9 @@
 		 * @return void
 		 */
 		public function register() {
-			$this->app->bind( 'routing-service', RoutingService::class );
 			$this->app->singleton( 'caching-service', CachingService::class );
 			$this->app->singleton( 'filtering-service', FilteringService::class );
+			$this->app->bind( 'routing-service', RoutingService::class );
 		}
 
 		/**
