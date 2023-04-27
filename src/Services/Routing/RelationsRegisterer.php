@@ -5,6 +5,7 @@
     use Hans\Valravn\Services\Routing\Relations\BelongsTo;
     use Hans\Valravn\Services\Routing\Relations\BelongsToMany;
     use Hans\Valravn\Services\Routing\Relations\HasMany;
+    use Hans\Valravn\Services\Routing\Relations\MorphTo;
     use Hans\Valravn\Services\Routing\Relations\MorphToMany;
     use Illuminate\Routing\RouteRegistrar;
 
@@ -31,6 +32,10 @@
 
         public function morphToMany( string $relation ): MorphToMany {
             return new MorphToMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
+        }
+
+        public function morphTo( string $relation ): MorphTo {
+            return new MorphTo( $relation, $this->registrar->name( "$this->name.$relation." ) );
         }
 
     }

@@ -52,6 +52,13 @@
 		}
 	}
 
+	if ( ! function_exists( 'logg' ) ) {
+		function logg( string $location, Throwable $e, array $context = [] ) {
+			// TODO: log channel should be document
+			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
+		}
+	}
+
 	if ( ! function_exists( 'slugify' ) ) {
 		function slugify( $string, $separator = '-' ) {
 
@@ -173,11 +180,5 @@
 
 			return preg_replace( array_keys( $map ), array_values( $map ), $string );
 
-		}
-	}
-
-	if ( ! function_exists( 'logg' ) ) {
-		function logg( string $location, Throwable $e, array $context = [] ) {
-			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
 		}
 	}
