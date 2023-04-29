@@ -44,7 +44,7 @@
 			return new MorphToMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
-		public function morphByMany( string $relation ): MorphedByMany {
+		public function morphedByMany( string $relation ): MorphedByMany {
 			return new MorphedByMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
