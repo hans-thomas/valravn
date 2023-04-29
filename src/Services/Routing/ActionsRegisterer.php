@@ -69,6 +69,7 @@
 		protected function makeUri( string $action ): string {
 			$uri = "/$this->name/$this->prefix";
 			$uri = $this->addIdParameterWhen( $this->withId, $uri );
+			$uri .= '/' . Str::of( $action )->snake()->replace( '_', '-' )->toString();
 
 			foreach ( $this->parameters as $parameter ) {
 				$uri .= is_array( $parameter ) ?
@@ -76,7 +77,7 @@
 					"/{" . $parameter . "}";
 			}
 
-			return Str::of( $action )->snake()->replace( '_', '-' )->prepend( "$uri/" );
+			return $uri;
 		}
 
 		protected function getRouteNamePrefix(): string {
