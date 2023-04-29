@@ -15,6 +15,11 @@
 			$this->router = app( Router::class );
 		}
 
+		private function resetStates(): void {
+			$this->withId     = false;
+			$this->parameters = [];
+		}
+
 		public function withId(): self {
 			$this->withId = true;
 
@@ -29,18 +34,22 @@
 
 		public function get( string $action ): void {
 			$this->addRoute( 'get', $action );
+			$this->resetStates();
 		}
 
 		public function post( string $action ): void {
 			$this->addRoute( 'post', $action );
+			$this->resetStates();
 		}
 
 		public function patch( string $action ): void {
 			$this->addRoute( 'patch', $action );
+			$this->resetStates();
 		}
 
 		public function delete( string $action ): void {
 			$this->addRoute( 'delete', $action );
+			$this->resetStates();
 		}
 
 		protected function addRoute( string $method, string $action ) {
