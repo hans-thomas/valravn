@@ -45,21 +45,23 @@
 			return $this;
 		}
 
-		public function actions( string $controller, callable $func, string $prefix = '-actions' ): self {
+		public function actions( string $controller, callable $func ): self {
 			$func(
 				app(
 					ActionsRegisterer::class,
-					[ 'name' => $this->name, 'controller' => $controller, 'prefix' => $prefix ] )
+					[ 'name' => $this->name, 'controller' => $controller ]
+				)
 			);
 
 			return $this;
 		}
 
-		public function gathering( string $controller, callable $func, string $prefix = '-gathering' ): self {
+		public function gathering( string $controller, callable $func ): self {
 			$func(
 				app(
 					GatheringRegisterer::class,
-					[ 'name' => $this->name, 'controller' => $controller, 'prefix' => $prefix ] )
+					[ 'name' => $this->name, 'controller' => $controller ]
+				)
 			);
 
 			return $this;

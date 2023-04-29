@@ -11,11 +11,11 @@
 		protected array $parameters = [];
 		private array $methods = [ 'GET', 'POST', 'PATCH', 'DELETE' ];
 
-		public function __construct( protected string $name, protected string $controller, protected string $prefix ) {
+		public function __construct( protected string $name, protected string $controller ) {
 			$this->router = app( Router::class );
 		}
 
-		private function resetStates(): void {
+		protected function resetStates(): void {
 			$this->withId     = false;
 			$this->parameters = [];
 		}
@@ -76,7 +76,7 @@
 		}
 
 		protected function makeUri( string $action ): string {
-			$uri = "/$this->name/$this->prefix";
+			$uri = "/$this->name/" . $this->getPrefix();
 			$uri = $this->addIdParameterWhen( $this->withId, $uri );
 			$uri .= '/' . Str::of( $action )->snake()->replace( '_', '-' )->toString();
 
@@ -92,4 +92,9 @@
 		protected function getRouteNamePrefix(): string {
 			return 'actions';
 		}
+
+		protected function getPrefix(): string {
+			return '-actions';
+		}
+
 	}

@@ -1,26 +1,28 @@
 <?php
 
-    namespace Hans\Valravn\Services\Routing;
+	namespace Hans\Valravn\Services\Routing;
 
-    use Illuminate\Support\Str;
+	use Illuminate\Support\Str;
 
-    class GatheringRegisterer extends ActionsRegisterer {
-        protected int $version = 1;
+	class GatheringRegisterer extends ActionsRegisterer {
+		protected int $version = 1;
 
-        protected function makeUri( string $action ): string {
-            $uri = "/$this->name/$this->prefix";
-            $uri = $this->addIdParameterWhen( $this->withId, $uri );
+		protected function resetStates(): void {
+			parent::resetStates();
+			$this->version = 1;
+		}
 
-            return Str::of( $action )->snake()->replace( '_', '-' )->prepend( "$uri/v$this->version/" );
-        }
+		protected function getRouteNamePrefix(): string {
+			return 'gatherings';
+		}
 
-        protected function getRouteNamePrefix(): string {
-            return 'gatherings';
-        }
+		protected function getPrefix(): string {
+			return '-gathering/v' . $this->version;
+		}
 
-        public function version( int $version ): self {
-            $this->version = $version;
+		public function version( int $version ): self {
+			$this->version = $version;
 
-            return $this;
-        }
-    }
+			return $this;
+		}
+	}
