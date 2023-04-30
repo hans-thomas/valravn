@@ -20,6 +20,14 @@
 			return '-gathering/v' . $this->version;
 		}
 
+		protected function addRoute( string $method, string $action ) {
+			$this->registerRoute(
+				$this->makeUri( $action ),
+				Str::of( $method )->upper(),
+				Str::camel( $action . 'V' . $this->version )
+			);
+		}
+
 		public function version( int $version ): self {
 			$this->version = $version;
 
