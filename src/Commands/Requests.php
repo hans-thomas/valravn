@@ -13,7 +13,7 @@
          *
          * @var string
          */
-        protected $signature = 'valravn:requests {name} {--namespace=} {--v=v1}';
+        protected $signature = 'valravn:requests {namespace} {name} {--v=1}';
 
         /**
          * The console command description.
@@ -30,14 +30,8 @@
          */
         public function handle() {
             $singular  = ucfirst( Str::singular( $this->argument( 'name' ) ) );
-            $namespace = ucfirst( $this->option( 'namespace' ) );
-            $version   = ucfirst( $this->option( 'v' ) );
-
-            if ( ! $namespace ) {
-                $this->error( 'namespace is required!' );
-
-                return;
-            }
+            $namespace = ucfirst( $this->argument( 'namespace' ) );
+	        $version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
             Artisan::call( "make:request $version/$namespace/$singular/{$singular}StoreRequest" );
             Artisan::call( "make:request $version/$namespace/$singular/{$singular}UpdateRequest" );
