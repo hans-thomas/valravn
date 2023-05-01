@@ -30,11 +30,11 @@
 		public function handle() {
 			$name      = $this->argument( 'name' );
 			$namespace = $this->argument( 'namespace' );
-			$version   = 'v' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
+			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
 			Artisan::call( "valravn:controller", [
+				'namespace'   => $namespace,
 				'name'        => $name,
-				'--namespace' => $namespace,
 				'--v'         => $version,
 				'--relations' => true,
 				'--actions'   => true,

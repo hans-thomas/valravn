@@ -13,7 +13,7 @@
 		 * @return void
 		 */
 		public function NotEnoughArguments(): void {
-			$this->expectExceptionMessage( 'Not enough arguments (missing: "name").' );
+			$this->expectExceptionMessage( 'Not enough arguments (missing: "namespace, name").' );
 			$this->artisan( 'valravn:controllers' );
 		}
 
@@ -23,7 +23,7 @@
 		 * @return void
 		 */
 		public function namespaceIsRequired(): void {
-			$this->expectExceptionMessage( 'Not enough arguments (missing: "namespace").' );
+			$this->expectExceptionMessage( 'Not enough arguments (missing: "name").' );
 			$this->artisan( 'valravn:controllers posts' );
 		}
 
