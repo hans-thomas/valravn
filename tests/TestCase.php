@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Starter\Tests;
+	namespace Hans\Tests\Valravn;
 
 	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Contracts\Filesystem\Filesystem;
