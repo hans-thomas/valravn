@@ -15,7 +15,7 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:resources {name} {--namespace=} {--v=v1}';
+		protected $signature = 'valravn:resources {namespace} {name} {--v=1}';
 
 		/**
 		 * The console command description.
@@ -43,14 +43,8 @@
 		public function handle() {
 			$singular  = ucfirst( Str::singular( $this->argument( 'name' ) ) );
 			$plural    = Str::of( $this->argument( 'name' ) )->plural()->snake()->lower();
-			$namespace = ucfirst( $this->option( 'namespace' ) );
-			$version   = ucfirst( $this->option( 'v' ) );
-
-			if ( ! $namespace ) {
-				$this->error( 'namespace is required!' );
-
-				return;
-			}
+			$namespace = ucfirst( $this->argument( 'namespace' ) );
+			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
 			// resource class
 			$resourceStub = file_get_contents( __DIR__ . '/stubs/resources/resource.stub' );
