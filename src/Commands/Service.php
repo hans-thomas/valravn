@@ -15,7 +15,7 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:service {name} {--namespace=} {--r|relations} {--a|actions}';
+		protected $signature = 'valravn:service {namespace} {name} {--r|relations} {--a|actions}';
 
 		/**
 		 * The console command description.
@@ -29,7 +29,7 @@
 		public function __construct() {
 			parent::__construct();
 			$this->fs = Storage::createLocalDriver( [
-				'root'       => __DIR__,
+				'root'       => app_path(),
 				'visibility' => Visibility::PUBLIC
 			] );
 		}
@@ -42,7 +42,7 @@
 		 */
 		public function handle() {
 			$singular  = Str::of( $this->argument( 'name' ) )->singular()->ucfirst()->toString();
-			$namespace = Str::of( $this->option( 'namespace' ) )->ucfirst()->toString();
+			$namespace = Str::of( $this->argument( 'namespace' ) )->ucfirst()->toString();
 
 			if ( ! $namespace ) {
 				$this->error( 'namespace is required!' );
@@ -51,25 +51,25 @@
 			}
 
 			// crud service
-			$crudService = $this->fs->read( "stubs/services/crud.stub" );
+			$crudService = file_get_contents( __DIR__ . "/stubs/services/crud.stub" );
 			$crudService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $crudService );
 			$crudService = Str::replace( "{{CRUD-SERVICE::MODEL}}", $singular, $crudService );
-			$this->fs->write( "app/Services/$namespace/$singular/{$singular}Service.php", $crudService );
+			$this->fs->write( "Services/$namespace/$singular/{$singular}CrudService.php", $crudService );
 
 			// relations service
 			if ( $this->option( 'relations' ) ) {
-				$crudService = $this->fs->read( "stubs/services/relations.stub" );
-				$crudService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $crudService );
-				$crudService = Str::replace( "{{CRUD-SERVICE::MODEL}}", $singular, $crudService );
-				$this->fs->write( "app/Services/$namespace/$singular/{$singular}RelationsService.php", $crudService );
+				$relationsService = file_get_contents( __DIR__ . "/stubs/services/relations.stub" );
+				$relationsService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $relationsService );
+				$relationsService = Str::replace( "{{CRUD-SERVICE::MODEL}}", $singular, $relationsService );
+				$this->fs->write( "Services/$namespace/$singular/{$singular}RelationsService.php", $relationsService );
 			}
 
 			// relations service
 			if ( $this->option( 'actions' ) ) {
-				$crudService = $this->fs->read( "stubs/services/actions.stub" );
-				$crudService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $crudService );
-				$crudService = Str::replace( "{{CRUD-SERVICE::MODEL}}", $singular, $crudService );
-				$this->fs->write( "app/Services/$namespace/$singular/{$singular}ActionsService.php", $crudService );
+				$actionsService = file_get_contents( __DIR__ . "/stubs/services/actions.stub" );
+				$actionsService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $actionsService );
+				$actionsService = Str::replace( "{{CRUD-SERVICE::MODEL}}", $singular, $actionsService );
+				$this->fs->write( "Services/$namespace/$singular/{$singular}ActionsService.php", $actionsService );
 			}
 
 			$this->info( "service classes successfully created!" );
