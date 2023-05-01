@@ -6,7 +6,7 @@
 	use Hans\Tests\Valravn\TestCase;
 	use Illuminate\Support\Facades\File;
 
-	class ControllerCommandTest extends TestCase {
+	class ControllerTest extends TestCase {
 
 		/**
 		 * @test
