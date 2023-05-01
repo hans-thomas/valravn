@@ -65,11 +65,11 @@
 			}
 
 			if ( $this->option( "requests" ) ) {
-				Artisan::call( "valravn:requests $singular --namespace $namespace --v $version" );
+				Artisan::call( "valravn:requests $namespace $singular --v $version" );
 			}
 
 			if ( $this->option( "resources" ) ) {
-				Artisan::call( "valravn:resources $singular --namespace $namespace --v $version" );
+				Artisan::call( "valravn:resources $namespace $singular --v $version" );
 			}
 
 			$this->info( "controller classes successfully created!" );
