@@ -105,6 +105,13 @@
 			$resource   = app_path( "Http/Resources/V2/Blog/Post/PostResource.php" );
 			$collection = app_path( "Http/Resources/V2/Blog/Post/PostCollection.php" );
 			File::delete( [ $crud, $relations, $actions, $store, $update, $resource, $collection ] );
+			self::assertFileDoesNotExist( $crud );
+			self::assertFileDoesNotExist( $relations );
+			self::assertFileDoesNotExist( $actions );
+			self::assertFileDoesNotExist( $store );
+			self::assertFileDoesNotExist( $update );
+			self::assertFileDoesNotExist( $resource );
+			self::assertFileDoesNotExist( $collection );
 
 			$command = $this->artisan( 'valravn:controllers blog posts --requests --resources --v=2' );
 			$command->execute();
