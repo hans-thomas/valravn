@@ -11,12 +11,13 @@
 	use Throwable;
 
 	class Controller extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:controller {name} {--namespace=} {--v=v1} {--r|relations} {--a|actions} {--re|requests} {--res|resources}';
+		protected $signature = 'valravn:controller {namespace} {name} {--v=1} {--r|relations} {--a|actions} {--re|requests} {--res|resources}';
 
 		/**
 		 * The console command description.
@@ -42,14 +43,9 @@
 		 */
 		public function handle() {
 			$singular  = ucfirst( Str::singular( $this->argument( 'name' ) ) );
-			$namespace = ucfirst( $this->option( 'namespace' ) );
-			$version   = ucfirst( $this->option( 'v' ) );
+			$namespace = ucfirst( $this->argument( 'namespace' ) );
+			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
-			if ( ! $namespace ) {
-				$this->error( 'namespace is required!' );
-
-				return;
-			}
 			// controllers: crud
 			$controllerStub = file_get_contents( __DIR__ . '/stubs/controllers/crud.stub' );
 			$controllerStub = Str::replace( '{{CRUD::VERSION}}', $version, $controllerStub );
