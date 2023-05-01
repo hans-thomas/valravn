@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hans\\Valravn\\Tests\\": "tests/"
+            "Hans\\Tests\\Valravn\\": "tests/"
         }
     },
     "extra": {
