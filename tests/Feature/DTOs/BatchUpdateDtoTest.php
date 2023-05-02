@@ -12,7 +12,7 @@
 		 *
 		 * @return void
 		 */
-		public function test(): void {
+		public function parse(): void {
 			$data   = [
 				[ 'id' => 1 ],
 				[ 'id' => 1, 'the art' => "no limit i'm a fucking soldier" ],

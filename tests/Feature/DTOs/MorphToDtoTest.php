@@ -12,7 +12,7 @@
 		 *
 		 * @return void
 		 */
-		public function test(): void {
+		public function parse(): void {
 			$data = [
 				'entity'    => 'posts',
 				'namespace' => 'blog'
