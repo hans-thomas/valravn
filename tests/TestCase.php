@@ -26,13 +26,10 @@
 		 * Setup the test environment.
 		 */
 		protected function setUp(): void {
-			// Code before application created.
-
 			parent::setUp();
-
-			// Code after application created.
 			$this->config  = config( 'valravn' );
 			$this->storage = Storage::disk( 'public' );
+			$this->loadMigrationsFrom( __DIR__ . '/Core/migrations' );
 		}
 
 		/**
