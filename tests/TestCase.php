@@ -2,6 +2,7 @@
 
 	namespace Hans\Tests\Valravn;
 
+	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Contracts\Filesystem\Filesystem;
 	use Illuminate\Foundation\Application;
@@ -95,6 +96,13 @@
 		 */
 		protected function defineRoutes( $router ) {
 			//
+		}
+
+		public function resourceToJson( BaseJsonResource $resource ): array {
+			return json_decode(
+				$resource->toResponse( request() )->content(),
+				true
+			);
 		}
 
 	}
