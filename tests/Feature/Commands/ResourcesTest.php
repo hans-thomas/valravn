@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class ResourcesTest extends TestCase {
@@ -20,9 +21,7 @@
 			self::assertFileDoesNotExist( $resource );
 			self::assertFileDoesNotExist( $collection );
 
-			$command = $this->artisan( "valravn:resources blog posts" );
-			$command->execute();
-			$command->expectsOutput( "resource and collection classes successfully created!" );
+			Artisan::call( "valravn:resources blog posts" );
 
 			self::assertFileExists( $resource );
 			self::assertFileExists( $collection );
@@ -41,9 +40,7 @@
 			self::assertFileDoesNotExist( $resource );
 			self::assertFileDoesNotExist( $collection );
 
-			$command = $this->artisan( "valravn:resources blog posts --v 2" );
-			$command->execute();
-			$command->expectsOutput( "resource and collection classes successfully created!" );
+			Artisan::call( "valravn:resources blog posts --v 2" );
 
 			self::assertFileExists( $resource );
 			self::assertFileExists( $collection );

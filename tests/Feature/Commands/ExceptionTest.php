@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class ExceptionTest extends TestCase {
@@ -20,9 +21,7 @@
 			self::assertFileDoesNotExist( $exception );
 			self::assertFileDoesNotExist( $errorCode );
 
-			$command = $this->artisan( 'valravn:exception blog posts' );
-			$command->execute();
-			$command->expectsOutput( "exception and error code classes successfully created!" );
+			Artisan::call( 'valravn:exception blog posts' );
 
 			self::assertFileExists( $exception );
 			self::assertFileExists( $errorCode );

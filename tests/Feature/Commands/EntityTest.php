@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class EntityTest extends TestCase {
@@ -91,8 +92,7 @@
 			self::assertFileDoesNotExist( $relationsService );
 			self::assertFileDoesNotExist( $actionsService );
 
-			$command = $this->artisan( "valravn:entity blog posts" );
-			$command->execute();
+			Artisan::call( "valravn:entity blog posts" );
 
 			self::assertFileExists( $exception );
 			self::assertFileExists( $errorCode );
@@ -204,8 +204,7 @@
 			self::assertFileDoesNotExist( $relationsService );
 			self::assertFileDoesNotExist( $actionsService );
 
-			$command = $this->artisan( "valravn:entity blog posts --v 2" );
-			$command->execute();
+			Artisan::call( "valravn:entity blog posts --v 2" );
 
 			self::assertFileExists( $exception );
 			self::assertFileExists( $errorCode );

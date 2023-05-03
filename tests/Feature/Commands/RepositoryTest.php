@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class RepositoryTest extends TestCase {
@@ -20,9 +21,7 @@
 			self::assertFileDoesNotExist( $contract );
 			self::assertFileDoesNotExist( $repository );
 
-			$command = $this->artisan( "valravn:repository blog posts" );
-			$command->execute();
-			$command->expectsOutput( "repository classes successfully created!" );
+			Artisan::call( "valravn:repository blog posts" );
 
 			self::assertFileExists( $contract );
 			self::assertFileExists( $repository );

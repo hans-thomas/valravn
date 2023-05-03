@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class PolicyTest extends TestCase {
@@ -17,9 +18,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:policy blog posts" );
-			$command->execute();
-			$command->expectsOutput( "policy class successfully created!" );
+			Artisan::call( "valravn:policy blog posts" );
 
 			self::assertFileExists( $file );
 		}

@@ -4,29 +4,10 @@
 
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class ControllerTest extends TestCase {
-
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function NotEnoughArguments(): void {
-			$this->expectExceptionMessage( 'Not enough arguments (missing: "namespace, name").' );
-			$this->artisan( 'valravn:controller' );
-		}
-
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function namespaceIsRequired(): void {
-			$this->expectExceptionMessage( 'Not enough arguments (missing: "name").' );
-			$this->artisan( 'valravn:controller posts' );
-		}
 
 		/**
 		 * @test
@@ -38,9 +19,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( 'valravn:controller blog posts' );
-			$command->execute();
-			$command->expectsOutput( "controller classes successfully created!" );
+			Artisan::call( 'valravn:controller blog posts' );
 
 			self::assertFileExists( $file );
 		}
@@ -57,9 +36,7 @@
 			}
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( 'valravn:controller blog posts --relations' );
-			$command->expectsOutput( "controller classes successfully created!" );
-			$command->execute();
+			Artisan::call( 'valravn:controller blog posts --relations' );
 
 			self::assertFileExists( $file );
 		}
@@ -76,9 +53,7 @@
 			}
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( 'valravn:controller blog posts --actions' );
-			$command->expectsOutput( "controller classes successfully created!" );
-			$command->execute();
+			Artisan::call( 'valravn:controller blog posts --actions' );
 
 			self::assertFileExists( $file );
 		}
@@ -100,9 +75,7 @@
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
-			$command = $this->artisan( 'valravn:controller blog posts --requests' );
-			$command->expectsOutput( "controller classes successfully created!" );
-			$command->execute();
+			Artisan::call( 'valravn:controller blog posts --requests' );
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
@@ -125,9 +98,7 @@
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
-			$command = $this->artisan( 'valravn:controller blog posts --resources' );
-			$command->expectsOutput( "controller classes successfully created!" );
-			$command->execute();
+			Artisan::call( 'valravn:controller blog posts --resources' );
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );

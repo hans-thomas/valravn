@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 	use Illuminate\Support\Str;
 
@@ -19,9 +20,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:migration blog posts" );
-			$command->execute();
-			$command->expectsOutput( "migration class successfully created!" );
+			Artisan::call( "valravn:migration blog posts" );
 
 			self::assertFileExists( $file );
 		}

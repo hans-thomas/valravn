@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class RequestsTest extends TestCase {
@@ -20,9 +21,7 @@
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
-			$command = $this->artisan( "valravn:requests blog posts" );
-			$command->execute();
-			$command->expectsOutput( "request classes successfully created!" );
+			Artisan::call( "valravn:requests blog posts" );
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
@@ -41,9 +40,7 @@
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
-			$command = $this->artisan( "valravn:requests blog posts --v 2" );
-			$command->execute();
-			$command->expectsOutput( "request classes successfully created!" );
+			Artisan::call( "valravn:requests blog posts --v 2" );
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );

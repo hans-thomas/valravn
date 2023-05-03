@@ -4,11 +4,13 @@
 
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
+	use Illuminate\Contracts\Console\Kernel;
 	use Illuminate\Contracts\Filesystem\Filesystem;
 	use Illuminate\Foundation\Application;
 	use Illuminate\Foundation\Testing\RefreshDatabase;
 	use Illuminate\Routing\Router;
 	use Illuminate\Support\Arr;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\Storage;
 	use Orchestra\Testbench\TestCase as BaseTestCase;
 

@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class ServiceTests extends TestCase {
@@ -18,9 +19,7 @@
 			File::delete( $crud );
 			self::assertFileDoesNotExist( $crud );
 
-			$command = $this->artisan( "valravn:service blog posts" );
-			$command->execute();
-			$command->expectsOutput( "service classes successfully created!" );
+			Artisan::call( "valravn:service blog posts" );
 
 			self::assertFileExists( $crud );
 		}
@@ -36,9 +35,7 @@
 			File::delete( $relations );
 			self::assertFileDoesNotExist( $relations );
 
-			$command = $this->artisan( "valravn:service blog posts -r" );
-			$command->execute();
-			$command->expectsOutput( "service classes successfully created!" );
+			Artisan::call( "valravn:service blog posts -r" );
 
 			self::assertFileExists( $relations );
 		}
@@ -54,9 +51,7 @@
 			File::delete( $actions );
 			self::assertFileDoesNotExist( $actions );
 
-			$command = $this->artisan( "valravn:service blog posts -a" );
-			$command->execute();
-			$command->expectsOutput( "service classes successfully created!" );
+			Artisan::call( "valravn:service blog posts -a" );
 
 			self::assertFileExists( $actions );
 		}

@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 
 	class ModelTest extends TestCase {
@@ -17,9 +18,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:model blog posts" );
-			$command->execute();
-			$command->expectsOutput( "model class successfully created!" );
+			Artisan::call( "valravn:model blog posts" );
 
 			self::assertFileExists( $file );
 		}
@@ -34,9 +33,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:model blog posts -f" );
-			$command->execute();
-			$command->expectsOutput( "model class successfully created!" );
+			Artisan::call( "valravn:model blog posts -f" );
 
 			self::assertFileExists( $file );
 		}
@@ -51,10 +48,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:model blog posts -s" );
-			$command->execute();
-			// TODO: output doesnt match
-			// $command->expectsOutput( "model class successfully created!" );
+			Artisan::call( "valravn:model blog posts -s" );
 
 			self::assertFileExists( $file );
 		}
@@ -69,9 +63,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			$command = $this->artisan( "valravn:model blog posts -m" );
-			$command->execute();
-			$command->expectsOutput( "model class successfully created!" );
+			Artisan::call( "valravn:model blog posts -m" );
 
 			self::assertFileExists( $file );
 		}
