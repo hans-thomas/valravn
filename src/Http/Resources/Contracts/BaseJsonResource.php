@@ -72,7 +72,7 @@
             }
 
             $extracted = $this->extract( $this->resource );
-            if ( count( $extracted ) <= 0 ) {
+            if ( count( $extracted ?? [] ) <= 0 ) {
                 $extracted = $this->resource->toArray();
             }
             $data = array_merge( [ 'type' => $this->type() ], $extracted );
