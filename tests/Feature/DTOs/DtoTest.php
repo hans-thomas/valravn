@@ -2,8 +2,8 @@
 
 	namespace Hans\Tests\Valravn\Feature\DTOs;
 
+	use Hans\Tests\Valravn\Instances\DTOs\SampleDto;
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\DTOs\ManyToManyDto;
 
 	class DtoTest extends TestCase {
 
@@ -15,24 +15,15 @@
 		public function make(): void {
 			$data   = [
 				[ 'id' => 1 ],
-				[
-					'id'    => 3,
-					'pivot' => [
-						'the art'    => "i ain't even see the face, but she got beautiful boobies.",
-						'the artist' => 'post malone'
-					]
-				],
+				[ 'id' => 3 ],
 			];
-			$result = ManyToManyDto::make( [
+			$result = SampleDto::make( [
 				'related' => $data
 			] );
 			self::assertEquals(
 				[
-					4 => 1,
-					3 => [
-						'the art'    => "i ain't even see the face, but she got beautiful boobies.",
-						'the artist' => 'post malone'
-					]
+					[ 'id' => 1 ],
+					[ 'id' => 3 ],
 				],
 				$result->getData()->toArray()
 			);
@@ -51,13 +42,16 @@
 					'the artist' => 'post malone'
 				]
 			];
-			$result = ManyToManyDto::makeFromArray( $data );
+			$result = SampleDto::makeFromArray( $data );
 			self::assertEquals(
 				[
-					4 => 1,
-					3 => [
-						'the art'    => "i ain't even see the face, but she got beautiful boobies.",
-						'the artist' => 'post malone'
+					[ 'id' => 1 ],
+					[
+						"id"    => 3,
+						"pivot" => [
+							"the art"    => "i ain't even see the face, but she got beautiful boobies.",
+							"the artist" => "post malone"
+						]
 					]
 				],
 				$result->getData()->toArray()
@@ -80,14 +74,17 @@
 					]
 				],
 			];
-			$result = ManyToManyDto::export( [ 'related' => $data ] );
+			$result = SampleDto::export( [ 'related' => $data ] );
 			self::assertEquals(
 				[
-					4 => 1,
-					3 => [
-						'the art'    => "i ain't even see the face, but she got beautiful boobies.",
-						'the artist' => 'post malone'
-					]
+					[ 'id' => 1 ],
+					[
+						'id'    => 3,
+						'pivot' => [
+							'the art'    => "i ain't even see the face, but she got beautiful boobies.",
+							'the artist' => 'post malone'
+						]
+					],
 				],
 				$result->toArray()
 			);
