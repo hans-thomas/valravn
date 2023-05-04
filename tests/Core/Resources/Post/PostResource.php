@@ -3,10 +3,22 @@
 	namespace Hans\Tests\Valravn\Core\Resources\Post;
 
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
+	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
 	class PostResource extends BaseJsonResource {
+
+		/**
+		 * List of available queries of this resource
+		 *
+		 * @return array
+		 */
+		public function getAvailableQueries(): array {
+			return [
+				'with_first_comment' => FirstCommentQuery::class,
+			];
+		}
 
 		/**
 		 * List of available includes of this resource
@@ -39,7 +51,13 @@
 			return 'posts';
 		}
 
-		public function withComments(): self {
+		public function withFirstCommentQuery(): self {
+			$this->registerQuery( FirstCommentQuery::class );
+
+			return $this;
+		}
+
+		public function withCommentsIncludes(): self {
 			$this->registerInclude( CommentsIncludes::class );
 
 			return $this;
