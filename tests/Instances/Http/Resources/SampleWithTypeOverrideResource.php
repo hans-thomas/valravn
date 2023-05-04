@@ -5,22 +5,18 @@
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class SampleResourceWithLoaded extends BaseJsonResource {
+	class SampleWithTypeOverrideResource extends BaseJsonResource {
 
 		public function extract( Model $model ): ?array {
 			return [
 				'id'   => $model->id,
 				'name' => $model->name,
+				'type' => 'leaving heaven',
 			];
 		}
 
 		public function type(): string {
 			return 'samples';
 		}
-
-		protected function loaded( &$data ) {
-			$data[ 'sober' ] = "i might regret this when tomorrow comes";
-		}
-
 
 	}

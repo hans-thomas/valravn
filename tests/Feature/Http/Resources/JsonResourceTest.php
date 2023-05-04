@@ -3,9 +3,9 @@
 	namespace Hans\Tests\Valravn\Feature\Http\Resources;
 
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResource;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResourceWithDefaultExtract;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResourceWithLoaded;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResourceWithTypeOverride;
+	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithDefaultExtractResource;
+	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithLoadedResource;
+	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithTypeOverrideResource;
 	use Hans\Tests\Valravn\TestCase;
 	use Hans\Valravn\Models\BaseModel;
 	use Illuminate\Database\Eloquent\Model;
@@ -193,7 +193,7 @@
 		 * @return void
 		 */
 		public function makeAsDefaultExtract(): void {
-			$resource = SampleResourceWithDefaultExtract::make( $this->model );
+			$resource = SampleWithDefaultExtractResource::make( $this->model );
 			self::assertEquals(
 				[
 					'data' => [
@@ -212,7 +212,7 @@
 		 * @return void
 		 */
 		public function makeAsTypeOverride(): void {
-			$resource = SampleResourceWithTypeOverride::make( $this->model );
+			$resource = SampleWithTypeOverrideResource::make( $this->model );
 			self::assertEquals(
 				[
 					'data' => [
@@ -232,7 +232,7 @@
 		 * @return void
 		 */
 		public function loaded(): void {
-			$resource = SampleResourceWithLoaded::make( $this->model );
+			$resource = SampleWithLoadedResource::make( $this->model );
 			self::assertEquals(
 				[
 					'data' => [

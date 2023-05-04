@@ -5,14 +5,10 @@
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class SampleResourceWithTypeOverride extends BaseJsonResource {
+	class SampleWithDefaultExtractResource extends BaseJsonResource {
 
 		public function extract( Model $model ): ?array {
-			return [
-				'id'   => $model->id,
-				'name' => $model->name,
-				'type' => 'leaving heaven',
-			];
+			return null;
 		}
 
 		public function type(): string {
