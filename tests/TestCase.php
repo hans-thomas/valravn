@@ -2,6 +2,8 @@
 
 	namespace Hans\Tests\Valravn;
 
+	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Contracts\Console\Kernel;
@@ -94,7 +96,10 @@
 		 * @return void
 		 */
 		protected function defineRoutes( $router ) {
-			//
+			$router->get(
+				'/posts/{post}/includes',
+				fn( $post ) => PostResource::make( Post::findOrFail( $post ) )->parseIncludes()
+			);
 		}
 
 		public function resourceToJson( BaseJsonResource $resource ): array {

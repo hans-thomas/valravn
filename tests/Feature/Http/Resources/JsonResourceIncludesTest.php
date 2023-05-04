@@ -53,5 +53,37 @@
 			);
 		}
 
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function includesThroughApi(): void {
+			$content = $this->get( "/posts/{$this->post->id}/includes?includes=comments" )
+			                ->json();
+			self::assertEquals(
+				[
+					'data' => [
+						'type'     => 'posts',
+						'id'       => $this->post->id,
+						'title'    => $this->post->title,
+						'content'  => $this->post->content,
+						'comments' => $this->post
+							->comments
+							->map(
+								fn( Comment $value ) => [
+									'type'    => 'comments',
+									'id'      => $value->id,
+									'content' => $value->content,
+								]
+							)
+							->toArray()
+					],
+					'type' => 'posts'
+				],
+				$content
+			);
+		}
+
 
 	}
