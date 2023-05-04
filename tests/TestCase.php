@@ -103,7 +103,15 @@
 			);
 			$router->get(
 				'/includes/posts',
-				fn( ) => PostCollection::make( Post::all() )->parseIncludes()
+				fn() => PostCollection::make( Post::all() )->parseIncludes()
+			);
+			$router->get(
+				'/queries/posts/{post}',
+				fn( $post ) => PostResource::make( Post::findOrFail( $post ) )->parseQueries()
+			);
+			$router->get(
+				'/queries/posts',
+				fn() => PostCollection::make( Post::all() )->parseQueries()
 			);
 		}
 

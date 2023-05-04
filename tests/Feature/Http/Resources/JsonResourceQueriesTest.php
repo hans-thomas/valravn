@@ -78,4 +78,63 @@
 			);
 		}
 
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function queriesThroughApi(): void {
+			$content = $this->get( "/queries/posts/{$this->post->id}?with_first_comment" )
+			                ->json();
+			self::assertEquals(
+				[
+					'data' => [
+						'type'          => 'posts',
+						'id'            => $this->post->id,
+						'title'         => $this->post->title,
+						'content'       => $this->post->content,
+						'first_comment' => [
+							'type'    => 'comments',
+							'id'      => ( $comment = $this->post->comments()->limit( 1 )->first() )->id,
+							'content' => $comment->content,
+						]
+					],
+					'type' => 'posts',
+				],
+				$content
+			);
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function queriesInCollectionClassThroughApi(): void {
+			PostFactory::new()->count( 2 )->has( CommentFactory::new()->count( 5 ) )->create();
+			$content = $this->get( "/queries/posts?with_first_comment" )
+			                ->json();
+
+			self::assertEquals(
+				[
+					'data' => Post::all()->map(
+						fn( Post $post ) => [
+							'type'          => 'posts',
+							'id'            => $post->id,
+							'title'         => $post->title,
+							'content'       => $post->content,
+							'first_comment' => [
+								'type'    => 'comments',
+								'id'      => ( $comment = $post->comments()->limit( 1 )->first() )->id,
+								'content' => $comment->content,
+							],
+						]
+					)
+					              ->toArray(),
+					'type' => 'posts',
+				],
+				$content
+			);
+		}
+
 	}
