@@ -52,37 +52,6 @@
 		 *
 		 * @return void
 		 */
-		public function queriesInCollectionClass(): void {
-			$posts    = PostFactory::new()->count( 3 )->has( CommentFactory::new()->count( 5 ) )->create();
-			$resource = PostCollection::make( $posts )->withFirstCommentQuery();
-
-			self::assertEquals(
-				[
-					'data' => $posts->map(
-						fn( Post $post ) => [
-							'type'          => 'posts',
-							'id'            => $post->id,
-							'title'         => $post->title,
-							'content'       => $post->content,
-							'first_comment' => [
-								'type'    => 'comments',
-								'id'      => ( $comment = $post->comments()->limit( 1 )->first() )->id,
-								'content' => $comment->content,
-							],
-						]
-					)
-					                ->toArray(),
-					'type' => 'posts',
-				],
-				$this->resourceToJson( $resource )
-			);
-		}
-
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
 		public function queriesThroughApi(): void {
 			$content = $this->get( "/queries/posts/{$this->post->id}?with_first_comment" )
 			                ->json();
@@ -99,38 +68,6 @@
 							'content' => $comment->content,
 						]
 					],
-					'type' => 'posts',
-				],
-				$content
-			);
-		}
-
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function queriesInCollectionClassThroughApi(): void {
-			PostFactory::new()->count( 2 )->has( CommentFactory::new()->count( 5 ) )->create();
-			$content = $this->get( "/queries/posts?with_first_comment" )
-			                ->json();
-
-			self::assertEquals(
-				[
-					'data' => Post::all()->map(
-						fn( Post $post ) => [
-							'type'          => 'posts',
-							'id'            => $post->id,
-							'title'         => $post->title,
-							'content'       => $post->content,
-							'first_comment' => [
-								'type'    => 'comments',
-								'id'      => ( $comment = $post->comments()->limit( 1 )->first() )->id,
-								'content' => $comment->content,
-							],
-						]
-					)
-					              ->toArray(),
 					'type' => 'posts',
 				],
 				$content

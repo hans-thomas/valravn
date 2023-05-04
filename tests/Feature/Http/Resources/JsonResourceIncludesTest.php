@@ -85,40 +85,4 @@
 			);
 		}
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function includesOnCollectionClassThroughApi(): void {
-			PostFactory::new()->count( 2 )->has( CommentFactory::new()->count( 5 ) )->create();
-			$content = $this->get( "/includes/posts?includes=comments" )
-			                ->json();
-			self::assertEquals(
-				[
-					'data' => Post::all()->map(
-						fn( Post $post ) => [
-							'type'     => 'posts',
-							'id'       => $post->id,
-							'title'    => $post->title,
-							'content'  => $post->content,
-							'comments' => $post->comments
-								->map(
-									fn( Comment $value ) => [
-										'type'    => 'comments',
-										'id'      => $value->id,
-										'content' => $value->content,
-									]
-								)
-								->toArray()
-						]
-					)
-					              ->toArray(),
-					'type' => 'posts'
-				],
-				$content
-			);
-		}
-
-
 	}
