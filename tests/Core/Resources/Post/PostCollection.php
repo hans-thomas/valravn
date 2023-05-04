@@ -2,6 +2,7 @@
 
 	namespace Hans\Tests\Valravn\Core\Resources\Post;
 
+	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Queries\CommentsQuery;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
@@ -19,6 +20,16 @@
 			];
 		}
 
+		/**
+		 * List of available includes of this resource
+		 *
+		 * @return array
+		 */
+		public function getAvailableIncludes(): array {
+			return [
+				'comments' => CommentsIncludes::class
+			];
+		}
 
 		/**
 		 * @param Model $model

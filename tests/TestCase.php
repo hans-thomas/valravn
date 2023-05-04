@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn;
 
 	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
 	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
@@ -97,8 +98,12 @@
 		 */
 		protected function defineRoutes( $router ) {
 			$router->get(
-				'/posts/{post}/includes',
+				'/includes/posts/{post}',
 				fn( $post ) => PostResource::make( Post::findOrFail( $post ) )->parseIncludes()
+			);
+			$router->get(
+				'/includes/posts',
+				fn( ) => PostCollection::make( Post::all() )->parseIncludes()
 			);
 		}
 
