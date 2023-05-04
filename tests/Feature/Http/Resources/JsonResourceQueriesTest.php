@@ -5,6 +5,7 @@
 	use Hans\Tests\Valravn\Core\Factories\CommentFactory;
 	use Hans\Tests\Valravn\Core\Factories\PostFactory;
 	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
 	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
 	use Hans\Tests\Valravn\TestCase;
 
@@ -40,6 +41,37 @@
 							'content' => $comment->content,
 						]
 					],
+					'type' => 'posts',
+				],
+				$this->resourceToJson( $resource )
+			);
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function queriesInCollectionClass(): void {
+			$posts    = PostFactory::new()->count( 3 )->has( CommentFactory::new()->count( 5 ) )->create();
+			$resource = PostCollection::make( $posts )->withFirstCommentQuery();
+
+			self::assertEquals(
+				[
+					'data' => $posts->map(
+						fn( Post $post ) => [
+							'type'          => 'posts',
+							'id'            => $post->id,
+							'title'         => $post->title,
+							'content'       => $post->content,
+							'first_comment' => [
+								'type'    => 'comments',
+								'id'      => ( $comment = $post->comments()->limit( 1 )->first() )->id,
+								'content' => $comment->content,
+							],
+						]
+					)
+					                ->toArray(),
 					'type' => 'posts',
 				],
 				$this->resourceToJson( $resource )

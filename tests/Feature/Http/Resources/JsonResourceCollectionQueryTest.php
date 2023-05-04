@@ -32,7 +32,7 @@
 
 			self::assertEquals(
 				[
-					'data' => $this->posts->map(
+					'data'         => $this->posts->map(
 						fn( Post $post ) => [
 							'type'    => 'posts',
 							'id'      => $post->id,
@@ -40,7 +40,7 @@
 							'content' => $post->content,
 						]
 					)->toArray(),
-					'type' => 'posts',
+					'type'         => 'posts',
 					'all-comments' =>
 						$comments->map(
 							fn( Comment $comment ) => [
@@ -54,4 +54,5 @@
 				$this->resourceToJson( $resource )
 			);
 		}
+
 	}

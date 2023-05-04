@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Core\Resources\Post;
 
 	use Hans\Tests\Valravn\Instances\Http\Queries\CommentsQuery;
+	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,8 @@
 		 */
 		public function getAvailableQueries(): array {
 			return [
-				'all-comments' => CommentsQuery::class,
+				'with_all_comments'  => CommentsQuery::class,
+				'with_first_comment' => FirstCommentQuery::class,
 			];
 		}
 
@@ -36,6 +38,12 @@
 
 		public function withAllCommentsQuery(): self {
 			$this->registerQuery( CommentsQuery::class );
+
+			return $this;
+		}
+
+		public function withFirstCommentQuery(): self {
+			$this->registerQuery( FirstCommentQuery::class );
 
 			return $this;
 		}
