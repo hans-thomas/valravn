@@ -55,7 +55,7 @@
 		 */
 		public function __construct( $resource ) {
 			parent::__construct( $resource );
-
+			$resource ??= [];
 			$this->resource = $this->collectResource( $resource );
 		}
 
@@ -90,11 +90,11 @@
 						->mergeQueriedDataInto( $data );
 				}
 
+				$this->loaded( $data );
+
 				if ( ! empty( $item->getExtra() ) ) {
 					$data = array_merge( $data, [ 'extra' => $item->getExtra() ] );
 				}
-
-				$this->loaded( $data );
 
 				return $data;
 			} );

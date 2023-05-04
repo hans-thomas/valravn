@@ -4,7 +4,7 @@
 
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResource;
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithDefaultExtractResource;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithLoadedResource;
+	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithHookResource;
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithTypeOverrideResource;
 	use Hans\Tests\Valravn\TestCase;
 	use Hans\Valravn\Models\BaseModel;
@@ -232,7 +232,7 @@
 		 * @return void
 		 */
 		public function loaded(): void {
-			$resource = SampleWithLoadedResource::make( $this->model );
+			$resource = SampleWithHookResource::make( $this->model );
 			self::assertEquals(
 				[
 					'data' => [

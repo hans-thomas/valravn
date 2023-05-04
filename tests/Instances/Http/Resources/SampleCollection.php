@@ -2,25 +2,26 @@
 
 	namespace Hans\Tests\Valravn\Instances\Http\Resources;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
 
-	class SampleWithLoadedResource extends BaseJsonResource {
+	class SampleCollection extends BaseResourceCollection {
 
+		/**
+		 * @param Model $model
+		 *
+		 * @return array|null
+		 */
 		public function extract( Model $model ): ?array {
 			return [
 				'id'   => $model->id,
-				'name' => $model->name,
 			];
 		}
 
+		/**
+		 * @return string
+		 */
 		public function type(): string {
 			return 'samples';
 		}
-
-		protected function loaded( &$data ) {
-			$data[ 'sober' ] = "i might regret this when tomorrow comes";
-		}
-
-
 	}
