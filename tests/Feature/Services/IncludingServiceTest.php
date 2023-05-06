@@ -41,10 +41,6 @@
 		 * @return void
 		 */
 		public function getRequestedIncludes(): void {
-			/*dd(
-				$this->get( "/includes/posts/{$this->posts->first()->id}?includes=categories.posts,comments.post.comments" )
-				     ->json()
-			);*/
 			$this->service->registerIncludesUsingQueryString( "categories.posts,comments.post.comments" );
 			self::assertEquals(
 				[

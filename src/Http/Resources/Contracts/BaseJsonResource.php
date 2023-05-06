@@ -86,7 +86,7 @@
                 $this->loadedRelations( $data );
                 $this->loadedPivots( $data );
 
-                app( QueryingService::class, [ 'json_resource' => $this ] )
+                app( QueryingService::class, [ 'resource' => $this ] )
                     ->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() )
                     ->applyRequestedQueries( $this->resource )
                     ->mergeQueriedDataInto( $data );

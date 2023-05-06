@@ -4,6 +4,7 @@
 
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Queries\CommentsQuery;
+	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCategoryQuery;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
@@ -15,8 +16,9 @@
 		 */
 		public function getAvailableQueries(): array {
 			return [
-				'with_all_comments'  => CommentsQuery::class,
-				'with_first_comment' => FirstCommentQuery::class,
+				'with_all_comments'   => CommentsQuery::class,
+				'with_first_comment'  => FirstCommentQuery::class,
+				'with_first_category' => FirstCategoryQuery::class,
 			];
 		}
 

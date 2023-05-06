@@ -4,6 +4,7 @@
 
 	use Hans\Tests\Valravn\Instances\Http\Includes\CategoriesIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
+	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCategoryQuery;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,8 @@
 		 */
 		public function getAvailableQueries(): array {
 			return [
-				'with_first_comment' => FirstCommentQuery::class,
+				'with_first_comment'  => FirstCommentQuery::class,
+				'with_first_category' => FirstCategoryQuery::class,
 			];
 		}
 

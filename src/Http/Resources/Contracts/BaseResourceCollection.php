@@ -55,7 +55,7 @@
 		 */
 		public function __construct( $resource ) {
 			parent::__construct( $resource );
-			$resource ??= [];
+			$resource       ??= [];
 			$this->resource = $this->collectResource( $resource );
 		}
 
@@ -67,7 +67,7 @@
 		 * @return array
 		 */
 		public function toArray( $request ): array {
-			app( QueryingService::class, [ 'json_resource' => $this ] )
+			app( QueryingService::class, [ 'resource' => $this ] )
 				->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() );
 
 			// TODO: error possibility: $item might be a Model instance if there was not any resource class
@@ -85,7 +85,7 @@
 					$this->loadedRelations( $data, $item );
 					$this->loadedPivots( $data, $item );
 
-					app( QueryingService::class, [ 'json_resource' => $this ] )
+					app( QueryingService::class, [ 'resource' => $this ] )
 						->applyRequestedQueries( $item->resource )
 						->mergeQueriedDataInto( $data );
 				}
@@ -99,9 +99,9 @@
 				return $data;
 			} );
 
-			app( QueryingService::class, [ 'json_resource' => $this ] )
+			app( QueryingService::class, [ 'resource' => $this ] )
 				->applyRequestedCollectionQueries()
-				->mergeQueriedData();
+				->mergeCollectionQueriedData();
 			$this->allLoaded();
 
 			return $response->toArray();

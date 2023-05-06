@@ -18,13 +18,15 @@
 		 */
 		public function apply( JsonResource $json_resource ): array {
 			$ids = $json_resource->resource instanceof Collection ?
-				$json_resource->resource->map( fn( $value ) => [ 'id' => $value->id ] ) :
+				$json_resource->resource->map( fn( $value ) => [ 'id' => $value->id ] )->flatten() :
 				[ $json_resource->resource->id ];
 
 			return [
-				'all-comments' => CommentCollection::make( Comment::query()
-				                                                  ->whereIn( ( new Post )->getForeignKey(), $ids )
-				                                                  ->get() )
+				'all_comments' => CommentCollection::make(
+					Comment::query()
+					       ->whereIn( ( new Post )->getForeignKey(), $ids )
+					       ->get()
+				)
 			];
 		}
 	}
