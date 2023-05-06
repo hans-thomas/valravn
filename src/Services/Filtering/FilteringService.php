@@ -27,7 +27,7 @@
 			'or_where_relation_like_filter' => OrWhereRelationLikeFilter::class,
 		];
 
-		public function apply( Builder $builder, array $options ): Builder {
+		public function apply( Builder $builder, array $options = [] ): Builder {
 			foreach ( $this->scopeActions( $options ) as $key => $filter ) {
 				if ( request()->has( $key ) ) {
 					call_user_func( [ new $filter(), 'apply' ], $builder, request()->input( $key ) );
