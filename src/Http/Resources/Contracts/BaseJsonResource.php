@@ -78,7 +78,7 @@
             $data = array_merge( [ 'type' => $this->type() ], $extracted );
 
             if ( $this->resource instanceof Model ) {
-                app( IncludingService::class, [ 'json_resource' => $this ] )
+                app( IncludingService::class, [ 'resource' => $this ] )
                     ->registerIncludesUsingQueryStringWhen( $this->shouldParseIncludes(), $request->get( 'includes' ) )
                     ->applyRequestedIncludes( $this->resource )
                     ->mergeIncludedDataTo( $data );
@@ -196,7 +196,7 @@
         }
 
         public function applyNestedEagerLoadsOnRelation( string $nested ): self {
-            $data = app( IncludingService::class, [ 'json_resource' => $this ] )->parseInclude( $nested );
+            $data = app( IncludingService::class, [ 'resource' => $this ] )->parseInclude( $nested );
 
             if ( ! empty( $data[ 'nested' ] ) ) {
                 $this->setNestedEagerLoadsFor( $data[ 'relation' ], $data[ 'nested' ] );

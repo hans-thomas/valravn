@@ -7,6 +7,7 @@
 	use Hans\Valravn\Models\Contracts\Filtering\Filterable;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
+	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
 	class Post extends BaseModel implements Filterable {
@@ -19,6 +20,10 @@
 
 		public function comments(): HasMany {
 			return $this->hasMany( Comment::class );
+		}
+
+		public function categories(): BelongsToMany {
+			return $this->belongsToMany( Category::class );
 		}
 
 		/**

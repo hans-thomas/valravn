@@ -76,7 +76,7 @@
 				$data      = array_merge( [ 'type' => $this->type() ], $extracted );
 
 				if ( $item->resource instanceof Model ) {
-					app( IncludingService::class, [ 'json_resource' => $this ] )
+					app( IncludingService::class, [ 'resource' => $this ] )
 						->registerIncludesUsingQueryStringWhen( $this->shouldParseIncludes(),
 							$request->get( 'includes' ) )
 						->applyRequestedIncludes( $item->resource )

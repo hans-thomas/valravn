@@ -2,6 +2,7 @@
 
 	namespace Hans\Tests\Valravn\Core\Resources\Post;
 
+	use Hans\Tests\Valravn\Instances\Http\Includes\CategoriesIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
@@ -27,7 +28,8 @@
 		 */
 		public function getAvailableIncludes(): array {
 			return [
-				'comments' => CommentsIncludes::class,
+				'comments'   => CommentsIncludes::class,
+				'categories' => CategoriesIncludes::class,
 			];
 		}
 
