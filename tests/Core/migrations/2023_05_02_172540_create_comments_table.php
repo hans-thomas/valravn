@@ -13,7 +13,7 @@
 		 * @return void
 		 */
 		public function up() {
-			Schema::create( Comment::baseGetTable(), function( Blueprint $table ) {
+			Schema::create( Comment::table(), function( Blueprint $table ) {
 				$table->id();
 				$table->foreignIdFor( Post::class )->constrained()->cascadeOnDelete();
 				$table->text( 'content' );
@@ -27,6 +27,6 @@
 		 * @return void
 		 */
 		public function down() {
-			Schema::dropIfExists( Comment::baseGetTable() );
+			Schema::dropIfExists( Comment::table() );
 		}
 	};

@@ -12,7 +12,7 @@
 		 * @return void
 		 */
 		public function up() {
-			Schema::create( Post::baseGetTable(), function( Blueprint $table ) {
+			Schema::create( Post::table(), function( Blueprint $table ) {
 				$table->id();
 				$table->string( 'title' );
 				$table->text( 'content' );
@@ -26,6 +26,6 @@
 		 * @return void
 		 */
 		public function down() {
-			Schema::dropIfExists( Post::baseGetTable() );
+			Schema::dropIfExists( Post::table() );
 		}
 	};

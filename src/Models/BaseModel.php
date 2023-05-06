@@ -15,7 +15,11 @@
 			}
 		}
 
-		public static function baseGetTable(): string {
+		public static function table(): string {
 			return ( new static )->getTable();
+		}
+
+		public static function foreignKey(): string {
+			return ( new static )->getForeignKey();
 		}
 	}
