@@ -7,6 +7,6 @@
 	class ValravnErrorCode extends ErrorCode {
 		protected static string $prefix = 'ValravnECx';
 
-		protected int $FAILED_TO_EXECUTE_DELETING_HOOK = 1;
+		protected int $failedToDelete = 1;
 
 	}

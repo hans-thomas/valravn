@@ -7,10 +7,10 @@
 	use Symfony\Component\HttpFoundation\Response;
 
 	class ValravnException extends BaseException {
-		public static function failedToExecuteDeletingHook( Model $model ): BaseException {
+		public static function failedToDelete( Model $model ): BaseException {
 			return self::make(
-				"Failed to execute deleting hook on [" . get_class( $model ) . "] $model->id",
-				ValravnErrorCode::failedToExecuteDeletingHook(),
+				"Failed to delete [" . get_class( $model ) . "] $model->id",
+				ValravnErrorCode::failedToDelete(),
 				Response::HTTP_INTERNAL_SERVER_ERROR
 			);
 		}

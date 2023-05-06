@@ -50,6 +50,9 @@
 			return $this;
 		}
 
+		/**
+		 * @throws AuthorizationException
+		 */
 		public function ifShouldAuthorize( callable $callable ): void {
 			if ( $this->shouldAuthorize() ) {
 				$callable();
@@ -125,8 +128,9 @@
 			try {
 				$this->deleting( $model );
 				$model->delete();
+				$this->deleted( $model );
 			} catch ( Throwable $e ) {
-				throw ValravnException::failedToExecuteDeletingHook( $model );
+				throw ValravnException::failedToDelete( $model );
 			}
 			DB::commit();
 
@@ -139,6 +143,15 @@
 		 * @param Model $model
 		 */
 		protected function deleting( Model $model ) {
+			//
+		}
+
+		/**
+		 * Deleted Hook
+		 *
+		 * @param Model $model
+		 */
+		protected function deleted( Model $model ) {
 			//
 		}
 
