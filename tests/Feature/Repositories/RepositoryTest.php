@@ -127,12 +127,10 @@
 		 * @test
 		 *
 		 * @return void
+		 * @throws AuthorizationException
 		 */
 		public function createAction(): void {
-			$data = [
-				'title'   => fake()->sentence(),
-				'content' => fake()->paragraph(),
-			];
+			$data = PostFactory::new()->make()->toArray();
 			self::assertInstanceOf(
 				Model::class,
 				$this->repository->create( $data )
@@ -144,12 +142,10 @@
 		 * @test
 		 *
 		 * @return void
+		 * @throws AuthorizationException
 		 */
 		public function updateAction(): void {
-			$data = [
-				'title'   => fake()->sentence(),
-				'content' => fake()->paragraph(),
-			];
+			$data = PostFactory::new()->make()->toArray();
 			self::assertTrue( $this->repository->update( 1, $data ) );
 			$this->assertDatabaseHas( Post::table(), $data + [ 'id' => 1 ] );
 		}
