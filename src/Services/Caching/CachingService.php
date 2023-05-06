@@ -24,7 +24,7 @@
 			);
 		}
 
-		private function makeCachingKey( string $method, array $params ): string {
+		protected function makeCachingKey( string $method, array $params ): string {
 			$keys = null;
 			foreach ( $params as $param ) {
 				if ( $param instanceof Model ) {
@@ -42,7 +42,7 @@
 			return get_class( $this->service ) . ":$method:($key)[{$this->request->getQueryString()}]";
 		}
 
-		private function calcTtlTime(): int {
+		protected function calcTtlTime(): int {
 			$ttl = $this->getInterval() * 60;
 			$m   = ( now()->getTimestamp() - self::genesisTS ) / $ttl;
 
