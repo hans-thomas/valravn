@@ -155,12 +155,18 @@
 			//
 		}
 
+		/**
+		 * @throws AuthorizationException
+		 */
 		public function create( array $data ): Model {
 			$this->authorize();
 
 			return $this->query()->create( $data );
 		}
 
+		/**
+		 * @throws AuthorizationException
+		 */
 		public function update( Model|int $model, array $data ): bool {
 			$model = $this->resolveModel( $model );
 			$this->authorize( $model );
@@ -168,6 +174,9 @@
 			return $model->update( $data );
 		}
 
+		/**
+		 * @throws AuthorizationException
+		 */
 		public function batchUpdate( BatchUpdateDto $dto ): bool {
 			$this->authorize( 'batchUpdate', $this->getModelClassName(), $dto->getData() );
 
