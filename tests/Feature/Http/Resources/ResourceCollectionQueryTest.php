@@ -41,7 +41,7 @@
 						]
 					)->toArray(),
 					'type'         => 'posts',
-					'all-comments' =>
+					'all_comments' =>
 						$comments->map(
 							fn( Comment $comment ) => [
 								'type'    => 'comments',
