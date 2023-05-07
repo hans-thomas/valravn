@@ -7,8 +7,8 @@
 	use Illuminate\Routing\RouteRegistrar;
 
 	class RoutingService {
-		private RouteRegistrar $registrar;
-		private PendingResourceRegistration $pendingResourceRegistration;
+		protected RouteRegistrar $registrar;
+		protected PendingResourceRegistration $pendingResourceRegistration;
 		private string $name;
 		private string $controller;
 
@@ -29,11 +29,22 @@
 			return $this;
 		}
 
-		public function resource( string $name, string $controller ): self {
+		public function apiResource( string $name, string $controller ): self {
 			$this->name = $name;
 
 			if ( class_exists( $this->controller = $controller ) ) {
 				$this->pendingResourceRegistration = $this->registrar->apiResource( $this->name, $this->controller );
+			}
+
+			return $this;
+		}
+
+
+		public function resource( string $name, string $controller ): self {
+			$this->name = $name;
+
+			if ( class_exists( $this->controller = $controller ) ) {
+				$this->pendingResourceRegistration = $this->registrar->resource( $this->name, $this->controller );
 			}
 
 			return $this;

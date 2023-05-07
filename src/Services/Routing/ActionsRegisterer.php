@@ -15,11 +15,6 @@
 			$this->router = app( Router::class );
 		}
 
-		protected function resetStates(): void {
-			$this->withId     = false;
-			$this->parameters = [];
-		}
-
 		public function withId(): self {
 			$this->withId = true;
 
@@ -34,22 +29,18 @@
 
 		public function get( string $action ): void {
 			$this->addRoute( 'get', $action );
-			$this->resetStates();
 		}
 
 		public function post( string $action ): void {
 			$this->addRoute( 'post', $action );
-			$this->resetStates();
 		}
 
 		public function patch( string $action ): void {
 			$this->addRoute( 'patch', $action );
-			$this->resetStates();
 		}
 
 		public function delete( string $action ): void {
 			$this->addRoute( 'delete', $action );
-			$this->resetStates();
 		}
 
 		protected function addRoute( string $method, string $action ) {
@@ -59,8 +50,14 @@
 		protected function registerRoute( string $uri, string $method, string $action ): void {
 			if ( in_array( $method, $this->methods ) ) {
 				$this->router->addRoute( $method, $uri, [ $this->controller, $action ] )
-				             ->name( "$this->name.{$this->getRouteNamePrefix()}.$action" );
+				             ->name( "$this->name.{$this->getRouteNamePrefix()}." . Str::snake( $action ) );
 			}
+			$this->resetStates();
+		}
+
+		protected function resetStates(): void {
+			$this->withId     = false;
+			$this->parameters = [];
 		}
 
 		protected function addIdParameter( string $uri ): string {
