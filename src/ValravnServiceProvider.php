@@ -35,7 +35,6 @@
 		 * @return void
 		 */
 		public function register() {
-			$this->app->singleton( 'caching-service', CachingService::class );
 			$this->app->singleton( 'filtering-service', FilteringService::class );
 			$this->app->bind( 'routing-service', RoutingService::class );
 		}
@@ -50,9 +49,11 @@
 			$this->mergeConfigFrom( __DIR__ . '/../config/config.php', 'valravn' );
 
 			$this->registerRoutes();
-			$this->registerCommands();
-			$this->registerPublishes();
 			$this->registerMacros();
+			if ( $this->app->runningInConsole() ) {
+				$this->registerCommands();
+				$this->registerPublishes();
+			}
 		}
 
 		/**
