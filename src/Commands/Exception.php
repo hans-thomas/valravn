@@ -17,8 +17,8 @@
 		 */
 		protected $signature = '
 		valravn:exception 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
 		';
 
 		/**

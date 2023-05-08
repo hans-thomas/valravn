@@ -14,11 +14,11 @@
 		 */
 		protected $signature = '
 		valravn:controllers 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
-		{--v=1: Version of the entity}
-		{--requests: Generate store and update request classes}
-		{--resources: Generate resource and resource collection classes}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
+		{--v=1 : Version of the entity}
+		{--requests : Generate store and update request classes}
+		{--resources : Generate resource and resource collection classes}
 		';
 
 		/**

@@ -17,10 +17,10 @@
 		 */
 		protected $signature = '
 		valravn:service 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
-		{--r|relations: Generate an extra service to manage relations }
-		{--a|actions: Generate an extra service to manage actions}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
+		{--r|relations : Generate an extra service to manage relations }
+		{--a|actions : Generate an extra service to manage actions}
 		';
 
 		/**

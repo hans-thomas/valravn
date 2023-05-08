@@ -14,9 +14,9 @@
 		 */
 		protected $signature = '
 		valravn:entity 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
-		{--v=1: Version of the entity}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
+		{--v=1 : Version of the entity}
 		';
 
 		/**

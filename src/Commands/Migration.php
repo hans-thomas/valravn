@@ -17,8 +17,8 @@
 		 */
 		protected $signature = '
 		valravn:migration 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
 		';
 
 		/**

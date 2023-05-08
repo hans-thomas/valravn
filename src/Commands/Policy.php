@@ -17,8 +17,8 @@
 		 */
 		protected $signature = '
 		valravn:policy 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
 		';
 
 		/**

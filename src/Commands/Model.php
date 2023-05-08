@@ -18,11 +18,11 @@
 		 */
 		protected $signature = '
 		valravn:model 
-		{namespace: Group of the entity}
-		{name: Name of the entity}
-		{--f|factory: Generate database factory} 
-		{--s|seeder: Generate database seeder} 
-		{--m|migration: Generate migration file}
+		{namespace : Group of the entity}
+		{name : Name of the entity}
+		{--f|factory : Generate database factory} 
+		{--s|seeder : Generate database seeder} 
+		{--m|migration : Generate migration file}
 		';
 
 		/**
