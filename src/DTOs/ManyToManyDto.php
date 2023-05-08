@@ -7,6 +7,14 @@
 	use Illuminate\Support\Collection;
 
 	class ManyToManyDto extends Dto {
+
+		/**
+		 * Process the received data
+		 *
+		 * @param array $data
+		 *
+		 * @return Collection
+		 */
 		protected function parse( array $data ): Collection {
 			$output = [];
 			if ( ! isset( $data[ 'related' ] ) ) {
@@ -32,6 +40,14 @@
 			return collect( $output )->reverse();
 		}
 
+		/**
+		 * Add given values to the data
+		 *
+		 * @param array $values
+		 * @param bool  $force
+		 *
+		 * @return Collection
+		 */
 		public function withValues( array $values, bool $force = false ): Collection {
 			$output = collect();
 			foreach ( $this->data as $key => $value ) {

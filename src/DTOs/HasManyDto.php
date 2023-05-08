@@ -6,6 +6,14 @@
 	use Illuminate\Support\Collection;
 
 	class HasManyDto extends Dto {
+
+		/**
+		 * Process the received data
+		 *
+		 * @param array $data
+		 *
+		 * @return Collection
+		 */
 		protected function parse( array $data ): Collection {
 			$output = [];
 			if ( ! isset( $data[ 'related' ] ) ) {
