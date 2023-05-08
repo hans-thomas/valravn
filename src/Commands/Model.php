@@ -16,14 +16,21 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:model {namespace} {name} {--f|factory}} {--s|seeder}} {--m|migration}';
+		protected $signature = '
+		valravn:model 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		{--f|factory: Generate database factory} 
+		{--s|seeder: Generate database seeder} 
+		{--m|migration: Generate migration file}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates model class.';
+		protected $description = 'Generate model class.';
 
 		private Filesystem $fs;
 

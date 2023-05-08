@@ -15,14 +15,19 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:resources {namespace} {name} {--v=1}';
+		protected $signature = '
+		valravn:resources 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		{--v=1: Version of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates resource and collection classes.';
+		protected $description = 'Generate resource and resource collection classes.';
 
 		private Filesystem $fs;
 

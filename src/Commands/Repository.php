@@ -15,14 +15,18 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:repository {namespace} {name}';
+		protected $signature = '
+		valravn:repository 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates repository classes.';
+		protected $description = 'Generate repository contract and repository classes.';
 
 		private Filesystem $fs;
 

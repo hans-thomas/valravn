@@ -15,14 +15,18 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:exception {namespace} {name}';
+		protected $signature = '
+		valravn:exception 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates exception and error code classes.';
+		protected $description = 'Generate exception and error code classes.';
 
 		private Filesystem $fs;
 

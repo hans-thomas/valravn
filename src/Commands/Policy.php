@@ -15,14 +15,18 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:policy {namespace} {name}';
+		protected $signature = '
+		valravn:policy 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates policy class.';
+		protected $description = 'Generate policy class.';
 
 		private Filesystem $fs;
 

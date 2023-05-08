@@ -15,14 +15,18 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:migration {namespace} {name}';
+		protected $signature = '
+		valravn:migration 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates migration class.';
+		protected $description = 'Generate migration file.';
 
 		private Filesystem $fs;
 

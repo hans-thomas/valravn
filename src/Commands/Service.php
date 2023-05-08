@@ -15,14 +15,20 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:service {namespace} {name} {--r|relations} {--a|actions}';
+		protected $signature = '
+		valravn:service 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		{--r|relations: Generate an extra service to manage relations }
+		{--a|actions: Generate an extra service to manage actions}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates service classes.';
+		protected $description = 'Generate service classes.';
 
 		private Filesystem $fs;
 

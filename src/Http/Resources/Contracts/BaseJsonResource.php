@@ -21,7 +21,7 @@
         private array $requested_eager_loads = [];
 
         /**
-         * Extract attributes of the given resource
+         * Extract attributes of the given model
          * if null returned, the parent::toArray method called by default
          *
          * @param Model $model

@@ -12,14 +12,19 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'valravn:entity {namespace} {name} {--v=1}';
+		protected $signature = '
+		valravn:entity 
+		{namespace: Group of the entity}
+		{name: Name of the entity}
+		{--v=1: Version of the entity}
+		';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'creates an entity includes controllers, requests, resources, model and migration, seeder and factory and more.';
+		protected $description = 'Generate the whole needed classes for an entity.';
 
 		/**
 		 * Execute the console command.
