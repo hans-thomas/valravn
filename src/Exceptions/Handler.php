@@ -7,7 +7,9 @@
 	use Illuminate\Database\QueryException;
 	use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 	use Illuminate\Http\JsonResponse;
+	use Illuminate\Http\Request;
 	use Illuminate\Validation\ValidationException;
+	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\HttpKernel\Exception\HttpException;
 	use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 	use Throwable;
@@ -44,6 +46,16 @@
 			} );
 		}
 
+		/**
+		 * Render an exception into an HTTP response.
+		 *
+		 * @param Request   $request
+		 * @param Throwable $e
+		 *
+		 * @return Response
+		 *
+		 * @throws Throwable
+		 */
 		public function render( $request, Throwable $e ) {
 			if ( env( 'RAW_ERROR', false ) ) {
 				return parent::render( $request, $e );
@@ -62,6 +74,16 @@
 			};
 		}
 
+		/**
+		 * Convert the given exception to the BaseException class
+		 *
+		 * @param Throwable   $e
+		 * @param int         $defaultErrorCode
+		 * @param string|null $message
+		 * @param int|null    $responseCode
+		 *
+		 * @return JsonResponse
+		 */
 		private static function throw( Throwable $e, int $defaultErrorCode = 9999, string $message = null, int $responseCode = null ): JsonResponse {
 			if ( method_exists( $e, $method = 'getErrorCode' ) ) {
 				$errorCode = $e->{$method}();
