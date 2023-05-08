@@ -17,15 +17,31 @@
 		}
 	}
 
-	if ( ! function_exists( 'generate_order' ) ) {
-		// generates random order for factories
-		function generate_order(): float {
-			return rand( 111111, 999999 ) / 1000;
+	if ( app()->runningUnitTests() ) {
+		if ( ! function_exists( 'generate_order' ) ) {
+			/**
+			 * Generate a random order for factories
+			 *
+			 * @return float
+			 */
+			function generate_order(): float {
+				return rand( 111111, 999999 ) / 1000;
+			}
 		}
 	}
 
 	if ( ! function_exists( 'resolveRelatedIdToModel' ) ) {
+		/**
+		 * Resolve the given id to a related model
+		 *
+		 * @param int        $related
+		 * @param string     $entity
+		 * @param array|null $allowedEntities
+		 *
+		 * @return Model|false
+		 */
 		function resolveRelatedIdToModel( int $related, string $entity, array $allowedEntities = null ): Model|false {
+			// TODO: unnecessary allowedEntities param
 			if ( ! is_null( $allowedEntities ) and in_array( $entity, array_keys( $allowedEntities ) ) ) {
 				$query = ( new $allowedEntities[ $entity ] )->query();
 				IncludeFilter::make()->apply( $query, request( 'include_filter' ) );
@@ -43,6 +59,13 @@
 	}
 
 	if ( ! function_exists( 'resolveMorphableToResource' ) ) {
+		/**
+		 * Resolve given Model to a resource class
+		 *
+		 * @param Model|null $morphable
+		 *
+		 * @return JsonResource
+		 */
 		function resolveMorphableToResource( ?Model $morphable ): JsonResource {
 			if ( $morphable instanceof ResourceCollectionable ) {
 				return $morphable->toResource();
@@ -53,14 +76,31 @@
 	}
 
 	if ( ! function_exists( 'logg' ) ) {
-		function logg( string $location, Throwable $e, array $context = [] ) {
+		/**
+		 * Log the given exception to a specific channel and format
+		 *
+		 * @param string    $location
+		 * @param Throwable $e
+		 * @param array     $context
+		 *
+		 * @return void
+		 */
+		function logg( string $location, Throwable $e, array $context = [] ): void {
 			// TODO: log channel should be document
 			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
 		}
 	}
 
 	if ( ! function_exists( 'slugify' ) ) {
-		function slugify( $string, $separator = '-' ) {
+		/**
+		 * Make a non-english string to a slug
+		 *
+		 * @param $string
+		 * @param $separator
+		 *
+		 * @return array|string|null
+		 */
+		function slugify( $string, $separator = '-' ): array|string|null {
 
 			$_transliteration = [
 				"/ö|œ/" => "e",
