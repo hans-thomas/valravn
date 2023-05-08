@@ -2,18 +2,22 @@
 
     namespace App\Http\Resources\{{RESOURCE::VERSION}}\{{RESOURCE::NAMESPACE}}\{{RESOURCE::MODEL}};
 
+    use Illuminate\Database\Eloquent\Model;
     use App\Http\Resources\Contracts\BaseJsonResource;
 
     class {{RESOURCE::MODEL}}Resource extends BaseJsonResource {
 
         /**
-         * Extract your custom attributes of the resource
-         * return null for parent::toArray default value
+         * Extract attributes of the given model
+         * if null returned, the parent::toArray method called by default
          *
-         * @return array
+         * @param Model $model
+         *
+         * @return array|null
          */
-        public function extract(): array {
+        public function extract( Model $model ): ?array {
             return [
+                'id' => $model->id,
                 //
             ];
         }
@@ -26,4 +30,5 @@
         public function type(): string {
             return '{{RESOURCE::PLURAL}}';
         }
+
     }

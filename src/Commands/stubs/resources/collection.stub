@@ -2,20 +2,20 @@
 
     namespace App\Http\Resources\{{COLLECTION::VERSION}}\{{COLLECTION::NAMESPACE}}\{{COLLECTION::MODEL}};
 
-    use App\Http\Resources\Contracts\BaseJsonResource;
+    use Illuminate\Database\Eloquent\Model;
     use App\Http\Resources\Contracts\BaseResourceCollection;
 
     class {{COLLECTION::MODEL}}Collection extends BaseResourceCollection {
 
         /**
-         * Extract your custom attributes of the resource
-         * return null for parent::toArray default value
+         * Extract attributes of the given model
+         * if null returned, the parent::toArray method called by default
          *
-         * @param BaseJsonResource $item
+         * @param Model $model
          *
          * @return array|null
          */
-        public function extract( BaseJsonResource $item ): ?array {
+        public function extract( Model $model ): ?array {
             return null;
         }
 
@@ -27,4 +27,5 @@
         public function type(): string {
             return '{{COLLECTION::PLURAL}}';
         }
+
     }
