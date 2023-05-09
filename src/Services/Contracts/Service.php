@@ -1,20 +1,33 @@
 <?php
 
-    namespace Hans\Valravn\Services\Contracts;
+	namespace Hans\Valravn\Services\Contracts;
 
-    use Hans\Valravn\Services\Caching\CachingService;
+	use Hans\Valravn\Services\Caching\CachingService;
 
-    abstract class Service {
-        public function cache(): CachingService {
-            return app( CachingService::class, [ 'service' => $this ] );
-        }
+	abstract class Service {
 
-        public function cacheWhen( bool $condition ): CachingService|static {
-            if ( $condition ) {
-                return $this->cache();
-            }
+		/**
+		 * Cache methods called on service instance
+		 *
+		 * @return CachingService
+		 */
+		public function cache(): CachingService {
+			return app( CachingService::class, [ 'service' => $this ] );
+		}
 
-            return $this;
-        }
+		/**
+		 * Cache methods when condition is true
+		 *
+		 * @param bool $condition
+		 *
+		 * @return CachingService|$this
+		 */
+		public function cacheWhen( bool $condition ): CachingService|static {
+			if ( $condition ) {
+				return $this->cache();
+			}
 
-    }
+			return $this;
+		}
+
+	}

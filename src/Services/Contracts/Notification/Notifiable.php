@@ -1,32 +1,66 @@
 <?php
 
-    namespace Hans\Valravn\Services\Contracts\Notification;
+	namespace Hans\Valravn\Services\Contracts\Notification;
 
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Http\Resources\Json\JsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Http\Resources\Json\JsonResource;
 
-    abstract class Notifiable {
-        protected Model $model;
+	abstract class Notifiable {
 
-        public function __construct( Model $model ) {
-            $this->model = $model;
-        }
+		/**
+		 * Model instance
+		 *
+		 * @var Model
+		 */
+		protected Model $model;
 
-        public static function make( Model $model ): self {
-            return new static( $model );
-        }
+		public function __construct( Model $model ) {
+			$this->model = $model;
+		}
 
-        final public function getMessage(): array {
-            return [
-                'title'   => $this->title(),
-                'body'    => $this->body(),
-                'related' => $this->getRelatedEntity(),
-            ];
-        }
+		/**
+		 * Create an instance statically
+		 *
+		 * @param Model $model
+		 *
+		 * @return static
+		 */
+		public static function make( Model $model ): self {
+			return new static( $model );
+		}
 
-        abstract protected function title(): string;
+		/**
+		 * Return notification message as array
+		 *
+		 * @return array
+		 */
+		final public function getMessage(): array {
+			return [
+				'title'   => $this->title(),
+				'body'    => $this->body(),
+				'related' => $this->getRelatedEntity(),
+			];
+		}
 
-        abstract protected function body(): string;
+		/**
+		 * Title of the notification
+		 *
+		 * @return string
+		 */
+		abstract protected function title(): string;
 
-        abstract protected function getRelatedEntity(): JsonResource;
-    }
+		/**
+		 * Body of the notification
+		 *
+		 * @return string
+		 */
+		abstract protected function body(): string;
+
+		/**
+		 * Return an entity that relates to the model
+		 *
+		 * @return BaseJsonResource|null
+		 */
+		abstract protected function getRelatedEntity(): ?BaseJsonResource;
+	}

@@ -10,12 +10,32 @@
 	use Illuminate\Support\Facades\Cache;
 
 	class CachingService {
-		// TODO: add a method to cache any value given by user
+
+		/**
+		 * Start time of the algorithm
+		 *
+		 * @var int
+		 */
 		private const genesisTS = 919542600;
+
+		/**
+		 * Default interval
+		 *
+		 * @var int
+		 */
 		private int $interval = 15;
 
 		public function __construct( private Service $service, private Request $request ) { }
 
+		/**
+		 * Cache the returned data from callback
+		 *
+		 * @param string   $method
+		 * @param array    $params
+		 * @param callable $callback
+		 *
+		 * @return mixed
+		 */
 		protected function remember( string $method, array $params, callable $callback ): mixed {
 			return Cache::remember(
 				$this->makeCachingKey( $method, $params ),
@@ -24,6 +44,14 @@
 			);
 		}
 
+		/**
+		 * Create a key for caching data
+		 *
+		 * @param string $method
+		 * @param array  $params
+		 *
+		 * @return string
+		 */
 		protected function makeCachingKey( string $method, array $params ): string {
 			$keys = null;
 			foreach ( $params as $param ) {
@@ -42,6 +70,11 @@
 			return get_class( $this->service ) . ":$method:($key)[{$this->request->getQueryString()}]";
 		}
 
+		/**
+		 * Calculate the time until next interval
+		 *
+		 * @return int
+		 */
 		protected function calcTtlTime(): int {
 			$ttl = $this->getInterval() * 60;
 			$m   = ( now()->getTimestamp() - self::genesisTS ) / $ttl;
@@ -50,6 +83,8 @@
 		}
 
 		/**
+		 * Return interval
+		 *
 		 * @return int
 		 */
 		public function getInterval(): int {
