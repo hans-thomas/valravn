@@ -1,263 +1,402 @@
 <?php
 
-    namespace Hans\Valravn\Http\Resources\Contracts;
+	namespace Hans\Valravn\Http\Resources\Contracts;
 
-    use Hans\Valravn\Http\Resources\Traits\InteractsWithPivots;
-    use Hans\Valravn\Http\Resources\Traits\InteractsWithRelations;
-    use Hans\Valravn\Services\Includes\IncludingService;
-    use Hans\Valravn\Services\Queries\QueryingService;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Http\Request;
-    use Illuminate\Http\Resources\Json\JsonResource;
+	use Hans\Valravn\Http\Resources\Traits\InteractsWithPivots;
+	use Hans\Valravn\Http\Resources\Traits\InteractsWithRelations;
+	use Hans\Valravn\Services\Includes\IncludingService;
+	use Hans\Valravn\Services\Queries\QueryingService;
+	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Http\Request;
+	use Illuminate\Http\Resources\Json\JsonResource;
 
-    abstract class BaseJsonResource extends JsonResource {
-        use InteractsWithRelations, InteractsWithPivots;
+	abstract class BaseJsonResource extends JsonResource {
+		use InteractsWithRelations, InteractsWithPivots;
 
-        private array $extra = [];
-        protected bool $includes = false;
-        protected bool $queries = false;
-        protected array $requested_queries = [];
-        protected array $requested_includes = [];
-        private array $requested_eager_loads = [];
+		private array $extra = [];
+		protected bool $includes = false;
+		protected bool $queries = false;
+		protected array $requested_queries = [];
+		protected array $requested_includes = [];
+		private array $requested_eager_loads = [];
 
-        /**
-         * Extract attributes of the given model
-         * if null returned, the parent::toArray method called by default
-         *
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        abstract public function extract( Model $model ): ?array;
+		/**
+		 * Extract attributes of the given model
+		 * if null returned, the parent::toArray method called by default
+		 *
+		 * @param Model $model
+		 *
+		 * @return array|null
+		 */
+		abstract public function extract( Model $model ): ?array;
 
-        /**
-         * Specify the type of your resource
-         *
-         * @return string
-         */
-        abstract public function type(): string;
+		/**
+		 * Specify the type of your resource
+		 *
+		 * @return string
+		 */
+		abstract public function type(): string;
 
-        /**
-         * List of available queries of this resource
-         *
-         * @return array
-         */
-        public function getAvailableQueries(): array {
-            return [
-                //
-            ];
-        }
+		/**
+		 * List of available queries of this resource
+		 *
+		 * @return array
+		 */
+		public function getAvailableQueries(): array {
+			return [
+				//
+			];
+		}
 
-        /**
-         * List of available includes of this resource
-         *
-         * @return array
-         */
-        public function getAvailableIncludes(): array {
-            return [
-                //
-            ];
-        }
+		/**
+		 * List of available includes of this resource
+		 *
+		 * @return array
+		 */
+		public function getAvailableIncludes(): array {
+			return [
+				//
+			];
+		}
 
-        /**
-         * Transform the resource into an array.
-         *
-         * @param Request $request
-         *
-         * @return array
-         */
-        public function toArray( $request ): array {
-            if ( is_null( $this->resource ) ) {
-                return [];
-            }
+		/**
+		 * Transform the resource into an array.
+		 *
+		 * @param Request $request
+		 *
+		 * @return array
+		 */
+		public function toArray( $request ): array {
+			if ( is_null( $this->resource ) ) {
+				return [];
+			}
 
-            $extracted = $this->extract( $this->resource );
-            if ( count( $extracted ?? [] ) <= 0 ) {
-                $extracted = $this->resource->toArray();
-            }
-            $data = array_merge( [ 'type' => $this->type() ], $extracted );
+			$extracted = $this->extract( $this->resource );
+			if ( count( $extracted ?? [] ) <= 0 ) {
+				$extracted = $this->resource->toArray();
+			}
+			$data = array_merge( [ 'type' => $this->type() ], $extracted );
 
-            if ( $this->resource instanceof Model ) {
-                app( IncludingService::class, [ 'resource' => $this ] )
-                    ->registerIncludesUsingQueryStringWhen( $this->shouldParseIncludes(), $request->get( 'includes' ) )
-                    ->applyRequestedIncludes( $this->resource )
-                    ->mergeIncludedDataTo( $data );
+			if ( $this->resource instanceof Model ) {
+				app( IncludingService::class, [ 'resource' => $this ] )
+					->registerIncludesUsingQueryStringWhen( $this->shouldParseIncludes(), $request->get( 'includes' ) )
+					->applyRequestedIncludes( $this->resource )
+					->mergeIncludedDataTo( $data );
 
-                $this->loadedRelations( $data );
-                $this->loadedPivots( $data );
+				$this->loadedRelations( $data );
+				$this->loadedPivots( $data );
 
-                app( QueryingService::class, [ 'resource' => $this ] )
-                    ->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() )
-                    ->applyRequestedQueries( $this->resource )
-                    ->mergeQueriedDataInto( $data );
-            }
+				app( QueryingService::class, [ 'resource' => $this ] )
+					->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() )
+					->applyRequestedQueries( $this->resource )
+					->mergeQueriedDataInto( $data );
+			}
 
-            if ( ! empty( $this->getExtra() ) ) {
-                $data = array_merge( $data, [ 'extra' => $this->getExtra() ] );
-            }
+			if ( ! empty( $this->getExtra() ) ) {
+				$data = array_merge( $data, [ 'extra' => $this->getExtra() ] );
+			}
 
-            $this->loaded( $data );
+			$this->loaded( $data );
 
-            return $data;
-        }
+			return $data;
+		}
 
-        /**
-         * Executes when data loaded
-         *
-         * @param $data
-         */
-        protected function loaded( &$data ) {
-            // ...
-        }
+		/**
+		 * Executes when data loaded
+		 *
+		 * @param $data
+		 */
+		protected function loaded( &$data ) {
+			// ...
+		}
 
-        public function with( $request ) {
-            return [
-                'type' => $this->type(),
-            ];
-        }
+		/**
+		 * Get any additional data that should be returned with the resource array.
+		 *
+		 * @param Request $request
+		 *
+		 * @return array
+		 */
+		public function with( $request ) {
+			return [
+				'type' => $this->type(),
+			];
+		}
 
-        public function addAdditional( array $data ): self {
-            $this->additional = array_merge( $this->additional, $data );
+		/**
+		 * Merge data to the additional
+		 *
+		 * @param array $data
+		 *
+		 * @return $this
+		 */
+		public function addAdditional( array $data ): self {
+			$this->additional = array_merge( $this->additional, $data );
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function addExtra( array $data ): self {
-            $this->extra = array_merge( $this->extra, $data );
+		/**
+		 * Merge data to the extra
+		 *
+		 * @param array $data
+		 *
+		 * @return $this
+		 */
+		public function addExtra( array $data ): self {
+			$this->extra = array_merge( $this->extra, $data );
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function getExtra(): array {
-            return $this->extra;
-        }
+		/**
+		 * Return extra data
+		 *
+		 * @return array
+		 */
+		public function getExtra(): array {
+			return $this->extra;
+		}
 
-        public function parseIncludes(): self {
-            $this->includes = true;
+		/**
+		 * Parse includes on this resource instance
+		 *
+		 * @return $this
+		 */
+		public function parseIncludes(): self {
+			$this->includes = true;
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function parseIncludesWhen( bool $condition ): self {
-            if ( $condition ) {
-                $this->parseIncludes();
-            }
+		/**
+		 * Parse includes on this resource instance when condition is true
+		 *
+		 * @param bool $condition
+		 *
+		 * @return $this
+		 */
+		public function parseIncludesWhen( bool $condition ): self {
+			if ( $condition ) {
+				$this->parseIncludes();
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function shouldParseIncludes(): bool {
-            return $this->includes;
-        }
+		/**
+		 * Determine that resource should parse the includes or not
+		 *
+		 * @return bool
+		 */
+		public function shouldParseIncludes(): bool {
+			return $this->includes;
+		}
 
-        public function registerInclude( string|object $include, array $actions = [] ): self {
-            $include = is_object( $include ) ? get_class( $include ) : $include;
-            if ( in_array( $include, $this->getAvailableIncludes() ) ) {
-                $this->addRequestedIncludes( $include, $actions );
-            }
+		/**
+		 * Manually register an include class
+		 *
+		 * @param string|object $include
+		 * @param array         $actions
+		 *
+		 * @return $this
+		 */
+		public function registerInclude( string|object $include, array $actions = [] ): self {
+			$include = is_object( $include ) ? get_class( $include ) : $include;
+			if ( in_array( $include, $this->getAvailableIncludes() ) ) {
+				$this->addRequestedIncludes( $include, $actions );
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        protected function addRequestedIncludes( string $include, array $actions ): self {
-            if ( key_exists( $include, $this->getRequestedIncludes() ) ) {
-                $this->requested_includes[ $include ] = array_merge(
-                    $this->requested_includes[ $include ],
-                    $actions
-                );
-            }
-            if ( ! key_exists( $include, $this->getRequestedIncludes() ) ) {
-                $this->requested_includes[ $include ] = $actions;
-            }
+		/**
+		 * Register the given include to requested includes list
+		 *
+		 * @param string $include
+		 * @param array  $actions
+		 *
+		 * @return $this
+		 */
+		protected function addRequestedIncludes( string $include, array $actions ): self {
+			if ( key_exists( $include, $this->getRequestedIncludes() ) ) {
+				$this->requested_includes[ $include ] = array_merge(
+					$this->requested_includes[ $include ],
+					$actions
+				);
+			}
+			if ( ! key_exists( $include, $this->getRequestedIncludes() ) ) {
+				$this->requested_includes[ $include ] = $actions;
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function getRequestedIncludes(): array {
-            return $this->requested_includes;
-        }
+		/**
+		 * Return the requested includes list
+		 *
+		 * @return array
+		 */
+		public function getRequestedIncludes(): array {
+			return $this->requested_includes;
+		}
 
-        public function setNestedEagerLoadsFor( string $include, string $eagerLoads ): self {
-            $this->requested_eager_loads[ $include ] = $eagerLoads;
+		/**
+		 * Set a nested eager load for current instance
+		 *
+		 * @param string $include
+		 * @param string $eagerLoads
+		 *
+		 * @return $this
+		 */
+		public function setNestedEagerLoadsFor( string $include, string $eagerLoads ): self {
+			$this->requested_eager_loads[ $include ] = $eagerLoads;
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function getNestedEagerLoadsFor( string $relation ): ?string {
-            if ( ! key_exists( $relation, $this->getNestedEagerLoads() ) ) {
-                return null;
-            }
+		/**
+		 * Return requested nested eager load for a specific relationship
+		 *
+		 * @param string $relation
+		 *
+		 * @return string|null
+		 */
+		public function getNestedEagerLoadsFor( string $relation ): ?string {
+			if ( ! key_exists( $relation, $this->getNestedEagerLoads() ) ) {
+				return null;
+			}
 
-            return $this->requested_eager_loads[ $relation ];
-        }
+			return $this->requested_eager_loads[ $relation ];
+		}
 
-        public function getNestedEagerLoads(): array {
-            return $this->requested_eager_loads;
-        }
+		/**
+		 * Return the requested nested eager loads list
+		 *
+		 * @return array
+		 */
+		public function getNestedEagerLoads(): array {
+			return $this->requested_eager_loads;
+		}
 
-        public function applyNestedEagerLoadsOnRelation( string $nested ): self {
-            $data = app( IncludingService::class, [ 'resource' => $this ] )->parseInclude( $nested );
+		/**
+		 * Apply a nested eager load on the current instance
+		 *
+		 * @param string $nested
+		 *
+		 * @return $this
+		 */
+		public function applyNestedEagerLoadsOnRelation( string $nested ): self {
+			$data = app( IncludingService::class, [ 'resource' => $this ] )->parseInclude( $nested );
 
-            if ( ! empty( $data[ 'nested' ] ) ) {
-                $this->setNestedEagerLoadsFor( $data[ 'relation' ], $data[ 'nested' ] );
-            }
+			if ( ! empty( $data[ 'nested' ] ) ) {
+				$this->setNestedEagerLoadsFor( $data[ 'relation' ], $data[ 'nested' ] );
+			}
 
-            if ( key_exists( $data[ 'relation' ], $this->getAvailableIncludes() ) ) {
-                $this->registerInclude( $this->getAvailableIncludes()[ $data[ 'relation' ] ], $data[ 'actions' ] );
-            }
+			if ( key_exists( $data[ 'relation' ], $this->getAvailableIncludes() ) ) {
+				$this->registerInclude( $this->getAvailableIncludes()[ $data[ 'relation' ] ], $data[ 'actions' ] );
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function parseQueries(): self {
-            $this->queries = true;
+		/**
+		 * Parse queries on this resource instance
+		 *
+		 * @return $this
+		 */
+		public function parseQueries(): self {
+			$this->queries = true;
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function parseQueriesWhen( bool $condition ): self {
-            if ( $condition ) {
-                $this->parseQueries();
-            }
+		/**
+		 * Parse queries on this resource instance when condition is true
+		 *
+		 * @param bool $condition
+		 *
+		 * @return $this
+		 */
+		public function parseQueriesWhen( bool $condition ): self {
+			if ( $condition ) {
+				$this->parseQueries();
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function shouldParseQueries(): bool {
-            return $this->queries;
-        }
+		/**
+		 * Determine that resource should parse the queries or not
+		 *
+		 * @return bool
+		 */
+		public function shouldParseQueries(): bool {
+			return $this->queries;
+		}
 
-        public function registerQuery( string|object $query ): self {
-            $query = is_object( $query ) ? get_class( $query ) : $query;
-            if ( in_array( $query, $this->getAvailableQueries() ) ) {
-                $this->addRequestedQueries( $query );
-            }
+		/**
+		 * Manually register a query class
+		 *
+		 * @param string|object $query
+		 *
+		 * @return $this
+		 */
+		public function registerQuery( string|object $query ): self {
+			$query = is_object( $query ) ? get_class( $query ) : $query;
+			if ( in_array( $query, $this->getAvailableQueries() ) ) {
+				$this->addRequestedQueries( $query );
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function registerQueries( array $queries ): self {
-            foreach ( $queries as $query ) {
-                $this->registerQuery( $query );
-            }
+		/**
+		 * Manually register several query classes
+		 *
+		 * @param array $queries
+		 *
+		 * @return $this
+		 */
+		public function registerQueries( array $queries ): self {
+			foreach ( $queries as $query ) {
+				$this->registerQuery( $query );
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function getRequestedQueries(): array {
-            return $this->requested_queries;
-        }
+		/**
+		 * Return the requested queries list
+		 *
+		 * @return array
+		 */
+		public function getRequestedQueries(): array {
+			return $this->requested_queries;
+		}
 
-        protected function addRequestedQueries( string $query ): self {
-            if ( ! in_array( $query, $this->getRequestedQueries() ) ) {
-                $this->requested_queries = array_merge( $this->getRequestedQueries(), [ $query ] );
-            }
+		/**
+		 * Register the given include to requested queries list
+		 *
+		 * @param string $query
+		 *
+		 * @return $this
+		 */
+		protected function addRequestedQueries( string $query ): self {
+			if ( ! in_array( $query, $this->getRequestedQueries() ) ) {
+				$this->requested_queries = array_merge( $this->getRequestedQueries(), [ $query ] );
+			}
 
-            return $this;
-        }
+			return $this;
+		}
 
-        public function hasRequestedQuery(): bool {
-            return count( $this->getRequestedQueries() );
-        }
+		/**
+		 * Determine any query requested on this instance or not
+		 *
+		 * @return bool
+		 */
+		public function hasAnyRequestedQuery(): bool {
+			return count( $this->getRequestedQueries() );
+		}
 
-    }
+	}

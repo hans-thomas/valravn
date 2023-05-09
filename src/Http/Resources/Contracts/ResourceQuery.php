@@ -1,34 +1,69 @@
 <?php
 
-    namespace Hans\Valravn\Http\Resources\Contracts;
+	namespace Hans\Valravn\Http\Resources\Contracts;
 
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Http\Resources\Json\JsonResource;
+	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Http\Resources\Json\JsonResource;
 
-    abstract class ResourceQuery {
-        private array $data = [];
+	abstract class ResourceQuery {
 
-        abstract public function apply( Model $model ): array;
+		/**
+		 * Store processed data
+		 *
+		 * @var array
+		 */
+		private array $data = [];
 
-        public static function make(): static {
-            return new static();
-        }
+		/**
+		 * Implement a custom logic
+		 *
+		 * @param Model $model
+		 *
+		 * @return array
+		 */
+		abstract public function apply( Model $model ): array;
 
-        public function run( Model $model ): self {
-            $this->data = $this->apply( $model );
+		/**
+		 * Create an instance
+		 *
+		 * @return static
+		 */
+		public static function make(): static {
+			return new static();
+		}
 
-            return $this;
-        }
+		/**
+		 * Apply the custom logic and store the processed data
+		 *
+		 * @param Model $model
+		 *
+		 * @return $this
+		 */
+		public function run( Model $model ): self {
+			$this->data = $this->apply( $model );
 
-        public function mergeDataInto( JsonResource $json_resource, array &$data ): void {
-            $data = array_merge( $data, $this->getData() );
-        }
+			return $this;
+		}
 
-        /**
-         * @return array
-         */
-        public function getData(): array {
-            return $this->data;
-        }
+		/**
+		 * Merge processed data to given array
+		 *
+		 * @param BaseJsonResource $resource
+		 * @param array            $data
+		 *
+		 * @return void
+		 */
+		public function mergeDataInto( BaseJsonResource $resource, array &$data ): void {
+			$data = array_merge( $data, $this->getData() );
+		}
 
-    }
+		/**
+		 * Return the processed data
+		 *
+		 * @return array
+		 */
+		public function getData(): array {
+			return $this->data;
+		}
+
+	}
