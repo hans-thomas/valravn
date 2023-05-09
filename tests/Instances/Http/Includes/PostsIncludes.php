@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Instances\Http\Includes;
 
 	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
+	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\Includes;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Database\Eloquent\Model;
@@ -20,9 +21,9 @@
 		}
 
 		/**
-		 * @return JsonResource
+		 * @return BaseJsonResource
 		 */
-		public function toResource(): JsonResource {
+		public function toResource(): BaseJsonResource {
 			return PostCollection::make( $this->getBuilder()->get() );
 		}
 	}

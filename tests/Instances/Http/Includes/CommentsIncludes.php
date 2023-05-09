@@ -3,6 +3,7 @@
 	namespace Hans\Tests\Valravn\Instances\Http\Includes;
 
 	use Hans\Tests\Valravn\Core\Resources\Comment\CommentCollection;
+	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
 	use Hans\Valravn\Http\Resources\Contracts\Includes;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -21,9 +22,9 @@
 		}
 
 		/**
-		 * @return JsonResource
+		 * @return BaseJsonResource
 		 */
-		public function toResource(): JsonResource {
+		public function toResource(): BaseJsonResource {
 			return CommentCollection::make( $this->getBuilder()->get() );
 		}
 	}

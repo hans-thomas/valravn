@@ -17,16 +17,14 @@
 		}
 	}
 
-	if ( app()->runningUnitTests() ) {
-		if ( ! function_exists( 'generate_order' ) ) {
-			/**
-			 * Generate a random order for factories
-			 *
-			 * @return float
-			 */
-			function generate_order(): float {
-				return rand( 111111, 999999 ) / 1000;
-			}
+	if ( ! function_exists( 'generate_order' ) ) {
+		/**
+		 * Generate a random order for factories
+		 *
+		 * @return float
+		 */
+		function generate_order(): float {
+			return rand( 111111, 999999 ) / 1000;
 		}
 	}
 
