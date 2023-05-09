@@ -13,37 +13,86 @@
 	use Throwable;
 
 	abstract class Repository {
+
+		/**
+		 * Authorization flag
+		 *
+		 * @var bool
+		 */
 		private bool $authorization = true;
+
+		/**
+		 * Eloquent builder instance
+		 *
+		 * @var Builder
+		 */
 		private Builder $builder;
 
 		public function __construct() {
 			$this->builder = $this->getQueryBuilder();
 		}
 
+		/**
+		 * Return the related builder instance
+		 *
+		 * @return Builder
+		 */
 		abstract protected function getQueryBuilder(): Builder;
 
+		/**
+		 * Return model name using related builder instance
+		 *
+		 * @return string
+		 */
 		protected function getModelClassName(): string {
 			return get_class( $this->getQueryBuilder()->getModel() );
 		}
 
+		/**
+		 * Guess the ability to authorize
+		 *
+		 * @return string
+		 */
 		protected function guessAbility(): string {
 			return debug_backtrace()[ 2 ][ 'function' ];
 		}
 
+		/**
+		 * Resolve model
+		 *
+		 * @param Model|int $model
+		 *
+		 * @return Model
+		 */
 		protected function resolveModel( Model|int $model ): Model {
 			return $model instanceof Model ? $model : $this->query()->findOrFail( $model );
 		}
 
+		/**
+		 * Determine should authorize or not
+		 *
+		 * @return bool
+		 */
 		public function shouldAuthorize(): bool {
 			return $this->authorization;
 		}
 
+		/**
+		 * Disable the authorization
+		 *
+		 * @return $this
+		 */
 		public function disableAuthorization(): static {
 			$this->authorization = false;
 
 			return $this;
 		}
 
+		/**
+		 * Enable the authorization
+		 *
+		 * @return $this
+		 */
 		public function enableAuthorization(): static {
 			$this->authorization = true;
 
@@ -51,6 +100,8 @@
 		}
 
 		/**
+		 * Call the closure if it should authorize
+		 *
 		 * @throws AuthorizationException
 		 */
 		public function ifShouldAuthorize( callable $callable ): void {
@@ -59,6 +110,11 @@
 			}
 		}
 
+		/**
+		 * Rerun the builder instance and reset it for next usage
+		 *
+		 * @return Builder
+		 */
 		protected function query(): Builder {
 			$query         = $this->builder;
 			$this->builder = $this->getQueryBuilder();
@@ -66,6 +122,11 @@
 			return $query;
 		}
 
+		/**
+		 * Set a select statement to the current builder instance
+		 *
+		 * @return $this
+		 */
 		public function select(): self {
 			$this->builder = $this->query()->select( ...func_get_args() );
 
@@ -73,6 +134,11 @@
 		}
 
 		/**
+		 * Authorize an action
+		 *
+		 * @param null  $ability
+		 * @param mixed ...$params
+		 *
 		 * @throws AuthorizationException
 		 */
 		protected function authorize( $ability = null, ...$params ): void {
@@ -91,6 +157,10 @@
 		}
 
 		/**
+		 * Guess the action and authorize it
+		 *
+		 * @param mixed ...$params
+		 *
 		 * @throws AuthorizationException
 		 */
 		protected function authorizeThisAction( ...$params ): void {
@@ -98,6 +168,9 @@
 		}
 
 		/**
+		 * Return all resource
+		 *
+		 * @return Builder
 		 * @throws AuthorizationException
 		 */
 		public function all(): Builder {
@@ -107,6 +180,12 @@
 		}
 
 		/**
+		 * Find a specific resource
+		 *
+		 * @param int|string $id
+		 * @param string     $column
+		 *
+		 * @return Model
 		 * @throws AuthorizationException
 		 */
 		public function find( int|string $id, string $column = 'id' ): Model {
@@ -117,6 +196,11 @@
 		}
 
 		/**
+		 * Delete a specific resource
+		 *
+		 * @param Model|int $model
+		 *
+		 * @return bool
 		 * @throws AuthorizationException
 		 * @throws BaseException
 		 */
@@ -138,7 +222,7 @@
 		}
 
 		/**
-		 * Deleting Hook
+		 * Deleting Hook executes before the resource deleted
 		 *
 		 * @param Model $model
 		 */
@@ -147,7 +231,7 @@
 		}
 
 		/**
-		 * Deleted Hook
+		 * Deleted Hook executes after the resource deleted
 		 *
 		 * @param Model $model
 		 */
@@ -156,6 +240,11 @@
 		}
 
 		/**
+		 * Create a resource using given data
+		 *
+		 * @param array $data
+		 *
+		 * @return Model
 		 * @throws AuthorizationException
 		 */
 		public function create( array $data ): Model {
@@ -165,6 +254,12 @@
 		}
 
 		/**
+		 * Update Model using given data
+		 *
+		 * @param Model|int $model
+		 * @param array     $data
+		 *
+		 * @return bool
 		 * @throws AuthorizationException
 		 */
 		public function update( Model|int $model, array $data ): bool {
@@ -175,6 +270,11 @@
 		}
 
 		/**
+		 * Update many resources in one query
+		 *
+		 * @param BatchUpdateDto $dto
+		 *
+		 * @return bool
 		 * @throws AuthorizationException
 		 */
 		public function batchUpdate( BatchUpdateDto $dto ): bool {
