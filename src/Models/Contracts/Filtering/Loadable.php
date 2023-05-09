@@ -1,7 +1,13 @@
 <?php
 
-    namespace Hans\Valravn\Models\Contracts\Filtering;
+	namespace Hans\Valravn\Models\Contracts\Filtering;
 
-    interface Loadable {
-        public function getLoadableRelations(): array;
-    }
+	interface Loadable {
+
+		/**
+		 * List of relationships that can be loaded
+		 *
+		 * @return array
+		 */
+		public function getLoadableRelations(): array;
+	}

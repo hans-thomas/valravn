@@ -6,6 +6,14 @@
 
 	class BaseModel extends Model {
 
+		/**
+		 * Make an alias for given model
+		 *
+		 * @param Model $model
+		 * @param array $aliases
+		 *
+		 * @return void
+		 */
 		public static function aliasForModelAttributes( Model $model, array $aliases ) {
 			foreach ( $aliases as $raw => $alias ) {
 				if ( array_key_exists( $alias, $model->getAttributes() ) ) {
@@ -15,10 +23,20 @@
 			}
 		}
 
+		/**
+		 * Return table name in a static way
+		 *
+		 * @return string
+		 */
 		public static function table(): string {
 			return ( new static )->getTable();
 		}
 
+		/**
+		 * Return foreign key in a static way
+		 *
+		 * @return string
+		 */
 		public static function foreignKey(): string {
 			return ( new static )->getForeignKey();
 		}
