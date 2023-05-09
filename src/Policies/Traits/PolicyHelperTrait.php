@@ -1,12 +1,28 @@
 <?php
 
 
-    namespace Hans\Valravn\Policies\Traits;
+	namespace Hans\Valravn\Policies\Traits;
 
-    use Horus;
+	trait PolicyHelperTrait {
 
-    trait PolicyHelperTrait {
-        protected function makeAbility(): string {
-            return Horus::normalizeModelName( $this->getModel() ) . '-' . debug_backtrace()[ 1 ][ 'function' ];
-        }
-    }
+		/**
+		 * Guess the ability
+		 *
+		 * @return string
+		 */
+		protected function makeAbility(): string {
+			return $this->normalizeModelName( $this->getModel() ) . '-' . debug_backtrace()[ 1 ][ 'function' ];
+		}
+
+		/**
+		 * normalize the model name
+		 *
+		 * @param string $model
+		 *
+		 * @return string
+		 */
+		protected function normalizeModelName( string $model ): string {
+			return array_reverse( explode( '\\', strtolower( $model ) ) )[ 1 ] . '-' .
+			       array_reverse( explode( '\\', strtolower( $model ) ) )[ 0 ];
+		}
+	}
