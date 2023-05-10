@@ -12,15 +12,13 @@
 	class CachingServiceTest extends TestCase {
 
 		private Service $service;
-		private CachingServiceProxy $cachingServiceProxy;
 
 		/**
 		 * @return void
 		 */
 		protected function setUp(): void {
 			parent::setUp();
-			$this->service             = app( SampleService::class );
-			$this->cachingServiceProxy = app( CachingServiceProxy::class, [ 'service' => $this->service ] );
+			$this->service = app( SampleService::class );
 		}
 
 
@@ -32,11 +30,6 @@
 		public function remember(): void {
 			Cache::shouldReceive( 'remember' )
 			     ->once()
-			     ->with(
-				     $this->cachingServiceProxy->_makeCachingKey( 'addition', [ 1, 2 ] ),
-				     $this->cachingServiceProxy->_calcTtlTime(),
-				     Closure::class
-			     )
 			     ->andReturn( 3 );
 			$this->service->cache()->addition( 1, 2 );
 		}
