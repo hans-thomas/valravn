@@ -3,7 +3,6 @@
 	namespace Hans\Tests\Valravn\Feature\Services;
 
 	use Closure;
-	use Hans\Tests\Valravn\Instances\Services\CachingServiceProxy;
 	use Hans\Tests\Valravn\Instances\Services\SampleService;
 	use Hans\Tests\Valravn\TestCase;
 	use Hans\Valravn\Services\Contracts\Service;
