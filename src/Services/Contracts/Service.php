@@ -7,7 +7,7 @@
 	abstract class Service {
 
 		/**
-		 * Cache methods called on service instance
+		 * Cache method's result called on service instance
 		 *
 		 * @return CachingService
 		 */

@@ -15,7 +15,6 @@
 	use Hans\Valravn\Commands\Requests;
 	use Hans\Valravn\Commands\Resources;
 	use Hans\Valravn\Commands\Service;
-	use Hans\Valravn\Services\Caching\CachingService;
 	use Hans\Valravn\Services\Filtering\FilteringService;
 	use Hans\Valravn\Services\Routing\RoutingService;
 	use Illuminate\Database\Eloquent\Builder;

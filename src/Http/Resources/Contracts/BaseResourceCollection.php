@@ -77,8 +77,10 @@
 
 				if ( $item->resource instanceof Model ) {
 					app( IncludingService::class, [ 'resource' => $this ] )
-						->registerIncludesUsingQueryStringWhen( $this->shouldParseIncludes(),
-							$request->get( 'includes' ) )
+						->registerIncludesUsingQueryStringWhen(
+							$this->shouldParseIncludes(),
+							$request->get( 'includes' )
+						)
 						->applyRequestedIncludes( $item->resource )
 						->mergeIncludedDataTo( $data );
 
