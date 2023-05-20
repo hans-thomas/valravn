@@ -12,6 +12,11 @@
 	use Illuminate\Support\Optional;
 
 	if ( ! function_exists( 'user' ) ) {
+		/**
+		 * Return authenticated user or optional null
+		 *
+		 * @return Authenticatable|Optional
+		 */
 		function user(): Authenticatable|Optional {
 			return Auth::check() ? Auth::user() : optional();
 		}
@@ -91,7 +96,7 @@
 
 	if ( ! function_exists( 'slugify' ) ) {
 		/**
-		 * Make a non-english string to a slug
+		 * Make a english or non-english string to a slug
 		 *
 		 * @param $string
 		 * @param $separator
