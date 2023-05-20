@@ -15,17 +15,11 @@
 	use Illuminate\Support\Arr;
 
 	class FilteringService {
-		private array $registered = [
-			'like_filter'                   => LikeFilter::class,
-			'order_filter'                  => OrderFilter::class,
-			'order_pivot_filter'            => OrderPivotFilter::class,
-			'where_filter'                  => WhereFilter::class,
-			'where_pivot_filter'            => WherePivotFilter::class,
-			'where_relation_filter'         => WhereRelationFilter::class,
-			'where_relation_like_filter'    => WhereRelationLikeFilter::class,
-			'or_where_relation_filter'      => OrWhereRelationFilter::class,
-			'or_where_relation_like_filter' => OrWhereRelationLikeFilter::class,
-		];
+		private array $registeredFilters;
+
+		public function __construct() {
+			$this->registeredFilters = valravn_config( 'filters' );
+		}
 
 		public function apply( Builder $builder, array $options = [] ): Builder {
 			foreach ( $this->scopeActions( $options ) as $key => $filter ) {
@@ -38,7 +32,7 @@
 		}
 
 		private function scopeActions( array $options ): array {
-			$actions = $this->registered;
+			$actions = $this->registeredFilters;
 			if ( isset( $options[ 'only' ] ) ) {
 				$actions = array_intersect( $actions, Arr::wrap( $options[ 'only' ] ) );
 			}
@@ -54,19 +48,7 @@
 		 * @return array
 		 */
 		public function getRegistered(): array {
-			return $this->registered;
+			return $this->registeredFilters;
 		}
-
-		/**
-		 * @param array $filters
-		 *
-		 * @return self
-		 */
-		public function registerFilters( array $filters ): self {
-			$this->registered = array_merge( $this->getRegistered(), $filters );
-
-			return $this;
-		}
-
 
 	}
