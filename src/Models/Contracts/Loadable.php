@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Valravn\Models\Contracts\Filtering;
+	namespace Hans\Valravn\Models\Contracts;
 
 	interface Loadable {
 

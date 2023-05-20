@@ -4,7 +4,7 @@
 
 	use Hans\Tests\Valravn\Core\Factories\PostFactory;
 	use Hans\Valravn\Models\BaseModel;
-	use Hans\Valravn\Models\Contracts\Filtering\Filterable;
+	use Hans\Valravn\Models\Contracts\Filterable;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -45,4 +45,5 @@
 				'content',
 			];
 		}
+
 	}

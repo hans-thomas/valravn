@@ -2,7 +2,7 @@
 
 	namespace Hans\Valravn\Services\Contracts\Including;
 
-	use Hans\Valravn\Models\Contracts\Filtering\Filterable;
+	use Hans\Valravn\Models\Contracts\Filterable;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 
 	abstract class Actions {

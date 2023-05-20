@@ -3,8 +3,8 @@
 	namespace Hans\Valravn\Services\Contracts\Filters;
 
 
-	use Hans\Valravn\Models\Contracts\Filtering\Filterable;
-	use Hans\Valravn\Models\Contracts\Filtering\Loadable;
+	use Hans\Valravn\Models\Contracts\Filterable;
+	use Hans\Valravn\Models\Contracts\Loadable;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\HasMany;

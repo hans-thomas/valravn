@@ -3,7 +3,7 @@
 	namespace Hans\Valravn\Http\Resources\Traits;
 
 	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
-	use Hans\Valravn\Models\Contracts\Filtering\Loadable;
+	use Hans\Valravn\Models\Contracts\Loadable;
 
 	trait InteractsWithRelations {
 
