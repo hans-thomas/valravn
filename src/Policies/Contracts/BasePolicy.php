@@ -26,7 +26,7 @@
          * @return bool
          */
         public function viewAny( Authenticatable $user ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -38,7 +38,7 @@
          * @return bool
          */
         public function view( Authenticatable $user, Model $model ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -49,7 +49,7 @@
          * @return bool
          */
         public function create( Authenticatable $user ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -61,7 +61,7 @@
          * @return bool
          */
         public function update( Authenticatable $user, Model $model ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
 
@@ -74,7 +74,7 @@
          * @return bool
          */
         public function batchUpdate( Authenticatable $user, Collection $data ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -86,7 +86,7 @@
          * @return bool
          */
         public function delete( Authenticatable $user, Model $model ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -98,7 +98,7 @@
          * @return bool
          */
         public function restore( Authenticatable $user, Model $model ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
 
         /**
@@ -110,6 +110,6 @@
          * @return bool
          */
         public function forceDelete( Authenticatable $user, Model $model ): bool {
-            return $user->can( $this->makeAbility() );
+            return $user->can( $this->guessAbility() );
         }
     }
