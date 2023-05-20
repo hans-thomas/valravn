@@ -73,7 +73,7 @@
 		 *
 		 * @return bool
 		 */
-		public function shouldAuthorize(): bool {
+		protected function shouldAuthorize(): bool {
 			return $this->authorization;
 		}
 
@@ -104,7 +104,7 @@
 		 *
 		 * @throws AuthorizationException
 		 */
-		public function ifShouldAuthorize( callable $callable ): void {
+		protected function ifShouldAuthorize( callable $callable ): void {
 			if ( $this->shouldAuthorize() ) {
 				$callable();
 			}
@@ -196,50 +196,6 @@
 		}
 
 		/**
-		 * Delete a specific resource
-		 *
-		 * @param Model|int $model
-		 *
-		 * @return bool
-		 * @throws AuthorizationException
-		 * @throws BaseException
-		 */
-		public function delete( Model|int $model ): bool {
-			$model = $this->resolveModel( $model );
-			$this->authorize( $model );
-			// execute deleting hook
-			DB::beginTransaction();
-			try {
-				$this->deleting( $model );
-				$model->delete();
-				$this->deleted( $model );
-			} catch ( Throwable $e ) {
-				throw ValravnException::failedToDelete( $model );
-			}
-			DB::commit();
-
-			return true;
-		}
-
-		/**
-		 * Deleting Hook executes before the resource deleted
-		 *
-		 * @param Model $model
-		 */
-		protected function deleting( Model $model ) {
-			//
-		}
-
-		/**
-		 * Deleted Hook executes after the resource deleted
-		 *
-		 * @param Model $model
-		 */
-		protected function deleted( Model $model ) {
-			//
-		}
-
-		/**
 		 * Create a resource using given data
 		 *
 		 * @param array $data
@@ -285,6 +241,50 @@
 				$dto->getData()->toArray(),
 				$this->query()->getModel()->getKeyName()
 			);
+		}
+
+		/**
+		 * Delete a specific resource
+		 *
+		 * @param Model|int $model
+		 *
+		 * @return bool
+		 * @throws AuthorizationException
+		 * @throws BaseException
+		 */
+		public function delete( Model|int $model ): bool {
+			$model = $this->resolveModel( $model );
+			$this->authorize( $model );
+			// execute deleting hook
+			DB::beginTransaction();
+			try {
+				$this->deleting( $model );
+				$model->delete();
+				$this->deleted( $model );
+			} catch ( Throwable $e ) {
+				throw ValravnException::failedToDelete( $model );
+			}
+			DB::commit();
+
+			return true;
+		}
+
+		/**
+		 * Deleting Hook executes before the resource deleted
+		 *
+		 * @param Model $model
+		 */
+		protected function deleting( Model $model ) {
+			//
+		}
+
+		/**
+		 * Deleted Hook executes after the resource deleted
+		 *
+		 * @param Model $model
+		 */
+		protected function deleted( Model $model ) {
+			//
 		}
 
 	}
