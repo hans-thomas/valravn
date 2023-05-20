@@ -19,12 +19,12 @@
 		 *
 		 * @return Service
 		 */
-		public function getService(): Service; // TODO: should return Service contract
+		public function getService(): Service;
 
 		/**
 		 * Return related relations service class
 		 *
 		 * @return Service
 		 */
-		public function getRelationsService(): Service; // TODO: should return Service contract
+		public function getRelationsService(): Service;
 	}
