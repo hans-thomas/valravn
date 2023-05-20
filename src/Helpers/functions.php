@@ -92,6 +92,19 @@
 		}
 	}
 
+	if ( ! function_exists( 'valravn_config' ) ) {
+		/**
+		 * Get valravn config data
+		 *
+		 * @param string $key
+		 *
+		 * @return string|array
+		 */
+		function valravn_config( string $key ): string|array {
+			return config( "valravn.$key" );
+		}
+	}
+
 	if ( ! function_exists( 'slugify' ) ) {
 		/**
 		 * Make a english or non-english string to a slug
