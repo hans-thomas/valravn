@@ -50,7 +50,7 @@
 		protected function registerRoute( string $uri, string $method, string $action ): void {
 			if ( in_array( $method, $this->methods ) ) {
 				$this->router->addRoute( $method, $uri, [ $this->controller, $action ] )
-				             ->name( "$this->name.{$this->getRouteNamePrefix()}." . Str::snake( $action ) );
+				             ->name( "$this->name.{$this->getRouteNamePrefix()}." . Str::snake( $action, '-' ) );
 			}
 			$this->resetStates();
 		}
