@@ -28,7 +28,7 @@
     namespace App\Http\Controllers\V1\Blog\Post;
 
     use App\DTOs\BatchUpdateDto;
-    use App\Exceptions\BaseException;
+    use App\Exceptions\ValravnException;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\V1\Blog\Post\PostBatchUpdateRequest;
     use App\Http\Requests\V1\Blog\Post\PostStoreRequest;
@@ -72,7 +72,7 @@
         /**
          * Display the specified resource.
          *
-         * @param int ${{CRUD::MODEL-lower}}
+         * @param int $post
          *
          * @return JsonResource
          */
@@ -99,7 +99,7 @@
          * @param PostBatchUpdateRequest $request
          *
          * @return ResourceCollection
-         * @throws BaseException
+         * @throws ValravnException
          */
         public function batchUpdate( PostBatchUpdateRequest $request ): ResourceCollection {
             return Post::getResourceCollection(
@@ -113,7 +113,7 @@
          * @param Post $post
          *
          * @return JsonResource
-         * @throws BaseException
+         * @throws ValravnException
          */
         public function destroy( Post $post ): JsonResource {
             return $this->service->delete( $post )->toResource();

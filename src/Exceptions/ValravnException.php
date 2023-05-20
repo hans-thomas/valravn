@@ -6,7 +6,7 @@
 	use Illuminate\Http\JsonResponse;
 	use Throwable;
 
-	class BaseException extends Exception {
+	class ValravnException extends Exception {
 		private int|string $errorCode;
 
 		public function __construct( string $message = "", int|string $errorCode = 0, int $responseCode = 500, Throwable $previous = null ) {

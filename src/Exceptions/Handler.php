@@ -75,7 +75,7 @@
 		}
 
 		/**
-		 * Convert the given exception to the BaseException class
+		 * Convert the given exception to the ValravnException class
 		 *
 		 * @param Throwable   $e
 		 * @param int         $defaultErrorCode
@@ -93,11 +93,11 @@
 				$errorCode = $defaultErrorCode;
 			}
 
-			return BaseException::make(
+			return ValravnException::make(
 				$message ? : $e->getMessage(),
 				$errorCode,
 				$responseCode ? : $e->getCode()
 			)
-			                    ->render();
+			                       ->render();
 		}
 	}

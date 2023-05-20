@@ -3,8 +3,8 @@
 	namespace Hans\Valravn\Repositories\Contracts;
 
 	use Hans\Valravn\DTOs\BatchUpdateDto;
-	use Hans\Valravn\Exceptions\BaseException;
-	use Hans\Valravn\Exceptions\Valravn\ValravnException;
+	use Hans\Valravn\Exceptions\ValravnException;
+	use Hans\Valravn\Exceptions\Package\PackageException;
 	use Illuminate\Auth\Access\AuthorizationException;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Database\Eloquent\Model;
@@ -250,7 +250,7 @@
 		 *
 		 * @return bool
 		 * @throws AuthorizationException
-		 * @throws BaseException
+		 * @throws ValravnException
 		 */
 		public function delete( Model|int $model ): bool {
 			$model = $this->resolveModel( $model );
@@ -262,7 +262,7 @@
 				$model->delete();
 				$this->deleted( $model );
 			} catch ( Throwable $e ) {
-				throw ValravnException::failedToDelete( $model );
+				throw PackageException::failedToDelete( $model );
 			}
 			DB::commit();
 

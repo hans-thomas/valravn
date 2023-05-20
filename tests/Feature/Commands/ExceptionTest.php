@@ -30,27 +30,27 @@
 
     namespace App\Exceptions\Blog\Post;
 
-    use App\Exceptions\BaseException;
+    use App\Exceptions\ValravnException;
     use Symfony\Component\HttpFoundation\Response;
 
-    class PostException extends BaseException {
+    class PostException extends ValravnException {
 
-        public static function failedToCreate(): BaseException {
+        public static function failedToCreate(): ValravnException {
             return self::make( "Failed to create the Post!", PostErrorCode::failedToCreate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToUpdate(): BaseException {
+        public static function failedToUpdate(): ValravnException {
             return self::make( "Failed to update the Post!", PostErrorCode::failedToUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToBatchUpdate(): BaseException {
+        public static function failedToBatchUpdate(): ValravnException {
             return self::make( "Failed to update the Post!", PostErrorCode::failedToBatchUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToDelete(): BaseException {
+        public static function failedToDelete(): ValravnException {
             return self::make( "Failed to delete the Post!", PostErrorCode::failedToDelete(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }

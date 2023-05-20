@@ -7,7 +7,7 @@
 	use Hans\Tests\Valravn\Instances\Repositories\SampleRepository;
 	use Hans\Tests\Valravn\TestCase;
 	use Hans\Valravn\DTOs\BatchUpdateDto;
-	use Hans\Valravn\Exceptions\BaseException;
+	use Hans\Valravn\Exceptions\ValravnException;
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Illuminate\Auth\Access\AuthorizationException;
 	use Illuminate\Support\Facades\Gate;
@@ -57,7 +57,7 @@
 		 *
 		 * @return void
 		 * @throws AuthorizationException
-		 * @throws BaseException
+		 * @throws ValravnException
 		 */
 		public function deleteAction(): void {
 			$model = Post::query()->first();

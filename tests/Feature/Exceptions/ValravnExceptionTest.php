@@ -3,19 +3,19 @@
 	namespace Hans\Tests\Valravn\Feature\Exceptions;
 
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\Exceptions\BaseException;
+	use Hans\Valravn\Exceptions\ValravnException;
 	use Symfony\Component\HttpFoundation\Response;
 
-	class BaseExceptionTest extends TestCase {
+	class ValravnExceptionTest extends TestCase {
 
 		/**
 		 * @test
 		 *
 		 * @return void
-		 * @throws BaseException
+		 * @throws ValravnException
 		 */
 		public function make(): void {
-			$exception = BaseException::make(
+			$exception = ValravnException::make(
 				"she was classy, now she is nasty.",
 				1009,
 				Response::HTTP_FORBIDDEN

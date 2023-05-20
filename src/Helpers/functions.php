@@ -1,7 +1,5 @@
 <?php
 
-	use Hans\Valravn\Exceptions\BaseException;
-	use Hans\Valravn\Exceptions\Valravn\ValravnException;
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
 	use Illuminate\Contracts\Auth\Authenticatable;

@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Valravn\Exceptions\Valravn;
+	namespace Hans\Valravn\Exceptions\Package;
 
 	use Hans\Valravn\Exceptions\ErrorCode;
 
-	class ValravnErrorCode extends ErrorCode {
+	class PackageErrorCode extends ErrorCode {
 		protected static string $prefix = 'ValravnECx';
 
 		protected int $failedToDelete = 1;

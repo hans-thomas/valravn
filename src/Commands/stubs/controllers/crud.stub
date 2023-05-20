@@ -3,7 +3,7 @@
     namespace App\Http\Controllers\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
 
     use App\DTOs\BatchUpdateDto;
-    use App\Exceptions\BaseException;
+    use App\Exceptions\ValravnException;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}BatchUpdateRequest;
     use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}StoreRequest;
@@ -74,7 +74,7 @@
          * @param {{CRUD::MODEL}}BatchUpdateRequest $request
          *
          * @return ResourceCollection
-         * @throws BaseException
+         * @throws ValravnException
          */
         public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): ResourceCollection {
             return {{CRUD::MODEL}}::getResourceCollection(
@@ -88,7 +88,7 @@
          * @param {{CRUD::MODEL}} ${{CRUD::MODEL-lower}}
          *
          * @return JsonResource
-         * @throws BaseException
+         * @throws ValravnException
          */
         public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): JsonResource {
             return $this->service->delete( ${{CRUD::MODEL-lower}} )->toResource();
