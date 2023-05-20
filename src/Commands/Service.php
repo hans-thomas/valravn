@@ -10,6 +10,7 @@
 	use Throwable;
 
 	class Service extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *
@@ -50,12 +51,6 @@
 			$singular  = Str::of( $this->argument( 'name' ) )->singular()->ucfirst()->toString();
 			$namespace = Str::of( $this->argument( 'namespace' ) )->ucfirst()->toString();
 
-			if ( ! $namespace ) {
-				$this->error( 'namespace is required!' );
-
-				return;
-			}
-
 			// crud service
 			$crudService = file_get_contents( __DIR__ . "/stubs/services/crud.stub" );
 			$crudService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $crudService );
@@ -70,7 +65,7 @@
 				$this->fs->write( "Services/$namespace/$singular/{$singular}RelationsService.php", $relationsService );
 			}
 
-			// relations service
+			// actions service
 			if ( $this->option( 'actions' ) ) {
 				$actionsService = file_get_contents( __DIR__ . "/stubs/services/actions.stub" );
 				$actionsService = Str::replace( "{{CRUD-SERVICE::NAMESPACE}}", $namespace, $actionsService );
