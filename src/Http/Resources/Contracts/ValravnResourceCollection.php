@@ -2,49 +2,16 @@
 
 	namespace Hans\Valravn\Http\Resources\Contracts;
 
+	use Countable;
+	use Hans\Valravn\Http\Resources\Traits\ResourceCollectionExtender;
 	use Hans\Valravn\Services\Includes\IncludingService;
 	use Hans\Valravn\Services\Queries\QueryingService;
-	use Countable;
 	use Illuminate\Database\Eloquent\Model;
-	use Illuminate\Http\JsonResponse;
 	use Illuminate\Http\Request;
-	use Illuminate\Http\Resources\CollectsResources;
-	use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
-	use Illuminate\Pagination\AbstractCursorPaginator;
-	use Illuminate\Pagination\AbstractPaginator;
-	use Illuminate\Support\Collection;
 	use IteratorAggregate;
 
 	abstract class ValravnResourceCollection extends ValravnJsonResource implements Countable, IteratorAggregate {
-		use CollectsResources;
-
-		/**
-		 * The resource that this resource collects.
-		 *
-		 * @var string
-		 */
-		public $collects;
-
-		/**
-		 * The mapped collection instance.
-		 *
-		 * @var Collection
-		 */
-		public $collection;
-
-		/**
-		 * Indicates if all existing request query parameters should be added to pagination links.
-		 *
-		 * @var bool
-		 */
-		protected $preserveAllQueryParameters = false;
-
-		/**
-		 * The query parameters that should be added to the pagination links.
-		 *
-		 * @var array|null
-		 */
-		protected $queryParameters;
+		use ResourceCollectionExtender;
 
 		/**
 		 * Create a new resource instance.
@@ -115,73 +82,6 @@
 		 */
 		protected function allLoaded(): void {
 			// ...
-		}
-
-		/**
-		 * Indicate that all current query parameters should be appended to pagination links.
-		 *
-		 * @return $this
-		 */
-		public function preserveQuery() {
-			$this->preserveAllQueryParameters = true;
-
-			return $this;
-		}
-
-		/**
-		 * Specify the query string parameters that should be present on pagination links.
-		 *
-		 * @param array $query
-		 *
-		 * @return $this
-		 */
-		public function withQuery( array $query ) {
-			$this->preserveAllQueryParameters = false;
-
-			$this->queryParameters = $query;
-
-			return $this;
-		}
-
-		/**
-		 * Return the count of items in the resource collection.
-		 *
-		 * @return int
-		 */
-		public function count(): int {
-			return $this->collection->count();
-		}
-
-		/**
-		 * Create an HTTP response that represents the object.
-		 *
-		 * @param Request $request
-		 *
-		 * @return JsonResponse
-		 */
-		public function toResponse( $request ) {
-			if ( $this->resource instanceof AbstractPaginator || $this->resource instanceof AbstractCursorPaginator ) {
-				return $this->preparePaginatedResponse( $request );
-			}
-
-			return parent::toResponse( $request );
-		}
-
-		/**
-		 * Create a paginate-aware HTTP response.
-		 *
-		 * @param Request $request
-		 *
-		 * @return JsonResponse
-		 */
-		protected function preparePaginatedResponse( $request ) {
-			if ( $this->preserveAllQueryParameters ) {
-				$this->resource->appends( $request->query() );
-			} elseif ( ! is_null( $this->queryParameters ) ) {
-				$this->resource->appends( $this->queryParameters );
-			}
-
-			return ( new PaginatedResourceResponse( $this ) )->toResponse( $request );
 		}
 
 	}
