@@ -30,9 +30,9 @@
     namespace App\Http\Resources\V1\Blog\Post;
 
     use Illuminate\Database\Eloquent\Model;
-    use App\Http\Resources\Contracts\BaseJsonResource;
+    use App\Http\Resources\Contracts\ValravnJsonResource;
 
-    class PostResource extends BaseJsonResource {
+    class PostResource extends ValravnJsonResource {
 
         /**
          * Extract attributes of the given model
@@ -62,8 +62,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $resource ),
-				$resource_file
+				$resource_file,
+				file_get_contents( $resource )
 			);
 
 			self::assertFileExists( $collection );
@@ -73,9 +73,9 @@
     namespace App\Http\Resources\V1\Blog\Post;
 
     use Illuminate\Database\Eloquent\Model;
-    use App\Http\Resources\Contracts\BaseResourceCollection;
+    use App\Http\Resources\Contracts\ValravnResourceCollection;
 
-    class PostCollection extends BaseResourceCollection {
+    class PostCollection extends ValravnResourceCollection {
 
         /**
          * Extract attributes of the given model
@@ -102,8 +102,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $collection ),
-				$collection_file
+				$collection_file,
+				file_get_contents( $collection )
 			);
 
 		}

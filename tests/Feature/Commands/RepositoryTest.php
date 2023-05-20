@@ -38,8 +38,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $contract ),
-				$contract_file
+				$contract_file,
+				file_get_contents( $contract )
 			);
 
 			self::assertFileExists( $repository );
@@ -63,8 +63,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $repository ),
-				$repository_file
+				$repository_file,
+				file_get_contents( $repository )
 			);
 
 		}

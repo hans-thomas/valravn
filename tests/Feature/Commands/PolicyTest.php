@@ -47,8 +47,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $file ),
-				$policy_file
+				$policy_file,
+				file_get_contents( $file )
 			);
 		}
 

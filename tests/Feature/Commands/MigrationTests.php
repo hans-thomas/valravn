@@ -56,8 +56,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $file ),
-				$actions_file
+				$actions_file,
+				file_get_contents( $file )
 			);
 
 		}

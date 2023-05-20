@@ -122,8 +122,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $file ),
-				$crud_file
+				$crud_file,
+				file_get_contents( $file )
 			);
 		}
 

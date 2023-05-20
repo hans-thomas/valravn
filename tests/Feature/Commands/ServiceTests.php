@@ -94,8 +94,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $crud ),
-				$crud_file
+				$crud_file,
+				file_get_contents( $crud )
 			);
 		}
 
@@ -137,8 +137,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $relations ),
-				$relations_file
+				$relations_file,
+				file_get_contents( $relations )
 			);
 
 		}
@@ -181,8 +181,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $actions ),
-				$actions_file
+				$actions_file,
+				file_get_contents( $actions )
 			);
 		}
 

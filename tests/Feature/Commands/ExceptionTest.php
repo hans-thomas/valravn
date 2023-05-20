@@ -59,8 +59,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $exception ),
-				$exception_file
+				$exception_file,
+				file_get_contents( $exception )
 			);
 
 			$error_code_file = '<?php
@@ -80,8 +80,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $errorCode ),
-				$error_code_file
+				$error_code_file,
+				file_get_contents( $errorCode )
 			);
 
 		}

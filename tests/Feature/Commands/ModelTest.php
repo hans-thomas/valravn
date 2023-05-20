@@ -83,8 +83,8 @@
 ';
 
 			self::assertEquals(
-				file_get_contents( $file ),
-				$model_file
+				$model_file,
+				file_get_contents( $file )
 			);
 		}
 
