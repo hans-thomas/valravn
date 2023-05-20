@@ -13,11 +13,46 @@
 	abstract class ValravnJsonResource extends JsonResource {
 		use InteractsWithRelations, InteractsWithPivots;
 
+		/**
+		 * Store extra data for resource
+		 *
+		 * @var array
+		 */
 		private array $extra = [];
+
+		/**
+		 * Determine should execute includes
+		 *
+		 * @var bool
+		 */
 		protected bool $includes = false;
-		protected bool $queries = false;
-		protected array $requested_queries = [];
+
+		/**
+		 * Keep requested includes to execute in the future
+		 *
+		 * @var array
+		 */
 		protected array $requested_includes = [];
+
+		/**
+		 * Determine should execute queries
+		 *
+		 * @var bool
+		 */
+		protected bool $queries = false;
+
+		/**
+		 * Keep requested queries to execute in the future
+		 *
+		 * @var array
+		 */
+		protected array $requested_queries = [];
+
+		/**
+		 * Keep requested eager loads to execute in the future
+		 *
+		 * @var array
+		 */
 		private array $requested_eager_loads = [];
 
 		/**
