@@ -21,6 +21,35 @@
 			Artisan::call( "valravn:policy blog posts" );
 
 			self::assertFileExists( $file );
+
+			$policy_file = '<?php
+
+    namespace App\Policies\Blog;
+
+    use App\Models\Blog\Post;
+    use App\Models\Core\User;
+    use App\Policies\Contracts\BasePolicy;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Collection;
+
+    class PostPolicy extends BasePolicy {
+
+        /**
+         * Set the related model class
+         *
+         * @return string
+         */
+        protected function getModel(): string {
+            return Post::class;
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $file ),
+				$policy_file
+			);
 		}
 
 	}

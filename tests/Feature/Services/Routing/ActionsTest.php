@@ -56,17 +56,17 @@
 					}
 				);
 			$this->getJson(
-				route( "samples.actions.action_with_params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
+				route( "samples.actions.action-with-params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
 			)
 			     ->assertOk();
-			$this->postJson( route( "samples.actions.action_with_no_param" ) )->assertOk();
+			$this->postJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 			self::assertEquals(
 				url( "samples/-actions/1/action-with-params/2/3" ),
-				route( "samples.actions.action_with_params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
+				route( "samples.actions.action-with-params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
 			);
 			self::assertEquals(
 				url( "samples/-actions/action-with-no-param" ),
-				route( "samples.actions.action_with_no_param" )
+				route( "samples.actions.action-with-no-param" )
 			);
 		}
 
@@ -84,7 +84,7 @@
 						$actions->get( 'action-with-no-param' );
 					}
 				);
-			$this->getJson( route( "samples.actions.action_with_no_param" ) )->assertOk();
+			$this->getJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 		}
 
 		/**
@@ -101,7 +101,7 @@
 						$actions->post( 'action-with-no-param' );
 					}
 				);
-			$this->postJson( route( "samples.actions.action_with_no_param" ) )->assertOk();
+			$this->postJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 		}
 
 		/**
@@ -118,7 +118,7 @@
 						$actions->patch( 'action-with-no-param' );
 					}
 				);
-			$this->patchJson( route( "samples.actions.action_with_no_param" ) )->assertOk();
+			$this->patchJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 		}
 
 		/**
@@ -135,7 +135,7 @@
 						$actions->delete( 'action-with-no-param' );
 					}
 				);
-			$this->deleteJson( route( "samples.actions.action_with_no_param" ) )->assertOk();
+			$this->deleteJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 		}
 
 	}

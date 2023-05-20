@@ -23,6 +23,43 @@
 			Artisan::call( "valravn:migration blog posts" );
 
 			self::assertFileExists( $file );
+
+			$actions_file = '<?php
+
+    use App\Models\Blog\Post;
+    use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
+
+    return new class extends Migration {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
+        public function up() {
+            Schema::create( Post::table(), function( Blueprint $table ) {
+                $table->id();
+                $table->timestamps();
+            } );
+        }
+
+        /**
+         * Reverse the migrations.
+         *
+         * @return void
+         */
+        public function down() {
+            Schema::dropIfExists( Post::table() );
+        }
+    };
+';
+
+			self::assertEquals(
+				file_get_contents( $file ),
+				$actions_file
+			);
+
 		}
 
 	}

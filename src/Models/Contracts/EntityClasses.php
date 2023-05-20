@@ -3,6 +3,7 @@
 	namespace Hans\Valravn\Models\Contracts;
 
 	use Hans\Valravn\Repositories\Contracts\Repository;
+	use Hans\Valravn\Services\Contracts\Service;
 
 	interface EntityClasses {
 
@@ -16,14 +17,14 @@
 		/**
 		 * Return related service class
 		 *
-		 * @return object
+		 * @return Service
 		 */
-		public function getService(): object;
+		public function getService(): Service; // TODO: should return Service contract
 
 		/**
 		 * Return related relations service class
 		 *
-		 * @return object
+		 * @return Service
 		 */
-		public function getRelationsService(): object;
+		public function getRelationsService(): Service; // TODO: should return Service contract
 	}

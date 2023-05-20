@@ -25,6 +25,65 @@
 
 			self::assertFileExists( $exception );
 			self::assertFileExists( $errorCode );
+
+			$exception_file = '<?php
+
+    namespace App\Exceptions\Blog\Post;
+
+    use App\Exceptions\BaseException;
+    use Symfony\Component\HttpFoundation\Response;
+
+    class PostException extends BaseException {
+
+        public static function failedToCreate(): BaseException {
+            return self::make( "Failed to create the Post!", PostErrorCode::failedToCreate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToUpdate(): BaseException {
+            return self::make( "Failed to update the Post!", PostErrorCode::failedToUpdate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToBatchUpdate(): BaseException {
+            return self::make( "Failed to update the Post!", PostErrorCode::failedToBatchUpdate(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        public static function failedToDelete(): BaseException {
+            return self::make( "Failed to delete the Post!", PostErrorCode::failedToDelete(),
+                Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $exception ),
+				$exception_file
+			);
+
+			$error_code_file = '<?php
+
+    namespace App\Exceptions\Blog\Post;
+
+    use App\Exceptions\ErrorCode;
+
+    class PostErrorCode extends ErrorCode {
+        protected static string $prefix = \'ECx\';
+
+        protected int $FAILED_TO_CREATE = 1;
+        protected int $FAILED_TO_UPDATE = 2;
+        protected int $FAILED_TO_BATCH_UPDATE = 3;
+        protected int $FAILED_TO_DELETE = 4;
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $errorCode ),
+				$error_code_file
+			);
+
 		}
 
 	}

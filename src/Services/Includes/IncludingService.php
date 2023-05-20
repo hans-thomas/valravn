@@ -12,6 +12,7 @@
 	use Illuminate\Support\Str;
 
 	class IncludingService {
+		// TODO: make this service singleton
 		private BaseJsonResource $resource;
 		private array $data = [];
 		private array $registeredActions = [
@@ -43,7 +44,7 @@
 
 			foreach ( $includes as $include ) {
 				$data = $this->parseInclude( $include );
-				if ( is_null( $data ) ) {
+				if ( is_null( $data ) ) { // TODO: condition is always false
 					continue;
 				}
 

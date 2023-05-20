@@ -22,6 +22,109 @@
 			Artisan::call( 'valravn:controller blog posts' );
 
 			self::assertFileExists( $file );
+
+			$crud_file = '<?php
+
+    namespace App\Http\Controllers\V1\Blog\Post;
+
+    use App\DTOs\BatchUpdateDto;
+    use App\Exceptions\BaseException;
+    use App\Http\Controllers\Controller;
+    use App\Http\Requests\V1\Blog\Post\PostBatchUpdateRequest;
+    use App\Http\Requests\V1\Blog\Post\PostStoreRequest;
+    use App\Http\Requests\V1\Blog\Post\PostUpdateRequest;
+    use App\Http\Resources\V1\Blog\Post\PostCollection;
+    use App\Http\Resources\V1\Blog\Post\PostResource;
+    use App\Models\Blog\Post;
+    use App\Services\Blog\Post\PostService;
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Illuminate\Http\Resources\Json\ResourceCollection;
+    use Throwable;
+
+    class PostCrudController extends Controller {
+        private PostService $service;
+
+        public function __construct() {
+            $this->service    = app( PostService::class );
+        }
+
+        /**
+         * Display a listing of the resource.
+         *
+         * @return ResourceCollection
+         */
+        public function index(): ResourceCollection {
+            return Post::getResourceCollection( $this->service->all() );
+        }
+
+        /**
+         * Store a newly created resource in storage.
+         *
+         * @param PostStoreRequest $request
+         *
+         * @return JsonResource
+         * @throws Throwable
+         */
+        public function store( PostStoreRequest $request ): JsonResource {
+            return $this->service->create( $request->validated() )->toResource();
+        }
+
+        /**
+         * Display the specified resource.
+         *
+         * @param int ${{CRUD::MODEL-lower}}
+         *
+         * @return JsonResource
+         */
+        public function show( int $post ): JsonResource {
+            return $this->service->find( $post )->toResource();
+        }
+
+        /**
+         * Update the specified resource in storage.
+         *
+         * @param PostUpdateRequest $request
+         * @param Post              $post
+         *
+         * @return JsonResource
+         * @throws Throwable
+         */
+        public function update( PostUpdateRequest $request, Post $post ): JsonResource {
+            return $this->service->update( $post, $request->validated() )->toResource();
+        }
+
+        /**
+         * Batch update the specified resource in storage.
+         *
+         * @param PostBatchUpdateRequest $request
+         *
+         * @return ResourceCollection
+         * @throws BaseException
+         */
+        public function batchUpdate( PostBatchUpdateRequest $request ): ResourceCollection {
+            return Post::getResourceCollection(
+                $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
+            );
+        }
+
+        /**
+         * Remove the specified resource from storage.
+         *
+         * @param Post $post
+         *
+         * @return JsonResource
+         * @throws BaseException
+         */
+        public function destroy( Post $post ): JsonResource {
+            return $this->service->delete( $post )->toResource();
+        }
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $file ),
+				$crud_file
+			);
 		}
 
 		/**

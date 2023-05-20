@@ -22,6 +22,81 @@
 			Artisan::call( "valravn:service blog posts" );
 
 			self::assertFileExists( $crud );
+
+			$crud_file = '<?php
+
+    namespace App\Services\Blog\Post;
+
+    use App\DTOs\BatchUpdateDto;
+    use App\Exceptions\Blog\Post\PostException;
+    use App\Models\Blog\Post;
+    use App\Repositories\Contracts\Blog\IPostRepository;
+    use Hans\Valravn\Services\Contracts\Service;
+    use Illuminate\Contracts\Pagination\Paginator;
+    use Illuminate\Support\Facades\DB;
+    use Throwable;
+
+    class PostService extends Service {
+        private IPostRepository $repository;
+
+        public function __construct() {
+            $this->repository = app( IPostRepository::class );
+        }
+
+        public function all(): Paginator {
+            return $this->repository->all()->applyFilters()->paginate();
+        }
+
+        public function create( array $data ): Post {
+            DB::beginTransaction();
+            try {
+                throw_unless( $model = $this->repository->create( $data ), PostException::failedToCreate() );
+            } catch ( Throwable $e ) {
+                DB::rollBack();
+                throw $e;
+            }
+            DB::commit();
+
+            return $model;
+        }
+
+        public function find( int $model ): Post {
+            return $this->repository->find( $model );
+        }
+
+        public function update( Post $model, array $data ): Post {
+            if ( $this->repository->update( $model, $data ) ) {
+                return $model;
+            }
+
+            throw PostException::failedToUpdate();
+        }
+
+        public function batchUpdate( BatchUpdateDto $dto ): Paginator {
+            if ( $this->repository->batchUpdate( $dto ) ) {
+                return $this->repository->all()
+                                        ->whereIn( \'id\', $dto->getData()->pluck( \'id\' ) )
+                                        ->applyFilters()
+                                        ->paginate();
+            }
+
+            throw PostException::failedToBatchUpdate();
+        }
+
+        public function delete( Post $model ): Post {
+            if ( $this->repository->delete( $model ) ) {
+                return $model;
+            }
+
+            throw PostException::failedToDelete();
+        }
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $crud ),
+				$crud_file
+			);
 		}
 
 		/**
@@ -38,6 +113,34 @@
 			Artisan::call( "valravn:service blog posts -r" );
 
 			self::assertFileExists( $relations );
+
+			$relations_file = '<?php
+
+    namespace App\Services\Blog\Post;
+
+    use App\Exceptions\Blog\Post\PostException;
+    use App\Models\Blog\Post;
+    use App\Repositories\Contracts\Blog\IPostRepository;
+    use Hans\Valravn\Services\Contracts\Service;
+    use Illuminate\Contracts\Pagination\Paginator;
+    use Illuminate\Support\Facades\DB;
+    use Throwable;
+
+    class PostRelationsService extends Service {
+        private IPostRepository $repository;
+
+        public function __construct() {
+            $this->repository = app( IPostRepository::class );
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $relations ),
+				$relations_file
+			);
+
 		}
 
 		/**
@@ -54,6 +157,33 @@
 			Artisan::call( "valravn:service blog posts -a" );
 
 			self::assertFileExists( $actions );
+
+			$actions_file = '<?php
+
+    namespace App\Services\Blog\Post;
+
+    use App\Exceptions\Blog\Post\PostException;
+    use App\Models\Blog\Post;
+    use App\Repositories\Contracts\Blog\IPostRepository;
+    use Hans\Valravn\Services\Contracts\Service;
+    use Illuminate\Contracts\Pagination\Paginator;
+    use Illuminate\Support\Facades\DB;
+    use Throwable;
+
+    class PostActionsService extends Service {
+        private IPostRepository $repository;
+
+        public function __construct() {
+            $this->repository = app( IPostRepository::class );
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $actions ),
+				$actions_file
+			);
 		}
 
 	}

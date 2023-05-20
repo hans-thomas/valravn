@@ -52,7 +52,7 @@
 			$migrationStub = file_get_contents( __DIR__ . '/stubs/migrations/migration.stub' );
 			$migrationStub = Str::replace(
 				"{{MODEL::NAMESPACE}}",
-				"App\\Models\\$namespace\\$singular",
+				$namespace,
 				$migrationStub
 			);
 			$migrationStub = Str::replace( "{{MODEL::CLASS}}", $singular, $migrationStub );

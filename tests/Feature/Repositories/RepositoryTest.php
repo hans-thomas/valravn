@@ -9,7 +9,9 @@
 	use Hans\Valravn\DTOs\BatchUpdateDto;
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Illuminate\Auth\Access\AuthorizationException;
+	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Support\Facades\Gate;
 
 	class RepositoryTest extends TestCase {
 		private Repository $repository;
@@ -29,27 +31,33 @@
 		 * @return void
 		 */
 		public function shouldAuthorizeAsDefault(): void {
-			self::assertTrue( app( SampleRepository::class )->shouldAuthorize() );
+			Gate::shouldReceive( 'authorize' )
+			    ->once();
+			app( SampleRepository::class )->all();
 		}
 
 		/**
 		 * @test
 		 *
 		 * @return void
+		 * @throws AuthorizationException
 		 */
 		public function shouldAuthorizeAsDisabled(): void {
 			$this->repository->disableAuthorization();
-			self::assertFalse( $this->repository->shouldAuthorize() );
+			self::assertInstanceOf( Builder::class, $this->repository->all() );
 		}
 
 		/**
 		 * @test
 		 *
 		 * @return void
+		 * @throws AuthorizationException
 		 */
 		public function shouldAuthorizeAsEnabled(): void {
 			$this->repository->disableAuthorization()->enableAuthorization();
-			self::assertTrue( $this->repository->shouldAuthorize() );
+			Gate::shouldReceive( 'authorize' )
+			    ->once();
+			$this->repository->all();
 		}
 
 		/**

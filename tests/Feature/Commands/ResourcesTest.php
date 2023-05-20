@@ -24,7 +24,88 @@
 			Artisan::call( "valravn:resources blog posts" );
 
 			self::assertFileExists( $resource );
+
+			$resource_file = '<?php
+
+    namespace App\Http\Resources\V1\Blog\Post;
+
+    use Illuminate\Database\Eloquent\Model;
+    use App\Http\Resources\Contracts\BaseJsonResource;
+
+    class PostResource extends BaseJsonResource {
+
+        /**
+         * Extract attributes of the given model
+         * if null returned, the parent::toArray method called by default
+         *
+         * @param Model $model
+         *
+         * @return array|null
+         */
+        public function extract( Model $model ): ?array {
+            return [
+                \'id\' => $model->id,
+                //
+            ];
+        }
+
+        /**
+         * Specify the type of your resource
+         *
+         * @return string
+         */
+        public function type(): string {
+            return \'posts\';
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $resource ),
+				$resource_file
+			);
+
 			self::assertFileExists( $collection );
+
+			$collection_file = '<?php
+
+    namespace App\Http\Resources\V1\Blog\Post;
+
+    use Illuminate\Database\Eloquent\Model;
+    use App\Http\Resources\Contracts\BaseResourceCollection;
+
+    class PostCollection extends BaseResourceCollection {
+
+        /**
+         * Extract attributes of the given model
+         * if null returned, the parent::toArray method called by default
+         *
+         * @param Model $model
+         *
+         * @return array|null
+         */
+        public function extract( Model $model ): ?array {
+            return null;
+        }
+
+        /**
+         * Specify the type of your resource
+         *
+         * @return string
+         */
+        public function type(): string {
+            return \'posts\';
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $collection ),
+				$collection_file
+			);
+
 		}
 
 		/**

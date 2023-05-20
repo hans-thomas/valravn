@@ -24,7 +24,49 @@
 			Artisan::call( "valravn:repository blog posts" );
 
 			self::assertFileExists( $contract );
+
+			$contract_file = '<?php
+
+    namespace App\Repositories\Contracts\Blog;
+
+    use App\Models\Blog\Post;
+    use App\Repositories\Contracts\Repository;
+
+    abstract class IPostRepository extends Repository {
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $contract ),
+				$contract_file
+			);
+
 			self::assertFileExists( $repository );
+
+			$repository_file = '<?php
+
+    namespace App\Repositories\Blog;
+
+    use App\Models\Blog\Post;
+    use App\Repositories\Contracts\Blog\IPostRepository;
+    use Illuminate\Contracts\Database\Eloquent\Builder;
+    use Illuminate\Support\Facades\Gate;
+
+    class PostRepository extends IPostRepository {
+
+        protected function getQueryBuilder(): Builder {
+            return Post::query();
+        }
+
+    }
+';
+
+			self::assertEquals(
+				file_get_contents( $repository ),
+				$repository_file
+			);
+
 		}
 
 	}
