@@ -34,7 +34,6 @@
 			$this->service  = app( IncludingService::class, [ 'resource' => $this->resource ] );
 		}
 
-
 		/**
 		 * @test
 		 *
@@ -47,6 +46,20 @@
 					CategoriesIncludes::class => [],
 					CommentsIncludes::class   => []
 				],
+				$this->resource->getRequestedIncludes()
+			);
+
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function getRequestedIncludesAsNotLoadableRelations(): void {
+			$this->service->registerIncludesUsingQueryString( "users" );
+			self::assertEquals(
+				[],
 				$this->resource->getRequestedIncludes()
 			);
 

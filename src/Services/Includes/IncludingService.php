@@ -44,7 +44,7 @@
 
 			foreach ( $includes as $include ) {
 				$data = $this->parseInclude( $include );
-				if ( is_null( $data ) ) { // TODO: condition is always false
+				if ( is_null( $data[ 'relation' ] ) ) {
 					continue;
 				}
 
@@ -71,13 +71,16 @@
 		}
 
 		public function parseInclude( string $include ): array {
-			$relation           = Str::of( $include )->before( ':' )->before( '.' )->toString();
-			$data[ 'relation' ] = $relation;
+			$data[ 'relation' ] = null;
 			$data[ 'actions' ]  = [];
 			$data[ 'nested' ]   = [];
+
+			$relation = Str::of( $include )->before( ':' )->before( '.' )->toString();
 			if ( ! key_exists( $relation, $this->getAvailableIncludes() ) ) {
 				return $data;
 			}
+			$data[ 'relation' ] = $relation;
+
 			// nested data
 			$nested           = Str::of( $include )
 			                       ->substr( Str::of( $include )->before( '.' )->length() )
