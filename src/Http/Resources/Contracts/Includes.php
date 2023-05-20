@@ -42,9 +42,9 @@
 		/**
 		 * Convert processed builder instance to a resource class
 		 *
-		 * @return BaseJsonResource
+		 * @return ValravnJsonResource
 		 */
-		abstract public function toResource(): BaseJsonResource;
+		abstract public function toResource(): ValravnJsonResource;
 
 		/**
 		 * Apply the custom logic and store in builder

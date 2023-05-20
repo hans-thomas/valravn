@@ -15,11 +15,11 @@
 		/**
 		 * Implement a custom logic
 		 *
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 *
 		 * @return array
 		 */
-		abstract public function apply( BaseJsonResource $resource ): array;
+		abstract public function apply( ValravnJsonResource $resource ): array;
 
 		/**
 		 * Create an instance in static way
@@ -33,11 +33,11 @@
 		/**
 		 * Apply the custom logic and store processed data
 		 *
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 *
 		 * @return $this
 		 */
-		public function run( BaseJsonResource $resource ): self {
+		public function run( ValravnJsonResource $resource ): self {
 			$this->data = $this->apply( $resource );
 
 			return $this;
@@ -46,11 +46,11 @@
 		/**
 		 * Merge processed data to a resource class
 		 *
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 *
 		 * @return void
 		 */
-		public function mergeDataInto( BaseJsonResource $resource ): void {
+		public function mergeDataInto( ValravnJsonResource $resource ): void {
 			$resource->addAdditional( $this->getData() );
 		}
 

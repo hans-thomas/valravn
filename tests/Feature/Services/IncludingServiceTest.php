@@ -9,7 +9,7 @@
 	use Hans\Tests\Valravn\Instances\Http\Includes\CategoriesIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Services\Includes\Actions\LimitAction;
 	use Hans\Valravn\Services\Includes\IncludingService;
 	use Illuminate\Support\Collection;
@@ -18,7 +18,7 @@
 
 		private Collection $posts;
 		private IncludingService $service;
-		private BaseJsonResource $resource;
+		private ValravnJsonResource $resource;
 
 		/**
 		 * @return void

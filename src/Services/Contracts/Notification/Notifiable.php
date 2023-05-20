@@ -2,7 +2,7 @@
 
 	namespace Hans\Valravn\Services\Contracts\Notification;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -60,7 +60,7 @@
 		/**
 		 * Return an entity that relates to the model
 		 *
-		 * @return BaseJsonResource|null
+		 * @return ValravnJsonResource|null
 		 */
-		abstract protected function getRelatedEntity(): ?BaseJsonResource;
+		abstract protected function getRelatedEntity(): ?ValravnJsonResource;
 	}

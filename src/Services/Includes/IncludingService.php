@@ -2,7 +2,7 @@
 
 	namespace Hans\Valravn\Services\Includes;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\Includes;
 	use Hans\Valravn\Services\Includes\Actions\LimitAction;
 	use Hans\Valravn\Services\Includes\Actions\OrderAction;
@@ -12,14 +12,14 @@
 	use Illuminate\Support\Str;
 
 	class IncludingService {
-		private BaseJsonResource $resource;
+		private ValravnJsonResource $resource;
 		private array $data = [];
 		private array $registeredActions;
 
 		/**
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 */
-		public function __construct( BaseJsonResource $resource ) {
+		public function __construct( ValravnJsonResource $resource ) {
 			$this->resource          = $resource;
 			$this->registeredActions = valravn_config( 'actions' );
 		}

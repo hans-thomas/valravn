@@ -3,10 +3,10 @@
 	namespace Hans\Tests\Valravn\Core\Resources\Category;
 
 	use Hans\Tests\Valravn\Instances\Http\Includes\PostsIncludes;
-	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
 
-	class CategoryCollection extends BaseResourceCollection {
+	class CategoryCollection extends ValravnResourceCollection {
 		/**
 		 * @return array
 		 */

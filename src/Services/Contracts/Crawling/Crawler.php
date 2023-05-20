@@ -2,8 +2,8 @@
 
 	namespace Hans\Valravn\Services\Contracts\Crawling;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
-	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Hans\Valravn\Http\Resources\Extentions\Crawler\CrawlerCollection;
 	use GuzzleHttp\Exception\RequestException;
 	use Psr\Http\Message\UriInterface;
@@ -48,9 +48,9 @@
 		/**
 		 * Make a response using crawled data
 		 *
-		 * @return BaseResourceCollection|BaseJsonResource
+		 * @return ValravnResourceCollection|ValravnJsonResource
 		 */
-		public function toResponse(): BaseResourceCollection|BaseJsonResource {
+		public function toResponse(): ValravnResourceCollection|ValravnJsonResource {
 			return CrawlerCollection::make( $this->getContent() )->addAdditional( $this->additional );
 		}
 

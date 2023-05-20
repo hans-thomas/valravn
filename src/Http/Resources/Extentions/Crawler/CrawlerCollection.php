@@ -2,10 +2,10 @@
 
     namespace Hans\Valravn\Http\Resources\Extentions\Crawler;
 
-    use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
     use Illuminate\Database\Eloquent\Model;
 
-    class CrawlerCollection extends BaseResourceCollection {
+    class CrawlerCollection extends ValravnResourceCollection {
 
         /**
          * Extract attributes of the given resource

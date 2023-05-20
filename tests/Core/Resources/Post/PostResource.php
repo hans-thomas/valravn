@@ -6,10 +6,10 @@
 	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCategoryQuery;
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class PostResource extends BaseJsonResource {
+	class PostResource extends ValravnJsonResource {
 
 		/**
 		 * List of available queries of this resource

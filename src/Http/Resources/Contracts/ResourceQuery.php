@@ -48,12 +48,12 @@
 		/**
 		 * Merge processed data to given array
 		 *
-		 * @param BaseJsonResource $resource
-		 * @param array            $data
+		 * @param ValravnJsonResource $resource
+		 * @param array               $data
 		 *
 		 * @return void
 		 */
-		public function mergeDataInto( BaseJsonResource $resource, array &$data ): void {
+		public function mergeDataInto( ValravnJsonResource $resource, array &$data ): void {
 			$data = array_merge( $data, $this->getData() );
 		}
 

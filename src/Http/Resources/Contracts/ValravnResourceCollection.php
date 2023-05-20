@@ -15,7 +15,7 @@
 	use Illuminate\Support\Collection;
 	use IteratorAggregate;
 
-	abstract class BaseResourceCollection extends BaseJsonResource implements Countable, IteratorAggregate {
+	abstract class ValravnResourceCollection extends ValravnJsonResource implements Countable, IteratorAggregate {
 		use CollectsResources;
 
 		/**
@@ -71,7 +71,7 @@
 				->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() );
 
 			// TODO: error possibility: $item might be a Model instance if there was not any resource class
-			$response = $this->collection->map( function( BaseJsonResource $item ) use ( $request ) {
+			$response = $this->collection->map( function( ValravnJsonResource $item ) use ( $request ) {
 				$extracted = $this->extract( $item->resource ) ? : $item->extract( $item->resource ) ? : $item->resource->toArray();
 				$data      = array_merge( [ 'type' => $this->type() ], $extracted );
 

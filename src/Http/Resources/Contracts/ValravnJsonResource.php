@@ -10,7 +10,7 @@
 	use Illuminate\Http\Request;
 	use Illuminate\Http\Resources\Json\JsonResource;
 
-	abstract class BaseJsonResource extends JsonResource {
+	abstract class ValravnJsonResource extends JsonResource {
 		use InteractsWithRelations, InteractsWithPivots;
 
 		private array $extra = [];

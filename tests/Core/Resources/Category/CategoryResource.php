@@ -2,10 +2,10 @@
 
 	namespace Hans\Tests\Valravn\Core\Resources\Category;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class CategoryResource extends BaseJsonResource {
+	class CategoryResource extends ValravnJsonResource {
 
 		/**
 		 * @param Model $model

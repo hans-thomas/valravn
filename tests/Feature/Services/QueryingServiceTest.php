@@ -17,17 +17,17 @@
 	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Tests\Valravn\Instances\Services\QueryingServiceProxy;
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
-	use Hans\Valravn\Http\Resources\Contracts\BaseResourceCollection;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Support\Collection;
 
 	class QueryingServiceTest extends TestCase {
 
 		private Collection $posts;
 		private QueryingServiceProxy $serviceCollection;
-		private BaseResourceCollection $collection;
+		private ValravnResourceCollection $collection;
 		private QueryingServiceProxy $serviceResource;
-		private BaseJsonResource $resource;
+		private ValravnJsonResource $resource;
 
 		/**
 		 * @return void

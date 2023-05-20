@@ -3,10 +3,10 @@
 	namespace Hans\Tests\Valravn\Core\Resources\Comment;
 
 	use Hans\Tests\Valravn\Instances\Http\Includes\PostIncludes;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class CommentResource extends BaseJsonResource {
+	class CommentResource extends ValravnJsonResource {
 
 		/**
 		 * @return array

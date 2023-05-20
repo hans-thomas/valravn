@@ -5,7 +5,7 @@
 	use Hans\Tests\Valravn\Core\Models\Post;
 	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
 	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Contracts\Console\Kernel;
 	use Illuminate\Contracts\Filesystem\Filesystem;
@@ -115,7 +115,7 @@
 			);
 		}
 
-		public function resourceToJson( BaseJsonResource $resource ): array {
+		public function resourceToJson( ValravnJsonResource $resource ): array {
 			return json_decode(
 				$resource->toResponse( request() )->content(),
 				true

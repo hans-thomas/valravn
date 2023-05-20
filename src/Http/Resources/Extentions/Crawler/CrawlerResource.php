@@ -2,10 +2,10 @@
 
     namespace Hans\Valravn\Http\Resources\Extentions\Crawler;
 
-    use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
     use Illuminate\Database\Eloquent\Model;
 
-    class CrawlerResource extends BaseJsonResource {
+    class CrawlerResource extends ValravnJsonResource {
 
         /**
          * Extract attributes of the given resource

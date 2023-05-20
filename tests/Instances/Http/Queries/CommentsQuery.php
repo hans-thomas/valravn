@@ -5,7 +5,7 @@
 	use Hans\Tests\Valravn\Core\Models\Comment;
 	use Hans\Tests\Valravn\Core\Models\Post;
 	use Hans\Tests\Valravn\Core\Resources\Comment\CommentCollection;
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 	use Illuminate\Http\Resources\Json\JsonResource;
 	use Illuminate\Support\Collection;
@@ -13,11 +13,11 @@
 	class CommentsQuery extends CollectionQuery {
 
 		/**
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 *
 		 * @return array
 		 */
-		public function apply( BaseJsonResource $resource ): array {
+		public function apply( ValravnJsonResource $resource ): array {
 			$ids = $resource->resource instanceof Collection ?
 				$resource->resource->map( fn( $value ) => [ 'id' => $value->id ] )->flatten() :
 				[ $resource->resource->id ];

@@ -2,10 +2,10 @@
 
 	namespace Hans\Tests\Valravn\Instances\Http\Resources;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 
-	class SampleWithCollectionDefaultExtractResource extends BaseJsonResource {
+	class SampleWithCollectionDefaultExtractResource extends ValravnJsonResource {
 
 		/**
 		 * @param Model $model

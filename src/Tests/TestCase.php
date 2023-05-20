@@ -2,7 +2,7 @@
 
 	namespace Hans\Valravn\Tests;
 
-	use Hans\Valravn\Http\Resources\Contracts\BaseJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Foundation\Testing\RefreshDatabase;
 	use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 	use Illuminate\Foundation\Testing\WithFaker;
@@ -70,11 +70,11 @@
 		/**
 		 * Convert resource class to an array
 		 *
-		 * @param BaseJsonResource $resource
+		 * @param ValravnJsonResource $resource
 		 *
 		 * @return array
 		 */
-		public function resourceToJson( BaseJsonResource $resource ): array {
+		public function resourceToJson( ValravnJsonResource $resource ): array {
 			return json_decode(
 				$resource->toResponse( request() )->content(),
 				true
