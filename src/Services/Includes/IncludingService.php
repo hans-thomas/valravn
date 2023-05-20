@@ -12,20 +12,16 @@
 	use Illuminate\Support\Str;
 
 	class IncludingService {
-		// TODO: make this service singleton
 		private BaseJsonResource $resource;
 		private array $data = [];
-		private array $registeredActions = [
-			'select' => SelectAction::class,
-			'order'  => OrderAction::class,
-			'limit'  => LimitAction::class,
-		];
+		private array $registeredActions;
 
 		/**
 		 * @param BaseJsonResource $resource
 		 */
 		public function __construct( BaseJsonResource $resource ) {
-			$this->resource = $resource;
+			$this->resource          = $resource;
+			$this->registeredActions = valravn_config( 'actions' );
 		}
 
 		/**
@@ -160,17 +156,5 @@
 		public function getRegisteredActions(): array {
 			return $this->registeredActions;
 		}
-
-		/**
-		 * @param array $actions
-		 *
-		 * @return self
-		 */
-		public function registerActions( array $actions ): self {
-			$this->registeredActions = array_merge( $this->getRegisteredActions(), $actions );
-
-			return $this;
-		}
-
 
 	}
