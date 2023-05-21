@@ -14,4 +14,12 @@
 				Response::HTTP_INTERNAL_SERVER_ERROR
 			);
 		}
+
+		public static function invalidEntity( string $entity ): ValravnException {
+			return self::make(
+				"Invalid entity class for resolving to model. [$entity]",
+				PackageErrorCode::invalidEntity(),
+				Response::HTTP_INTERNAL_SERVER_ERROR
+			);
+		}
 	}

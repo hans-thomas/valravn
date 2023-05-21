@@ -1,7 +1,8 @@
 <?php
 
+	use Hans\Valravn\Exceptions\Package\PackageException;
+	use Hans\Valravn\Exceptions\ValravnException;
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
-	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
 	use Illuminate\Contracts\Auth\Authenticatable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,27 +36,24 @@
 		/**
 		 * Resolve the given id to a related model
 		 *
-		 * @param int        $related
-		 * @param string     $entity
-		 * @param array|null $allowedEntities
+		 * @param int    $related
+		 * @param string $entity
 		 *
 		 * @return Model|false
+		 * @throws ValravnException
 		 */
-		function resolveRelatedIdToModel( int $related, string $entity, array $allowedEntities = null ): Model|false {
-			// TODO: unnecessary allowedEntities param
-			if ( ! is_null( $allowedEntities ) and in_array( $entity, array_keys( $allowedEntities ) ) ) {
-				$query = ( new $allowedEntities[ $entity ] )->query();
-				IncludeFilter::make()->apply( $query, request( 'include_filter' ) );
-
-				return $query->findOrFail( $related );
-			} elseif ( is_null( $allowedEntities ) and class_exists( $entity ) ) {
-				$query = ( new $entity )->query();
-				IncludeFilter::make()->apply( $query, request( 'include_filter' ) );
-
-				return $query->findOrFail( $related );
+		function resolveRelatedIdToModel( int $related, string $entity ): Model|false {
+			if ( ! ( class_exists( $entity ) and is_a( $entity, Model::class, true ) ) ) {
+				throw PackageException::invalidEntity( $entity );
 			}
 
-			return false;
+			try {
+				$model = ( new $entity )->query()->applyFilters()->findOrFail( $related );
+			} catch ( Throwable $e ) {
+				return false;
+			}
+
+			return $model;
 		}
 	}
 

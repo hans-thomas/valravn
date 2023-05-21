@@ -8,5 +8,6 @@
 		protected static string $prefix = 'ValravnECx';
 
 		protected int $failedToDelete = 1;
+		protected int $invalidEntity = 2;
 
 	}
