@@ -28,11 +28,11 @@
 
     use App\Models\Blog\Post;
     use App\Models\Core\User;
-    use App\Policies\Contracts\BasePolicy;
+    use App\Policies\Contracts\ValravnPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
-    class PostPolicy extends BasePolicy {
+    class PostPolicy extends ValravnPolicy {
 
         /**
          * Set the related model class

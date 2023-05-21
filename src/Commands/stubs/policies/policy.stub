@@ -4,11 +4,11 @@
 
     use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
     use App\Models\Core\User;
-    use App\Policies\Contracts\BasePolicy;
+    use App\Policies\Contracts\ValravnPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
-    class {{POLICY::MODEL}}Policy extends BasePolicy {
+    class {{POLICY::MODEL}}Policy extends ValravnPolicy {
 
         /**
          * Set the related model class

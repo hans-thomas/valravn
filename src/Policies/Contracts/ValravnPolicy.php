@@ -8,25 +8,25 @@
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
-    abstract class BasePolicy {
-        use HandlesAuthorization, PolicyHelperTrait;
+    abstract class ValravnPolicy {
+	    use HandlesAuthorization, PolicyHelperTrait;
 
-        /**
-         * Set the related model class
-         *
-         * @return string
-         */
-        abstract protected function getModel(): string;
+	    /**
+	     * Set the related model class
+	     *
+	     * @return string
+	     */
+	    abstract protected function getModel(): string;
 
-        /**
-         * Determine whether the user can view any models.
-         *
-         * @param Authenticatable $user
-         *
-         * @return bool
-         */
-        public function viewAny( Authenticatable $user ): bool {
-            return $user->can( $this->guessAbility() );
+	    /**
+	     * Determine whether the user can view any models.
+	     *
+	     * @param Authenticatable $user
+	     *
+	     * @return bool
+	     */
+	    public function viewAny( Authenticatable $user ): bool {
+		    return $user->can( $this->guessAbility() );
         }
 
         /**
