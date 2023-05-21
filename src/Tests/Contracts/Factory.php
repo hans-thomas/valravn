@@ -53,7 +53,7 @@
 		}
 
 		/**
-		 * Create an instance statically
+		 * Create an instance
 		 *
 		 * @param array $data
 		 *
@@ -64,7 +64,7 @@
 		}
 
 		/**
-		 * Create an instance statically but don't store
+		 * Create an instance but don't store
 		 *
 		 * @param int|null $count
 		 * @param array    $data
@@ -91,7 +91,7 @@
 		}
 
 		/**
-		 * Return related model
+		 * Return created model
 		 *
 		 * @return Model
 		 */
