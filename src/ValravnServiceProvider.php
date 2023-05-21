@@ -4,9 +4,9 @@
 	namespace Hans\Valravn;
 
 
-	use Hans\Valravn\Commands\Entity;
 	use Hans\Valravn\Commands\Controller;
 	use Hans\Valravn\Commands\Controllers;
+	use Hans\Valravn\Commands\Entity;
 	use Hans\Valravn\Commands\Exception;
 	use Hans\Valravn\Commands\Migration;
 	use Hans\Valravn\Commands\Model;
@@ -69,21 +69,19 @@
 		 * @return void
 		 */
 		protected function registerCommands() {
-			if ( $this->app->runningInConsole() ) {
-				$this->commands( [
-					Entity::class,
-					Controller::class,
-					Controllers::class,
-					Exception::class,
-					Migration::class,
-					Model::class,
-					Policy::class,
-					Repository::class,
-					Requests::class,
-					Resources::class,
-					Service::class,
-				] );
-			}
+			$this->commands( [
+				Entity::class,
+				Controller::class,
+				Controllers::class,
+				Exception::class,
+				Migration::class,
+				Model::class,
+				Policy::class,
+				Repository::class,
+				Requests::class,
+				Resources::class,
+				Service::class,
+			] );
 		}
 
 		protected function registerPublishes() {
