@@ -3,9 +3,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/hans-thomas/valravn)
 ![GitHub repo size](https://img.shields.io/github/repo-size/hans-thomas/valravn)
-![Lines of code](https://img.shields.io/tokei/lines/github/hans-thomas/valravn)
-
-[//]: # (![GitHub release &#40;latest by date&#41;]&#40;https://img.shields.io/github/downloads/hans-thomas/valravn/latest/total&#41;)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/hans-thomas/valravn)
 
 ## What is it
 
