@@ -2,8 +2,8 @@
 
 	namespace Hans\Valravn\Services\Caching;
 
-	use Hans\Valravn\Services\Contracts\Service;
 	use BadMethodCallException;
+	use Hans\Valravn\Services\Contracts\Service;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Arr;
@@ -19,13 +19,31 @@
 		private const genesisTS = 919542600;
 
 		/**
+		 * Service instance that results should cache
+		 *
+		 * @var Service
+		 */
+		private Service $service;
+
+		/**
 		 * Default interval
 		 *
 		 * @var int
 		 */
 		private int $interval = 15;
 
-		public function __construct( private Service $service, private Request $request ) { }
+		public function __construct( private Request $request ) { }
+
+		/**
+		 * Cache the given data
+		 *
+		 * @param mixed $data
+		 *
+		 * @return mixed
+		 */
+		public function cache( mixed $data ): mixed {
+			return $this->remember( 'cache', [ $data ], fn() => $data );
+		}
 
 		/**
 		 * Cache the returned data from callback
@@ -65,9 +83,10 @@
 					$keys[] = $param;
 				}
 			}
-			$key = implode( ',', Arr::wrap( $keys ) );
+			$key           = implode( ',', Arr::wrap( $keys ) );
+			$service_class = isset( $this->service ) ? get_class( $this->service ) : 'given-data:' . md5( $key );
 
-			return get_class( $this->service ) . ":$method:($key)[{$this->request->getQueryString()}]";
+			return "$service_class:$method:($key)[{$this->request->getQueryString()}]";
 		}
 
 		/**
@@ -100,6 +119,12 @@
 		 */
 		public function setInterval( int $minutes ): self {
 			$this->interval = $minutes;
+
+			return $this;
+		}
+
+		public function setService( Service $service ): self {
+			$this->service = $service;
 
 			return $this;
 		}
