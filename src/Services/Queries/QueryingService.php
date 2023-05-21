@@ -2,9 +2,9 @@
 
 	namespace Hans\Valravn\Services\Queries;
 
-	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 	use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Support\Str;
 

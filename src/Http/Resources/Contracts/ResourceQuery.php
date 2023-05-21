@@ -3,7 +3,6 @@
 	namespace Hans\Valravn\Http\Resources\Contracts;
 
 	use Illuminate\Database\Eloquent\Model;
-	use Illuminate\Http\Resources\Json\JsonResource;
 
 	abstract class ResourceQuery {
 

@@ -4,7 +4,6 @@
 
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
-	use Illuminate\Http\Resources\Json\JsonResource;
 
 	abstract class Notifiable {
 

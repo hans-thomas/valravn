@@ -2,15 +2,6 @@
 
 	namespace Hans\Valravn\Services\Filtering;
 
-	use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
-	use Hans\Valravn\Services\Filtering\Filters\OrderFilter;
-	use Hans\Valravn\Services\Filtering\Filters\OrderPivotFilter;
-	use Hans\Valravn\Services\Filtering\Filters\OrWhereRelationFilter;
-	use Hans\Valravn\Services\Filtering\Filters\OrWhereRelationLikeFilter;
-	use Hans\Valravn\Services\Filtering\Filters\WhereFilter;
-	use Hans\Valravn\Services\Filtering\Filters\WherePivotFilter;
-	use Hans\Valravn\Services\Filtering\Filters\WhereRelationFilter;
-	use Hans\Valravn\Services\Filtering\Filters\WhereRelationLikeFilter;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 	use Illuminate\Support\Arr;
 
