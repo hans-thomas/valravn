@@ -42,15 +42,14 @@
 		 * @return array
 		 */
 		public static function toArrayExcept( array $values ): array {
-			// TODO: reuse toArray() and exclude given values
-			$vars = collect();
-			foreach ( ( new ReflectionClass( static::class ) )->getConstants() as $name => $value ):
-				if ( ! in_array( $value->value, $values ) ) {
-					$vars->put( $name, $value->value ?? $value->name );
+			$vars = static::toArray();
+			foreach ( $vars as $index => $value ):
+				if ( in_array( $value, $values ) ) {
+					unset( $vars[ $index ] );
 				}
 			endforeach;
 
-			return $vars->toArray();
+			return $vars;
 		}
 
 		/**
@@ -61,15 +60,14 @@
 		 * @return array
 		 */
 		public static function toArrayKeysExcept( array $keys ): array {
-			// TODO: reuse toArrayKeys() and exclude given keys
-			$vars = collect();
-			foreach ( ( new ReflectionClass( static::class ) )->getConstants() as $name => $value ):
-				if ( ! in_array( $name, $keys ) ) {
-					$vars->push( $name );
+			$vars = self::toArrayKeys();
+			foreach ( $vars as $index => $value ):
+				if ( in_array( $value, $keys ) ) {
+					unset( $vars[ $index ] );
 				}
 			endforeach;
 
-			return $vars->toArray();
+			return $vars;
 		}
 
 		/**
@@ -80,15 +78,14 @@
 		 * @return array
 		 */
 		public static function toArrayOnly( array $values ): array {
-			// TODO: reuse toArray() and include only given values
-			$vars = collect();
-			foreach ( ( new ReflectionClass( static::class ) )->getConstants() as $name => $value ):
-				if ( in_array( $value->value, $values ) ) {
-					$vars->put( $name, $value->value ?? $value->name );
+			$vars = static::toArray();
+			foreach ( $vars as $index => $value ):
+				if ( ! in_array( $value, $values ) ) {
+					unset( $vars[ $index ] );
 				}
 			endforeach;
 
-			return $vars->toArray();
+			return $vars;
 		}
 
 		/**
@@ -99,15 +96,14 @@
 		 * @return array
 		 */
 		public static function toArrayKeysOnly( array $keys ): array {
-			// TODO: reuse toArray() and include only given values
-			$vars = collect();
-			foreach ( ( new ReflectionClass( static::class ) )->getConstants() as $name => $value ):
-				if ( in_array( $name, $keys ) ) {
-					$vars->push( $name );
+			$vars = self::toArrayKeys();
+			foreach ( $vars as $index => $value ):
+				if ( ! in_array( $value, $keys ) ) {
+					unset( $vars[ $index ] );
 				}
 			endforeach;
 
-			return $vars->toArray();
+			return array_values( $vars );
 		}
 
 		/**
