@@ -3,14 +3,14 @@
 	namespace Hans\Tests\Valravn\Core\Models;
 
 	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Valravn\Models\BaseModel;
 	use Hans\Valravn\Models\Contracts\Filterable;
+	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
-	class Post extends BaseModel implements Filterable {
+	class Post extends ValravnModel implements Filterable {
 		use HasFactory;
 
 		protected $fillable = [

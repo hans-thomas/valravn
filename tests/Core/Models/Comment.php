@@ -3,12 +3,12 @@
 	namespace Hans\Tests\Valravn\Core\Models;
 
 	use Hans\Tests\Valravn\Core\Factories\CommentFactory;
-	use Hans\Valravn\Models\BaseModel;
+	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-	class Comment extends BaseModel {
+	class Comment extends ValravnModel {
 		use HasFactory;
 
 		protected $fillable = [

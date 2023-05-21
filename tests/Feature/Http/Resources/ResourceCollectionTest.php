@@ -7,7 +7,7 @@
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithDefaultExtractCollection;
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithHookCollection;
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\Models\BaseModel;
+	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Support\Collection;
 
 	class ResourceCollectionTest extends TestCase {
@@ -17,7 +17,7 @@
 		protected function setUp(): void {
 			parent::setUp();
 			$this->models = collect();
-			$object       = new class extends BaseModel {
+			$object       = new class extends ValravnModel {
 				protected $fillable = [ 'name' ];
 			};
 			foreach ( range( 1, 5 ) as $counter ) {
@@ -71,7 +71,7 @@
 		 * @return void
 		 */
 		public function toArrayAsNullModel(): void {
-			$resource = SampleCollection::make( collect( [ new class extends BaseModel { } ] ) );
+			$resource = SampleCollection::make( collect( [ new class extends ValravnModel { } ] ) );
 			self::assertEquals(
 				[
 					'data' => [

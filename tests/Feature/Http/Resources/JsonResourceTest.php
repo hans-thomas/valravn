@@ -7,7 +7,7 @@
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithHookResource;
 	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithTypeOverrideResource;
 	use Hans\Tests\Valravn\TestCase;
-	use Hans\Valravn\Models\BaseModel;
+	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Database\Eloquent\Model;
 
 	class JsonResourceTest extends TestCase {
@@ -16,7 +16,7 @@
 
 		protected function setUp(): void {
 			parent::setUp();
-			$this->model = new class extends BaseModel {
+			$this->model = new class extends ValravnModel {
 				protected $fillable = [ 'name' ];
 			};
 			$this->model->forceFill( [ 'id' => rand( 1, 999 ), 'name' => fake()->name() ] );
@@ -64,7 +64,7 @@
 		 * @return void
 		 */
 		public function toArrayAsNullModel(): void {
-			$resource = SampleResource::make( new class extends BaseModel { } );
+			$resource = SampleResource::make( new class extends ValravnModel { } );
 			self::assertEquals(
 				[
 					'data' => [

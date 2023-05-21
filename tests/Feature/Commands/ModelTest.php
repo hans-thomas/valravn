@@ -26,7 +26,7 @@
 
     namespace App\Models\Blog;
 
-    use App\Models\BaseModel;
+    use App\Models\ValravnModel;
     use App\Models\Contracts\EntityClasses;
     use App\Models\Contracts\Filtering\Filterable;
     use App\Models\Contracts\Filtering\Loadable;
@@ -37,7 +37,7 @@
     use Illuminate\Http\Resources\Json\JsonResource;
     use Illuminate\Http\Resources\Json\ResourceCollection;
 
-    class Post extends BaseModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
+    class Post extends ValravnModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
         use HasFactory;
         use Paginatable;
 

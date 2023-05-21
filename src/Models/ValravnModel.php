@@ -5,7 +5,7 @@
 	use Hans\Valravn\Models\Traits\Paginatable;
 	use Illuminate\Database\Eloquent\Model;
 
-	class BaseModel extends Model {
+	class ValravnModel extends Model {
 		use Paginatable;
 
 		/**
