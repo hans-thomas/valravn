@@ -89,9 +89,10 @@
 		protected function registerPublishes() {
 			$this->publishes(
 				[
-					__DIR__ . '/../config/config.php' => config_path( 'valravn.php' )
+					__DIR__ . '/../config/config.php'                        => config_path( 'valravn.php' ),
+					__DIR__ . '/../src/stubs/RepositoryServiceProvider.stub' => app_path( 'Providers/RepositoryServiceProvider.php' ),
 				],
-				'alicia-config'
+				'valravn-config'
 			);
 		}
 
