@@ -166,9 +166,7 @@
 				$directories
 			);
 
-			if ( ! $this->app->runningUnitTests() ) {
-				$this->loadMigrationsFrom( $paths );
-			}
+			$this->loadMigrationsFrom( $paths );
 		}
 
 	}

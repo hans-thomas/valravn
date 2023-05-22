@@ -118,6 +118,7 @@
 
 			self::assertFileExists( $file );
 		}
+
 		/**
 		 * @test
 		 *
@@ -132,6 +133,7 @@
 			Artisan::call( "valravn:model blog posts -m" );
 
 			self::assertFileExists( $file );
+			File::delete( $file );
 		}
 
 	}

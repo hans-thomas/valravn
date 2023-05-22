@@ -118,6 +118,8 @@
 			self::assertFileExists( $crudService );
 			self::assertFileExists( $relationsService );
 			self::assertFileExists( $actionsService );
+
+			File::delete( $migration );
 		}
 
 		/**
@@ -231,7 +233,7 @@
 			self::assertFileExists( $relationsService );
 			self::assertFileExists( $actionsService );
 
+			File::delete( $migration );
 		}
-
 
 	}
