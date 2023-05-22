@@ -10,6 +10,7 @@
 	use Throwable;
 
 	class Repository extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *

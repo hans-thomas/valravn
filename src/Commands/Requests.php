@@ -8,6 +8,7 @@
 	use Throwable;
 
 	class Requests extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *

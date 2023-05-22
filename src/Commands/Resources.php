@@ -10,6 +10,7 @@
 	use Throwable;
 
 	class Resources extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *

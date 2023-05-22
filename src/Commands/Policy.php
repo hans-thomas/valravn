@@ -10,6 +10,7 @@
 	use Throwable;
 
 	class Policy extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *

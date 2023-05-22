@@ -11,6 +11,7 @@
 	use Throwable;
 
 	class Model extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *

@@ -7,6 +7,7 @@
 	use Throwable;
 
 	class Entity extends Command {
+
 		/**
 		 * The name and signature of the console command.
 		 *
