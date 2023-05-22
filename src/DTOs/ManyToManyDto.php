@@ -20,6 +20,7 @@
 			if ( ! isset( $data[ 'related' ] ) ) {
 				return collect();
 			}
+			$data[ 'related' ] = $data[ 'related' ] instanceof Collection ? $data[ 'related' ]->toArray() : $data[ 'related' ];
 			foreach ( array_reverse( $data[ 'related' ] ) as $item ) {
 				if (
 					in_array( $item[ 'id' ], $output ) or
