@@ -26,16 +26,17 @@
 
     namespace App\Models\Blog;
 
-    use App\Models\ValravnModel;
-    use App\Models\Contracts\EntityClasses;
-    use App\Models\Contracts\Filtering\Filterable;
-    use App\Models\Contracts\Filtering\Loadable;
-    use App\Models\Contracts\ResourceCollectionable;
-    use App\Models\Traits\Paginatable;
-    use App\Repositories\Contracts\Repository;
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Http\Resources\Json\JsonResource;
-    use Illuminate\Http\Resources\Json\ResourceCollection;
+	use App\Models\Contracts\EntityClasses;
+	use App\Models\Contracts\Filterable;
+	use App\Models\Contracts\Loadable;
+	use App\Models\Contracts\ResourceCollectionable;
+	use App\Models\Traits\Paginatable;
+	use App\Models\ValravnModel;
+	use App\Repositories\Contracts\Repository;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+	use Hans\Valravn\Services\Contracts\Service;
+	use Illuminate\Database\Eloquent\Factories\HasFactory;
 
     class Post extends ValravnModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
         use HasFactory;
@@ -52,11 +53,11 @@
             // TODO: Implement getRepository() method.
         }
 
-        public function getService(): object {
+        public function getService(): Service {
             // TODO: Implement getService() method.
         }
 
-        public function getRelationsService(): object {
+        public function getRelationsService(): Service {
             // TODO: Implement getRelationsService() method.
         }
 
@@ -68,15 +69,15 @@
             // TODO: Implement getLoadableRelations() method.
         }
 
-        public static function getResource(): JsonResource {
+        public static function getResource(): ValravnJsonResource {
             // TODO: Implement getResource() method.
         }
 
-        public function toResource(): JsonResource {
+        public function toResource(): ValravnJsonResource {
             // TODO: Implement toResource() method.
         }
 
-        public static function getResourceCollection(): ResourceCollection {
+        public static function getResourceCollection(): ValravnResourceCollection {
             // TODO: Implement getResourceCollection() method.
         }
     }
