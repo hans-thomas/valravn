@@ -8,6 +8,7 @@
 	use Hans\Valravn\Commands\Controllers;
 	use Hans\Valravn\Commands\Entity;
 	use Hans\Valravn\Commands\Exception;
+	use Hans\Valravn\Commands\Install;
 	use Hans\Valravn\Commands\Migration;
 	use Hans\Valravn\Commands\Model;
 	use Hans\Valravn\Commands\Policy;
@@ -72,6 +73,7 @@
 		 */
 		protected function registerCommands() {
 			$this->commands( [
+				Install::class,
 				Entity::class,
 				Controller::class,
 				Controllers::class,
@@ -89,10 +91,15 @@
 		protected function registerPublishes() {
 			$this->publishes(
 				[
-					__DIR__ . '/../config/config.php'                        => config_path( 'valravn.php' ),
-					__DIR__ . '/../src/stubs/RepositoryServiceProvider.stub' => app_path( 'Providers/RepositoryServiceProvider.php' ),
+					__DIR__ . '/../config/config.php' => config_path( 'valravn.php' ),
 				],
 				'valravn-config'
+			);
+			$this->publishes(
+				[
+					__DIR__ . '/../src/stubs/RepositoryServiceProvider.stub' => app_path( 'Providers/RepositoryServiceProvider.php' ),
+				],
+				'valravn-provider'
 			);
 		}
 
