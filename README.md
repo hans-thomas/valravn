@@ -14,13 +14,19 @@ override or create and use classes on top of valravn classes.
 
 ## Installation
 
-To start working with Valravn, you are just one step away:
+To add `Valravn` package to your project, you can install it using Composer.
 
 ```bash
 composer require hans-thomas/valravn
 ```
 
-enjoy it.
+Then, install Valravn resources using this command.
+
+```bash
+php artisan valravn:install
+```
+
+That's it.
 
 ## Tests
 
