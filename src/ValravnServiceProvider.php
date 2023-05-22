@@ -24,7 +24,6 @@
 	use Illuminate\Foundation\Application;
 	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Log;
-	use Illuminate\Support\Facades\Route;
 	use Illuminate\Support\ServiceProvider;
 
 	class ValravnServiceProvider extends ServiceProvider {
@@ -47,22 +46,12 @@
 		public function boot() {
 			$this->mergeConfigFrom( __DIR__ . '/../config/config.php', 'valravn' );
 
-			$this->registerRoutes();
 			$this->registerMacros();
 			if ( $this->app->runningInConsole() ) {
 				$this->registerCommands();
 				$this->registerPublishes();
 				$this->registerMigrations();
 			}
-		}
-
-		/**
-		 * Register defined routes
-		 *
-		 * @return void
-		 */
-		private function registerRoutes() {
-			Route::prefix( 'valravn' )->middleware( 'api' )->group( __DIR__ . '/../routes/api.php' );
 		}
 
 		/**
