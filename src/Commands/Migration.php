@@ -34,7 +34,7 @@
 		public function __construct() {
 			parent::__construct();
 			$this->fs = Storage::createLocalDriver( [
-				'root'       => base_path(),
+				'root'       => database_path(),
 				'visibility' => Visibility::PUBLIC
 			] );
 		}
@@ -59,7 +59,7 @@
 			$migrationStub = Str::replace( "{{MODEL::CLASS}}", $singular, $migrationStub );
 			$datePrefix    = now()->format( 'Y_m_d_His' );
 			$this->fs->write(
-				"database/migrations/$namespace/{$datePrefix}_create_" . Str::snake( $plural ) . "_table.php",
+				"migrations/$namespace/{$datePrefix}_create_" . Str::snake( $plural ) . "_table.php",
 				$migrationStub
 			);
 

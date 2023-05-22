@@ -45,7 +45,6 @@
 		 * @return void
 		 */
 		public function boot() {
-			$this->loadMigrationsFrom( __DIR__ . '/../database/migrations' );
 			$this->mergeConfigFrom( __DIR__ . '/../config/config.php', 'valravn' );
 
 			$this->registerRoutes();
@@ -53,6 +52,7 @@
 			if ( $this->app->runningInConsole() ) {
 				$this->registerCommands();
 				$this->registerPublishes();
+				$this->registerMigrations();
 			}
 		}
 
@@ -61,7 +61,7 @@
 		 *
 		 * @return void
 		 */
-		protected function registerRoutes() {
+		private function registerRoutes() {
 			Route::prefix( 'valravn' )->middleware( 'api' )->group( __DIR__ . '/../routes/api.php' );
 		}
 
@@ -70,7 +70,7 @@
 		 *
 		 * @return void
 		 */
-		protected function registerCommands() {
+		private function registerCommands() {
 			$this->commands( [
 				InstallCommand::class,
 				Entity::class,
@@ -87,7 +87,12 @@
 			] );
 		}
 
-		protected function registerPublishes() {
+		/**
+		 * Register publishable files
+		 *
+		 * @return void
+		 */
+		private function registerPublishes() {
 			$this->publishes(
 				[
 					__DIR__ . '/../config/config.php' => config_path( 'valravn.php' ),
@@ -107,7 +112,7 @@
 		 *
 		 * @return void
 		 */
-		protected function registerMacros() {
+		private function registerMacros() {
 			if ( env( 'ENABLE_DB_LOG', false ) ) {
 				DB::listen( function( QueryExecuted $query ) {
 					$bindings = implode( ',', $query->bindings );
@@ -148,6 +153,32 @@
 
 					return false;
 				} );
+			}
+		}
+
+		/**
+		 * Register created migrations files by migration command in sub folders
+		 *
+		 * @return void
+		 */
+		private function registerMigrations() {
+			$directories = [];
+			foreach ( valravn_config( 'migrations' ) as $migrationPath ) {
+				$directories = array_merge(
+					$directories,
+					array_filter(
+						scandir( $migrationPath ),
+						fn( $item ) => ! in_array( $item, [ '.', '..' ] )
+					)
+				);
+			}
+			$paths = array_map(
+				fn( $item ) => database_path( "migrations/$item" ),
+				$directories
+			);
+
+			if ( ! $this->app->runningUnitTests() ) {
+				$this->loadMigrationsFrom( $paths );
 			}
 		}
 

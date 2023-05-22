@@ -5,7 +5,6 @@
 	use Hans\Tests\Valravn\TestCase;
 	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
-	use Illuminate\Support\Str;
 
 	class MigrationTests extends TestCase {
 
@@ -59,7 +58,8 @@
 				$actions_file,
 				file_get_contents( $file )
 			);
-
+			// cuz in next test run the migration file name isn't the same
+			File::delete( $file );
 		}
 
 	}
