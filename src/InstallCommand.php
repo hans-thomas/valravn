@@ -1,12 +1,12 @@
 <?php
 
-	namespace Hans\Valravn\Commands;
+	namespace Hans\Valravn;
 
 	use Illuminate\Console\Command;
 	use Illuminate\Support\Str;
 	use Throwable;
 
-	class Install extends Command {
+	class InstallCommand extends Command {
 
 		/**
 		 * The name and signature of the console command.

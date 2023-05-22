@@ -8,7 +8,6 @@
 	use Hans\Valravn\Commands\Controllers;
 	use Hans\Valravn\Commands\Entity;
 	use Hans\Valravn\Commands\Exception;
-	use Hans\Valravn\Commands\Install;
 	use Hans\Valravn\Commands\Migration;
 	use Hans\Valravn\Commands\Model;
 	use Hans\Valravn\Commands\Policy;
@@ -73,7 +72,7 @@
 		 */
 		protected function registerCommands() {
 			$this->commands( [
-				Install::class,
+				InstallCommand::class,
 				Entity::class,
 				Controller::class,
 				Controllers::class,
