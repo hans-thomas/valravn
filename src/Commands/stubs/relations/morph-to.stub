@@ -13,7 +13,7 @@
 		 */
         protected function entities(): array {
             return [
-                // allowed entities go here
+                // Allowed entities go here
             ];
         }
 

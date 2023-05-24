@@ -19,7 +19,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --belongs-to-many" );
+			Artisan::call( "valravn:relation blog Post core category --belongs-to-many" );
 
 			self::assertFileExists( $file );
 
@@ -27,15 +27,25 @@
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 
     class PostCategoriesRequest extends BelongsToManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -61,7 +71,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --belongs-to-many --v 3" );
+			Artisan::call( "valravn:relation blog Post core category --belongs-to-many --v 3" );
 
 			self::assertFileExists( $file );
 
@@ -69,15 +79,25 @@
 
     namespace App\Http\Requests\V3\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 
     class PostCategoriesRequest extends BelongsToManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -103,7 +123,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --has-many" );
+			Artisan::call( "valravn:relation blog Post core category --has-many" );
 
 			self::assertFileExists( $file );
 
@@ -111,13 +131,18 @@
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 
     class PostCategoriesRequest extends HasManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
     }
@@ -139,7 +164,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --has-many --v 4" );
+			Artisan::call( "valravn:relation blog Post core category --has-many --v 4" );
 
 			self::assertFileExists( $file );
 
@@ -147,13 +172,18 @@
 
     namespace App\Http\Requests\V4\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 
     class PostCategoriesRequest extends HasManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
     }
@@ -175,7 +205,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --morphed-by-many" );
+			Artisan::call( "valravn:relation blog post core category --morphed-by-many" );
 
 			self::assertFileExists( $file );
 
@@ -183,15 +213,25 @@
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 
     class PostCategoriesRequest extends MorphedByManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -217,7 +257,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --morphed-by-many --v 6" );
+			Artisan::call( "valravn:relation blog post core category --morphed-by-many --v 6" );
 
 			self::assertFileExists( $file );
 
@@ -225,15 +265,25 @@
 
     namespace App\Http\Requests\V6\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 
     class PostCategoriesRequest extends MorphedByManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -259,7 +309,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --morph-to-many" );
+			Artisan::call( "valravn:relation blog post core category --morph-to-many" );
 
 			self::assertFileExists( $file );
 
@@ -267,15 +317,25 @@
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 
     class PostCategoriesRequest extends MorphToManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -301,7 +361,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog PostCategories --morph-to-many --v 8" );
+			Artisan::call( "valravn:relation blog post core category --morph-to-many --v 8" );
 
 			self::assertFileExists( $file );
 
@@ -309,15 +369,25 @@
 
     namespace App\Http\Requests\V8\Blog\Post;
 
-    use App\Models\Blog\Post;
+    use App\Models\Core\Category;
     use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 
     class PostCategoriesRequest extends MorphToManyRequest {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
-            return Post::class;
+            return Category::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
@@ -343,7 +413,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog LikeLikable --morph-to" );
+			Artisan::call( "valravn:relation blog like likable --morph-to" );
 
 			self::assertFileExists( $file );
 
@@ -362,7 +432,7 @@
 		 */
         protected function entities(): array {
             return [
-                // allowed entities go here
+                // Allowed entities go here
             ];
         }
 
@@ -385,7 +455,7 @@
 			File::delete( $file );
 			self::assertFileDoesNotExist( $file );
 
-			Artisan::call( "valravn:relation blog LikeLikable --morph-to --v 2" );
+			Artisan::call( "valravn:relation blog like likable --morph-to --v 2" );
 
 			self::assertFileExists( $file );
 
@@ -404,7 +474,7 @@
 		 */
         protected function entities(): array {
             return [
-                // allowed entities go here
+                // Allowed entities go here
             ];
         }
 

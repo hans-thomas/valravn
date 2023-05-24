@@ -3,6 +3,7 @@
 	namespace Hans\Valravn\Commands;
 
 	use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
+	use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 	use Illuminate\Console\Command;
@@ -22,7 +23,9 @@
 		protected $signature = '
         valravn:relation
 		{namespace : Group of the entity}
-		{name : Name of the request}
+		{name : Name of the entity}
+		{related-namespace : Group of the related entity}
+		{related-name? : Name of the related entity}
 		{--v=1 : Version of the entity}
 		{--belongs-to-many : Belongs to many request}
 		{--has-many : Has many request}
@@ -55,90 +58,68 @@
 		 * @throws Throwable
 		 */
 		public function handle() {
-			$name = $this->argument( 'name' );
-			try {
-				[ $entity, $relation ] = Str::of( $name )->ucfirst()->ucsplit()->toArray();
-			} catch ( Throwable $e ) {
-				$this->error( "Invalid name!" );
-
-				return;
-			}
-
-			$singular  = Str::singular( $entity );
+			$name      = $this->argument( 'name' );
+			$singular  = Str::of( $name )->singular()->ucfirst()->toString();
 			$namespace = ucfirst( $this->argument( 'namespace' ) );
-			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
-			if ( $this->option( 'belongs-to-many' ) ) {
-				$belongsToMany = file_get_contents( __DIR__ . "/stubs/relations/many-to-many.stub" );
-				$belongsToMany = Str::replace( "{{RELATION::VERSION}}", $version, $belongsToMany );
-				$belongsToMany = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $belongsToMany );
-				$belongsToMany = Str::replace( "{{RELATION::MODEL}}", $singular, $belongsToMany );
-				$belongsToMany = Str::replace( "{{RELATION::RELATION}}", $relation, $belongsToMany );
-				$belongsToMany = Str::replace(
+			$relatedName      = $this->argument( 'related-name' );
+			$relatedSingular  = Str::of( $relatedName )->singular()->ucfirst()->toString();
+			$relatedNamespace = ucfirst( $this->argument( 'related-namespace' ) );
+
+			$version = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
+
+			if (
+				$this->option( 'belongs-to-many' ) or
+				$this->option( 'morphed-by-many' ) or
+				$this->option( 'morph-to-many' ) or
+				$this->option( 'has-many' )
+			) {
+				$relation = Str::plural( $relatedSingular );
+				$content  = file_get_contents(
+					$this->option( 'has-many' ) ?
+						__DIR__ . "/stubs/relations/has-many.stub" :
+						__DIR__ . "/stubs/relations/many-to-many.stub"
+				);
+
+				$content = Str::replace( "{{RELATION::VERSION}}", $version, $content );
+				$content = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $content );
+				$content = Str::replace( "{{RELATION::ENTITY}}", $singular, $content );
+
+				$content = Str::replace( "{{RELATION::RELATED-NAMESPACE}}", $relatedNamespace, $content );
+				$content = Str::replace( "{{RELATION::MODEL}}", $relatedSingular, $content );
+				$content = Str::replace( "{{RELATION::RELATION}}", $relation, $content );
+
+				if ( $this->option( 'belongs-to-many' ) ) {
+					$extends = class_basename( BelongsToManyRequest::class );
+				} elseif ( $this->option( 'morphed-by-many' ) ) {
+					$extends = class_basename( MorphedByManyRequest::class );
+				} elseif ( $this->option( 'morph-to-many' ) ) {
+					$extends = class_basename( MorphToManyRequest::class );
+				} elseif ( $this->option( 'has-many' ) ) {
+					$extends = class_basename( HasManyRequest::class );
+				}
+
+				$content = Str::replace(
 					"{{RELATION::EXTENDS}}",
-					class_basename( BelongsToManyRequest::class ),
-					$belongsToMany
+					$extends,
+					$content
 				);
 				$this->fs->write(
 					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-					$belongsToMany
-				);
-			}
-
-			if ( $this->option( 'has-many' ) ) {
-				$hasMany = file_get_contents( __DIR__ . "/stubs/relations/has-many.stub" );
-				$hasMany = Str::replace( "{{RELATION::VERSION}}", $version, $hasMany );
-				$hasMany = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $hasMany );
-				$hasMany = Str::replace( "{{RELATION::MODEL}}", $singular, $hasMany );
-				$hasMany = Str::replace( "{{RELATION::RELATION}}", $relation, $hasMany );
-				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-					$hasMany
-				);
-			}
-
-			if ( $this->option( 'morphed-by-many' ) ) {
-				$morphedByMany = file_get_contents( __DIR__ . "/stubs/relations/many-to-many.stub" );
-				$morphedByMany = Str::replace( "{{RELATION::VERSION}}", $version, $morphedByMany );
-				$morphedByMany = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $morphedByMany );
-				$morphedByMany = Str::replace( "{{RELATION::MODEL}}", $singular, $morphedByMany );
-				$morphedByMany = Str::replace( "{{RELATION::RELATION}}", $relation, $morphedByMany );
-				$morphedByMany = Str::replace(
-					"{{RELATION::EXTENDS}}",
-					class_basename( MorphedByManyRequest::class ),
-					$morphedByMany
-				);
-				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-					$morphedByMany
-				);
-			}
-
-			if ( $this->option( 'morph-to-many' ) ) {
-				$morphToMany = file_get_contents( __DIR__ . "/stubs/relations/many-to-many.stub" );
-				$morphToMany = Str::replace( "{{RELATION::VERSION}}", $version, $morphToMany );
-				$morphToMany = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $morphToMany );
-				$morphToMany = Str::replace( "{{RELATION::MODEL}}", $singular, $morphToMany );
-				$morphToMany = Str::replace( "{{RELATION::RELATION}}", $relation, $morphToMany );
-				$morphToMany = Str::replace(
-					"{{RELATION::EXTENDS}}",
-					class_basename( MorphToManyRequest::class ),
-					$morphToMany
-				);
-				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-					$morphToMany
+					$content
 				);
 			}
 
 			if ( $this->option( 'morph-to' ) ) {
 				$morphTo = file_get_contents( __DIR__ . "/stubs/relations/morph-to.stub" );
+
 				$morphTo = Str::replace( "{{RELATION::VERSION}}", $version, $morphTo );
 				$morphTo = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $morphTo );
 				$morphTo = Str::replace( "{{RELATION::MODEL}}", $singular, $morphTo );
-				$morphTo = Str::replace( "{{RELATION::RELATION}}", $relation, $morphTo );
+				$morphTo = Str::replace( "{{RELATION::RELATION}}", $relatedNamespace, $morphTo );
+
 				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
+					"Http/Requests/$version/$namespace/$singular/{$singular}{$relatedNamespace}Request.php",
 					$morphTo
 				);
 			}

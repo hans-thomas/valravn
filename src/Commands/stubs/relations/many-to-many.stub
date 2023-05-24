@@ -1,16 +1,26 @@
 <?php
 
-    namespace App\Http\Requests\{{RELATION::VERSION}}\{{RELATION::NAMESPACE}}\{{RELATION::MODEL}};
+    namespace App\Http\Requests\{{RELATION::VERSION}}\{{RELATION::NAMESPACE}}\{{RELATION::ENTITY}};
 
-    use App\Models\{{RELATION::NAMESPACE}}\{{RELATION::MODEL}};
+    use App\Models\{{RELATION::RELATED-NAMESPACE}}\{{RELATION::MODEL}};
     use Hans\Valravn\Http\Requests\Contracts\Relations\{{RELATION::EXTENDS}};
 
-    class {{RELATION::MODEL}}{{RELATION::RELATION}}Request extends {{RELATION::EXTENDS}} {
+    class {{RELATION::ENTITY}}{{RELATION::RELATION}}Request extends {{RELATION::EXTENDS}} {
 
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
         protected function model(): string {
             return {{RELATION::MODEL}}::class;
         }
 
+		/**
+		 * Check requested ids are exist
+		 *
+		 * @return Exists
+		 */
         protected function pivots(): array {
             return [
                 // Pivot columns validation rules go here
