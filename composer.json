@@ -10,7 +10,6 @@
     ],
     "require": {
         "php": "^8.0",
-        "spatie/crawler": "^7.1",
         "mavinoo/laravel-batch": "^2.3"
     },
     "require-dev": {
