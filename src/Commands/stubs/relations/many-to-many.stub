@@ -1,0 +1,20 @@
+<?php
+
+    namespace App\Http\Requests\{{RELATION::VERSION}}\{{RELATION::NAMESPACE}}\{{RELATION::MODEL}};
+
+    use App\Models\{{RELATION::NAMESPACE}}\{{RELATION::MODEL}};
+    use Hans\Valravn\Http\Requests\Contracts\Relations\{{RELATION::EXTENDS}};
+
+    class {{RELATION::MODEL}}{{RELATION::RELATION}}Request extends {{RELATION::EXTENDS}} {
+
+        protected function model(): string {
+            return {{RELATION::MODEL}}::class;
+        }
+
+        protected function pivots(): array {
+            return [
+                // Pivot columns validation rules go here
+            ];
+        }
+
+    }

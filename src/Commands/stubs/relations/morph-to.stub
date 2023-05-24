@@ -1,0 +1,20 @@
+<?php
+
+    namespace App\Http\Requests\{{RELATION::VERSION}}\{{RELATION::NAMESPACE}}\{{RELATION::MODEL}};
+
+    use App\Http\Requests\MorphToRequest;
+
+    class {{RELATION::MODEL}}{{RELATION::RELATION}}Request extends MorphToRequest {
+
+		/**
+		 * Get Allowed entities for MorphTo relationship
+		 *
+		 * @return array
+		 */
+        protected function entities(): array {
+            return [
+                // allowed entities go here
+            ];
+        }
+
+    }

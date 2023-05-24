@@ -11,6 +11,7 @@
 	use Hans\Valravn\Commands\Migration;
 	use Hans\Valravn\Commands\Model;
 	use Hans\Valravn\Commands\Policy;
+	use Hans\Valravn\Commands\Relation as RelationCommand;
 	use Hans\Valravn\Commands\Repository;
 	use Hans\Valravn\Commands\Requests;
 	use Hans\Valravn\Commands\Resources;
@@ -73,6 +74,7 @@
 				Requests::class,
 				Resources::class,
 				Service::class,
+				RelationCommand::class,
 			] );
 		}
 
