@@ -9,6 +9,13 @@
 	abstract class RelationsRequest extends FormRequest {
 
 		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
+		abstract protected function model(): string;
+
+		/**
 		 * Determine if the user is authorized to make this request.
 		 *
 		 * @return bool
@@ -50,13 +57,6 @@
 		protected function existence(): Exists {
 			return Rule::exists( $this->model(), 'id' );
 		}
-
-		/**
-		 * Get related model class
-		 *
-		 * @return string
-		 */
-		abstract protected function model(): string;
 
 		/**
 		 * Get pivot columns and their validation rules

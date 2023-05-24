@@ -1,0 +1,30 @@
+<?php
+
+    namespace App\Http\Requests\{{REQUEST::VERSION}}\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
+
+    use App\Models\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
+    use Hans\Valravn\Http\Requests\Contracts\BatchUpdateRequest;
+
+    class {{REQUEST::MODEL}}BatchUpdateRequest extends BatchUpdateRequest {
+
+		/**
+		 * Get related model class
+		 *
+		 * @return string
+		 */
+        protected function model(): string {
+            return {{REQUEST::MODEL}}::class;
+        }
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+                // fields definition go here
+            ];
+        }
+
+    }
