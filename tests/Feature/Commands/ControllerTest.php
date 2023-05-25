@@ -37,8 +37,6 @@
     use App\Http\Resources\V1\Blog\Post\PostResource;
     use App\Models\Blog\Post;
     use App\Services\Blog\Post\PostService;
-    use Illuminate\Http\Resources\Json\JsonResource;
-    use Illuminate\Http\Resources\Json\ResourceCollection;
     use Throwable;
 
     class PostCrudController extends Controller {
@@ -51,9 +49,9 @@
         /**
          * Display a listing of the resource.
          *
-         * @return ResourceCollection
+         * @return PostCollection
          */
-        public function index(): ResourceCollection {
+        public function index(): PostCollection {
             return Post::getResourceCollection( $this->service->all() );
         }
 
@@ -62,10 +60,10 @@
          *
          * @param PostStoreRequest $request
          *
-         * @return JsonResource
+         * @return PostResource
          * @throws Throwable
          */
-        public function store( PostStoreRequest $request ): JsonResource {
+        public function store( PostStoreRequest $request ): PostResource {
             return $this->service->create( $request->validated() )->toResource();
         }
 
@@ -74,9 +72,9 @@
          *
          * @param int $post
          *
-         * @return JsonResource
+         * @return PostResource
          */
-        public function show( int $post ): JsonResource {
+        public function show( int $post ): PostResource {
             return $this->service->find( $post )->toResource();
         }
 
@@ -86,10 +84,10 @@
          * @param PostUpdateRequest $request
          * @param Post              $post
          *
-         * @return JsonResource
+         * @return PostResource
          * @throws Throwable
          */
-        public function update( PostUpdateRequest $request, Post $post ): JsonResource {
+        public function update( PostUpdateRequest $request, Post $post ): PostResource {
             return $this->service->update( $post, $request->validated() )->toResource();
         }
 
@@ -98,10 +96,10 @@
          *
          * @param PostBatchUpdateRequest $request
          *
-         * @return ResourceCollection
+         * @return PostCollection
          * @throws ValravnException
          */
-        public function batchUpdate( PostBatchUpdateRequest $request ): ResourceCollection {
+        public function batchUpdate( PostBatchUpdateRequest $request ): PostCollection {
             return Post::getResourceCollection(
                 $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
             );
@@ -112,10 +110,10 @@
          *
          * @param Post $post
          *
-         * @return JsonResource
+         * @return PostResource
          * @throws ValravnException
          */
-        public function destroy( Post $post ): JsonResource {
+        public function destroy( Post $post ): PostResource {
             return $this->service->delete( $post )->toResource();
         }
     }

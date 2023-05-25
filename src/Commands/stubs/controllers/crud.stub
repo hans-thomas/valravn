@@ -12,8 +12,6 @@
     use App\Http\Resources\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Resource;
     use App\Models\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
     use App\Services\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Service;
-    use Illuminate\Http\Resources\Json\JsonResource;
-    use Illuminate\Http\Resources\Json\ResourceCollection;
     use Throwable;
 
     class {{CRUD::MODEL}}CrudController extends Controller {
@@ -26,9 +24,9 @@
         /**
          * Display a listing of the resource.
          *
-         * @return ResourceCollection
+         * @return {{CRUD::MODEL}}Collection
          */
-        public function index(): ResourceCollection {
+        public function index(): {{CRUD::MODEL}}Collection {
             return {{CRUD::MODEL}}::getResourceCollection( $this->service->all() );
         }
 
@@ -37,10 +35,10 @@
          *
          * @param {{CRUD::MODEL}}StoreRequest $request
          *
-         * @return JsonResource
+         * @return {{CRUD::MODEL}}Resource
          * @throws Throwable
          */
-        public function store( {{CRUD::MODEL}}StoreRequest $request ): JsonResource {
+        public function store( {{CRUD::MODEL}}StoreRequest $request ): {{CRUD::MODEL}}Resource {
             return $this->service->create( $request->validated() )->toResource();
         }
 
@@ -49,9 +47,9 @@
          *
          * @param int ${{CRUD::MODEL-lower}}
          *
-         * @return JsonResource
+         * @return {{CRUD::MODEL}}Resource
          */
-        public function show( int ${{CRUD::MODEL-lower}} ): JsonResource {
+        public function show( int ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
             return $this->service->find( ${{CRUD::MODEL-lower}} )->toResource();
         }
 
@@ -61,10 +59,10 @@
          * @param {{CRUD::MODEL}}UpdateRequest $request
          * @param {{CRUD::MODEL}}              ${{CRUD::MODEL-lower}}
          *
-         * @return JsonResource
+         * @return {{CRUD::MODEL}}Resource
          * @throws Throwable
          */
-        public function update( {{CRUD::MODEL}}UpdateRequest $request, {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): JsonResource {
+        public function update( {{CRUD::MODEL}}UpdateRequest $request, {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
             return $this->service->update( ${{CRUD::MODEL-lower}}, $request->validated() )->toResource();
         }
 
@@ -73,10 +71,10 @@
          *
          * @param {{CRUD::MODEL}}BatchUpdateRequest $request
          *
-         * @return ResourceCollection
+         * @return {{CRUD::MODEL}}Collection
          * @throws ValravnException
          */
-        public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): ResourceCollection {
+        public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): {{CRUD::MODEL}}Collection {
             return {{CRUD::MODEL}}::getResourceCollection(
                 $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
             );
@@ -87,10 +85,10 @@
          *
          * @param {{CRUD::MODEL}} ${{CRUD::MODEL-lower}}
          *
-         * @return JsonResource
+         * @return {{CRUD::MODEL}}Resource
          * @throws ValravnException
          */
-        public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): JsonResource {
+        public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
             return $this->service->delete( ${{CRUD::MODEL-lower}} )->toResource();
         }
     }
