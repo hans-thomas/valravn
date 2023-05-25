@@ -46,6 +46,7 @@
 		 * @throws Throwable
 		 */
 		public function handle() {
+			// TODO: create a migration as a pivot
 			$singular  = ucfirst( Str::singular( $this->argument( 'name' ) ) );
 			$plural    = ucfirst( Str::plural( $this->argument( 'name' ) ) );
 			$namespace = ucfirst( $this->argument( 'namespace' ) );

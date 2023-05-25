@@ -53,6 +53,7 @@
 			$namespace = ucfirst( $this->argument( 'namespace' ) );
 			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
+			// TODO: create requests using custom stub
 			Artisan::call( "make:request $version/$namespace/$singular/{$singular}StoreRequest" );
 			Artisan::call( "make:request $version/$namespace/$singular/{$singular}UpdateRequest" );
 

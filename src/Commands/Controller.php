@@ -74,7 +74,8 @@
 			}
 
 			if ( $this->option( "requests" ) ) {
-				Artisan::call( "valravn:requests $namespace $singular --v $version" );
+				// TODO: add --batch-update to testes
+				Artisan::call( "valravn:requests $namespace $singular --v $version --batch-update" );
 			}
 
 			if ( $this->option( "resources" ) ) {
