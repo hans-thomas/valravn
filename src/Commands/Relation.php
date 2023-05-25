@@ -74,6 +74,11 @@
 				$this->option( 'morph-to-many' ) or
 				$this->option( 'has-many' )
 			) {
+				if ( is_null( $relatedName ) ) {
+					$this->error( '{related-name} parameter should not be empty!' );
+
+					return;
+				}
 				$relation = Str::plural( $relatedSingular );
 				$content  = file_get_contents(
 					$this->option( 'has-many' ) ?
