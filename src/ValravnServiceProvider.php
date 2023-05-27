@@ -10,6 +10,7 @@
 	use Hans\Valravn\Commands\Exception;
 	use Hans\Valravn\Commands\Migration;
 	use Hans\Valravn\Commands\Model;
+	use Hans\Valravn\Commands\Pivot;
 	use Hans\Valravn\Commands\Policy;
 	use Hans\Valravn\Commands\Relation as RelationCommand;
 	use Hans\Valravn\Commands\Repository;
@@ -75,6 +76,7 @@
 				Resources::class,
 				Service::class,
 				RelationCommand::class,
+				Pivot::class,
 			] );
 		}
 
