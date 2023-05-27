@@ -165,14 +165,12 @@
 		 * @return void
 		 */
 		public function requests(): void {
-			$store  = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
-			$update = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
-			if ( File::exists( $store ) ) {
-				unlink( $store );
-			}
-			if ( File::exists( $update ) ) {
-				unlink( $update );
-			}
+			$store       = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
+			$update      = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
+			$batchUpdate = app_path( "Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php" );
+
+			File::delete( [ $update, $store, $batchUpdate ] );
+
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
@@ -180,6 +178,7 @@
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
+			self::assertFileExists( $batchUpdate );
 		}
 
 		/**
