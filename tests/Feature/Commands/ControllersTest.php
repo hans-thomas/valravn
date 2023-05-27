@@ -3,16 +3,8 @@
 	namespace Hans\Tests\Valravn\Feature\Commands;
 
 	use Hans\Tests\Valravn\TestCase;
-	use Illuminate\Console\Application;
-	use Illuminate\Console\BufferedConsoleOutput;
-	use Illuminate\Contracts\Console\Kernel;
 	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
-	use Symfony\Component\Console\Output\BufferedOutput;
-	use Symfony\Component\Console\Output\ConsoleOutput;
-	use Symfony\Component\Console\Output\Output;
-	use Symfony\Component\Console\Output\OutputInterface;
-	use Symfony\Component\Console\Output\StreamOutput;
 
 	class ControllersTest extends TestCase {
 
@@ -44,9 +36,12 @@
 		 * @return void
 		 */
 		public function requests(): void {
-			$store  = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
-			$update = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
-			File::delete( [ $store, $update ] );
+			$store       = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
+			$update      = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
+			$batchUpdate = app_path( "Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php" );
+
+			File::delete( [ $store, $update, $batchUpdate ] );
+
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
 
@@ -54,6 +49,7 @@
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
+			self::assertFileExists( $batchUpdate );
 		}
 
 		/**
@@ -64,7 +60,9 @@
 		public function resources(): void {
 			$resource   = app_path( "Http/Resources/V1/Blog/Post/PostResource.php" );
 			$collection = app_path( "Http/Resources/V1/Blog/Post/PostCollection.php" );
+
 			File::delete( [ $resource, $collection ] );
+
 			self::assertFileDoesNotExist( $resource );
 			self::assertFileDoesNotExist( $collection );
 
