@@ -17,6 +17,7 @@
 			$file = app_path( "Http/Requests/V1/Blog/Post/PostCategoriesRequest.php" );
 
 			File::delete( $file );
+
 			self::assertFileDoesNotExist( $file );
 
 			Artisan::call( "valravn:relation blog Post core category --belongs-to-many" );
@@ -58,6 +59,30 @@
 				$content,
 				file_get_contents( $file )
 			);
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function belongsToManyWithPivot(): void {
+			$file = app_path( "Http/Requests/V1/Blog/Post/PostCategoriesRequest.php" );
+
+			$datePrefix = now()->format( 'Y_m_d_His' );
+			$pivot      = database_path( "migrations/Blog/{$datePrefix}_create_category_post_table.php" );
+
+			File::delete( [ $file, $pivot ] );
+
+			self::assertFileDoesNotExist( $file );
+			self::assertFileDoesNotExist( $pivot );
+
+			Artisan::call( "valravn:relation blog Post core category --belongs-to-many --with-pivot" );
+
+			self::assertFileExists( $file );
+			self::assertFileExists( $pivot );
+
+			File::delete( $pivot );
 		}
 
 		/**
@@ -203,6 +228,7 @@
 			$file = app_path( "Http/Requests/V1/Blog/Post/PostCategoriesRequest.php" );
 
 			File::delete( $file );
+
 			self::assertFileDoesNotExist( $file );
 
 			Artisan::call( "valravn:relation blog post core category --morphed-by-many" );
@@ -244,6 +270,31 @@
 				$content,
 				file_get_contents( $file )
 			);
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function morphedByManyWithPivot(): void {
+			$file = app_path( "Http/Requests/V1/Blog/Post/PostCategoriesRequest.php" );
+
+			$datePrefix = now()->format( 'Y_m_d_His' );
+			$pivot      = database_path( "migrations/Blog/{$datePrefix}_create_category_post_table.php" );
+
+			File::delete( [ $file, $pivot ] );
+
+			self::assertFileDoesNotExist( $file );
+			self::assertFileDoesNotExist( $pivot );
+
+			Artisan::call( "valravn:relation blog post core category --morphed-by-many --with-pivot" );
+
+			self::assertFileExists( $file );
+			self::assertFileExists( $pivot );
+
+			File::delete( $pivot );
+
 		}
 
 		/**
@@ -348,6 +399,31 @@
 				$content,
 				file_get_contents( $file )
 			);
+		}
+
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function morphedToManyWithPivot(): void {
+			$file = app_path( "Http/Requests/V1/Blog/Post/PostCategoriesRequest.php" );
+
+			$datePrefix = now()->format( 'Y_m_d_His' );
+			$pivot      = database_path( "migrations/Blog/{$datePrefix}_create_category_post_table.php" );
+
+			File::delete( [ $file, $pivot ] );
+
+			self::assertFileDoesNotExist( $file );
+			self::assertFileDoesNotExist( $pivot );
+
+			Artisan::call( "valravn:relation blog post core category --morph-to-many --with-pivot" );
+
+			self::assertFileExists( $file );
+			self::assertFileExists( $pivot );
+
+			File::delete( $pivot );
+
 		}
 
 		/**

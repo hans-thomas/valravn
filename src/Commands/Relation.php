@@ -8,6 +8,7 @@
 	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 	use Illuminate\Console\Command;
 	use Illuminate\Contracts\Filesystem\Filesystem;
+	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\Storage;
 	use Illuminate\Support\Str;
 	use League\Flysystem\Visibility;
@@ -31,7 +32,8 @@
 		{--has-many : Has many request}
 		{--morphed-by-many : Morphed by many request}
 		{--morph-to-many : Morph to many request}
-		{--morph-to : morph to request}
+		{--morph-to : Morph to request}
+		{--with-pivot : create a pivot migration}
         ';
 
 		/**
@@ -113,6 +115,10 @@
 					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
 					$content
 				);
+
+				if ( $this->option( 'with-pivot' ) and ! $this->option( 'has-many' ) ) {
+					Artisan::call( "valravn:pivot $namespace $name $relatedNamespace $relatedName" );
+				}
 			}
 
 			if ( $this->option( 'morph-to' ) ) {
