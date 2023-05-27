@@ -23,13 +23,14 @@
 			$datePrefix = now()->format( 'Y_m_d_His' );
 			$migration  = base_path( "database/migrations/Blog/{$datePrefix}_create_posts_table.php" );
 
-			$crud       = app_path( "Http/Controllers/V1/Blog/Post/PostCrudController.php" );
-			$relations  = app_path( "Http/Controllers/V1/Blog/Post/PostRelationsController.php" );
-			$actions    = app_path( "Http/Controllers/V1/Blog/Post/PostActionsController.php" );
-			$store      = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
-			$update     = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
-			$resource   = app_path( "Http/Resources/V1/Blog/Post/PostResource.php" );
-			$collection = app_path( "Http/Resources/V1/Blog/Post/PostCollection.php" );
+			$crud        = app_path( "Http/Controllers/V1/Blog/Post/PostCrudController.php" );
+			$relations   = app_path( "Http/Controllers/V1/Blog/Post/PostRelationsController.php" );
+			$actions     = app_path( "Http/Controllers/V1/Blog/Post/PostActionsController.php" );
+			$store       = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
+			$update      = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
+			$batchUpdate = app_path( "Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php" );
+			$resource    = app_path( "Http/Resources/V1/Blog/Post/PostResource.php" );
+			$collection  = app_path( "Http/Resources/V1/Blog/Post/PostCollection.php" );
 
 			$policy = app_path( "Policies/Blog/PostPolicy.php" );
 
@@ -54,6 +55,7 @@
 				$actions,
 				$store,
 				$update,
+				$batchUpdate,
 				$resource,
 				$collection,
 
@@ -80,6 +82,7 @@
 			self::assertFileDoesNotExist( $actions );
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
+			self::assertFileDoesNotExist( $batchUpdate );
 			self::assertFileDoesNotExist( $resource );
 			self::assertFileDoesNotExist( $collection );
 
@@ -137,13 +140,14 @@
 			$datePrefix = now()->format( 'Y_m_d_His' );
 			$migration  = base_path( "database/migrations/Blog/{$datePrefix}_create_posts_table.php" );
 
-			$crud       = app_path( "Http/Controllers/V2/Blog/Post/PostCrudController.php" );
-			$relations  = app_path( "Http/Controllers/V2/Blog/Post/PostRelationsController.php" );
-			$actions    = app_path( "Http/Controllers/V2/Blog/Post/PostActionsController.php" );
-			$store      = app_path( "Http/Requests/V2/Blog/Post/PostStoreRequest.php" );
-			$update     = app_path( "Http/Requests/V2/Blog/Post/PostUpdateRequest.php" );
-			$resource   = app_path( "Http/Resources/V2/Blog/Post/PostResource.php" );
-			$collection = app_path( "Http/Resources/V2/Blog/Post/PostCollection.php" );
+			$crud        = app_path( "Http/Controllers/V2/Blog/Post/PostCrudController.php" );
+			$relations   = app_path( "Http/Controllers/V2/Blog/Post/PostRelationsController.php" );
+			$actions     = app_path( "Http/Controllers/V2/Blog/Post/PostActionsController.php" );
+			$store       = app_path( "Http/Requests/V2/Blog/Post/PostStoreRequest.php" );
+			$update      = app_path( "Http/Requests/V2/Blog/Post/PostUpdateRequest.php" );
+			$batchUpdate = app_path( "Http/Requests/V2/Blog/Post/PostBatchUpdateRequest.php" );
+			$resource    = app_path( "Http/Resources/V2/Blog/Post/PostResource.php" );
+			$collection  = app_path( "Http/Resources/V2/Blog/Post/PostCollection.php" );
 
 			$policy = app_path( "Policies/Blog/PostPolicy.php" );
 
@@ -168,6 +172,7 @@
 				$actions,
 				$store,
 				$update,
+				$batchUpdate,
 				$resource,
 				$collection,
 
@@ -194,6 +199,7 @@
 			self::assertFileDoesNotExist( $actions );
 			self::assertFileDoesNotExist( $store );
 			self::assertFileDoesNotExist( $update );
+			self::assertFileDoesNotExist( $batchUpdate );
 			self::assertFileDoesNotExist( $resource );
 			self::assertFileDoesNotExist( $collection );
 
@@ -221,6 +227,7 @@
 			self::assertFileExists( $actions );
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
+			self::assertFileExists( $batchUpdate );
 			self::assertFileExists( $resource );
 			self::assertFileExists( $collection );
 
