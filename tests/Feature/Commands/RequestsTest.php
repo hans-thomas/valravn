@@ -25,6 +25,59 @@
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
+
+			$storeContent = "<?php
+
+    namespace App\Http\Requests\V1\Blog\Post;
+
+    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+
+    class PostStoreRequest extends ValravnFormRequest {
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+
+            ];
+        }
+
+    }
+";
+			self::assertEquals(
+				$storeContent,
+				file_get_contents( $store )
+			);
+
+			$updateContent = "<?php
+
+    namespace App\Http\Requests\V1\Blog\Post;
+
+    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+
+    class PostUpdateRequest extends ValravnFormRequest {
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+
+            ];
+        }
+
+    }
+";
+			self::assertEquals(
+				$updateContent,
+				file_get_contents( $update )
+			);
+
 		}
 
 		/**
@@ -44,6 +97,60 @@
 
 			self::assertFileExists( $store );
 			self::assertFileExists( $update );
+
+
+			$storeContent = "<?php
+
+    namespace App\Http\Requests\V2\Blog\Post;
+
+    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+
+    class PostStoreRequest extends ValravnFormRequest {
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+
+            ];
+        }
+
+    }
+";
+			self::assertEquals(
+				$storeContent,
+				file_get_contents( $store )
+			);
+
+			$updateContent = "<?php
+
+    namespace App\Http\Requests\V2\Blog\Post;
+
+    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+
+    class PostUpdateRequest extends ValravnFormRequest {
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+
+            ];
+        }
+
+    }
+";
+			self::assertEquals(
+				$updateContent,
+				file_get_contents( $update )
+			);
+
 		}
 
 		/**

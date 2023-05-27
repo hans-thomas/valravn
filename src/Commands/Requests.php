@@ -4,7 +4,6 @@
 
 	use Illuminate\Console\Command;
 	use Illuminate\Contracts\Filesystem\Filesystem;
-	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\Storage;
 	use Illuminate\Support\Str;
 	use League\Flysystem\Visibility;
@@ -53,9 +52,27 @@
 			$namespace = ucfirst( $this->argument( 'namespace' ) );
 			$version   = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
 
-			// TODO: create requests using custom stub
-			Artisan::call( "make:request $version/$namespace/$singular/{$singular}StoreRequest" );
-			Artisan::call( "make:request $version/$namespace/$singular/{$singular}UpdateRequest" );
+			// store request
+			$store = file_get_contents( __DIR__ . "/stubs/requests/crud.stub" );
+			$store = Str::replace( "{{REQUEST::VERSION}}", $version, $store );
+			$store = Str::replace( "{{REQUEST::NAMESPACE}}", $namespace, $store );
+			$store = Str::replace( "{{REQUEST::MODEL}}", $singular, $store );
+			$store = Str::replace( "{{REQUEST::ACTION}}", 'Store', $store );
+			$this->fs->write(
+				"Http/Requests/$version/$namespace/$singular/{$singular}StoreRequest.php",
+				$store
+			);
+
+			// update request
+			$update = file_get_contents( __DIR__ . "/stubs/requests/crud.stub" );
+			$update = Str::replace( "{{REQUEST::VERSION}}", $version, $update );
+			$update = Str::replace( "{{REQUEST::NAMESPACE}}", $namespace, $update );
+			$update = Str::replace( "{{REQUEST::MODEL}}", $singular, $update );
+			$update = Str::replace( "{{REQUEST::ACTION}}", 'Update', $update );
+			$this->fs->write(
+				"Http/Requests/$version/$namespace/$singular/{$singular}UpdateRequest.php",
+				$update
+			);
 
 			if ( $this->option( 'batch-update' ) ) {
 				$batchUpdate = file_get_contents( __DIR__ . "/stubs/requests/batch-update.stub" );

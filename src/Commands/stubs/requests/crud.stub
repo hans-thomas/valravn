@@ -1,0 +1,20 @@
+<?php
+
+    namespace App\Http\Requests\{{REQUEST::VERSION}}\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
+
+    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+
+    class {{REQUEST::MODEL}}{{REQUEST::ACTION}}Request extends ValravnFormRequest {
+
+		/**
+		 * Get fields and their validation rules
+		 *
+		 * @return array
+		 */
+        protected function fields(): array {
+            return [
+
+            ];
+        }
+
+    }
