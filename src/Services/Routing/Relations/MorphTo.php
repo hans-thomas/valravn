@@ -7,7 +7,7 @@
 	class MorphTo extends Relations {
 
 		protected function routes( string $name, string $parameter, string $action ): void {
-			$this->get( "{$name}/$parameter", $action );
-			$this->post( "{$name}/$parameter/{related}", $action );
+			$this->get( "{" . $name . "}/$parameter", $action );
+			$this->post( "{" . $name . "}/$parameter/{related}", $action );
 		}
 	}

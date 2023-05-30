@@ -40,6 +40,7 @@
 						$relations->belongsTo( 'relation' );
 					}
 				);
+
 			$this->getJson( route( 'samples.relation.view', [ 1 ] ) )->assertOk();
 			$this->postJson( route( 'samples.relation.update', [ 1, 3 ] ) )->assertOk();
 		}

@@ -56,13 +56,13 @@
 					}
 				);
 			$this->getJson(
-				route( "samples.actions.action-with-params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
+				route( "samples.actions.action-with-params", [ 'sample' => 1, 'related' => 2, 'something' => 3 ] )
 			)
 			     ->assertOk();
 			$this->postJson( route( "samples.actions.action-with-no-param" ) )->assertOk();
 			self::assertEquals(
 				url( "samples/-actions/1/action-with-params/2/3" ),
-				route( "samples.actions.action-with-params", [ 'samples' => 1, 'related' => 2, 'something' => 3 ] )
+				route( "samples.actions.action-with-params", [ 'sample' => 1, 'related' => 2, 'something' => 3 ] )
 			);
 			self::assertEquals(
 				url( "samples/-actions/action-with-no-param" ),

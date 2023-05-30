@@ -6,7 +6,6 @@
 	use Hans\Tests\Valravn\TestCase;
 	use Hans\Valravn\Services\Routing\GatheringRegisterer;
 	use Hans\Valravn\Services\Routing\RoutingService;
-	use Illuminate\Support\Facades\Route;
 
 	class GatheringTest extends TestCase {
 
@@ -34,10 +33,10 @@
 						$gathering->get( 'something' );
 					}
 				);
-			$this->getJson( route( 'samples.gatherings.something-v1' ) )->assertOk();
+			$this->getJson( route( 'samples.gathering.something-v1' ) )->assertOk();
 			self::assertEquals(
 				url( "samples/-gathering/v1/something" ),
-				route( 'samples.gatherings.something-v1' )
+				route( 'samples.gathering.something-v1' )
 			);
 		}
 
@@ -56,15 +55,15 @@
 						$gathering->get( 'something' );
 					}
 				);
-			$this->getJson( route( 'samples.gatherings.something-else-v7' ) )->assertOk();
-			$this->getJson( route( 'samples.gatherings.something-v1' ) )->assertOk();
+			$this->getJson( route( 'samples.gathering.something-else-v7' ) )->assertOk();
+			$this->getJson( route( 'samples.gathering.something-v1' ) )->assertOk();
 			self::assertEquals(
 				url( "samples/-gathering/v7/something-else" ),
-				route( 'samples.gatherings.something-else-v7' )
+				route( 'samples.gathering.something-else-v7' )
 			);
 			self::assertEquals(
 				url( "samples/-gathering/v1/something" ),
-				route( 'samples.gatherings.something-v1' )
+				route( 'samples.gathering.something-v1' )
 			);
 		}
 
