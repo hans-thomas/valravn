@@ -61,7 +61,7 @@
 		}
 
 		protected function addIdParameter( string $uri ): string {
-			return trim( $uri, '/' ) . "/{" . $this->name . "}";
+			return trim( $uri, '/' ) . "/{" . Str::singular( $this->name ) . "}";
 		}
 
 		protected function addIdParameterWhen( bool $condition, string $uri ): string {
