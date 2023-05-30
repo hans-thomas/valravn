@@ -5,7 +5,7 @@
 	use Illuminate\Routing\Controller;
 
 	class SampleBelongsToController extends Controller {
-		public function viewRelation( int $sample ): void { }
+		public function viewRelation( int $id ): void { }
 
 		public function updateRelation( int $id, int $related ): void { }
 
