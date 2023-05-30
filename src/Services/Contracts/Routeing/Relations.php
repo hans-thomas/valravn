@@ -63,7 +63,7 @@
 		protected function register(): void {
 			$this->registered = true;
 
-			$name      = Str::singular( $this->name );
+			$name      = Str::of( $this->name )->singular()->camel()->snake()->toString();
 			$action    = Str::of( $this->relation )->camel()->ucfirst();
 			$parameter = Str::lower( $this->relation );
 
