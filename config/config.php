@@ -1,5 +1,6 @@
 <?php
 
+	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
 	use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
 	use Hans\Valravn\Services\Filtering\Filters\OrderFilter;
 	use Hans\Valravn\Services\Filtering\Filters\OrderPivotFilter;
@@ -21,6 +22,7 @@
 		],
 		'filters'    => [
 			'like_filter'                   => LikeFilter::class,
+			'include_filter'                => IncludeFilter::class,
 			'order_filter'                  => OrderFilter::class,
 			'order_pivot_filter'            => OrderPivotFilter::class,
 			'where_filter'                  => WhereFilter::class,
