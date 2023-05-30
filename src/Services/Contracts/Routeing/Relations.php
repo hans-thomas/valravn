@@ -41,18 +41,19 @@
 		 */
 		protected array $routes;
 
-		public function __construct( protected string $relation, protected RouteRegistrar $registrar ) { }
+		public function __construct( protected string $name, protected string $relation, protected RouteRegistrar $registrar ) { }
 
 
 		/**
-		 * Implement needed routes for the relation instance
+		 * Get needed routes for the relation instance
 		 *
+		 * @param string $name
 		 * @param string $parameter
 		 * @param string $action
 		 *
 		 * @return void
 		 */
-		abstract protected function routes( string $parameter, string $action ): void;
+		abstract protected function routes( string $name, string $parameter, string $action ): void;
 
 		/**
 		 * Register requested routes
@@ -61,9 +62,12 @@
 		 */
 		protected function register(): void {
 			$this->registered = true;
-			$action           = Str::of( $this->relation )->camel()->ucfirst();
-			$parameter        = Str::lower( $this->relation );
-			$this->routes( $parameter, $action );
+
+			$name      = Str::singular( $this->name );
+			$action    = Str::of( $this->relation )->camel()->ucfirst();
+			$parameter = Str::lower( $this->relation );
+
+			$this->routes( $name, $parameter, $action );
 
 			$this->registrar->group( function( Router $registrar ) use ( $action ) {
 				foreach ( $this->routes as $route ) {

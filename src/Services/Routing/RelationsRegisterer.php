@@ -21,31 +21,31 @@
 		}
 
 		public function hasOne( string $relation ): HasOne {
-			return new HasOne( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new HasOne( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function hasMany( string $relation ): HasMany {
-			return new HasMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new HasMany( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function belongsTo( string $relation ): BelongsTo {
-			return new BelongsTo( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new BelongsTo( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function belongsToMany( string $relation ): BelongsToMany {
-			return new BelongsToMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new BelongsToMany( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function morphTo( string $relation ): MorphTo {
-			return new MorphTo( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new MorphTo( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function morphToMany( string $relation ): MorphToMany {
-			return new MorphToMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new MorphToMany( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 		public function morphedByMany( string $relation ): MorphedByMany {
-			return new MorphedByMany( $relation, $this->registrar->name( "$this->name.$relation." ) );
+			return new MorphedByMany( $this->name, $relation, $this->registrar->name( "$this->name.$relation." ) );
 		}
 
 

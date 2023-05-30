@@ -13,7 +13,7 @@
 		}
 
 		protected function getRouteNamePrefix(): string {
-			return 'gatherings';
+			return 'gathering';
 		}
 
 		protected function getPrefix(): string {

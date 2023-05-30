@@ -6,8 +6,8 @@
 
 	class HasMany extends Relations {
 
-		protected function routes( string $parameter, string $action ): void {
-			$this->get( "{model}/$parameter", $action );
-			$this->post( "{model}/$parameter", $action );
+		protected function routes( string $name, string $parameter, string $action ): void {
+			$this->get( "{$name}/$parameter", $action );
+			$this->post( "{$name}/$parameter", $action );
 		}
 	}
