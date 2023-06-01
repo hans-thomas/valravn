@@ -22,7 +22,6 @@
 		],
 		'filters'    => [
 			'like_filter'                   => LikeFilter::class,
-			'include_filter'                => IncludeFilter::class,
 			'order_filter'                  => OrderFilter::class,
 			'order_pivot_filter'            => OrderPivotFilter::class,
 			'where_filter'                  => WhereFilter::class,
