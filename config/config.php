@@ -1,6 +1,5 @@
 <?php
 
-	use Hans\Valravn\Services\Filtering\Filters\IncludeFilter;
 	use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
 	use Hans\Valravn\Services\Filtering\Filters\OrderFilter;
 	use Hans\Valravn\Services\Filtering\Filters\OrderPivotFilter;
