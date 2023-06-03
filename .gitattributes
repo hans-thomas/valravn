@@ -8,6 +8,5 @@
 .gitignore export-ignore
 docker-compose.yml export-ignore
 Dockerfile export-ignore
-Dockerfile export-ignore
 phpunit.xml export-ignore
 README.md export-ignore
