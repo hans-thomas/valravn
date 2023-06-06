@@ -2,8 +2,6 @@
 
     namespace App\Http\Controllers\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
 
-    use App\DTOs\BatchUpdateDto;
-    use App\Exceptions\ValravnException;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}BatchUpdateRequest;
     use App\Http\Requests\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}StoreRequest;
@@ -12,6 +10,7 @@
     use App\Http\Resources\{{CRUD::VERSION}}\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Resource;
     use App\Models\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}};
     use App\Services\{{CRUD::NAMESPACE}}\{{CRUD::MODEL}}\{{CRUD::MODEL}}Service;
+    use Hans\Valravn\DTOs\BatchUpdateDto;
     use Throwable;
 
     class {{CRUD::MODEL}}CrudController extends Controller {
@@ -45,11 +44,11 @@
         /**
          * Display the specified resource.
          *
-         * @param int ${{CRUD::MODEL-lower}}
+         * @param int|string ${{CRUD::MODEL-lower}}
          *
          * @return {{CRUD::MODEL}}Resource
          */
-        public function show( int ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
+        public function show( int|string ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
             return $this->service->find( ${{CRUD::MODEL-lower}} )->toResource();
         }
 
@@ -72,7 +71,7 @@
          * @param {{CRUD::MODEL}}BatchUpdateRequest $request
          *
          * @return {{CRUD::MODEL}}Collection
-         * @throws ValravnException
+         * @throws Throwable
          */
         public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): {{CRUD::MODEL}}Collection {
             return {{CRUD::MODEL}}::getResourceCollection(
@@ -86,7 +85,7 @@
          * @param {{CRUD::MODEL}} ${{CRUD::MODEL-lower}}
          *
          * @return {{CRUD::MODEL}}Resource
-         * @throws ValravnException
+         * @throws Throwable
          */
         public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
             return $this->service->delete( ${{CRUD::MODEL-lower}} )->toResource();

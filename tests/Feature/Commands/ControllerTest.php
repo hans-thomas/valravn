@@ -27,8 +27,6 @@
 
     namespace App\Http\Controllers\V1\Blog\Post;
 
-    use App\DTOs\BatchUpdateDto;
-    use App\Exceptions\ValravnException;
     use App\Http\Controllers\Controller;
     use App\Http\Requests\V1\Blog\Post\PostBatchUpdateRequest;
     use App\Http\Requests\V1\Blog\Post\PostStoreRequest;
@@ -37,6 +35,7 @@
     use App\Http\Resources\V1\Blog\Post\PostResource;
     use App\Models\Blog\Post;
     use App\Services\Blog\Post\PostService;
+    use Hans\Valravn\DTOs\BatchUpdateDto;
     use Throwable;
 
     class PostCrudController extends Controller {
@@ -70,11 +69,11 @@
         /**
          * Display the specified resource.
          *
-         * @param int $post
+         * @param int|string $post
          *
          * @return PostResource
          */
-        public function show( int $post ): PostResource {
+        public function show( int|string $post ): PostResource {
             return $this->service->find( $post )->toResource();
         }
 
@@ -97,7 +96,7 @@
          * @param PostBatchUpdateRequest $request
          *
          * @return PostCollection
-         * @throws ValravnException
+         * @throws Throwable
          */
         public function batchUpdate( PostBatchUpdateRequest $request ): PostCollection {
             return Post::getResourceCollection(
@@ -111,7 +110,7 @@
          * @param Post $post
          *
          * @return PostResource
-         * @throws ValravnException
+         * @throws Throwable
          */
         public function destroy( Post $post ): PostResource {
             return $this->service->delete( $post )->toResource();
