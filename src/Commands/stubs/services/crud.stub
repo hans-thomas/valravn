@@ -35,8 +35,8 @@
             return $model;
         }
 
-        public function find( int $model ): {{CRUD-SERVICE::MODEL}} {
-            return $this->repository->find( $model );
+        public function find( int|string $model ): {{CRUD-SERVICE::MODEL}} {
+            return $this->repository->find( $model, is_numeric( $model ) ? 'id' : 'slug' );
         }
 
         public function update( {{CRUD-SERVICE::MODEL}} $model, array $data ): {{CRUD-SERVICE::MODEL}} {

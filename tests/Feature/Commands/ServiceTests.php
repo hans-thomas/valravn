@@ -60,8 +60,8 @@
             return $model;
         }
 
-        public function find( int $model ): Post {
-            return $this->repository->find( $model );
+        public function find( int|string $model ): Post {
+            return $this->repository->find( $model, is_numeric( $model ) ? \'id\' : \'slug\' );
         }
 
         public function update( Post $model, array $data ): Post {
