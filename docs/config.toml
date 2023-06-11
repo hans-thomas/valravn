@@ -1,4 +1,4 @@
-baseURL = "https://docs-valravn.github.io/"
+baseURL = "https://valravn.vercel.app/"
 title = "Valravn"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
