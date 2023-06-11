@@ -19,4 +19,4 @@
     {{- $.Scratch.Add "index" $searchEntry -}}
   {{- end -}}
 {{- end -}}
-{{- jsonify (uniq ($.Scratch.Get "index")) -}}
+{{- jsonify ($.Scratch.Get "index" | uniq) -}}
