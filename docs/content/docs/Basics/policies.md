@@ -11,7 +11,7 @@ This class
 contains `viewAny`, `view`, `create`, `update`, `batchUpdate`, `delete`, `restore`, `forceDelete`
 methods by default. for example, if the related
 model was `App\Models\Core\User::class` and we requested a specific id,
-the `guessAbility` method returns `core-user-view` ability to authorize.
+the `guessAbility` method returns `core-user-view` ability to authorize. 
 
 There is an example of implementation.
 

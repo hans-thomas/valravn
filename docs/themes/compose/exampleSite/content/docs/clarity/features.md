@@ -20,6 +20,6 @@ Weight: 13
     4. Language label
     5. Toggle block expansion/contraction (dynamic)
 
-  To put it all in context, here is a preview showing all functionality.
+    To put it all in context, here is a preview showing all functionality.
 
-  ![code block functions](../../../images/clarity/syntax-block.gif)
+    ![code block functions](../../../images/clarity/syntax-block.gif)

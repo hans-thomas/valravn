@@ -11,12 +11,11 @@ This theme ships with 2 github actions inside the exampleSite folder:
 
 ## AWS CI
 
-This helps you to autodeploy your hugo website from github to an AWS s3 bucket. Set the secrets in the action
-accordingly and voila.
+  This helps you to autodeploy your hugo website from github to an AWS s3 bucket. Set the secrets in the action accordingly and voila.
 
 ## Algolia CI
 
-This action will automatically update your algolia search index. No extra npm manual setup will be needed.
+  This action will automatically update your algolia search index. No extra npm manual setup will be needed.
 
 These actions are customizable to fire off under your specified set of circumstances.
 

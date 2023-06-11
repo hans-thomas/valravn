@@ -58,6 +58,7 @@ which you can use to avoid redundancy.
 [delete](#delete)
 {{< /column >}}
 
+
 {{< /column >}}
 
 #### getQueryBuilder

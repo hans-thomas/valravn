@@ -1,5 +1,5 @@
 #  menu items
 [[main]]
-name = "Docs"
-weight = 2
-url = "docs/"
+  name = "Docs"
+  weight = 2
+  url = "docs/"

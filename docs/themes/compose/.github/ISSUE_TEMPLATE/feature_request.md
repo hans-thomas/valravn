@@ -17,6 +17,5 @@ assignees: ''
 A clear and concise description of what the feature is. [REPLACE]
 
 **Desktop (please complete the following information):**
-
-- OS: [e.g. iOS 14, Windows 10]
-- Browser: [e.g. chrome 76, safari 13]
+ - OS: [e.g. iOS 14, Windows 10]
+ - Browser: [e.g. chrome 76, safari 13]

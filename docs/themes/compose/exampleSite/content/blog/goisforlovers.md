@@ -301,7 +301,7 @@ params:
 Within a footer layout, you might then declare a `<footer>` which is only
 provided if the `CopyrightHTML` parameter is provided, and if it is given,
 you would declare it to be HTML-safe, so that the HTML entity is not escaped
-again. This would let you easily update just your top-level config file each
+again.  This would let you easily update just your top-level config file each
 January 1st, instead of hunting through your templates.
 
 ```html

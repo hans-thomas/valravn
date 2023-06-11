@@ -13,15 +13,12 @@ code
   display: block
   font-family: 'Monaco', monospace
   word-break: break-all
-
   &.noClass
     color: var(--inline-color)
     display: inline
     line-break: anywhere
-
 .windows .highlight
   overflow-x: hidden
-
   &:hover
     overflow-x: auto
 
@@ -31,7 +28,6 @@ code
   border-radius: 0 0.2rem 0.2rem 0
   overflow-x: auto
   position: relative
-
   &_wrap
     display: grid
     background: var(--code-bg) !important
@@ -39,17 +35,13 @@ code
     position: relative
     padding: 0 1rem
     margin: 1.5rem auto 1rem auto
-
     & &
       margin: 0
       padding: 0
-
     & + &
       margin-top: 2.25rem
-
     &:hover > div
       opacity: 1
-
     .lang
       position: absolute
       top: 0
@@ -62,13 +54,10 @@ code
       font-size: 67%
       opacity: 0.5
       color: var(--text)
-
     &:hover .lang
       opacity: 0.1
-
   & &
     margin: 0
-
   pre
     color: var(--text) !important
     border-radius: 4px
@@ -81,20 +70,18 @@ code
     max-width: 100%
     margin-bottom: 0
     background: transparent
-
   td, th
     padding: 0
 
   .lntd
     width: 100%
     border: none
-
     &:first-child
       &, pre
         width: 2.5rem !important
         padding-left: 0
         padding-right: 0
-        color: rgba(255, 255, 255, 0.5)
+        color: rgba(255,255,255,0.5)
         user-select: none
 
       pre
@@ -105,22 +92,19 @@ code
 
 .err
   color: #a61717
-
 .hl
   width: 100%
   background: var(--inline-color)
-
 .ln, .lnt
   margin-right: 0.75rem
   padding: 0
   transition: opacity 0.3s var(--ease)
-
   &, span
     color: var(--text)
     opacity: 0.5
     user-select: none
 
-.k, .kc, .kd, .kn, .kp, .kr, .kt, .nt
+.k, .kc, .kd, .kn, .kp, .kr, .kt, .nt  
   color: #6ab825
   font-weight: 500
 
@@ -180,17 +164,14 @@ code
 
 .gt
   color: #d22323
-
 .w
   color: #666
 
 .hljs
   &-string
     color: #6ab825
-
   &-attr
     color: #ed9d13
-
   .p &-attr
     color: var(--light)
 
@@ -220,7 +201,6 @@ code
     right: 0rem
     top: -2.1rem
     opacity: 0
-
   &_icon
     display: inline-flex
     align-items: center
@@ -229,19 +209,15 @@ code
     padding: 0.1rem
     transform-origin: 50% 50%
     margin: 0
-
     &.active
       animation: pulse 0.1s linear
-
     svg
       fill: var(--text)
       width: 1.5rem
       height: 1.5rem
-
   &_hide
     // hide icon if not needed
     display: none
-
   &_from
     position: absolute
     color: var(--theme)
@@ -252,7 +228,6 @@ code
     cursor: pointer
     letter-spacing: 0.1px
     z-index: 19
-
   &_expanded &_from
     display: none
 

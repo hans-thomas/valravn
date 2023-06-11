@@ -10,36 +10,35 @@ These modifiers are classes you can use with shortcodes to customize the look an
 
 #### Grid
 
-| modifier | space     |
-|----------|-----------|
-| grid-2   | 2 columns |
-| grid-3   | 3 columns |
-| grid-4   | 4 columns |
+| modifier | space |
+| --- | --- |
+| grid-2 | 2 columns |
+| grid-3 | 3 columns |
+| grid-4 | 4 columns |
 
 #### Spacing
 
-| modifier | space             |
-|----------|-------------------|
-| mt-1     | 1.5rem top margin |
-| mt-2     | 3rem top margin   |
-| mt-3     | 4.5rem top margin |
-| mt-4     | 6rem top margin   |
+| modifier | space |
+| --- | --- |
+| mt-1 | 1.5rem top margin |
+| mt-2 | 3rem top margin |
+| mt-3 | 4.5rem top margin |
+| mt-4 | 6rem top margin |
 
 > use pt-1 \~ pt-4 for top padding
 
-| modifier | space                |
-|----------|----------------------|
-| mb-1     | 1.5rem bottom margin |
-| mb-2     | 3rem bottom margin   |
-| mb-3     | 4.5rem bottom margin |
-| mb-4     | 6rem bottom margin   |
+| modifier | space |
+| --- | --- |
+| mb-1 | 1.5rem bottom margin |
+| mb-2 | 3rem bottom margin |
+| mb-3 | 4.5rem bottom margin |
+| mb-4 | 6rem bottom margin |
 
 > use pb-1 \~ pb-4 for bottom padding
 
 ### How do I disable dark mode?
 
-Under `params` add `enableDarkMode = false` to your `config.toml` file. If your site is based on the exampleSite, the
-value is already included; you only need to uncomment it.
+Under `params` add `enableDarkMode = false` to your `config.toml` file. If your site is based on the exampleSite, the value is already included; you only need to uncomment it.
 
 > The user will still have the option to activate dark mode, if they so wish through the UI
 
@@ -61,8 +60,7 @@ metaThemeColor = "#123456"
 
 Use hooks. Ideally, you should not override the them directly.
 
-Instead, you should duplicate [these files](https://github.com/onweru/compose/tree/master/layouts/partials/hooks) at the
-root of you site directory.
+Instead, you should duplicate [these files](https://github.com/onweru/compose/tree/master/layouts/partials/hooks) at the root of you site directory.
 
 1. layouts/partials/hooks/head.html
 2. layouts/partials/hooks/scripts.html
@@ -71,8 +69,7 @@ The contents of the first file will be attached just before the `</head>` tag.
 
 The contents of the second file will be attached just before the `</body>` tag.
 
-Alternatively, if you want to use the `config.toml` to track your custom styles or scripts, declare them as slices
-under `[params]` like so:
+Alternatively, if you want to use the `config.toml` to track your custom styles or scripts, declare them as slices under `[params]` like so:
 
 ```toml
 ...
@@ -84,9 +81,7 @@ customJS = [scriptURL1, scriptURL2 ... ]
 
 ### I want to add custom SASS or JS
 
-Add custom SASS and JS
-via [this custom SASS file](https://github.com/onweru/compose/blob/master/assets/sass/_custom.sass)
-and [this custom JavaScript file](https://github.com/onweru/compose/hugo-compose/blob/master/assets/js/custom.js).
+Add custom SASS and JS via [this custom SASS file](https://github.com/onweru/compose/blob/master/assets/sass/_custom.sass) and [this custom JavaScript file](https://github.com/onweru/compose/hugo-compose/blob/master/assets/js/custom.js).
 
 ### How to change site favicon
 

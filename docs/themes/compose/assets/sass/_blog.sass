@@ -1,12 +1,11 @@
 @mixin shadow($opacity: 0.17)
-  box-shadow: 0 0 3rem rgba(0, 0, 0, $opacity)
+  box-shadow: 0 0 3rem rgba(0,0,0,$opacity)
   &:hover
-    box-shadow: 0 0 5rem rgba(0, 0, 0, (1.5 * $opacity))
+    box-shadow: 0 0 5rem rgba(0,0,0, (1.5 * $opacity))
 
 .post
   margin: 0 auto
   width: 100%
-
   p, h1, h2, h3, h4, h5, h6, blockquote, ol, ul, .highlight_wrap, hr
     max-width: 840px !important
     margin-left: auto
@@ -20,7 +19,7 @@
       margin-left: auto
       margin-right: auto
 
-  h2, h3, h4
+  h2,h3,h4
     margin: 0.5rem auto
     text-align: left
     padding: 5px 0 0 0
@@ -47,20 +46,17 @@
     img
       width: 100%
       max-width: 100%
-
   &_inner
     a
       color: var(--theme)
       transition: all 0.3s
-
       &:hover
         opacity: 0.8
         text-decoration: underline
 
     img:not(.icon)
       margin-bottom: 2rem
-      box-shadow: 0 1.5rem 1rem -1rem rgba(0, 0, 0, 0.25)
-
+      box-shadow: 0 1.5rem 1rem -1rem rgba(0,0,0,0.25)
       ~ h1, ~ h2, ~ h3, ~ h4
         margin-top: 0
         padding-top: 0
@@ -82,8 +78,8 @@
     border-radius: 10px
     overflow: hidden
     width: 100%
-    @media screen and (min-width:667 px)
-    width: 47%
+    @media screen and (min-width:667px)
+      width: 47%
 
   &_item:hover &_copy
     opacity: 1
@@ -107,7 +103,6 @@
     border-radius: 0.3rem
     color: var(--dark)
     text-transform: capitalize
-
     a
       &:hover
         color: var(--theme)
@@ -149,7 +144,6 @@
     color: var(--theme)
     // box-shadow: 0 1rem 3rem -1rem rgba(0,0,0,0.15)
     text-transform: uppercase
-
     &, span
       position: relative
       z-index: 3
@@ -170,7 +164,6 @@
     margin: 0 auto
     width: 10rem
     grid-template-columns: 1fr 1.33rem
-
     &::after
       content: ""
       background-image: var(--next-icon-path)
@@ -206,7 +199,6 @@
   padding: 0 10px 1.5rem 10px
   position: relative
   z-index: 1
-
   &_meta
     display: flex
     justify-content: space-between
@@ -224,23 +216,19 @@
     margin: 0
 
 .article
-  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.12)
+  box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.12)
   overflow: hidden
   border-radius: 0.5rem
-
   &_title
     margin: 0
-
   &_excerpt
     &:not(.visible)
       height: 0
       opacity: 0
     transition: height 0.5s, opacity 0.5s
-
   &_excerpt,
   &_meta
     transform-origin: bottom
-
   &_meta
     padding: 10px 1.25rem 1.25rem
     color: var(--text)
@@ -248,7 +236,6 @@
     z-index: 2
     transition: margin-top 0.5s
     background: var(--bg)
-
     &.center_y
       transform-origin: center
       transition: transform 0.5s
@@ -311,8 +298,7 @@
         transform: translateX(-3rem)
 
   &:hover
-    box-shadow: 0 1.5rem 6rem rgba(0, 0, 0, 0.17)
-
+    box-shadow: 0 1.5rem 6rem rgba(0,0,0,0.17)
     a
       color: initial !important
 

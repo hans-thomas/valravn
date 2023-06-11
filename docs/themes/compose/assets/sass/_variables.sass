@@ -1,9 +1,9 @@
 html
   --color-mode: "light"
   --light: #fff
-  --dark: rgb(28, 28, 30)
+  --dark:  rgb(28,28,30)
   --haze: #f2f5f7
-  --bubble: rgb(36, 36, 38)
+  --bubble: rgb(36,36,38)
   --accent: var(--haze)
   --bg: var(--light)
   --code-bg: var(--accent)
@@ -12,22 +12,22 @@ html
   --font: 'Metropolis', sans-serif
   --border-color: #eee
   --inline-color: darkgoldenrod
-  --theme: rgb(52, 199, 89)
+  --theme: rgb(52,199,89)
   --ease: ease
-  --scroll-thumb: rgba(0, 0, 0, .06)
+  --scroll-thumb: rgba(0,0,0,.06)
   --search-border-color: transparent
   --next-icon-path: url(../images/icons/double-arrow.svg)
   --never-icon-path: url(../images/sitting.svg)
 
   @mixin darkmode
     --color-mode: "dark"
-    --theme: rgb(48, 209, 88)
+    --theme: rgb(48,209,88)
     --bg: var(--dark)
     --text: #eee
     --accent: var(--bubble)
     --overlay: var(--bubble)
     --border-color: transparent
-    --scroll-thumb: rgba(255, 255, 255, .06)
+    --scroll-thumb: rgba(255,255,255,.06)
     --search-bg: var(--accent)
     --search-border-color: var(--accent)
     *
@@ -35,7 +35,6 @@ html
 
   &[data-mode="dark"]
     @include darkmode
-
     .color
       &_choice
         &::after

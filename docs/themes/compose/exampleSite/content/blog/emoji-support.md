@@ -10,14 +10,11 @@ image = "artist.jpg"
 Emoji can be enabled in a Hugo project in a number of ways.
 <!--more-->
 
-The `[emojify](https://gohugo.io/functions/emojify/)` function can be called directly in templates
-or [Inline Shortcodes](https://gohugo.io/templates/shortcode-templates/#inline-shortcodes).
+The `[emojify](https://gohugo.io/functions/emojify/)` function can be called directly in templates or [Inline Shortcodes](https://gohugo.io/templates/shortcode-templates/#inline-shortcodes).
 
 {{< youtube "https://www.youtube.com/watch?v=eW7Twd85m2g" >}}
 
-To enable emoji globally, set `enableEmoji` to `true` in your
-site’s [configuration](https://gohugo.io/getting-started/configuration/) and then you can type emoji shorthand codes
-directly in content files; e.g.
+To enable emoji globally, set `enableEmoji` to `true` in your site’s [configuration](https://gohugo.io/getting-started/configuration/) and then you can type emoji shorthand codes directly in content files; e.g.
 
 <p><span class="nowrap"><span class="emojify">🙈</span> <code>:see_no_evil:</code></span>  <span class="nowrap"><span class="emojify">🙉</span> <code>:hear_no_evil:</code></span>  <span class="nowrap"><span class="emojify">🙊</span> <code>:speak_no_evil:</code></span></p>
 <br>
@@ -26,9 +23,7 @@ The [Emoji cheat sheet](http://www.emoji-cheat-sheet.com/) is a useful reference
 
 ***
 
-**N.B.** The above steps enable Unicode Standard emoji characters and sequences in Hugo, however the rendering of these
-glyphs depends on the browser and the platform. To style the emoji you can either use a third party emoji font or a font
-stack; e.g.
+**N.B.** The above steps enable Unicode Standard emoji characters and sequences in Hugo, however the rendering of these glyphs depends on the browser and the platform. To style the emoji you can either use a third party emoji font or a font stack; e.g.
 
 ### Inline CSS
 

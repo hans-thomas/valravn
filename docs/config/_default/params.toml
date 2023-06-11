@@ -35,17 +35,17 @@ key = "da87401a458102ec6bbd6cc5e5cf8d95" # Search-Only API Key
 
 # Site logo
 [logo]
-lightMode = "images/logo-light.png"
-darkMode = "images/logo-dark.png"
+  lightMode = "images/logo-light.png"
+  darkMode = "images/logo-dark.png"
 
 [source]
-name = "GitHub"
-iconLight = "images/GitHubMarkLight.svg"
-iconDark = "images/GitHubMarkDark.svg"
-url = "https://github.com/hans-thomas/valravn"
+  name = "GitHub"
+  iconLight = "images/GitHubMarkLight.svg"
+  iconDark = "images/GitHubMarkDark.svg"
+  url = "https://github.com/hans-thomas/valravn"
 
 # optional
 # attribution. Feel free to delete this
 [author]
-name = "Mohammad Mortazavi"
-url = "https://github.com/hans-thomas"
+  name = "Mohammad Mortazavi"
+  url = "https://github.com/hans-thomas"
