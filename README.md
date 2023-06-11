@@ -2,7 +2,6 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/hans-thomas/valravn)
-![GitHub repo size](https://img.shields.io/github/repo-size/hans-thomas/valravn)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hans-thomas/valravn)
 
 ## What is it
@@ -42,6 +41,6 @@ To start testing run below commands step by step:
 Support
 -------
 
-- [Documentation](https://docs-valravn.github.io/)
+- [Documentation](https://valravn.vercel.app/)
 - [Report bugs](https://github.com/hans-thomas/valravn/issues)
 
