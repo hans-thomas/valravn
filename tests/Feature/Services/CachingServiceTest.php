@@ -42,7 +42,7 @@
 			Cache::shouldReceive( 'remember' )
 			     ->once();
 
-			ValravnCacheFacade::cache( '10/12', fn() => 10 / 12 );
+			ValravnCacheFacade::store( 'unique_key', fn() => 10 / 12 );
 		}
 
 

@@ -45,7 +45,7 @@
 		 *
 		 * @return mixed
 		 */
-		public function cache( string $key, callable $data ): mixed {
+		public function store( string $key, callable $data ): mixed {
 			return $this->remember( 'cache', [ $key ], $data );
 		}
 
