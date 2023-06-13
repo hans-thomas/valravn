@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Valravn\Tests;
+	namespace Hans\Valravn\Testing;
 
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Foundation\Testing\RefreshDatabase;

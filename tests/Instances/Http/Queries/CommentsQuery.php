@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Queries;
+	namespace Hans\Valravn\Tests\Instances\Http\Queries;
 
-	use Hans\Tests\Valravn\Core\Models\Comment;
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Core\Resources\Comment\CommentCollection;
+	use Hans\Valravn\Tests\Core\Models\Comment;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 	use Illuminate\Http\Resources\Json\JsonResource;

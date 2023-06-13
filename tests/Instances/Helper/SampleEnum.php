@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Helper;
+	namespace Hans\Valravn\Tests\Instances\Helper;
 
 	use Hans\Valravn\Helpers\Traits\EnumHelper;
 

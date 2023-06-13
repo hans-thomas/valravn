@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Services;
+	namespace Hans\Valravn\Tests\Instances\Services;
 
 	use Hans\Valravn\Services\Contracts\Service;
 

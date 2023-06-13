@@ -1,12 +1,12 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Http\Resources;
+	namespace Hans\Valravn\Tests\Feature\Http\Resources;
 
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleResource;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithDefaultExtractResource;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithHookResource;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithTypeOverrideResource;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleResource;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithDefaultExtractResource;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookResource;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithTypeOverrideResource;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Database\Eloquent\Model;
 

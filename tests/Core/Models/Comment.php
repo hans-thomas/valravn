@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Models;
+	namespace Hans\Valravn\Tests\Core\Models;
 
-	use Hans\Tests\Valravn\Core\Factories\CommentFactory;
+	use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;

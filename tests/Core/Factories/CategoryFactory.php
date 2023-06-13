@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Factories;
+	namespace Hans\Valravn\Tests\Core\Factories;
 
-	use Hans\Tests\Valravn\Core\Models\Category;
+	use Hans\Valravn\Tests\Core\Models\Category;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 
 	class CategoryFactory extends Factory {

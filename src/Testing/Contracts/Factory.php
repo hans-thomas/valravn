@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Contracts;
+	namespace Hans\Valravn\Testing\Contracts;
 
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;

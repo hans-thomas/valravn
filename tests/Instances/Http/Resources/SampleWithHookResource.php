@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Resources;
+	namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;

@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\DTOs;
+	namespace Hans\Valravn\Tests\Instances\DTOs;
 
 	use Hans\Valravn\DTOs\Contracts\Dto;
 	use Illuminate\Support\Collection;

@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Services;
+	namespace Hans\Valravn\Tests\Feature\Services;
 
-	use Hans\Tests\Valravn\Instances\Services\SampleService;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Services\SampleService;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Facades\Cache as ValravnCacheFacade;
 	use Hans\Valravn\Services\Contracts\Service;
 	use Illuminate\Support\Facades\Cache;

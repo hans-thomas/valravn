@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Resources\Comment;
+	namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
-	use Hans\Tests\Valravn\Instances\Http\Includes\PostIncludes;
+	use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Illuminate\Database\Eloquent\Model;
 

@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Repositories;
+	namespace Hans\Valravn\Tests\Instances\Repositories;
 
-	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Models\Post;
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Illuminate\Contracts\Database\Eloquent\Builder;
 

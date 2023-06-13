@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Controllers;
+	namespace Hans\Valravn\Tests\Instances\Http\Controllers;
 
 	use Illuminate\Http\Request;
 	use Illuminate\Routing\Controller;

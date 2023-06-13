@@ -82,7 +82,7 @@ This contract helps to create fake data for your test suite. the implementation 
 
 ```php
 use Hans\Valravn\Repositories\Contracts\Repository;
-use Hans\Valravn\Tests\Contracts\Factory;
+use Hans\Valravn\Testing\Contracts\Factory;
 use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;
 
 class PostFactory extends Factory {

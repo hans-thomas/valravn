@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Helper\Traits;
+	namespace Hans\Valravn\Tests\Feature\Helper\Traits;
 
-	use Hans\Tests\Valravn\Instances\Helper\SampleEnum;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Helper\SampleEnum;
+	use Hans\Valravn\Tests\TestCase;
 
 	class EnumHelperTest extends TestCase {
 

@@ -1,12 +1,12 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Http\Resources;
+	namespace Hans\Valravn\Tests\Feature\Http\Resources;
 
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleCollection;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithCollectionDefaultExtractCollection;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithDefaultExtractCollection;
-	use Hans\Tests\Valravn\Instances\Http\Resources\SampleWithHookCollection;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleCollection;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithCollectionDefaultExtractCollection;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithDefaultExtractCollection;
+	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookCollection;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Support\Collection;
 

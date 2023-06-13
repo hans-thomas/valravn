@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Controllers;
+	namespace Hans\Valravn\Tests\Instances\Http\Controllers;
 
 	use Hans\Valravn\Commands\Controller;
 

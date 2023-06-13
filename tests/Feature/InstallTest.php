@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature;
+	namespace Hans\Valravn\Tests\Feature;
 
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\TestCase;
 	use Illuminate\Support\Facades\Artisan;
 	use Illuminate\Support\Facades\File;
 	use Illuminate\Support\Str;

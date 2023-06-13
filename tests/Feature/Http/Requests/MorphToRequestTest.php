@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Http\Requests;
+	namespace Hans\Valravn\Tests\Feature\Http\Requests;
 
-	use Hans\Tests\Valravn\Instances\Http\Requests\LikeLikableRequest;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Http\Requests\LikeLikableRequest;
+	use Hans\Valravn\Tests\TestCase;
 	use Illuminate\Validation\Rule;
 	use function PHPUnit\Framework\assertEquals;
 

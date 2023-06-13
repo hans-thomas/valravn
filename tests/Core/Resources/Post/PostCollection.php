@@ -1,11 +1,11 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Resources\Post;
+	namespace Hans\Valravn\Tests\Core\Resources\Post;
 
-	use Hans\Tests\Valravn\Instances\Http\Includes\CommentsIncludes;
-	use Hans\Tests\Valravn\Instances\Http\Queries\CommentsQuery;
-	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCategoryQuery;
-	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
+	use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
+	use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
+	use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
+	use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
 

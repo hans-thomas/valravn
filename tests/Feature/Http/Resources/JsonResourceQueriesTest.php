@@ -1,13 +1,13 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Http\Resources;
+	namespace Hans\Valravn\Tests\Feature\Http\Resources;
 
-	use Hans\Tests\Valravn\Core\Factories\CommentFactory;
-	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Factories\CommentFactory;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
+	use Hans\Valravn\Tests\TestCase;
 
 	class JsonResourceQueriesTest extends TestCase {
 

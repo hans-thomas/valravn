@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Services\Routing;
+	namespace Hans\Valravn\Tests\Feature\Services\Routing;
 
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleActionsController;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleActionsController;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Services\Routing\ActionsRegisterer;
 	use Hans\Valravn\Services\Routing\RoutingService;
 

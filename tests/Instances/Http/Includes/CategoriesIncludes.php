@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Includes;
+	namespace Hans\Valravn\Tests\Instances\Http\Includes;
 
-	use Hans\Tests\Valravn\Core\Resources\Category\CategoryCollection;
+	use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\Includes;
 	use Illuminate\Contracts\Database\Eloquent\Builder;

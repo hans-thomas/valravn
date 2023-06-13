@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Http\Requests;
+	namespace Hans\Valravn\Tests\Feature\Http\Requests;
 
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Instances\Http\Requests\PostCategoriesHasManyRequest;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesHasManyRequest;
+	use Hans\Valravn\Tests\TestCase;
 	use Illuminate\Validation\Rule;
 
 	class HasManyRequestTest extends TestCase {

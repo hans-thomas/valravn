@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\DTOs;
+	namespace Hans\Valravn\Tests\Feature\DTOs;
 
-	use Hans\Tests\Valravn\Instances\DTOs\SampleDto;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\DTOs\SampleDto;
+	use Hans\Valravn\Tests\TestCase;
 
 	class DtoTest extends TestCase {
 

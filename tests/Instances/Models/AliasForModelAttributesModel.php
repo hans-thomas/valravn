@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Models;
+	namespace Hans\Valravn\Tests\Instances\Models;
 
-	use Hans\Tests\Valravn\Core\Models\Comment;
-	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Models\Comment;
+	use Hans\Valravn\Tests\Core\Models\Post;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 
 	class AliasForModelAttributesModel extends Comment {

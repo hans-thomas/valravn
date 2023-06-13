@@ -1,22 +1,22 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Services;
+	namespace Hans\Valravn\Tests\Feature\Services;
 
-	use Hans\Tests\Valravn\Core\Factories\CategoryFactory;
-	use Hans\Tests\Valravn\Core\Factories\CommentFactory;
-	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Tests\Valravn\Core\Models\Comment;
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Core\Resources\Category\CategoryResource;
-	use Hans\Tests\Valravn\Core\Resources\Comment\CommentCollection;
-	use Hans\Tests\Valravn\Core\Resources\Comment\CommentResource;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
-	use Hans\Tests\Valravn\Instances\Http\Queries\CommentsQuery;
-	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCategoryQuery;
-	use Hans\Tests\Valravn\Instances\Http\Queries\FirstCommentQuery;
-	use Hans\Tests\Valravn\Instances\Services\QueryingServiceProxy;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
+	use Hans\Valravn\Tests\Core\Factories\CommentFactory;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Core\Models\Comment;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Resources\Category\CategoryResource;
+	use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
+	use Hans\Valravn\Tests\Core\Resources\Comment\CommentResource;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
+	use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
+	use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
+	use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
+	use Hans\Valravn\Tests\Instances\Services\QueryingServiceProxy;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Support\Collection;

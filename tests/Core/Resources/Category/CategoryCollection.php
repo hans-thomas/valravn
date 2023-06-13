@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Resources\Category;
+	namespace Hans\Valravn\Tests\Core\Resources\Category;
 
-	use Hans\Tests\Valravn\Instances\Http\Includes\PostsIncludes;
+	use Hans\Valravn\Tests\Instances\Http\Includes\PostsIncludes;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
 

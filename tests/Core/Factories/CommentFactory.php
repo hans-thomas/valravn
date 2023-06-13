@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Core\Factories;
+	namespace Hans\Valravn\Tests\Core\Factories;
 
-	use Hans\Tests\Valravn\Core\Models\Comment;
+	use Hans\Valravn\Tests\Core\Models\Comment;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 
 	class CommentFactory extends Factory {

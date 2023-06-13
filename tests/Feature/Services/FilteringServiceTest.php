@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Services;
+	namespace Hans\Valravn\Tests\Feature\Services;
 
-	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Services\Filtering\FilteringService;
 
 	class FilteringServiceTest extends TestCase {

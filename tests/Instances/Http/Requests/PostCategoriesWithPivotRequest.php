@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Requests;
+	namespace Hans\Valravn\Tests\Instances\Http\Requests;
 
-	use Hans\Tests\Valravn\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Models\Post;
 	use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 
 	class PostCategoriesWithPivotRequest extends BelongsToManyRequest {

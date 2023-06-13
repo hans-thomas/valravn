@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Models;
+	namespace Hans\Valravn\Tests\Feature\Models;
 
-	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Tests\Valravn\Instances\Models\AliasForModelAttributesModel;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Instances\Models\AliasForModelAttributesModel;
+	use Hans\Valravn\Tests\TestCase;
 	use Illuminate\Database\Eloquent\Model;
 
 	class BaseModelTest extends TestCase {

@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Requests;
+	namespace Hans\Valravn\Tests\Instances\Http\Requests;
 
 	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
 

@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Instances\Http\Queries;
+	namespace Hans\Valravn\Tests\Instances\Http\Queries;
 
-	use Hans\Tests\Valravn\Core\Resources\Category\CategoryResource;
+	use Hans\Valravn\Tests\Core\Resources\Category\CategoryResource;
 	use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
 	use Illuminate\Database\Eloquent\Model;
 

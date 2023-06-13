@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\DTOs;
+	namespace Hans\Valravn\Tests\Feature\DTOs;
 
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\DTOs\BatchUpdateDto;
 
 	class BatchUpdateDtoTest extends TestCase {

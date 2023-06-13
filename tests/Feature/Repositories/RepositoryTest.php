@@ -1,11 +1,11 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Repositories;
+	namespace Hans\Valravn\Tests\Feature\Repositories;
 
-	use Hans\Tests\Valravn\Core\Factories\PostFactory;
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Instances\Repositories\SampleRepository;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\DTOs\BatchUpdateDto;
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Illuminate\Auth\Access\AuthorizationException;

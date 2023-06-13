@@ -1,8 +1,8 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Exceptions;
+	namespace Hans\Valravn\Tests\Feature\Exceptions;
 
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Exceptions\ValravnException;
 	use Symfony\Component\HttpFoundation\Response;
 

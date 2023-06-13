@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hans\Tests\Valravn;
+	namespace Hans\Valravn\Tests;
 
-	use Hans\Tests\Valravn\Core\Models\Post;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostCollection;
-	use Hans\Tests\Valravn\Core\Resources\Post\PostResource;
+	use Hans\Valravn\Tests\Core\Models\Post;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
+	use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\ValravnServiceProvider;
 	use Illuminate\Foundation\Application;

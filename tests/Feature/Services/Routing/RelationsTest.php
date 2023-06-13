@@ -1,15 +1,15 @@
 <?php
 
-	namespace Hans\Tests\Valravn\Feature\Services\Routing;
+	namespace Hans\Valravn\Tests\Feature\Services\Routing;
 
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleBelongsToController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleBelongsToManyController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleHasManyController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleHasOneController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleMorphedByManyController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleMorphToController;
-	use Hans\Tests\Valravn\Instances\Http\Controllers\SampleMorphToManyController;
-	use Hans\Tests\Valravn\TestCase;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleBelongsToController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleBelongsToManyController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleHasManyController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleHasOneController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphedByManyController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToController;
+	use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToManyController;
+	use Hans\Valravn\Tests\TestCase;
 	use Hans\Valravn\Services\Routing\RelationsRegisterer;
 	use Hans\Valravn\Services\Routing\RoutingService;
 
