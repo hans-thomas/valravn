@@ -32,17 +32,21 @@
 		 */
 		private int $interval = 15;
 
-		public function __construct( private Request $request ) { }
+		public function __construct(
+			private readonly Request $request
+		) {
+		}
 
 		/**
 		 * Cache the given data
 		 *
-		 * @param mixed $data
+		 * @param string $key
+		 * @param mixed  $data
 		 *
 		 * @return mixed
 		 */
-		public function cache( mixed $data ): mixed {
-			return $this->remember( 'cache', [ $data ], fn() => $data );
+		public function cache( string $key, callable $data ): mixed {
+			return $this->remember( 'cache', [ $key ], $data );
 		}
 
 		/**

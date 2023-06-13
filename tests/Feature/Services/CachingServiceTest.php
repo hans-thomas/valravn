@@ -28,8 +28,8 @@
 		 */
 		public function remember(): void {
 			Cache::shouldReceive( 'remember' )
-			     ->once()
-			     ->andReturn( 3 );
+			     ->once();
+
 			$this->service->cache()->addition( 1, 2 );
 		}
 
@@ -40,9 +40,9 @@
 		 */
 		public function cache(): void {
 			Cache::shouldReceive( 'remember' )
-			     ->once()
-			     ->andReturn( '10/12' );
-			ValravnCacheFacade::cache( '10/12' );
+			     ->once();
+
+			ValravnCacheFacade::cache( '10/12', fn() => 10 / 12 );
 		}
 
 
