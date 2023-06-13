@@ -8,10 +8,10 @@
 	use RuntimeException;
 
 	/**
-	 * @method static cache( string $key, callable $data )
-	 * @method static getInterval()
-	 * @method static setInterval( int $minutes )
-	 * @method static setService( Service $service )
+	 * @method static mixed cache( string $key, callable $data )
+	 * @method static int getInterval()
+	 * @method static CachingService setInterval( int $minutes )
+	 * @method static CachingService setService( Service $service )
 	 *
 	 * @see CachingService
 	 */

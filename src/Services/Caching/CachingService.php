@@ -127,12 +127,18 @@
 			return $this;
 		}
 
+		/**
+		 * Set service instance to cache its result
+		 *
+		 * @param Service $service
+		 *
+		 * @return $this
+		 */
 		public function setService( Service $service ): self {
 			$this->service = $service;
 
 			return $this;
 		}
-
 
 		public function __call( string $method, array $params ) {
 			if ( method_exists( $this->service, $method ) ) {
