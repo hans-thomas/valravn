@@ -40,14 +40,7 @@ Sometimes you need to conditionally determine you want to use cache or not.
 app( ExampleService::class )->cacheWhen( user()->isNotAdmin() )->calculatePopularExamples();
 ```
 
-### Notifiable
-
-This contract let you have a notification for each action depending on model.
-the notification contains a title, body and a related model.
-
-> Notice: notifications will not store in database.
-
-### CachingService
+### Caching logic
 
 This service helps up caching data and retrieve them on next calls. the logic of
 this service is a bit complicated but in the simplest way, it caches data and
@@ -59,15 +52,41 @@ the data will retrieve from cache. after :15 o'clock requests should receive
 fresh data for the first time. and cached data in second 15m will be valid
 until :29 o'clock.
 
-> Notice: you can set you custom interval by using `setInterval` method.
+#### CachingService
+
+You can set your custom interval by using `setInterval` method.
+
+```php
+app( PostRelationsService::class )->cache()->setInterval( 20 )->viewCategories();
+```
+
+#### Cache facade
+
+This facade let you cache some data using same [logic](#caching-logic).
+
+```php
+use Hans\Valravn\Facades\Cache;
+
+Cache::store( 'unique_key', fn() => 10 / 12 );
+```
+
+### Notifiable
+
+This contract let you have a notification for each action depending on model.
+the notification contains a title, body and a related model.
+
+{{< tip >}}
+Notifications will not store in database.
+{{< /tip >}}
 
 ### FilteringService
 
 The `FilteringService` allows us to apply some logics on query builder instance
 through api calls.
 
-> Notice: only [filterable columns](models.md#filterable) can be use in
-> filtering requests.
+{{< tip >}}
+Only [filterable columns](models.md#filterable) can be use in filtering requests.
+{{< /tip >}}
 
 To apply requested filters on your queries, you should call `applyFilters` method on your query builder instance. it's
 recommended to call `applyFilters` in your service layer.
@@ -179,7 +198,9 @@ This filter ables you to fetch posts that has a command with a specific title.
 domain/api/blog/posts/1/comments?where_relation_filter[comments->title]=something
 ```
 
-> Notice: only [loadable relations](models.md#loadable) is valid.
+{{< tip >}}
+Only [loadable relations](models.md#loadable) is valid.
+{{< /tip >}}
 
 ##### where_relation_like_filter
 
@@ -391,7 +412,9 @@ If you want to access gathering routes using route's name, you can
 use `{name}.gathering.{action_name}-v{version}` pattern. for example the first
 gathering route's name is `posts.gathering.posts-v1`.
 
-> Notice: the gathering data just depend on you page sections.
+{{< tip >}}
+The gathering data just depend on you page sections.
+{{< /tip >}}
 
 There is an example of implementing a method on gathering controller. you can
 use `AnonymousResourceCollection` and pass your resource or resource collection

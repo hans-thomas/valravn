@@ -169,7 +169,9 @@ public function getFilterableAttributes(): array {
 
 As you can see, you can set alias for a column.
 
-> Notice: some features depend on implementing this contract.
+{{< tip >}}
+Notice: some features depend on implementing this contract.
+{{< /tip >}}
 
 ##### Loadable
 
@@ -185,7 +187,9 @@ public function getLoadableRelations(): array {
 }
 ```
 
-> Notice: there is some dependency of implementing this contract.
+{{< tip >}}
+Notice: there is some dependency of implementing this contract.
+{{< /tip >}}
 
 ##### ResourceCollectionable
 

@@ -88,8 +88,9 @@ fetch. there can be more methods like `select`. the important point here is,
 methods like `select` only apply when you use `query` method to get builder
 instance.
 
-> Notice: it's recommended to get builder instance using `query` method instead
-> of `getQueryBuilder`.
+{{< tip >}}
+Notice: it's recommended to get builder instance using `query` method instead of `getQueryBuilder`.
+{{< /tip >}}
 
 #### authorize
 

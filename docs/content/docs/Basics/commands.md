@@ -234,8 +234,9 @@ app/
 
 This command generates repository and repository contract.
 
-> Reminder: bind the contract to the repository class in
-> RepositoryServiceProvider
+{{< tip >}}
+Reminder: bind the contract to the repository class in RepositoryServiceProvider
+{{< /tip >}}
 
 ```bash
 valravn:policy namespace name

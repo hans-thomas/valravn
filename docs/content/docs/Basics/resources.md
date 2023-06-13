@@ -119,10 +119,13 @@ class FirstExampleQuery extends ResourceQuery {
 in `apply` method, you should return an array. we merge the data into the
 related resource instance using the array key that you defined.
 
-> Make sure there is not any conflict with extracted attributes of the related
-> resource.
+{{< tip >}}
+Make sure there is not any conflict with extracted attributes of the related resource.
+{{< /tip >}}
 
-> this data will merge into the `data` key on response.
+{{< tip >}}
+this data will merge into the `data` key on response.
+{{< /tip >}}
 
 ### Collection Query
 
@@ -152,9 +155,9 @@ class RelatedExamplesCollectionQuery extends CollectionQuery {
   }
 }
 ```
-
-> It's recommended that suffix the class with `CollectionQuery` to avoid any
-> conflict and mistake.
+{{< tip >}}
+It's recommended that suffix the class with `CollectionQuery` to avoid any conflict and mistake.
+{{< /tip >}}
 
 ### Queries registration
 
@@ -178,7 +181,9 @@ public function getAvailableQueries(): array {
 the array's key is the query string that a front-end dev can trigger this query
 and the value must be the query class.
 
-> It's recommended to prefix query strings with `with_` to avoid any conflict.
+{{< tip >}}
+It's recommended to prefix query strings with `with_` to avoid any conflict.
+{{< /tip >}}
 
 ### Parse queries
 
@@ -246,8 +251,9 @@ class ExampleIncludes extends Includes {
 }
 ```
 
-> It's recommended to create includes in a sub folder where the related resource
-> classes are locate.
+{{< tip >}}
+It's recommended to create includes in a sub folder where the related resource classes are locate.
+{{< /tip >}}
 
 ### Includes registration
 
@@ -310,8 +316,9 @@ assume we just want to include a relationship. all we need to do is this:
 domain/api/namespace/name?includes=example
 ```
 
-> Notice: to eager load a relationship, you must pass the registered include
-> using `includes` key.
+{{< tip >}}
+To eager load a relationship, you must pass the registered include using `includes` key.
+{{< /tip >}}
 
 #### Nested eager loads
 
@@ -321,9 +328,9 @@ nested includes after the first one and split them using a `.` character.
 ```
 domain/api/namespace/name?includes=example.owner
 ```
-
-> Notice: We consider the ExampleResource class registered `owner` include.
-> otherwise this will not work.
+{{< tip >}}
+We consider the ExampleResource class registered `owner` include. otherwise this will not work.
+{{< /tip >}}
 
 #### Actions
 
@@ -331,8 +338,9 @@ There are some default actions that you can use on your api calls. you are free
 to use an action for two relationship or different actions for any includes.
 actions must split using `:` character.
 
-> Notice: columns you pass as parameter to actions, must be in filterable list
-> of related model.
+{{< tip >}}
+columns you pass as parameter to actions, must be in filterable list of related model.
+{{< /tip >}}
 
 {{< column "methods-container" >}}
 
@@ -359,9 +367,11 @@ optimized requests.
 domain/api/blog/posts?includes=comments:select(content).user:select(first_name|last_name)
 ```
 
-> Notice: if there is a belongs to relationship, and you want to use `select`
-> action, don't forget to select the foreign key too. otherwise the relationship
-> doesn't resolve by ORM.
+{{< tip >}}
+If there is a belongs to relationship, and you want to use `select`
+action, don't forget to select the foreign key too. otherwise the relationship
+doesn't resolve by ORM.
+{{< /tip >}}
 
 ##### order
 

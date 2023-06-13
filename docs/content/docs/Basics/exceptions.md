@@ -51,6 +51,7 @@ class ValravnErrorCode extends ErrorCode {
 
 }
 ```
+{{< tip >}}
+If you are defining an ErrorCode as a method, don't forget to prefix the number.
+{{< /tip >}}
 
-> If you are defining an ErrorCode as a method, don't forget to prefix the
-> number.
