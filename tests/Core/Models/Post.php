@@ -2,15 +2,17 @@
 
 	namespace Hans\Valravn\Tests\Core\Models;
 
-	use Hans\Valravn\Tests\Core\Factories\PostFactory;
 	use Hans\Valravn\Models\Contracts\Filterable;
+	use Hans\Valravn\Models\Contracts\Loadable;
 	use Hans\Valravn\Models\ValravnModel;
+	use Hans\Valravn\Tests\Core\Factories\PostFactory;
+	use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
-	class Post extends ValravnModel implements Filterable {
+	class Post extends ValravnModel implements Filterable, Loadable {
 		use HasFactory;
 
 		protected $fillable = [
@@ -46,4 +48,14 @@
 			];
 		}
 
+		/**
+		 * List of relationships that can be loaded
+		 *
+		 * @return array
+		 */
+		public function getLoadableRelations(): array {
+			return [
+				'comments' => CommentCollection::class,
+			];
+		}
 	}

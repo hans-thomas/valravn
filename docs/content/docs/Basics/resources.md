@@ -155,6 +155,7 @@ class RelatedExamplesCollectionQuery extends CollectionQuery {
   }
 }
 ```
+
 {{< tip >}}
 It's recommended that suffix the class with `CollectionQuery` to avoid any conflict and mistake.
 {{< /tip >}}
@@ -320,7 +321,7 @@ domain/api/namespace/name?includes=example
 To eager load a relationship, you must pass the registered include using `includes` key.
 {{< /tip >}}
 
-#### Nested eager loads
+### Nested eager loads
 
 Valravn allows you to use nested eager loads. for that you just need to pass the
 nested includes after the first one and split them using a `.` character.
@@ -328,18 +329,19 @@ nested includes after the first one and split them using a `.` character.
 ```
 domain/api/namespace/name?includes=example.owner
 ```
+
 {{< tip >}}
 We consider the ExampleResource class registered `owner` include. otherwise this will not work.
 {{< /tip >}}
 
-#### Actions
+### Actions
 
 There are some default actions that you can use on your api calls. you are free
 to use an action for two relationship or different actions for any includes.
 actions must split using `:` character.
 
 {{< tip >}}
-columns you pass as parameter to actions, must be in filterable list of related model.
+Columns you pass as parameter to actions, must be in filterable list of related model.
 {{< /tip >}}
 
 {{< column "methods-container" >}}
@@ -400,3 +402,53 @@ domain/api/blog/categories?includes=posts:limit(5|2)
 
 For example, the above request will skip the first 5 posts and loads the second
 5 posts of each category.
+
+### Interact with relations
+
+You can interact with relations and manipulate the relationships' data.
+
+{{< column "methods-container" >}}
+
+{{< column "method" >}}
+[resolveRelationsUsing](#resolverelationsusing)
+{{< /column >}}
+
+{{< column "method" >}}
+[skipRelationsForModel](#skiprelationsformodel)
+{{< /column >}}
+
+{{< /column >}}
+
+{{< tip >}}
+These methods just effect on current resource instance and other instances that created automatically using current
+resource.
+{{< /tip >}}
+
+##### resolveRelationsUsing
+
+Accepts relations and their custom resource class to be response to the client.
+
+```php
+PostResource::make( $this->post )
+->resolveRelationsUsing(
+    [
+        'comments' => CommentCustomCollection::class
+    ]
+)
+```
+
+##### skipRelationsForModel
+
+Accept models and their related relationships that should be skipped and not present in the output.
+
+```php
+PostResource::make( $this->post )
+->skipRelationsForModel(
+    [
+        Post::class => 'comments',
+        Comment::class => [ 'post', 'user' ]
+    ]
+)
+```
+
+
