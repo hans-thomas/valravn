@@ -27,7 +27,9 @@
 		 * @return void
 		 */
 		public function collection(): void {
-			$resource = PostCollection::make( $this->posts )->withAllCommentsQuery();
+			$resource = PostCollection::make( $this->posts )
+			                          ->skipRelationsForModel( [ Post::class => 'comments' ] )
+			                          ->withAllCommentsQuery();
 			$comments = $this->posts->map( fn( Post $post ) => $post->comments )->flatten();
 
 			self::assertEquals(
