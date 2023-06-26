@@ -6,8 +6,6 @@
 	use Hans\Valravn\Models\Contracts\Loadable;
 	use Illuminate\Support\Arr;
 
-	// TODO: related document needs to update
-	// TODO: methods needs to test
 	trait InteractsWithRelations {
 
 		/**
@@ -60,7 +58,7 @@
 		}
 
 		/**
-		 * Accepts relations and their custom resource class
+		 * Accept relations and their custom resource class
 		 *
 		 * @param array<string,class-string> $resolvers
 		 *
@@ -73,7 +71,7 @@
 		}
 
 		/**
-		 * Accepts models and their models that should be skipped
+		 * Accept models and their models that should be skipped
 		 *
 		 * @param array<class-string,string|array> $resolvers
 		 *
