@@ -41,7 +41,8 @@
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
         "testbench": "./vendor/bin/testbench",
-        "test": "./vendor/bin/testbench package:test",
-        "unit": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "test:testbench": "./vendor/bin/testbench package:test",
+        "test:coverage": "./vendor/bin/phpunit --coverage-clover ./coverage.xml"
     }
 }
