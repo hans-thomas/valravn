@@ -48,5 +48,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
           flags: unittests
-          name: starter-codecov
+          name: valravn-codecov
           fail_ci_if_error: true
