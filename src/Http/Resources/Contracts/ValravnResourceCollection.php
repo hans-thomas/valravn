@@ -8,6 +8,7 @@
 	use Hans\Valravn\Services\Queries\QueryingService;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Request;
+	use Illuminate\Support\Collection;
 	use IteratorAggregate;
 
 	abstract class ValravnResourceCollection extends ValravnJsonResource implements Countable, IteratorAggregate {
@@ -71,7 +72,8 @@
 			app( QueryingService::class, [ 'resource' => $this ] )
 				->applyRequestedCollectionQueries()
 				->mergeCollectionQueriedData();
-			$this->allLoaded();
+
+			$this->allLoaded( $response );
 
 			return $response->toArray();
 		}
@@ -80,7 +82,7 @@
 		 * Executes when all items loaded
 		 *
 		 */
-		protected function allLoaded(): void {
+		protected function allLoaded( Collection &$response ): void {
 			// ...
 		}
 
