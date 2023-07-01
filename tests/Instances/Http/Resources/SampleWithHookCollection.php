@@ -4,6 +4,7 @@
 
 	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Support\Collection;
 
 	class SampleWithHookCollection extends ValravnResourceCollection {
 
@@ -26,9 +27,11 @@
 		}
 
 		/**
+		 * @param Collection $response
+		 *
 		 * @return void
 		 */
-		protected function allLoaded(): void {
+		protected function allLoaded( Collection &$response ): void {
 			$this->addAdditional( [
 				'all-loaded' => 'will you still love me when i no longer young and beautiful?'
 			] );
