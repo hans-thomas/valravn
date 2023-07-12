@@ -13,21 +13,34 @@
 		 *
 		 * @param array                    $data
 		 * @param ValravnJsonResource|null $resource
+		 * @param array                    $includes
 		 * @param array                    $excludes
 		 * @param array                    $alias
 		 *
 		 * @return void
 		 */
-		protected function loadedPivots( array &$data, ValravnJsonResource $resource = null, array $excludes = [], array $alias = [] ): void {
+		protected function loadedPivots(
+			array &$data,
+			ValravnJsonResource $resource = null,
+			array $includes = [],
+			array $excludes = [],
+			array $alias = []
+		): void {
 			$instance = $resource ?? $this;
 			if ( isset( $instance->resource->pivot ) ) {
 				$data[ 'pivot' ] = collect( $instance->resource->pivot->getAttributes() )
-					->filter( fn( $value, $key ) => in_array( $key, $excludes ) or ! Str::contains( $key,
-							[ '_id', '_type' ] ) )
-					->mapWithKeys( fn( $value, $key ) => ( $index = array_search( $key,
-						array_keys( $alias ) ) ) !== false ? [
-						Arr::get( array_values( $alias ), $index ) => $value
-					] : [ $key => $value ] )
+					->filter(
+						fn( $value, $key ) => in_array( $key, $excludes ) or
+						                      ( ! Str::contains( $key, [ '_id', '_type' ] ) or
+						                        in_array( $key, $includes ) )
+					)
+					->mapWithKeys( // TODO: not tested
+						fn( $value, $key ) => ( $index = array_search( $key, array_keys( $alias ) ) ) !== false ?
+							[
+								Arr::get( array_values( $alias ), $index ) => $value
+							] :
+							[ $key => $value ]
+					)
 					->toArray();
 			}
 		}
