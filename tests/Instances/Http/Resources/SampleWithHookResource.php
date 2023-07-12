@@ -18,7 +18,7 @@
 			return 'samples';
 		}
 
-		protected function loaded( &$data ) {
+		protected function loaded( &$data ): void {
 			$data[ 'sober' ] = "i might regret this when tomorrow comes";
 		}
 
