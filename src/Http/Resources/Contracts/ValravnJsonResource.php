@@ -101,7 +101,7 @@
 		 *
 		 * @return array
 		 */
-		public function toArray( $request ): array {
+		public function toArray( Request $request ): array {
 			if ( is_null( $this->resource ) ) {
 				return [];
 			}
@@ -141,7 +141,7 @@
 		 *
 		 * @param $data
 		 */
-		protected function loaded( &$data ) {
+		protected function loaded( &$data ): void {
 			// ...
 		}
 
@@ -152,7 +152,7 @@
 		 *
 		 * @return array
 		 */
-		public function with( $request ) {
+		public function with( Request $request ): array {
 			return [
 				'type' => $this->type(),
 			];
