@@ -34,7 +34,7 @@
 		 *
 		 * @return array
 		 */
-		public function toArray( $request ): array {
+		public function toArray( Request $request ): array {
 			app( QueryingService::class, [ 'resource' => $this ] )
 				->registerQueriesUsingQueryStringWhen( $this->shouldParseQueries(), $request->getQueryString() );
 
@@ -60,7 +60,7 @@
 						->mergeQueriedDataInto( $data );
 				}
 
-				$this->loaded( $data );
+				$this->loaded( $data, $item );
 
 				if ( ! empty( $item->getExtra() ) ) {
 					$data = array_merge( $data, [ 'extra' => $item->getExtra() ] );
@@ -83,6 +83,16 @@
 		 *
 		 */
 		protected function allLoaded( Collection &$response ): void {
+			// ...
+		}
+
+		/**
+		 * Executes when data loaded
+		 *
+		 * @param                          $data
+		 * @param ValravnJsonResource|null $resource
+		 */
+		protected function loaded( &$data, ValravnJsonResource $resource = null ): void {
 			// ...
 		}
 
