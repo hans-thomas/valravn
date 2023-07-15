@@ -36,19 +36,19 @@
 		/**
 		 * Resolve the given id to a related model
 		 *
-		 * @param int    $related
+		 * @param int    $id
 		 * @param string $entity
 		 *
 		 * @return Model|false
 		 * @throws ValravnException
 		 */
-		function resolveRelatedIdToModel( int $related, string $entity ): Model|false {
+		function resolveRelatedIdToModel( int $id, string $entity ): Model|false {
 			if ( ! ( class_exists( $entity ) and is_a( $entity, Model::class, true ) ) ) {
 				throw PackageException::invalidEntity( $entity );
 			}
 
 			try {
-				$model = ( new $entity )->query()->applyFilters()->findOrFail( $related );
+				$model = ( new $entity )->query()->applyFilters()->findOrFail( $id );
 			} catch ( Throwable $e ) {
 				return false;
 			}
@@ -85,7 +85,7 @@
 		 * @return void
 		 */
 		function logg( string $location, Throwable $e, array $context = [] ): void {
-			// TODO: log channel should be document
+			// TODO: log channel should be documented
 			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
 		}
 	}
@@ -107,12 +107,12 @@
 		/**
 		 * Make a english or non-english string to a slug
 		 *
-		 * @param $string
-		 * @param $separator
+		 * @param string $string
+		 * @param string $separator
 		 *
-		 * @return array|string|null
+		 * @return string|null
 		 */
-		function slugify( $string, $separator = '-' ): array|string|null {
+		function slugify( string $string, string $separator = '-' ): string|null {
 
 			$_transliteration = [
 				"/ö|œ/" => "e",
