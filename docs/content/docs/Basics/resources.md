@@ -84,6 +84,28 @@ class SampleCollection extends ValravnResourceCollection {
 }
 ```
 
+## Available methods
+
+Resource classes contain several methods and in continue, we will introduce them.
+
+{{< column "methods-container" >}}
+
+{{< column "method" >}}
+[only](#only)
+{{< /column >}}
+
+{{< /column >}}
+
+##### only
+
+If you just don't need some fields in a specific response, you can reduce your exported fields using this method.
+
+```php
+SampleResource::make( $this->model )->only( 'name','email' );
+// or in a collection class
+SampleCollection::make( $this->models )->only( [ 'email' ] );
+```
+
 ## Queries
 
 A Query is a class that defines for a resource class and front-end dev can
@@ -91,8 +113,7 @@ trigger that using a specific query string.
 
 ### Resource Query
 
-This contract can be uses in both `ValravnJsonResource`
-and `ValravnResourceCollection`
+This contract can be uses in both `ValravnJsonResource` and `ValravnResourceCollection`
 classes. first you need to create a class. it's recommended to create the class
 in a sub-folder where the resource classes are exist. in addition, it's better
 that suffix the classes with `Query` to make recognition easier.
