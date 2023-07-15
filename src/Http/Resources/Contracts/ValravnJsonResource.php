@@ -140,6 +140,8 @@
 		 * Executes when data loaded
 		 *
 		 * @param $data
+		 *
+		 * @return void
 		 */
 		protected function loaded( &$data ): void {
 			// ...

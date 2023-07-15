@@ -91,6 +91,8 @@
 		 *
 		 * @param                          $data
 		 * @param ValravnJsonResource|null $resource
+		 *
+		 * @return void
 		 */
 		protected function loaded( &$data, ValravnJsonResource $resource = null ): void {
 			// ...

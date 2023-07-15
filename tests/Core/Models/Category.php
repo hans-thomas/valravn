@@ -2,8 +2,8 @@
 
 	namespace Hans\Valravn\Tests\Core\Models;
 
-	use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 	use Hans\Valravn\Models\ValravnModel;
+	use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 	use Illuminate\Database\Eloquent\Factories\Factory;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,7 +16,8 @@
 		];
 
 		public function posts(): BelongsToMany {
-			return $this->belongsToMany( Post::class );
+			return $this->belongsToMany( Post::class )
+			            ->withPivot( 'order' );
 		}
 
 		/**

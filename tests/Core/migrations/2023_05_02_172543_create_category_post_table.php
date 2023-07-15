@@ -17,6 +17,8 @@
 				$table->foreignIdFor( Category::class )->constrained();
 				$table->foreignIdFor( Post::class )->constrained();
 
+				$table->unsignedInteger( 'order' )->default( 1 );
+
 				$table->primary( [ Category::foreignKey(), Post::foreignKey() ] );
 			} );
 		}
