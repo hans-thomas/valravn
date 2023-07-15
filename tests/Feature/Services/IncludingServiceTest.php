@@ -2,6 +2,9 @@
 
 	namespace Hans\Valravn\Tests\Feature\Services;
 
+	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+	use Hans\Valravn\Services\Includes\Actions\LimitAction;
+	use Hans\Valravn\Services\Includes\IncludingService;
 	use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 	use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 	use Hans\Valravn\Tests\Core\Factories\PostFactory;
@@ -9,9 +12,6 @@
 	use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
 	use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 	use Hans\Valravn\Tests\TestCase;
-	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-	use Hans\Valravn\Services\Includes\Actions\LimitAction;
-	use Hans\Valravn\Services\Includes\IncludingService;
 	use Illuminate\Support\Collection;
 
 	class IncludingServiceTest extends TestCase {
@@ -128,10 +128,14 @@
 										'id'      => $post->id,
 										'title'   => $post->title,
 										'content' => $post->content,
-										'pivot'   => [],
+										'pivot'   => [
+											'order' => $post->pivot->order
+										],
 									]
 								)->toArray(),
-								'pivot' => []
+								'pivot' => [
+									'order' => $category->pivot->order
+								]
 							]
 						)->toArray(),
 						'type' => 'categories'
