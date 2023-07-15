@@ -55,6 +55,14 @@
 		 */
 		private array $requested_eager_loads = [];
 
+
+		/**
+		 * Store the list of fields that must only be in response
+		 *
+		 * @var array
+		 */
+		private array $only = [];
+
 		/**
 		 * Extract attributes of the given model
 		 * if null returned, the parent::toArray method called by default
@@ -132,6 +140,8 @@
 			}
 
 			$this->loaded( $data );
+
+			$this->applyOnly( $data );
 
 			return $data;
 		}
@@ -434,6 +444,28 @@
 		 */
 		public function hasAnyRequestedQuery(): bool {
 			return count( $this->getRequestedQueries() );
+		}
+
+		/**
+		 * Return only given fields in response
+		 *
+		 * @param array|string $fields
+		 *
+		 * @return $this
+		 */
+		public function only( array|string $fields ): self {
+			$this->only = is_array( $fields ) ? $fields : func_get_args();
+
+			return $this;
+		}
+
+		protected function applyOnly( array &$data ): void {
+			if ( ! empty( $this->only ) ) {
+				$data = array_intersect_key(
+					$data,
+					[ 'id' => - 1, 'type' => - 2 ] + array_flip( $this->only )
+				);
+			}
 		}
 
 	}

@@ -2,12 +2,12 @@
 
 	namespace Hans\Valravn\Tests\Feature\Http\Resources;
 
+	use Hans\Valravn\Models\ValravnModel;
 	use Hans\Valravn\Tests\Instances\Http\Resources\SampleCollection;
 	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithCollectionDefaultExtractCollection;
 	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithDefaultExtractCollection;
 	use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookCollection;
 	use Hans\Valravn\Tests\TestCase;
-	use Hans\Valravn\Models\ValravnModel;
 	use Illuminate\Support\Collection;
 
 	class ResourceCollectionTest extends TestCase {
@@ -18,11 +18,18 @@
 			parent::setUp();
 			$this->models = collect();
 			$object       = new class extends ValravnModel {
-				protected $fillable = [ 'name' ];
+				protected $fillable = [ 'name', 'email', 'address' ];
 			};
 			foreach ( range( 1, 5 ) as $counter ) {
 				$this->models->push(
-					clone $object->forceFill( [ 'id' => rand( 1, 999 ), 'name' => fake()->name() ] )
+					clone $object->forceFill( [
+						[
+							'id'      => rand( 1, 999 ),
+							'name'    => fake()->name(),
+							'email'   => fake()->email(),
+							'address' => fake()->address()
+						]
+					] )
 				);
 			}
 		}
@@ -38,8 +45,10 @@
 				[
 					'data' => $this->models->map(
 						fn( $model ) => [
-							'type' => 'samples',
-							'id'   => $model->id,
+							'type'  => 'samples',
+							'id'    => $model->id,
+							'name'  => $model->name,
+							'email' => $model->email,
 						]
 					)
 					                       ->toArray(),
@@ -76,8 +85,10 @@
 				[
 					'data' => [
 						[
-							'type' => 'samples',
-							'id'   => null,
+							'type'  => 'samples',
+							'id'    => null,
+							'name'  => null,
+							'email' => null,
 						]
 					],
 					'type' => 'samples'
@@ -107,6 +118,7 @@
 				$this->resourceToJson( $resource )
 			);
 		}
+
 		/**
 		 * @test
 		 *
@@ -118,7 +130,7 @@
 				[
 					'data' => $this->models->map(
 						fn( $model ) => [
-							'type' => 'samples',
+							'type'    => 'samples',
 							'id'      => $model->id,
 							'name'    => $model->name,
 							'extract' => 'not default on resource'
@@ -154,5 +166,28 @@
 			);
 		}
 
+		/**
+		 * @test
+		 *
+		 * @return void
+		 */
+		public function only(): void {
+			$collection = SampleCollection::make( $this->models )->only( [ 'email' ] );
+
+			self::assertEquals(
+				[
+					'data' => $this->models->map(
+						fn( $model ) => [
+							'type'  => 'samples',
+							'id'    => $model->id,
+							'email' => $model->email,
+						]
+					)
+					                       ->toArray(),
+					'type' => 'samples'
+				],
+				$this->resourceToJson( $collection )
+			);
+		}
 
 	}

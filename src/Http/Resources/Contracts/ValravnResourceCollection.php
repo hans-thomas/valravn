@@ -40,7 +40,9 @@
 
 			// TODO: error possibility: $item might be a Model instance if there was not any resource class
 			$response = $this->collection->map( function( ValravnJsonResource $item ) use ( $request ) {
-				$extracted = $this->extract( $item->resource ) ? : $item->extract( $item->resource ) ? : $item->resource->toArray();
+				$extracted = $this->extract( $item->resource ) ? :
+					$item->extract( $item->resource ) ? :
+						$item->resource->toArray();
 				$data      = array_merge( [ 'type' => $this->type() ], $extracted );
 
 				if ( $item->resource instanceof Model ) {
@@ -65,6 +67,8 @@
 				if ( ! empty( $item->getExtra() ) ) {
 					$data = array_merge( $data, [ 'extra' => $item->getExtra() ] );
 				}
+
+				$this->applyOnly( $data );
 
 				return $data;
 			} );
