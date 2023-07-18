@@ -1,6 +1,6 @@
 # Valravn
 
-<p align="center"><img alt="Directus Logo" src="https://repository-images.githubusercontent.com/631226923/d7e8397f-0450-4a19-a03e-5e7057f29363"></p>
+<p align="center"><img alt="Valravn Logo" src="assets/valravn-banner.png"></p>
 
 [![codecov](https://codecov.io/gh/hans-thomas/valravn/branch/master/graph/badge.svg?token=X1D6I0JLSZ)](https://codecov.io/gh/hans-thomas/valravn)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
