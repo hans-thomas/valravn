@@ -53,11 +53,6 @@ This method converts you resource or resource collection instance to an array,
 then you can compare converted data with response from som route.
 
 ```php
-/**
- * @test
- *
- * @return void
- */
 public function example(): void {
     $token   = $this->actingAsAdminUser();
     $model   = Post::find(1);
@@ -87,23 +82,14 @@ use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;
 
 class PostFactory extends Factory {
 
-    /**
-     * Return related factory instance
-     *
-     * @return EloquentFactory
-     */
     protected static function getFactory(): EloquentFactory {
         return PostFactory::new(); // or Post::factory();
     }
 
-    /**
-     * Return related repository instance
-     *
-     * @return Repository
-     */
     public static function getRepository(): Repository {
         return app( IPostRepository::class )->disableAuthorization();
     }
+    
 }
 ```
 

@@ -85,6 +85,9 @@
 		/**
 		 * Executes when all items loaded
 		 *
+		 * @param Collection $response
+		 *
+		 * @return void
 		 */
 		protected function allLoaded( Collection &$response ): void {
 			// ...

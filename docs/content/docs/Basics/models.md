@@ -19,14 +19,9 @@ class Example extends ValravnModel {
 
     protected static int $perPageMax = 20;
     
-    /**
-		 * Perform any actions required after the model boots.
-		 *
-		 * @return void
-		 */
-		protected static function booted() {
-			self::setPerPageMax(20);
-		}
+    protected static function booted() {
+        self::setPerPageMax(20);
+    }
 		
 }
 
@@ -76,9 +71,6 @@ class Comment extends ValravnModel {
     return new Attribute( get: fn() => $this->{Post::foreignKey()} );
   }
 
-  /**
-   * @return void
-   */
   protected static function booted() {
     self::saving(
       fn( self $model ) => self::aliasForModelAttributes(
