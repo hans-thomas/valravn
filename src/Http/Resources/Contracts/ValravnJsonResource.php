@@ -459,6 +459,13 @@
 			return $this;
 		}
 
+		/**
+		 * keep attributes that added to only list
+		 *
+		 * @param array $data
+		 *
+		 * @return void
+		 */
 		protected function applyOnly( array &$data ): void {
 			if ( ! empty( $this->only ) ) {
 				$data = array_intersect_key(

@@ -19,14 +19,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SampleResource extends ValravnJsonResource {
 
-  /**
-   * Extract attributes of the given model
-   * if null returned, the parent::toArray method called by default
-   *
-   * @param Model $model
-   *
-   * @return array|null
-   */
   public function extract( Model $model ): ?array {
       return [
           'id' => $model->id,
@@ -34,11 +26,6 @@ class SampleResource extends ValravnJsonResource {
       ];
   }
   
-  /**
-   * Specify the type of your resource
-   *
-   * @return string
-   */
   public function type(): string {
     return 'samples';
   }
@@ -60,23 +47,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SampleCollection extends ValravnResourceCollection {
 
-  /**
-   * Extract attributes of the given model
-   * if null returned, the parent::toArray method called by default
-   *
-   * @param Model $model
-   *
-   * @return array|null
-   */
   public function extract( Model $model ): ?array {
       return null;
   }
 
-  /**
-   * Specify the type of your resource
-   *
-   * @return string
-   */
   public function type(): string {
     return 'samples';
   }
@@ -94,6 +68,22 @@ Resource classes contain several methods and in continue, we will introduce them
 [only](#only)
 {{< /column >}}
 
+{{< column "method" >}}
+[loaded](#loaded)
+{{< /column >}}
+
+{{< column "method" >}}
+[addAdditional](#addadditional)
+{{< /column >}}
+
+{{< column "method" >}}
+[addExtra](#addextra)
+{{< /column >}}
+
+{{< column "method" >}}
+[allLoaded](#allloaded)
+{{< /column >}}
+
 {{< /column >}}
 
 ##### only
@@ -102,8 +92,69 @@ If you just don't need some fields in a specific response, you can reduce your e
 
 ```php
 SampleResource::make( $this->model )->only( 'name','email' );
-// or in a collection class
+// or on a collection class
 SampleCollection::make( $this->models )->only( [ 'email' ] );
+```
+
+##### loaded
+
+It's a hook on both resource and collection classes that will execute when each item extracted. you can
+override `loaded` method on your instance to write your code there.
+
+There is a bit of difference on using `loaded` hook in resource and collection classes. In resource class we have only
+`data` parameter.
+
+```php
+protected function loaded( &$data ): void {
+    $data[ 'sober' ] = "i might regret this when tomorrow comes";
+}
+```
+
+But in collection class, we have one more parameter named `resource` that let us manipulate loaded pivot data or loaded
+relations through related methods.
+
+```php
+protected function loaded( &$data, ValravnJsonResource $resource = null ): void {
+    $this->addExtra( [
+        'sober' => 'i might regret this when tomorrow comes'
+    ] );
+}
+```
+
+##### addAdditional
+
+Using this method, you can add additional data to your response.
+
+```php
+SampleResource::make( $model )
+              ->addAdditional( [
+                  'tulips&roses' => "My star's back shining bright, I just polished it",
+              ] );
+```
+
+This data will be merged out of `data` wrapper. to merge some data into `data` wrapper, use `addExtra` method.
+
+##### addExtra
+
+It's similar to `addAdditional` method but the difference is, `addExtra` merge data into `data` wrapper.
+
+```php
+SampleResource::make( $this->model )
+              ->addExtra( [
+                  'all facts' => "love don't cost a thing, this is all facts",
+              ] );
+```
+
+##### allLoaded
+
+This hook will execute when all collection's items extracted.
+
+```php
+protected function allLoaded( Collection &$response ): void {
+    $this->addAdditional( [
+        'all-loaded' => 'will you still love me when i no longer young and beautiful?'
+    ] );
+}
 ```
 
 ## Queries
@@ -124,16 +175,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FirstExampleQuery extends ResourceQuery {
 
-  /**
-   * @param Model $model
-   *
-   * @return array
-   */
   public function apply( Model $model ): array {
     return [
       'first_example' => ExampleResource::make( $model )
     ];
   }
+  
 }
 ```
 
@@ -158,11 +205,6 @@ use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 
 class RelatedExamplesCollectionQuery extends CollectionQuery {
 
-  /**
-   * @param ValravnJsonResource $resource
-   *
-   * @return array
-   */
   public function apply( ValravnJsonResource $resource ): array {
     $ids = $resource->resource instanceof Collection ?
       $resource->resource->map( fn( $value ) => [ 'id' => $value->id ] )->flatten() :
@@ -174,6 +216,7 @@ class RelatedExamplesCollectionQuery extends CollectionQuery {
       )
     ];
   }
+  
 }
 ```
 
@@ -188,11 +231,6 @@ query, just you need to override the `getAvailableQueries` method and add you
 queries.
 
 ```php
-/**
- * List of available queries of this resource
- *
- * @return array
- */
 public function getAvailableQueries(): array {
   return [
     'with_first_example' => FirstExampleQuery::class
@@ -254,18 +292,10 @@ use Hans\Valravn\Http\Resources\Contracts\Includes;
 
 class ExampleIncludes extends Includes {
 
-  /**
-   * @param Model $model
-   *
-   * @return Builder
-   */
   public function apply( Model $model ): Builder {
     return $model->example();
   }
 
-  /**
-   * @return ValravnJsonResource
-   */
   public function toResource(): ValravnJsonResource {
     return ExampleResource::make( $this->getBuilder()->first() );
   }
@@ -283,11 +313,6 @@ To register a include, you just need to override `getAvailableIncludes` method
 on the resource class and then register your includes.
 
 ```php
-/**
- * List of available includes of this resource
- *
- * @return array
- */
 public function getAvailableIncludes(): array {
   return [
     'example'   => ExampleIncludes::class,
