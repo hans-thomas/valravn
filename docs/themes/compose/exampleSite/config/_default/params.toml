@@ -23,6 +23,10 @@ showLineNumbers = false
 
 otherSearchableFields = ["Tags", "Categories", "CustomField"] # As they appear in frontmatter
 
+# Defaults to true if not set
+# Enable copyRight Footer Stamp. Takes in attribution
+enableCopyright = false
+
 # search
 [search]
 on = true
