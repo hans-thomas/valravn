@@ -3,6 +3,7 @@ title: "Getting start"
 weight: 1
 ---
 
+[![codecov](https://codecov.io/gh/hans-thomas/valravn/branch/master/graph/badge.svg?token=X1D6I0JLSZ)](https://codecov.io/gh/hans-thomas/valravn)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/hans-thomas/valravn)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hans-thomas/valravn)
@@ -40,6 +41,15 @@ To start testing clone the repository and then run below commands step by step:
 > composer install
 > composer run-script test
 ```
+
+## Contributing
+
+1. Fork it!
+2. Create your feature branch: git checkout -b my-new-feature
+3. Commit your changes: git commit -am 'Add some feature'
+4. Push to the branch: git push origin my-new-feature
+5. Submit a pull request ❤️
+
 
 Support
 -------

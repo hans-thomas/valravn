@@ -5,22 +5,22 @@
   data-mode="{{ . }}"
 {{ end }}>
 <head>
-  {{- partial "head" . }}
+  {{- partial "head/index" . }}
 </head>
 <body class="page-{{ .Kind }}" id="pagetop">
   <header class="nav_header">
     {{- partial "nav" . }}
   </header>
-  {{ if or (eq .Section site.Params.blogDir) (eq .Type "search" ) }}
+  {{ if or (eq .Section $config.blogDir) (eq .Type "search" ) }}
     {{- block "main" . }}{{ end }}
   {{ else }}
   <div class="main wrap pt-4">
-    {{ $docSections := site.Params.docSections }}
+    {{ $docSections := $config.docSections }}
     {{- with $docSections }}{{- else }}
       {{- $docSections = "docs" }}
     {{- end }}
     {{ $uniqueHomepage := .IsHome }}
-    {{ if site.Params.uniqueHomepage }}
+    {{ if $config.uniqueHomepage }}
       {{ if .IsHome }}
         {{ $uniqueHomepage = true }}
       {{ end }}
@@ -40,6 +40,6 @@
   {{- partialCached "footer" . -}}
   {{- partialCached "sprites" . -}}
   {{- partial "scripts/bundle" . -}}
-  {{- partial "scripts/other" . -}}
+  {{- partial "scripts/mermaid" . -}}
 </body>
 </html>

@@ -40,4 +40,5 @@
 {{ else if $sp.Description }}
   <meta name="descripion" content="{{ $sp.Description }}">
 {{ end }}
+{{- partial "head/liteyoutube" . }}
 {{- partialCached "hooks/head" . }}
