@@ -1,4 +1,4 @@
-baseURL = "https://valravn.vercel.app/"
+baseURL = "https://valravn-git-redesigning-home-hans-thomas.vercel.app/"
 title = "Valravn"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
