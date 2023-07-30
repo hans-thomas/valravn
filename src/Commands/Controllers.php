@@ -2,18 +2,18 @@
 
 namespace Hans\Valravn\Commands;
 
-    use Illuminate\Console\Command;
-    use Illuminate\Support\Facades\Artisan;
-    use Throwable;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Throwable;
 
-    class Controllers extends Command
-    {
-        /**
-         * The name and signature of the console command.
-         *
-         * @var string
-         */
-        protected $signature = '
+class Controllers extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = '
 		valravn:controllers 
 		{namespace : Group of the entity}
 		{name : Name of the entity}
@@ -22,36 +22,36 @@ namespace Hans\Valravn\Commands;
 		{--resources : Generate resource and resource collection classes}
 		';
 
-        /**
-         * The console command description.
-         *
-         * @var string
-         */
-        protected $description = 'Generate all controller classes.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Generate all controller classes.';
 
-        /**
-         * Execute the console command.
-         *
-         * @throws Throwable
-         *
-         * @return void
-         */
-        public function handle()
-        {
-            $name = $this->argument('name');
-            $namespace = $this->argument('namespace');
-            $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
+    /**
+     * Execute the console command.
+     *
+     * @throws Throwable
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $name = $this->argument('name');
+        $namespace = $this->argument('namespace');
+        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
 
-            Artisan::call('valravn:controller', [
-                'namespace'   => $namespace,
-                'name'        => $name,
-                '--v'         => $version,
-                '--relations' => true,
-                '--actions'   => true,
-                '--resources' => $this->option('resources'),
-                '--requests'  => $this->option('requests'),
-            ]);
+        Artisan::call('valravn:controller', [
+            'namespace'   => $namespace,
+            'name'        => $name,
+            '--v'         => $version,
+            '--relations' => true,
+            '--actions'   => true,
+            '--resources' => $this->option('resources'),
+            '--requests'  => $this->option('requests'),
+        ]);
 
-            $this->info('controller classes successfully created!');
-        }
+        $this->info('controller classes successfully created!');
     }
+}

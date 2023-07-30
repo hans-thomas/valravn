@@ -2,29 +2,29 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
-    use Hans\Valravn\Tests\TestCase;
-    use Illuminate\Support\Facades\Artisan;
-    use Illuminate\Support\Facades\File;
+use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
-    class MigrationTests extends TestCase
+class MigrationTests extends TestCase
+{
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function migration(): void
     {
-        /**
-         * @test
-         *
-         * @return void
-         */
-        public function migration(): void
-        {
-            $datePrefix = now()->format('Y_m_d_His');
-            $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
-            File::delete($file);
-            self::assertFileDoesNotExist($file);
+        $datePrefix = now()->format('Y_m_d_His');
+        $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+        File::delete($file);
+        self::assertFileDoesNotExist($file);
 
-            Artisan::call('valravn:migration blog posts');
+        Artisan::call('valravn:migration blog posts');
 
-            self::assertFileExists($file);
+        self::assertFileExists($file);
 
-            $actions_file = '<?php
+        $actions_file = '<?php
 
     use App\Models\Blog\Post;
     use Illuminate\Database\Migrations\Migration;
@@ -55,11 +55,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     };
 ';
 
-            self::assertEquals(
-                $actions_file,
-                file_get_contents($file)
-            );
-            // cuz in next test run the migration file name isn't the same
-            File::delete($file);
-        }
+        self::assertEquals(
+            $actions_file,
+            file_get_contents($file)
+        );
+        // cuz in next test run the migration file name isn't the same
+        File::delete($file);
     }
+}

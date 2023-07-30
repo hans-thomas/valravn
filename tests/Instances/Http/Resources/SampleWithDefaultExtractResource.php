@@ -2,18 +2,18 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-    use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-    use Illuminate\Database\Eloquent\Model;
+use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Illuminate\Database\Eloquent\Model;
 
-    class SampleWithDefaultExtractResource extends ValravnJsonResource
+class SampleWithDefaultExtractResource extends ValravnJsonResource
+{
+    public function extract(Model $model): ?array
     {
-        public function extract(Model $model): ?array
-        {
-            return null;
-        }
-
-        public function type(): string
-        {
-            return 'samples';
-        }
+        return null;
     }
+
+    public function type(): string
+    {
+        return 'samples';
+    }
+}

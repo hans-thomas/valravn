@@ -2,15 +2,15 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Controllers;
 
-    use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller;
 
-    class SampleHasOneController extends Controller
+class SampleHasOneController extends Controller
+{
+    public function viewRelation(int $id): void
     {
-        public function viewRelation(int $id): void
-        {
-        }
-
-        public function updateRelation(int $id, int $related): void
-        {
-        }
     }
+
+    public function updateRelation(int $id, int $related): void
+    {
+    }
+}

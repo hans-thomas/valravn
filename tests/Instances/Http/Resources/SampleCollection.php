@@ -2,30 +2,30 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-    use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
-    use Illuminate\Database\Eloquent\Model;
+use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Illuminate\Database\Eloquent\Model;
 
-    class SampleCollection extends ValravnResourceCollection
+class SampleCollection extends ValravnResourceCollection
+{
+    /**
+     * @param Model $model
+     *
+     * @return array|null
+     */
+    public function extract(Model $model): ?array
     {
-        /**
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        public function extract(Model $model): ?array
-        {
-            return [
-                'id'    => $model->id,
-                'name'  => $model->name,
-                'email' => $model->email,
-            ];
-        }
-
-        /**
-         * @return string
-         */
-        public function type(): string
-        {
-            return 'samples';
-        }
+        return [
+            'id'    => $model->id,
+            'name'  => $model->name,
+            'email' => $model->email,
+        ];
     }
+
+    /**
+     * @return string
+     */
+    public function type(): string
+    {
+        return 'samples';
+    }
+}
