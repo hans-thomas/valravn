@@ -1,38 +1,41 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Core\Resources\Comment;
+namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
-	use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
-	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-	use Illuminate\Database\Eloquent\Model;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+    use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
+    use Illuminate\Database\Eloquent\Model;
 
-	class CommentResource extends ValravnJsonResource {
+    class CommentResource extends ValravnJsonResource
+    {
+        /**
+         * @return array
+         */
+        public function getAvailableIncludes(): array
+        {
+            return [
+                'post' => PostIncludes::class,
+            ];
+        }
 
-		/**
-		 * @return array
-		 */
-		public function getAvailableIncludes(): array {
-			return [
-				'post' => PostIncludes::class,
-			];
-		}
+        /**
+         * @param Model $model
+         *
+         * @return array|null
+         */
+        public function extract(Model $model): ?array
+        {
+            return [
+                'id'      => $model->id,
+                'content' => $model->content,
+            ];
+        }
 
-		/**
-		 * @param Model $model
-		 *
-		 * @return array|null
-		 */
-		public function extract( Model $model ): ?array {
-			return [
-				'id'      => $model->id,
-				'content' => $model->content,
-			];
-		}
-
-		/**
-		 * @return string
-		 */
-		public function type(): string {
-			return 'comments';
-		}
-	}
+        /**
+         * @return string
+         */
+        public function type(): string
+        {
+            return 'comments';
+        }
+    }

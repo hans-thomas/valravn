@@ -1,65 +1,68 @@
 <?php
 
-	namespace Hans\Valravn\Http\Resources\Contracts;
+namespace Hans\Valravn\Http\Resources\Contracts;
 
+    abstract class CollectionQuery
+    {
+        /**
+         * Store processed data.
+         *
+         * @var array
+         */
+        private array $data = [];
 
-	abstract class CollectionQuery {
+        /**
+         * Implement a custom logic.
+         *
+         * @param ValravnJsonResource $resource
+         *
+         * @return array
+         */
+        abstract public function apply(ValravnJsonResource $resource): array;
 
-		/**
-		 * Store processed data
-		 *
-		 * @var array
-		 */
-		private array $data = [];
+        /**
+         * Create an instance in static way.
+         *
+         * @return static
+         */
+        public static function make(): static
+        {
+            return new static();
+        }
 
-		/**
-		 * Implement a custom logic
-		 *
-		 * @param ValravnJsonResource $resource
-		 *
-		 * @return array
-		 */
-		abstract public function apply( ValravnJsonResource $resource ): array;
+        /**
+         * Apply the custom logic and store processed data.
+         *
+         * @param ValravnJsonResource $resource
+         *
+         * @return $this
+         */
+        public function run(ValravnJsonResource $resource): self
+        {
+            $this->data = $this->apply($resource);
 
-		/**
-		 * Create an instance in static way
-		 *
-		 * @return static
-		 */
-		public static function make(): static {
-			return new static();
-		}
+            return $this;
+        }
 
-		/**
-		 * Apply the custom logic and store processed data
-		 *
-		 * @param ValravnJsonResource $resource
-		 *
-		 * @return $this
-		 */
-		public function run( ValravnJsonResource $resource ): self {
-			$this->data = $this->apply( $resource );
+        /**
+         * Merge processed data to a resource class.
+         *
+         * @param ValravnJsonResource $resource
+         *
+         * @return void
+         */
+        public function mergeDataInto(ValravnJsonResource $resource): void
+        {
+            $resource->addAdditional($this->getData());
+        }
 
-			return $this;
-		}
-
-		/**
-		 * Merge processed data to a resource class
-		 *
-		 * @param ValravnJsonResource $resource
-		 *
-		 * @return void
-		 */
-		public function mergeDataInto( ValravnJsonResource $resource ): void {
-			$resource->addAdditional( $this->getData() );
-		}
-
-		/**
-		 * Return processed data
-		 *
-		 * @return array
-		 */
-		public function getData(): array {
-			return $this->data;
-		}
-	}
+        /**
+         * Return processed data.
+         *
+         * @return array
+         */
+        public function getData(): array
+        {
+            return $this->data;
+        }
+    }

@@ -1,27 +1,27 @@
 <?php
 
-	namespace Hans\Valravn\Commands;
+namespace Hans\Valravn\Commands;
 
-	use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
-	use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
-	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
-	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
-	use Illuminate\Console\Command;
-	use Illuminate\Contracts\Filesystem\Filesystem;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\Storage;
-	use Illuminate\Support\Str;
-	use League\Flysystem\Visibility;
-	use Throwable;
+    use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
+    use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
+    use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
+    use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
+    use Illuminate\Console\Command;
+    use Illuminate\Contracts\Filesystem\Filesystem;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+    use League\Flysystem\Visibility;
+    use Throwable;
 
-	class Relation extends Command {
-
-		/**
-		 * The name and signature of the console command.
-		 *
-		 * @var string
-		 */
-		protected $signature = '
+    class Relation extends Command
+    {
+        /**
+         * The name and signature of the console command.
+         *
+         * @var string
+         */
+        protected $signature = '
         valravn:relation
 		{namespace : Group of the entity}
 		{name : Name of the entity}
@@ -36,119 +36,120 @@
 		{--with-pivot : create a pivot migration}
         ';
 
-		/**
-		 * The console command description.
-		 *
-		 * @var string
-		 */
-		protected $description = 'Generate store and update request classes.';
+        /**
+         * The console command description.
+         *
+         * @var string
+         */
+        protected $description = 'Generate store and update request classes.';
 
-		private Filesystem $fs;
+        private Filesystem $fs;
 
-		public function __construct() {
-			parent::__construct();
-			$this->fs = Storage::createLocalDriver( [
-				'root'       => app_path(),
-				'visibility' => Visibility::PUBLIC
-			] );
-		}
+        public function __construct()
+        {
+            parent::__construct();
+            $this->fs = Storage::createLocalDriver([
+                'root'       => app_path(),
+                'visibility' => Visibility::PUBLIC,
+            ]);
+        }
 
-		/**
-		 * Execute the console command.
-		 *
-		 * @return void
-		 * @throws Throwable
-		 */
-		public function handle() {
-			$name      = $this->argument( 'name' );
-			$singular  = Str::of( $name )->singular()->ucfirst()->toString();
-			$namespace = ucfirst( $this->argument( 'namespace' ) );
+        /**
+         * Execute the console command.
+         *
+         * @throws Throwable
+         *
+         * @return void
+         */
+        public function handle()
+        {
+            $name = $this->argument('name');
+            $singular = Str::of($name)->singular()->ucfirst()->toString();
+            $namespace = ucfirst($this->argument('namespace'));
 
-			$relatedName      = $this->argument( 'related-name' );
-			$relatedSingular  = Str::of( $relatedName )->singular()->ucfirst()->toString();
-			$relatedNamespace = ucfirst( $this->argument( 'related-namespace' ) );
+            $relatedName = $this->argument('related-name');
+            $relatedSingular = Str::of($relatedName)->singular()->ucfirst()->toString();
+            $relatedNamespace = ucfirst($this->argument('related-namespace'));
 
-			$version = 'V' . filter_var( $this->option( 'v' ), FILTER_SANITIZE_NUMBER_INT );
+            $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
 
-			if (
-				$this->option( 'belongs-to-many' ) or
-				$this->option( 'morphed-by-many' ) or
-				$this->option( 'morph-to-many' ) or
-				$this->option( 'has-many' )
-			) {
-				if ( is_null( $relatedName ) ) {
-					$this->error( '{related-name} parameter should not be empty!' );
+            if (
+                $this->option('belongs-to-many') or
+                $this->option('morphed-by-many') or
+                $this->option('morph-to-many') or
+                $this->option('has-many')
+            ) {
+                if (is_null($relatedName)) {
+                    $this->error('{related-name} parameter should not be empty!');
 
-					return;
-				}
-				$relation = Str::plural( $relatedSingular );
-				$content  = file_get_contents(
-					$this->option( 'has-many' ) ?
-						__DIR__ . "/stubs/relations/has-many.stub" :
-						__DIR__ . "/stubs/relations/many-to-many.stub"
-				);
+                    return;
+                }
+                $relation = Str::plural($relatedSingular);
+                $content = file_get_contents(
+                    $this->option('has-many') ?
+                        __DIR__.'/stubs/relations/has-many.stub' :
+                        __DIR__.'/stubs/relations/many-to-many.stub'
+                );
 
-				$content = Str::replace( "{{RELATION::VERSION}}", $version, $content );
-				$content = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $content );
-				$content = Str::replace( "{{RELATION::ENTITY}}", $singular, $content );
+                $content = Str::replace('{{RELATION::VERSION}}', $version, $content);
+                $content = Str::replace('{{RELATION::NAMESPACE}}', $namespace, $content);
+                $content = Str::replace('{{RELATION::ENTITY}}', $singular, $content);
 
-				$content = Str::replace( "{{RELATION::RELATED-NAMESPACE}}", $relatedNamespace, $content );
-				$content = Str::replace( "{{RELATION::MODEL}}", $relatedSingular, $content );
-				$content = Str::replace( "{{RELATION::RELATION}}", $relation, $content );
+                $content = Str::replace('{{RELATION::RELATED-NAMESPACE}}', $relatedNamespace, $content);
+                $content = Str::replace('{{RELATION::MODEL}}', $relatedSingular, $content);
+                $content = Str::replace('{{RELATION::RELATION}}', $relation, $content);
 
-				if ( $this->option( 'belongs-to-many' ) ) {
-					$extends = class_basename( BelongsToManyRequest::class );
-				} elseif ( $this->option( 'morphed-by-many' ) ) {
-					$extends = class_basename( MorphedByManyRequest::class );
-				} elseif ( $this->option( 'morph-to-many' ) ) {
-					$extends = class_basename( MorphToManyRequest::class );
-				} elseif ( $this->option( 'has-many' ) ) {
-					$extends = class_basename( HasManyRequest::class );
-				}
+                if ($this->option('belongs-to-many')) {
+                    $extends = class_basename(BelongsToManyRequest::class);
+                } elseif ($this->option('morphed-by-many')) {
+                    $extends = class_basename(MorphedByManyRequest::class);
+                } elseif ($this->option('morph-to-many')) {
+                    $extends = class_basename(MorphToManyRequest::class);
+                } elseif ($this->option('has-many')) {
+                    $extends = class_basename(HasManyRequest::class);
+                }
 
-				$content = Str::replace(
-					"{{RELATION::EXTENDS}}",
-					$extends,
-					$content
-				);
-				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-					$content
-				);
+                $content = Str::replace(
+                    '{{RELATION::EXTENDS}}',
+                    $extends,
+                    $content
+                );
+                $this->fs->write(
+                    "Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
+                    $content
+                );
 
-				if ( $this->option( 'with-pivot' ) and ! $this->option( 'has-many' ) ) {
-					Artisan::call( "valravn:pivot $namespace $name $relatedNamespace $relatedName" );
-				}
-			}
+                if ($this->option('with-pivot') and !$this->option('has-many')) {
+                    Artisan::call("valravn:pivot $namespace $name $relatedNamespace $relatedName");
+                }
+            }
 
-			if ( $this->option( 'morph-to' ) ) {
-				$morphTo = file_get_contents( __DIR__ . "/stubs/relations/morph-to.stub" );
+            if ($this->option('morph-to')) {
+                $morphTo = file_get_contents(__DIR__.'/stubs/relations/morph-to.stub');
 
-				$morphTo = Str::replace( "{{RELATION::VERSION}}", $version, $morphTo );
-				$morphTo = Str::replace( "{{RELATION::NAMESPACE}}", $namespace, $morphTo );
-				$morphTo = Str::replace( "{{RELATION::MODEL}}", $singular, $morphTo );
-				$morphTo = Str::replace( "{{RELATION::RELATION}}", $relatedNamespace, $morphTo );
+                $morphTo = Str::replace('{{RELATION::VERSION}}', $version, $morphTo);
+                $morphTo = Str::replace('{{RELATION::NAMESPACE}}', $namespace, $morphTo);
+                $morphTo = Str::replace('{{RELATION::MODEL}}', $singular, $morphTo);
+                $morphTo = Str::replace('{{RELATION::RELATION}}', $relatedNamespace, $morphTo);
 
-				$this->fs->write(
-					"Http/Requests/$version/$namespace/$singular/{$singular}{$relatedNamespace}Request.php",
-					$morphTo
-				);
-			}
+                $this->fs->write(
+                    "Http/Requests/$version/$namespace/$singular/{$singular}{$relatedNamespace}Request.php",
+                    $morphTo
+                );
+            }
 
-			if (
-				$this->option( 'belongs-to-many' ) or
-				$this->option( 'morphed-by-many' ) or
-				$this->option( 'morph-to-many' ) or
-				$this->option( 'has-many' ) or
-				$this->option( 'morph-to' )
-			) {
-				$this->error( 'You should pass one option at least.' );
+            if (
+                $this->option('belongs-to-many') or
+                $this->option('morphed-by-many') or
+                $this->option('morph-to-many') or
+                $this->option('has-many') or
+                $this->option('morph-to')
+            ) {
+                $this->error('You should pass one option at least.');
 
-				return;
-			}
+                return;
+            }
 
-
-			$this->info( "request class successfully created!" );
-		}
-
-	}
+            $this->info('request class successfully created!');
+        }
+    }

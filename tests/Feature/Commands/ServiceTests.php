@@ -1,29 +1,30 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature\Commands;
+namespace Hans\Valravn\Tests\Feature\Commands;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\File;
+    use Hans\Valravn\Tests\TestCase;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\File;
 
-	class ServiceTests extends TestCase {
+    class ServiceTests extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function crud(): void
+        {
+            $crud = app_path('Services/Blog/Post/PostCrudService.php');
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function crud(): void {
-			$crud = app_path( "Services/Blog/Post/PostCrudService.php" );
+            File::delete($crud);
+            self::assertFileDoesNotExist($crud);
 
-			File::delete( $crud );
-			self::assertFileDoesNotExist( $crud );
+            Artisan::call('valravn:service blog posts');
 
-			Artisan::call( "valravn:service blog posts" );
+            self::assertFileExists($crud);
 
-			self::assertFileExists( $crud );
-
-			$crud_file = '<?php
+            $crud_file = '<?php
 
     namespace App\Services\Blog\Post;
 
@@ -93,28 +94,29 @@
     }
 ';
 
-			self::assertEquals(
-				$crud_file,
-				file_get_contents( $crud )
-			);
-		}
+            self::assertEquals(
+                $crud_file,
+                file_get_contents($crud)
+            );
+        }
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function relations(): void {
-			$relations = app_path( "Services/Blog/Post/PostRelationsService.php" );
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function relations(): void
+        {
+            $relations = app_path('Services/Blog/Post/PostRelationsService.php');
 
-			File::delete( $relations );
-			self::assertFileDoesNotExist( $relations );
+            File::delete($relations);
+            self::assertFileDoesNotExist($relations);
 
-			Artisan::call( "valravn:service blog posts -r" );
+            Artisan::call('valravn:service blog posts -r');
 
-			self::assertFileExists( $relations );
+            self::assertFileExists($relations);
 
-			$relations_file = '<?php
+            $relations_file = '<?php
 
     namespace App\Services\Blog\Post;
 
@@ -136,29 +138,29 @@
     }
 ';
 
-			self::assertEquals(
-				$relations_file,
-				file_get_contents( $relations )
-			);
+            self::assertEquals(
+                $relations_file,
+                file_get_contents($relations)
+            );
+        }
 
-		}
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function actions(): void
+        {
+            $actions = app_path('Services/Blog/Post/PostActionsService.php');
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function actions(): void {
-			$actions = app_path( "Services/Blog/Post/PostActionsService.php" );
+            File::delete($actions);
+            self::assertFileDoesNotExist($actions);
 
-			File::delete( $actions );
-			self::assertFileDoesNotExist( $actions );
+            Artisan::call('valravn:service blog posts -a');
 
-			Artisan::call( "valravn:service blog posts -a" );
+            self::assertFileExists($actions);
 
-			self::assertFileExists( $actions );
-
-			$actions_file = '<?php
+            $actions_file = '<?php
 
     namespace App\Services\Blog\Post;
 
@@ -180,10 +182,9 @@
     }
 ';
 
-			self::assertEquals(
-				$actions_file,
-				file_get_contents( $actions )
-			);
-		}
-
-	}
+            self::assertEquals(
+                $actions_file,
+                file_get_contents($actions)
+            );
+        }
+    }

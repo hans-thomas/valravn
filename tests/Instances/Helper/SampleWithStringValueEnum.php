@@ -1,13 +1,14 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Instances\Helper;
+namespace Hans\Valravn\Tests\Instances\Helper;
 
-	use Hans\Valravn\Helpers\Traits\EnumHelper;
+    use Hans\Valravn\Helpers\Traits\EnumHelper;
 
-	enum SampleWithStringValueEnum: string {
-		use EnumHelper;
+    enum SampleWithStringValueEnum: string
+    {
+        use EnumHelper;
 
-		case FIRST = 'first value';
-		case SECOND = 'second value';
-		case THIRD = 'third value';
-	}
+        case FIRST = 'first value';
+        case SECOND = 'second value';
+        case THIRD = 'third value';
+    }

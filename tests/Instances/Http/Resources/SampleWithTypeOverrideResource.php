@@ -1,22 +1,23 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Instances\Http\Resources;
+namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-	use Illuminate\Database\Eloquent\Model;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+    use Illuminate\Database\Eloquent\Model;
 
-	class SampleWithTypeOverrideResource extends ValravnJsonResource {
+    class SampleWithTypeOverrideResource extends ValravnJsonResource
+    {
+        public function extract(Model $model): ?array
+        {
+            return [
+                'id'   => $model->id,
+                'name' => $model->name,
+                'type' => 'leaving heaven',
+            ];
+        }
 
-		public function extract( Model $model ): ?array {
-			return [
-				'id'   => $model->id,
-				'name' => $model->name,
-				'type' => 'leaving heaven',
-			];
-		}
-
-		public function type(): string {
-			return 'samples';
-		}
-
-	}
+        public function type(): string
+        {
+            return 'samples';
+        }
+    }

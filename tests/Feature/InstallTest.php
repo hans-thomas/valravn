@@ -1,33 +1,34 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature;
+namespace Hans\Valravn\Tests\Feature;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\File;
-	use Illuminate\Support\Str;
+    use Hans\Valravn\Tests\TestCase;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\File;
+    use Illuminate\Support\Str;
 
-	class InstallTest extends TestCase {
+    class InstallTest extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function install(): void
+        {
+            $config = config_path('valravn.php');
+            $serviceProvider = app_path('Providers/RepositoryServiceProvider.php');
+            File::delete([$config, $serviceProvider]);
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function install(): void {
-			$config          = config_path( "valravn.php" );
-			$serviceProvider = app_path( "Providers/RepositoryServiceProvider.php" );
-			File::delete( [ $config, $serviceProvider ] );
+            self::assertFileDoesNotExist($config);
+            self::assertFileDoesNotExist($serviceProvider);
 
-			self::assertFileDoesNotExist( $config );
-			self::assertFileDoesNotExist( $serviceProvider );
+            Artisan::call('valravn:install');
 
-			Artisan::call( 'valravn:install' );
+            self::assertFileExists($config);
+            self::assertFileExists($serviceProvider);
 
-			self::assertFileExists( $config );
-			self::assertFileExists( $serviceProvider );
-
-			$serviceProviderContent = '<?php
+            $serviceProviderContent = '<?php
 
     namespace App\Providers;
 
@@ -56,22 +57,20 @@
     }
 ';
 
-			self::assertEquals(
-				$serviceProviderContent,
-				file_get_contents( $serviceProvider )
-			);
+            self::assertEquals(
+                $serviceProviderContent,
+                file_get_contents($serviceProvider)
+            );
 
-			// remove registered RepositoryServiceProvider in app config
-			$appConfig = file_get_contents( config_path( 'app.php' ) );
+            // remove registered RepositoryServiceProvider in app config
+            $appConfig = file_get_contents(config_path('app.php'));
 
-			if ( Str::contains( $appConfig, 'App\\Providers\\RepositoryServiceProvider::class' ) ) {
-				file_put_contents( config_path( 'app.php' ), str_replace(
-					"App\\Providers\RepositoryServiceProvider::class," . PHP_EOL,
-					null,
-					$appConfig
-				) );
-			}
-
-		}
-
-	}
+            if (Str::contains($appConfig, 'App\\Providers\\RepositoryServiceProvider::class')) {
+                file_put_contents(config_path('app.php'), str_replace(
+                    "App\\Providers\RepositoryServiceProvider::class,".PHP_EOL,
+                    null,
+                    $appConfig
+                ));
+            }
+        }
+    }

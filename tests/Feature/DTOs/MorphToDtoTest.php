@@ -1,31 +1,31 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature\DTOs;
+namespace Hans\Valravn\Tests\Feature\DTOs;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Hans\Valravn\DTOs\MorphToDto;
+    use Hans\Valravn\DTOs\MorphToDto;
+    use Hans\Valravn\Tests\TestCase;
 
-	class MorphToDtoTest extends TestCase {
+    class MorphToDtoTest extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function parse(): void
+        {
+            $data = [
+                'entity'    => 'posts',
+                'namespace' => 'blog',
+            ];
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function parse(): void {
-			$data = [
-				'entity'    => 'posts',
-				'namespace' => 'blog'
-			];
+            $result = MorphToDto::make([
+                'related' => $data,
+            ]);
 
-			$result = MorphToDto::make( [
-				'related' => $data
-			] );
-
-			self::assertEquals(
-				[ 'posts' ],
-				$result->getData()->toArray()
-			);
-		}
-
-	}
+            self::assertEquals(
+                ['posts'],
+                $result->getData()->toArray()
+            );
+        }
+    }
