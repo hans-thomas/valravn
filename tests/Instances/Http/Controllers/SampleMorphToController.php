@@ -1,13 +1,16 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Instances\Http\Controllers;
+namespace Hans\Valravn\Tests\Instances\Http\Controllers;
 
-	use Illuminate\Http\Request;
-	use Illuminate\Routing\Controller;
+    use Illuminate\Routing\Controller;
 
-	class SampleMorphToController extends Controller {
-		public function viewRelation( int $id ): void { }
+    class SampleMorphToController extends Controller
+    {
+        public function viewRelation(int $id): void
+        {
+        }
 
-		public function updateRelation( int $id, int $related ): void { }
-
-	}
+        public function updateRelation(int $id, int $related): void
+        {
+        }
+    }

@@ -1,236 +1,242 @@
 <?php
 
-	use Hans\Valravn\Exceptions\Package\PackageException;
-	use Hans\Valravn\Exceptions\ValravnException;
-	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
-	use Illuminate\Contracts\Auth\Authenticatable;
-	use Illuminate\Database\Eloquent\Model;
-	use Illuminate\Http\Resources\Json\JsonResource;
-	use Illuminate\Support\Facades\Auth;
-	use Illuminate\Support\Facades\Log;
-	use Illuminate\Support\Optional;
-
-	if ( ! function_exists( 'user' ) ) {
-		/**
-		 * Return authenticated user or optional null
-		 *
-		 * @return Authenticatable|Optional
-		 */
-		function user(): Authenticatable|Optional {
-			return Auth::check() ? Auth::user() : optional();
-		}
-	}
-
-	if ( ! function_exists( 'generate_order' ) ) {
-		/**
-		 * Generate a random order for factories
-		 *
-		 * @return float
-		 */
-		function generate_order(): float {
-			return rand( 111111, 999999 ) / 1000;
-		}
-	}
-
-	if ( ! function_exists( 'resolveRelatedIdToModel' ) ) {
-		/**
-		 * Resolve the given id to a related model
-		 *
-		 * @param int    $id
-		 * @param string $entity
-		 *
-		 * @return Model|false
-		 * @throws ValravnException
-		 */
-		function resolveRelatedIdToModel( int $id, string $entity ): Model|false {
-			if ( ! ( class_exists( $entity ) and is_a( $entity, Model::class, true ) ) ) {
-				throw PackageException::invalidEntity( $entity );
-			}
-
-			try {
-				$model = ( new $entity )->query()->applyFilters()->findOrFail( $id );
-			} catch ( Throwable $e ) {
-				return false;
-			}
-
-			return $model;
-		}
-	}
-
-	if ( ! function_exists( 'resolveMorphableToResource' ) ) {
-		/**
-		 * Resolve given Model to a resource class
-		 *
-		 * @param Model|null $morphable
-		 *
-		 * @return JsonResource
-		 */
-		function resolveMorphableToResource( ?Model $morphable ): JsonResource {
-			if ( $morphable instanceof ResourceCollectionable ) {
-				return $morphable->toResource();
-			}
-
-			return JsonResource::make( $morphable );
-		}
-	}
-
-	if ( ! function_exists( 'logg' ) ) {
-		/**
-		 * Log the given exception to a specific channel and format
-		 *
-		 * @param string    $location
-		 * @param Throwable $e
-		 * @param array     $context
-		 *
-		 * @return void
-		 */
-		function logg( string $location, Throwable $e, array $context = [] ): void {
-			// TODO: log channel should be documented
-			Log::channel( 'valravn' )->debug( $location . ' => ' . 'message: ' . $e->getMessage(), $context );
-		}
-	}
+    use Hans\Valravn\Exceptions\Package\PackageException;
+    use Hans\Valravn\Exceptions\ValravnException;
+    use Hans\Valravn\Models\Contracts\ResourceCollectionable;
+    use Illuminate\Contracts\Auth\Authenticatable;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Log;
+    use Illuminate\Support\Optional;
+
+    if (!function_exists('user')) {
+        /**
+         * Return authenticated user or optional null.
+         *
+         * @return Authenticatable|Optional
+         */
+        function user(): Authenticatable|Optional
+        {
+            return Auth::check() ? Auth::user() : optional();
+        }
+    }
+
+    if (!function_exists('generate_order')) {
+        /**
+         * Generate a random order for factories.
+         *
+         * @return float
+         */
+        function generate_order(): float
+        {
+            return rand(111111, 999999) / 1000;
+        }
+    }
+
+    if (!function_exists('resolveRelatedIdToModel')) {
+        /**
+         * Resolve the given id to a related model.
+         *
+         * @param int    $id
+         * @param string $entity
+         *
+         * @throws ValravnException
+         *
+         * @return Model|false
+         */
+        function resolveRelatedIdToModel(int $id, string $entity): Model|false
+        {
+            if (!(class_exists($entity) and is_a($entity, Model::class, true))) {
+                throw PackageException::invalidEntity($entity);
+            }
+
+            try {
+                $model = ( new $entity() )->query()->applyFilters()->findOrFail($id);
+            } catch (Throwable $e) {
+                return false;
+            }
+
+            return $model;
+        }
+    }
+
+    if (!function_exists('resolveMorphableToResource')) {
+        /**
+         * Resolve given Model to a resource class.
+         *
+         * @param Model|null $morphable
+         *
+         * @return JsonResource
+         */
+        function resolveMorphableToResource(?Model $morphable): JsonResource
+        {
+            if ($morphable instanceof ResourceCollectionable) {
+                return $morphable->toResource();
+            }
+
+            return JsonResource::make($morphable);
+        }
+    }
+
+    if (!function_exists('logg')) {
+        /**
+         * Log the given exception to a specific channel and format.
+         *
+         * @param string    $location
+         * @param Throwable $e
+         * @param array     $context
+         *
+         * @return void
+         */
+        function logg(string $location, Throwable $e, array $context = []): void
+        {
+            // TODO: log channel should be documented
+            Log::channel('valravn')->debug($location.' => '.'message: '.$e->getMessage(), $context);
+        }
+    }
+
+    if (!function_exists('valravn_config')) {
+        /**
+         * Get valravn config data.
+         *
+         * @param string $key
+         *
+         * @return string|array
+         */
+        function valravn_config(string $key): string|array
+        {
+            return config("valravn.$key");
+        }
+    }
 
-	if ( ! function_exists( 'valravn_config' ) ) {
-		/**
-		 * Get valravn config data
-		 *
-		 * @param string $key
-		 *
-		 * @return string|array
-		 */
-		function valravn_config( string $key ): string|array {
-			return config( "valravn.$key" );
-		}
-	}
+    if (!function_exists('slugify')) {
+        /**
+         * Make a english or non-english string to a slug.
+         *
+         * @param string $string
+         * @param string $separator
+         *
+         * @return string|null
+         */
+        function slugify(string $string, string $separator = '-'): string|null
+        {
+            $_transliteration = [
+                '/ö|œ/' => 'e',
 
-	if ( ! function_exists( 'slugify' ) ) {
-		/**
-		 * Make a english or non-english string to a slug
-		 *
-		 * @param string $string
-		 * @param string $separator
-		 *
-		 * @return string|null
-		 */
-		function slugify( string $string, string $separator = '-' ): string|null {
+                '/ü/' => 'e',
 
-			$_transliteration = [
-				"/ö|œ/" => "e",
+                '/Ä/' => 'e',
 
-				"/ü/" => "e",
+                '/Ü/' => 'e',
 
-				"/Ä/" => "e",
+                '/Ö/' => 'e',
 
-				"/Ü/" => "e",
+                '/À|Á|Â|Ã|Å|Ǻ|Ā|Ă|Ą|Ǎ/' => '',
 
-				"/Ö/" => "e",
+                '/à|á|â|ã|å|ǻ|ā|ă|ą|ǎ|ª/' => '',
 
-				"/À|Á|Â|Ã|Å|Ǻ|Ā|Ă|Ą|Ǎ/" => "",
+                '/Ç|Ć|Ĉ|Ċ|Č/' => '',
 
-				"/à|á|â|ã|å|ǻ|ā|ă|ą|ǎ|ª/" => "",
+                '/ç|ć|ĉ|ċ|č/' => '',
 
-				"/Ç|Ć|Ĉ|Ċ|Č/" => "",
+                '/Ð|Ď|Đ/' => '',
 
-				"/ç|ć|ĉ|ċ|č/" => "",
+                '/ð|ď|đ/' => '',
 
-				"/Ð|Ď|Đ/" => "",
+                '/È|É|Ê|Ë|Ē|Ĕ|Ė|Ę|Ě/' => '',
 
-				"/ð|ď|đ/" => "",
+                '/è|é|ê|ë|ē|ĕ|ė|ę|ě/' => '',
 
-				"/È|É|Ê|Ë|Ē|Ĕ|Ė|Ę|Ě/" => "",
+                '/Ĝ|Ğ|Ġ|Ģ/' => '',
 
-				"/è|é|ê|ë|ē|ĕ|ė|ę|ě/" => "",
+                '/ĝ|ğ|ġ|ģ/' => '',
 
-				"/Ĝ|Ğ|Ġ|Ģ/" => "",
+                '/Ĥ|Ħ/' => '',
 
-				"/ĝ|ğ|ġ|ģ/" => "",
+                '/ĥ|ħ/' => '',
 
-				"/Ĥ|Ħ/" => "",
+                '/Ì|Í|Î|Ï|Ĩ|Ī| Ĭ|Ǐ|Į|İ/' => '',
 
-				"/ĥ|ħ/" => "",
+                '/ì|í|î|ï|ĩ|ī|ĭ|ǐ|į|ı/' => '',
 
-				"/Ì|Í|Î|Ï|Ĩ|Ī| Ĭ|Ǐ|Į|İ/" => "",
+                '/Ĵ/' => '',
 
-				"/ì|í|î|ï|ĩ|ī|ĭ|ǐ|į|ı/" => "",
+                '/ĵ/' => '',
 
-				"/Ĵ/" => "",
+                '/Ķ/' => '',
 
-				"/ĵ/" => "",
+                '/ķ/' => '',
 
-				"/Ķ/" => "",
+                '/Ĺ|Ļ|Ľ|Ŀ|Ł/' => '',
 
-				"/ķ/" => "",
+                '/ĺ|ļ|ľ|ŀ|ł/' => '',
 
-				"/Ĺ|Ļ|Ľ|Ŀ|Ł/" => "",
+                '/Ñ|Ń|Ņ|Ň/' => '',
 
-				"/ĺ|ļ|ľ|ŀ|ł/" => "",
+                '/ñ|ń|ņ|ň|ŉ/' => '',
 
-				"/Ñ|Ń|Ņ|Ň/" => "",
+                '/Ò|Ó|Ô|Õ|Ō|Ŏ|Ǒ|Ő|Ơ|Ø|Ǿ/' => '',
 
-				"/ñ|ń|ņ|ň|ŉ/" => "",
+                '/ò|ó|ô|õ|ō|ŏ|ǒ|ő|ơ|ø|ǿ|º/' => '',
 
-				"/Ò|Ó|Ô|Õ|Ō|Ŏ|Ǒ|Ő|Ơ|Ø|Ǿ/" => "",
+                '/Ŕ|Ŗ|Ř/' => '',
 
-				"/ò|ó|ô|õ|ō|ŏ|ǒ|ő|ơ|ø|ǿ|º/" => "",
+                '/ŕ|ŗ|ř/' => '',
 
-				"/Ŕ|Ŗ|Ř/" => "",
+                '/Ś|Ŝ|Ş|Ș|Š/' => '',
 
-				"/ŕ|ŗ|ř/" => "",
+                '/ś|ŝ|ş|ș|š|ſ/' => '',
 
-				"/Ś|Ŝ|Ş|Ș|Š/" => "",
+                '/Ţ|Ț|Ť|Ŧ/' => '',
 
-				"/ś|ŝ|ş|ș|š|ſ/" => "",
+                '/ţ|ț|ť|ŧ/' => '',
 
-				"/Ţ|Ț|Ť|Ŧ/" => "",
+                '/Ù|Ú|Û|Ũ|Ū|Ŭ|Ů|Ű|Ų|Ư|Ǔ|Ǖ|Ǘ|Ǚ|Ǜ/' => '',
 
-				"/ţ|ț|ť|ŧ/" => "",
+                '/ù|ú|û|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ/' => '',
 
-				"/Ù|Ú|Û|Ũ|Ū|Ŭ|Ů|Ű|Ų|Ư|Ǔ|Ǖ|Ǘ|Ǚ|Ǜ/" => "",
+                '/Ý|Ÿ|Ŷ/' => '',
 
-				"/ù|ú|û|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ/" => "",
+                '/ý|ÿ|ŷ/' => '',
 
-				"/Ý|Ÿ|Ŷ/" => "",
+                '/Ŵ/' => '',
 
-				"/ý|ÿ|ŷ/" => "",
+                '/ŵ/' => '',
 
-				"/Ŵ/" => "",
+                '/Ź|Ż|Ž/' => '',
 
-				"/ŵ/" => "",
+                '/ź|ż|ž/' => '',
 
-				"/Ź|Ż|Ž/" => "",
+                '/Æ|Ǽ/' => 'E',
 
-				"/ź|ż|ž/" => "",
+                '/ß/' => 's',
 
-				"/Æ|Ǽ/" => "E",
+                '/Ĳ/' => 'J',
 
-				"/ß/" => "s",
+                '/ĳ/' => 'j',
 
-				"/Ĳ/" => "J",
+                '/Œ/' => 'E',
 
-				"/ĳ/" => "j",
+                '/ƒ/' => '',
+            ];
 
-				"/Œ/" => "E",
+            $quotedReplacement = preg_quote($separator, '/');
 
-				"/ƒ/" => ""
-			];
+            $merge = [
 
-			$quotedReplacement = preg_quote( $separator, '/' );
+                '/[^\s\p{Zs}\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu' => ' ',
 
-			$merge = [
+                '/[\s\p{Zs}]+/mu' => $separator,
 
-				'/[^\s\p{Zs}\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu' => ' ',
+                sprintf('/^[%s]+|[%s]+$/', $quotedReplacement, $quotedReplacement) => '',
 
-				'/[\s\p{Zs}]+/mu' => $separator,
+            ];
 
-				sprintf( '/^[%s]+|[%s]+$/', $quotedReplacement, $quotedReplacement ) => '',
+            $map = $_transliteration + $merge;
 
-			];
+            unset($_transliteration);
 
-			$map = $_transliteration + $merge;
-
-			unset( $_transliteration );
-
-			return preg_replace( array_keys( $map ), array_values( $map ), $string );
-
-		}
-	}
+            return preg_replace(array_keys($map), array_values($map), $string);
+        }
+    }

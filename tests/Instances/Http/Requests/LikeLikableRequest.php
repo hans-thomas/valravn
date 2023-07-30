@@ -1,18 +1,18 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Instances\Http\Requests;
+namespace Hans\Valravn\Tests\Instances\Http\Requests;
 
-	use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
+    use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
 
-	class LikeLikableRequest extends MorphToRequest {
-
-		/**
-		 * Get Allowed entities for MorphTo relationship
-		 *
-		 * @return array
-		 */
-		protected function entities(): array {
-			return [ 'posts', 'comments' ];
-		}
-
-	}
+    class LikeLikableRequest extends MorphToRequest
+    {
+        /**
+         * Get Allowed entities for MorphTo relationship.
+         *
+         * @return array
+         */
+        protected function entities(): array
+        {
+            return ['posts', 'comments'];
+        }
+    }

@@ -1,32 +1,33 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature\Commands;
+namespace Hans\Valravn\Tests\Feature\Commands;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\File;
+    use Hans\Valravn\Tests\TestCase;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\File;
 
-	class RequestsTest extends TestCase {
+    class RequestsTest extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function requests(): void
+        {
+            $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
+            $update = app_path('Http/Requests/V1/Blog/Post/PostUpdateRequest.php');
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function requests(): void {
-			$store  = app_path( "Http/Requests/V1/Blog/Post/PostStoreRequest.php" );
-			$update = app_path( "Http/Requests/V1/Blog/Post/PostUpdateRequest.php" );
+            File::delete([$store, $update]);
+            self::assertFileDoesNotExist($store);
+            self::assertFileDoesNotExist($update);
 
-			File::delete( [ $store, $update ] );
-			self::assertFileDoesNotExist( $store );
-			self::assertFileDoesNotExist( $update );
+            Artisan::call('valravn:requests blog posts');
 
-			Artisan::call( "valravn:requests blog posts" );
+            self::assertFileExists($store);
+            self::assertFileExists($update);
 
-			self::assertFileExists( $store );
-			self::assertFileExists( $update );
-
-			$storeContent = "<?php
+            $storeContent = "<?php
 
     namespace App\Http\Requests\V1\Blog\Post;
 
@@ -47,12 +48,12 @@
 
     }
 ";
-			self::assertEquals(
-				$storeContent,
-				file_get_contents( $store )
-			);
+            self::assertEquals(
+                $storeContent,
+                file_get_contents($store)
+            );
 
-			$updateContent = "<?php
+            $updateContent = "<?php
 
     namespace App\Http\Requests\V1\Blog\Post;
 
@@ -73,33 +74,32 @@
 
     }
 ";
-			self::assertEquals(
-				$updateContent,
-				file_get_contents( $update )
-			);
+            self::assertEquals(
+                $updateContent,
+                file_get_contents($update)
+            );
+        }
 
-		}
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function version(): void
+        {
+            $store = app_path('Http/Requests/V2/Blog/Post/PostStoreRequest.php');
+            $update = app_path('Http/Requests/V2/Blog/Post/PostUpdateRequest.php');
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function version(): void {
-			$store  = app_path( "Http/Requests/V2/Blog/Post/PostStoreRequest.php" );
-			$update = app_path( "Http/Requests/V2/Blog/Post/PostUpdateRequest.php" );
+            File::delete([$store, $update]);
+            self::assertFileDoesNotExist($store);
+            self::assertFileDoesNotExist($update);
 
-			File::delete( [ $store, $update ] );
-			self::assertFileDoesNotExist( $store );
-			self::assertFileDoesNotExist( $update );
+            Artisan::call('valravn:requests blog posts --v 2');
 
-			Artisan::call( "valravn:requests blog posts --v 2" );
+            self::assertFileExists($store);
+            self::assertFileExists($update);
 
-			self::assertFileExists( $store );
-			self::assertFileExists( $update );
-
-
-			$storeContent = "<?php
+            $storeContent = "<?php
 
     namespace App\Http\Requests\V2\Blog\Post;
 
@@ -120,12 +120,12 @@
 
     }
 ";
-			self::assertEquals(
-				$storeContent,
-				file_get_contents( $store )
-			);
+            self::assertEquals(
+                $storeContent,
+                file_get_contents($store)
+            );
 
-			$updateContent = "<?php
+            $updateContent = "<?php
 
     namespace App\Http\Requests\V2\Blog\Post;
 
@@ -146,29 +146,29 @@
 
     }
 ";
-			self::assertEquals(
-				$updateContent,
-				file_get_contents( $update )
-			);
+            self::assertEquals(
+                $updateContent,
+                file_get_contents($update)
+            );
+        }
 
-		}
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function batchUpdate(): void
+        {
+            $file = app_path('Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php');
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function batchUpdate(): void {
-			$file = app_path( "Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php" );
+            File::delete($file);
+            self::assertFileDoesNotExist($file);
 
-			File::delete( $file );
-			self::assertFileDoesNotExist( $file );
+            Artisan::call('valravn:requests blog posts --batch-update');
 
-			Artisan::call( "valravn:requests blog posts --batch-update" );
+            self::assertFileExists($file);
 
-			self::assertFileExists( $file );
-
-			$content = "<?php
+            $content = "<?php
 
     namespace App\Http\Requests\V1\Blog\Post;
 
@@ -199,28 +199,29 @@
 
     }
 ";
-			self::assertEquals(
-				$content,
-				file_get_contents( $file )
-			);
-		}
+            self::assertEquals(
+                $content,
+                file_get_contents($file)
+            );
+        }
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function batchUpdateWithVersion(): void {
-			$file = app_path( "Http/Requests/V5/Blog/Post/PostBatchUpdateRequest.php" );
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function batchUpdateWithVersion(): void
+        {
+            $file = app_path('Http/Requests/V5/Blog/Post/PostBatchUpdateRequest.php');
 
-			File::delete( $file );
-			self::assertFileDoesNotExist( $file );
+            File::delete($file);
+            self::assertFileDoesNotExist($file);
 
-			Artisan::call( "valravn:requests blog posts --batch-update --v 5" );
+            Artisan::call('valravn:requests blog posts --batch-update --v 5');
 
-			self::assertFileExists( $file );
+            self::assertFileExists($file);
 
-			$content = "<?php
+            $content = "<?php
 
     namespace App\Http\Requests\V5\Blog\Post;
 
@@ -251,10 +252,9 @@
 
     }
 ";
-			self::assertEquals(
-				$content,
-				file_get_contents( $file )
-			);
-		}
-
-	}
+            self::assertEquals(
+                $content,
+                file_get_contents($file)
+            );
+        }
+    }

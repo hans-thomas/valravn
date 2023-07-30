@@ -1,5 +1,7 @@
 <?php
 
-	namespace Hans\Valravn\Http\Requests\Contracts\Relations;
+namespace Hans\Valravn\Http\Requests\Contracts\Relations;
 
-	abstract class MorphToManyRequest extends BelongsToManyRequest { }
+    abstract class MorphToManyRequest extends BelongsToManyRequest
+    {
+    }

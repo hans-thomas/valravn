@@ -1,29 +1,29 @@
 <?php
 
-	namespace Hans\Valravn\Http\Requests\Contracts\Relations;
+namespace Hans\Valravn\Http\Requests\Contracts\Relations;
 
-	use Hans\Valravn\Http\Requests\Contracts\RelationsRequest;
-	use Illuminate\Validation\Rule;
+    use Hans\Valravn\Http\Requests\Contracts\RelationsRequest;
+    use Illuminate\Validation\Rule;
 
-	abstract class MorphToRequest extends RelationsRequest {
+    abstract class MorphToRequest extends RelationsRequest
+    {
+        /**
+         * Get Allowed entities for MorphTo relationship.
+         *
+         * @return array
+         */
+        abstract protected function entities(): array;
 
-		/**
-		 * Get Allowed entities for MorphTo relationship
-		 *
-		 * @return array
-		 */
-		abstract protected function entities(): array;
-
-		/**
-		 * Get the validation rules that apply to the request.
-		 *
-		 * @return array
-		 */
-		public function rules(): array {
-			return [
-				'related'        => [ 'array:entity' ],
-				'related.entity' => [ 'required', 'string', Rule::in( $this->entities() ) ],
-			];
-		}
-
-	}
+        /**
+         * Get the validation rules that apply to the request.
+         *
+         * @return array
+         */
+        public function rules(): array
+        {
+            return [
+                'related'        => ['array:entity'],
+                'related.entity' => ['required', 'string', Rule::in($this->entities())],
+            ];
+        }
+    }

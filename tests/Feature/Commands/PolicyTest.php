@@ -1,28 +1,29 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature\Commands;
+namespace Hans\Valravn\Tests\Feature\Commands;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\File;
+    use Hans\Valravn\Tests\TestCase;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\File;
 
-	class PolicyTest extends TestCase {
+    class PolicyTest extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function policy(): void
+        {
+            $file = app_path('Policies/Blog/PostPolicy.php');
+            File::delete($file);
+            self::assertFileDoesNotExist($file);
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function policy(): void {
-			$file = app_path( "Policies/Blog/PostPolicy.php" );
-			File::delete( $file );
-			self::assertFileDoesNotExist( $file );
+            Artisan::call('valravn:policy blog posts');
 
-			Artisan::call( "valravn:policy blog posts" );
+            self::assertFileExists($file);
 
-			self::assertFileExists( $file );
-
-			$policy_file = '<?php
+            $policy_file = '<?php
 
     namespace App\Policies\Blog;
 
@@ -46,10 +47,9 @@
     }
 ';
 
-			self::assertEquals(
-				$policy_file,
-				file_get_contents( $file )
-			);
-		}
-
-	}
+            self::assertEquals(
+                $policy_file,
+                file_get_contents($file)
+            );
+        }
+    }

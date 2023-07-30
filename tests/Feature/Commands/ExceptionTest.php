@@ -1,32 +1,33 @@
 <?php
 
-	namespace Hans\Valravn\Tests\Feature\Commands;
+namespace Hans\Valravn\Tests\Feature\Commands;
 
-	use Hans\Valravn\Tests\TestCase;
-	use Illuminate\Support\Facades\Artisan;
-	use Illuminate\Support\Facades\File;
+    use Hans\Valravn\Tests\TestCase;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\File;
 
-	class ExceptionTest extends TestCase {
+    class ExceptionTest extends TestCase
+    {
+        /**
+         * @test
+         *
+         * @return void
+         */
+        public function exceptions(): void
+        {
+            $exception = app_path('Exceptions/Blog/Post/PostException.php');
+            $errorCode = app_path('Exceptions/Blog/Post/PostErrorCode.php');
+            File::delete([$exception, $errorCode]);
 
-		/**
-		 * @test
-		 *
-		 * @return void
-		 */
-		public function exceptions(): void {
-			$exception = app_path( "Exceptions/Blog/Post/PostException.php" );
-			$errorCode = app_path( "Exceptions/Blog/Post/PostErrorCode.php" );
-			File::delete( [ $exception, $errorCode ] );
+            self::assertFileDoesNotExist($exception);
+            self::assertFileDoesNotExist($errorCode);
 
-			self::assertFileDoesNotExist( $exception );
-			self::assertFileDoesNotExist( $errorCode );
+            Artisan::call('valravn:exception blog posts');
 
-			Artisan::call( 'valravn:exception blog posts' );
+            self::assertFileExists($exception);
+            self::assertFileExists($errorCode);
 
-			self::assertFileExists( $exception );
-			self::assertFileExists( $errorCode );
-
-			$exception_file = '<?php
+            $exception_file = '<?php
 
     namespace App\Exceptions\Blog\Post;
 
@@ -58,12 +59,12 @@
     }
 ';
 
-			self::assertEquals(
-				$exception_file,
-				file_get_contents( $exception )
-			);
+            self::assertEquals(
+                $exception_file,
+                file_get_contents($exception)
+            );
 
-			$error_code_file = '<?php
+            $error_code_file = '<?php
 
     namespace App\Exceptions\Blog\Post;
 
@@ -79,11 +80,9 @@
     }
 ';
 
-			self::assertEquals(
-				$error_code_file,
-				file_get_contents( $errorCode )
-			);
-
-		}
-
-	}
+            self::assertEquals(
+                $error_code_file,
+                file_get_contents($errorCode)
+            );
+        }
+    }
