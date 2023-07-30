@@ -3,7 +3,7 @@ title: "Getting started"
 weight: 1
 ---
 
-<p><img alt="valravn banner" src="images/valravn-banner.png"></p>
+<p><img alt="valravn banner" src="/images/valravn-banner.png"></p>
 
 [![codecov](https://codecov.io/gh/hans-thomas/valravn/branch/master/graph/badge.svg?token=X1D6I0JLSZ)](https://codecov.io/gh/hans-thomas/valravn)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
