@@ -2,31 +2,31 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
-    use Hans\Valravn\Tests\TestCase;
-    use Illuminate\Support\Facades\Artisan;
-    use Illuminate\Support\Facades\File;
+use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
-    class PivotTest extends TestCase
+class PivotTest extends TestCase
+{
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function pivot(): void
     {
-        /**
-         * @test
-         *
-         * @return void
-         */
-        public function pivot(): void
-        {
-            $datePrefix = now()->format('Y_m_d_His');
-            $pivot = database_path("migrations/Blog/{$datePrefix}_create_category_post_table.php");
+        $datePrefix = now()->format('Y_m_d_His');
+        $pivot = database_path("migrations/Blog/{$datePrefix}_create_category_post_table.php");
 
-            File::delete($pivot);
+        File::delete($pivot);
 
-            self::assertFileDoesNotExist($pivot);
+        self::assertFileDoesNotExist($pivot);
 
-            Artisan::call('valravn:pivot blog posts core category');
+        Artisan::call('valravn:pivot blog posts core category');
 
-            self::assertFileExists($pivot);
+        self::assertFileExists($pivot);
 
-            $content = "<?php
+        $content = "<?php
 
     use App\Models\Blog\Post;
     use App\Models\Core\Category;
@@ -60,11 +60,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     };
 ";
 
-            self::assertEquals(
-                $content,
-                file_get_contents($pivot)
-            );
+        self::assertEquals(
+            $content,
+            file_get_contents($pivot)
+        );
 
-            File::delete($pivot);
-        }
+        File::delete($pivot);
     }
+}

@@ -2,28 +2,28 @@
 
 namespace Hans\Valravn\Exceptions;
 
-    use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 
-    abstract class ErrorCode
+abstract class ErrorCode
+{
+    protected static string $prefix = 'ECx';
+
+    public function __get(string $name)
     {
-        protected static string $prefix = 'ECx';
-
-        public function __get(string $name)
-        {
-            return $this->{$name};
-        }
-
-        public static function __callStatic(string $name, array $arguments)
-        {
-            if (property_exists(static::class, $name)) {
-                return static::$prefix.( new static() )->{$name};
-            }
-
-            $property = Str::of($name)->snake()->upper()->toString();
-            if (property_exists(static::class, $property)) {
-                return static::$prefix.( new static() )->{$property};
-            }
-
-            return static::$prefix;
-        }
+        return $this->{$name};
     }
+
+    public static function __callStatic(string $name, array $arguments)
+    {
+        if (property_exists(static::class, $name)) {
+            return static::$prefix.( new static() )->{$name};
+        }
+
+        $property = Str::of($name)->snake()->upper()->toString();
+        if (property_exists(static::class, $property)) {
+            return static::$prefix.( new static() )->{$property};
+        }
+
+        return static::$prefix;
+    }
+}

@@ -2,31 +2,31 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
-    use Hans\Valravn\Tests\TestCase;
-    use Illuminate\Support\Facades\Artisan;
-    use Illuminate\Support\Facades\File;
+use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
-    class RepositoryTest extends TestCase
+class RepositoryTest extends TestCase
+{
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function repository(): void
     {
-        /**
-         * @test
-         *
-         * @return void
-         */
-        public function repository(): void
-        {
-            $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
-            $repository = app_path('Repositories/Blog/PostRepository.php');
+        $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
+        $repository = app_path('Repositories/Blog/PostRepository.php');
 
-            File::delete([$contract, $repository]);
-            self::assertFileDoesNotExist($contract);
-            self::assertFileDoesNotExist($repository);
+        File::delete([$contract, $repository]);
+        self::assertFileDoesNotExist($contract);
+        self::assertFileDoesNotExist($repository);
 
-            Artisan::call('valravn:repository blog posts');
+        Artisan::call('valravn:repository blog posts');
 
-            self::assertFileExists($contract);
+        self::assertFileExists($contract);
 
-            $contract_file = '<?php
+        $contract_file = '<?php
 
     namespace App\Repositories\Contracts\Blog;
 
@@ -38,14 +38,14 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     }
 ';
 
-            self::assertEquals(
-                $contract_file,
-                file_get_contents($contract)
-            );
+        self::assertEquals(
+            $contract_file,
+            file_get_contents($contract)
+        );
 
-            self::assertFileExists($repository);
+        self::assertFileExists($repository);
 
-            $repository_file = '<?php
+        $repository_file = '<?php
 
     namespace App\Repositories\Blog;
 
@@ -63,9 +63,9 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     }
 ';
 
-            self::assertEquals(
-                $repository_file,
-                file_get_contents($repository)
-            );
-        }
+        self::assertEquals(
+            $repository_file,
+            file_get_contents($repository)
+        );
     }
+}

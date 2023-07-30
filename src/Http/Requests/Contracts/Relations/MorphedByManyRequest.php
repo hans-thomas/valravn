@@ -2,6 +2,6 @@
 
 namespace Hans\Valravn\Http\Requests\Contracts\Relations;
 
-    abstract class MorphedByManyRequest extends BelongsToManyRequest
-    {
-    }
+abstract class MorphedByManyRequest extends BelongsToManyRequest
+{
+}
