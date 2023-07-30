@@ -2,12 +2,12 @@
 
 namespace Hans\Valravn\Tests\Instances\Services;
 
-    use Hans\Valravn\Services\Queries\QueryingService;
+use Hans\Valravn\Services\Queries\QueryingService;
 
-    class QueryingServiceProxy extends QueryingService
+class QueryingServiceProxy extends QueryingService
+{
+    public function _getExecutedQueries(): array
     {
-        public function _getExecutedQueries(): array
-        {
-            return $this->getExecutedQueries();
-        }
+        return $this->getExecutedQueries();
     }
+}

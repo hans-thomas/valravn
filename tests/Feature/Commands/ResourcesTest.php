@@ -2,31 +2,31 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
-    use Hans\Valravn\Tests\TestCase;
-    use Illuminate\Support\Facades\Artisan;
-    use Illuminate\Support\Facades\File;
+use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
-    class ResourcesTest extends TestCase
+class ResourcesTest extends TestCase
+{
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function resources(): void
     {
-        /**
-         * @test
-         *
-         * @return void
-         */
-        public function resources(): void
-        {
-            $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
-            $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
+        $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
+        $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
 
-            File::delete([$resource, $collection]);
-            self::assertFileDoesNotExist($resource);
-            self::assertFileDoesNotExist($collection);
+        File::delete([$resource, $collection]);
+        self::assertFileDoesNotExist($resource);
+        self::assertFileDoesNotExist($collection);
 
-            Artisan::call('valravn:resources blog posts');
+        Artisan::call('valravn:resources blog posts');
 
-            self::assertFileExists($resource);
+        self::assertFileExists($resource);
 
-            $resource_file = '<?php
+        $resource_file = '<?php
 
     namespace App\Http\Resources\V1\Blog\Post;
 
@@ -62,14 +62,14 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     }
 ';
 
-            self::assertEquals(
-                $resource_file,
-                file_get_contents($resource)
-            );
+        self::assertEquals(
+            $resource_file,
+            file_get_contents($resource)
+        );
 
-            self::assertFileExists($collection);
+        self::assertFileExists($collection);
 
-            $collection_file = '<?php
+        $collection_file = '<?php
 
     namespace App\Http\Resources\V1\Blog\Post;
 
@@ -102,29 +102,29 @@ namespace Hans\Valravn\Tests\Feature\Commands;
     }
 ';
 
-            self::assertEquals(
-                $collection_file,
-                file_get_contents($collection)
-            );
-        }
-
-        /**
-         * @test
-         *
-         * @return void
-         */
-        public function version(): void
-        {
-            $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');
-            $collection = app_path('Http/Resources/V2/Blog/Post/PostCollection.php');
-
-            File::delete([$resource, $collection]);
-            self::assertFileDoesNotExist($resource);
-            self::assertFileDoesNotExist($collection);
-
-            Artisan::call('valravn:resources blog posts --v 2');
-
-            self::assertFileExists($resource);
-            self::assertFileExists($collection);
-        }
+        self::assertEquals(
+            $collection_file,
+            file_get_contents($collection)
+        );
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function version(): void
+    {
+        $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');
+        $collection = app_path('Http/Resources/V2/Blog/Post/PostCollection.php');
+
+        File::delete([$resource, $collection]);
+        self::assertFileDoesNotExist($resource);
+        self::assertFileDoesNotExist($collection);
+
+        Artisan::call('valravn:resources blog posts --v 2');
+
+        self::assertFileExists($resource);
+        self::assertFileExists($collection);
+    }
+}
