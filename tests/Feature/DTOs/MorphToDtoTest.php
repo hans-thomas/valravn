@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 
 use Hans\Valravn\DTOs\MorphToDto;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class MorphToDtoTest extends TestCase
 {
@@ -27,5 +28,18 @@ class MorphToDtoTest extends TestCase
             ['posts'],
             $result->getData()->toArray()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function parseEmptyData(): void
+    {
+        $result = MorphToDto::make([])->getData();
+
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertCount(0, $result);
     }
 }

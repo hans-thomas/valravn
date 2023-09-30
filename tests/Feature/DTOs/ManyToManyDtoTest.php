@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 
 use Hans\Valravn\DTOs\ManyToManyDto;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class ManyToManyDtoTest extends TestCase
 {
@@ -139,5 +140,18 @@ class ManyToManyDtoTest extends TestCase
             ],
             $result->toArray()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function parseEmptyData(): void
+    {
+        $result = ManyToManyDto::make([])->getData();
+
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertCount(0, $result);
     }
 }

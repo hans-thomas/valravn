@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class BatchUpdateDtoTest extends TestCase
 {
@@ -30,5 +31,18 @@ class BatchUpdateDtoTest extends TestCase
             ],
             array_values($result->getData()->toArray())
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function parseEmptyData(): void
+    {
+        $result = BatchUpdateDto::make([])->getData();
+
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertCount(0, $result);
     }
 }
