@@ -8,12 +8,16 @@ use Illuminate\Support\Str;
 abstract class ErrorCode
 {
     /**
+     * Prefix of defined codes
+     *
      * @var string
      */
     protected static string $prefix = 'ECx';
 
     /**
-     * @var self $this
+     * Singleton instance of the class
+     *
+     * @var self
      */
     private static self $instance;
 
