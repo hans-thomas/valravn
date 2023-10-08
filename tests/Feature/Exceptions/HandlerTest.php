@@ -29,8 +29,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
+     *
+     * @return void
      */
     public function rawErrorEnv(): void
     {
@@ -53,8 +54,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
+     *
+     * @return void
      */
     public function HttpExceptionMatchExpressionTest(): void
     {
@@ -77,10 +79,12 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
+     *
+     * @return void
      */
-    public function getErrorCodeFromErrorInstance(): void {
+    public function getErrorCodeFromErrorInstance(): void
+    {
         $e = ValravnException::make('test exception.', 27);
 
         self::assertJsonStringEqualsJsonString(
@@ -88,13 +92,16 @@ class HandlerTest extends TestCase
             $this->handler->render(request(), $e)->content()
         );
     }
+
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
+     *
+     * @return void
      */
-    public function getCodeFromErrorInstance(): void {
+    public function getCodeFromErrorInstance(): void
+    {
         $e = new NotFoundHttpException(code: 4040);
 
         self::assertJsonStringEqualsJsonString(

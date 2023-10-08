@@ -19,12 +19,12 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  Request    $request
-     * @param  Throwable  $e
+     * @param Request   $request
+     * @param Throwable $e
      *
-     * @return Response
      * @throws Throwable
      *
+     * @return Response
      */
     public function render($request, Throwable $e)
     {
@@ -33,12 +33,12 @@ class Handler extends ExceptionHandler
         }
 
         return match (true) {
-            $e instanceof ValidationException => parent::render($request, $e),
+            $e instanceof ValidationException    => parent::render($request, $e),
             $e instanceof AuthorizationException => self::throw($e, defaultErrorCode: 9998, responseCode: 403),
-            $e instanceof NotFoundHttpException => self::throw($e, 9997, 'Route not found!', 404),
-            $e instanceof QueryException => self::throw($e, 9996, $e->getPrevious()->getMessage(), 500),
+            $e instanceof NotFoundHttpException  => self::throw($e, 9997, 'Route not found!', 404),
+            $e instanceof QueryException         => self::throw($e, 9996, $e->getPrevious()->getMessage(), 500),
             $e instanceof ModelNotFoundException => self::throw($e, 9995, $e->getMessage(), 404),
-            $e instanceof HttpException => $request->wantsJson() ?
+            $e instanceof HttpException          => $request->wantsJson() ?
                 self::throw($e, defaultErrorCode: 9994) :
                 parent::render($request, $e),
             default => self::throw($e)
@@ -48,10 +48,10 @@ class Handler extends ExceptionHandler
     /**
      * Convert the given exception to the ValravnException class.
      *
-     * @param  Throwable    $e
-     * @param  int          $defaultErrorCode
-     * @param  string|null  $message
-     * @param  int|null     $responseCode
+     * @param Throwable   $e
+     * @param int         $defaultErrorCode
+     * @param string|null $message
+     * @param int|null    $responseCode
      *
      * @return JsonResponse
      */
@@ -66,9 +66,9 @@ class Handler extends ExceptionHandler
         }
 
         return ValravnException::make(
-            $message ? : $e->getMessage(),
+            $message ?: $e->getMessage(),
             $errorCode,
-            $responseCode ? : $e->getCode()
+            $responseCode ?: $e->getCode()
         )
                                ->render();
     }
