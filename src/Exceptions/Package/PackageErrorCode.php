@@ -10,4 +10,5 @@ class PackageErrorCode extends ErrorCode
 
     protected int $failedToDelete = 1;
     protected int $invalidEntity = 2;
+    protected int $errorCodeNotFound = 3;
 }

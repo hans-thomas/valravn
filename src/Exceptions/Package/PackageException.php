@@ -25,4 +25,13 @@ class PackageException extends ValravnException
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
+
+    public static function errorCodeNotFound(string $code): ValravnException
+    {
+        return self::make(
+            "Called error code not found. [$code]",
+            PackageErrorCode::errorCodeNotFound(),
+            Response::HTTP_INTERNAL_SERVER_ERROR
+        );
+    }
 }
