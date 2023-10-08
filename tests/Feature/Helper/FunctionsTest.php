@@ -69,9 +69,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws ValravnException
      *
+     * @return void
      */
     public function resolveRelatedIdToModel(): void
     {
@@ -89,9 +89,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws ValravnException
      *
+     * @return void
      */
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
@@ -103,9 +103,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws ValravnException
      *
+     * @return void
      */
     public function resolveRelatedIdToModelWithInvalidId(): void
     {
