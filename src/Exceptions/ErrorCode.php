@@ -18,7 +18,7 @@ abstract class ErrorCode
     private static self $instance;
 
     /**
-     * Make a singleton instance
+     * Make a singleton instance.
      *
      * @return static
      */
@@ -32,10 +32,11 @@ abstract class ErrorCode
     }
 
     /**
-     * @param  string  $name
+     * @param string $name
+     *
+     * @throws ValravnException
      *
      * @return string
-     * @throws ValravnException
      */
     public function __get(string $name)
     {
@@ -43,11 +44,12 @@ abstract class ErrorCode
     }
 
     /**
-     * @param  string  $name
-     * @param  array   $arguments
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @throws ValravnException
      *
      * @return string
-     * @throws ValravnException
      */
     public static function __callStatic(string $name, array $arguments)
     {
