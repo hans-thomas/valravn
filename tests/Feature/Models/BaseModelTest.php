@@ -66,6 +66,7 @@ class BaseModelTest extends TestCase
             Post::table()
         );
     }
+
     /**
      * @test
      *

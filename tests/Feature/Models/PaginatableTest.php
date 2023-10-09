@@ -23,7 +23,7 @@ class PaginatableTest extends TestCase
         );
 
         request()->merge([
-            'per_page' => 17
+            'per_page' => 17,
         ]);
         self::assertEquals(
             17,
@@ -41,7 +41,7 @@ class PaginatableTest extends TestCase
         $model = new Post();
 
         request()->merge([
-            'per_page' => 50
+            'per_page' => 50,
         ]);
         self::assertEquals(
             30,
@@ -51,7 +51,7 @@ class PaginatableTest extends TestCase
         Post::setPerPageMax(60);
 
         request()->merge([
-            'per_page' => 50
+            'per_page' => 50,
         ]);
         self::assertEquals(
             50,
@@ -71,9 +71,8 @@ class PaginatableTest extends TestCase
         PostFactory::new()->count(100)->create();
         $model = new Post();
 
-
         request()->merge([
-            'per_page' => 'all'
+            'per_page' => 'all',
         ]);
         self::assertEquals(
             30,
@@ -83,7 +82,7 @@ class PaginatableTest extends TestCase
         Post::setPerPageMax(60);
 
         request()->merge([
-            'per_page' => 'all'
+            'per_page' => 'all',
         ]);
         self::assertEquals(
             60,

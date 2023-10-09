@@ -3,9 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 
 use Hans\Valravn\Services\Filtering\FilteringService;
-use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
-use Hans\Valravn\Tests\Core\Factories\PostFactory;
-use Hans\Valravn\Tests\Core\Models\Category;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
 
