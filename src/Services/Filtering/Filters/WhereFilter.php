@@ -14,13 +14,13 @@ class WhereFilter extends Filter
                 ->map(fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
                 ->filter(fn ($value) => !empty($value));
             if (in_array(
-                $attribute,
-                $filterables = $this->getFilterables($builder)
-            ) and $items->isNotEmpty()) {
+                    $attribute,
+                    $filterables = $this->getFilterables($builder)
+                ) and $items->isNotEmpty()) {
                 $builder->whereIn($this->getTable($builder).'.'.$this->resolveAttribute(
-                    $filterables,
-                    $attribute
-                ), $items);
+                        $filterables,
+                        $attribute
+                    ), $items);
             }
         }
     }
