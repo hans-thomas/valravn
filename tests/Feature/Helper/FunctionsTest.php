@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Helper;
 
+use Hans\Valravn\Exceptions\Package\PackageException;
 use Hans\Valravn\Exceptions\ValravnException;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
@@ -83,6 +84,34 @@ class FunctionsTest extends TestCase
         self::assertTrue(
             $this->post->is($model)
         );
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValravnException
+     *
+     * @return void
+     */
+    public function resolveRelatedIdToModelWithInvalidModel(): void
+    {
+        $this->expectExceptionObject(PackageException::invalidEntity($entity = GEazy::class));
+
+        resolveRelatedIdToModel(1, $entity);
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValravnException
+     *
+     * @return void
+     */
+    public function resolveRelatedIdToModelWithInvalidId(): void
+    {
+        $model = resolveRelatedIdToModel(9999, Post::class);
+
+        self::assertFalse($model);
     }
 
     /**

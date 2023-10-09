@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static RoutingService name( string $name )
+ * @method static RoutingService apiResource( string $name, string $controller )
  * @method static RoutingService resource( string $name, string $controller )
  * @method static RoutingService relations( string $controller, callable $func )
  * @method static RoutingService actions( string $controller, callable $func, string $prefix = '-actions' )

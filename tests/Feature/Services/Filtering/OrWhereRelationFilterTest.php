@@ -1,13 +1,12 @@
 <?php
 
-namespace Hans\Valravn\Tests\Feature\Services;
+namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 
 use Hans\Valravn\Services\Filtering\FilteringService;
-use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
 
-class FilteringServiceTest extends TestCase
+class OrWhereRelationFilterTest extends TestCase
 {
     private FilteringService $service;
 
@@ -18,7 +17,6 @@ class FilteringServiceTest extends TestCase
     {
         parent::setUp();
         $this->service = app(FilteringService::class);
-        PostFactory::new()->count(5)->create();
     }
 
     /**
@@ -29,13 +27,25 @@ class FilteringServiceTest extends TestCase
     public function apply(): void
     {
         request()->merge([
-            'like_filter' => [
-                'title' => 'G-Eazy',
+            'where_relation_filter'    => [
+                'categories->id' => '1',
+            ],
+            'or_where_relation_filter' => [
+                'categories->name' => 'Send em shots, just know Im hard to kill',
             ],
         ]);
         $builder = $this->service->apply(Post::query());
+
         self::assertStringContainsString(
-            '"title" LIKE ?',
+            'and "id" = ?',
+            $builder->toSql()
+        );
+        self::assertStringContainsString(
+            'or exists (',
+            $builder->toSql()
+        );
+        self::assertStringContainsString(
+            'and "name" = ?',
             $builder->toSql()
         );
     }

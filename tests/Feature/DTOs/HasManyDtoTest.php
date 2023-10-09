@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 
 use Hans\Valravn\DTOs\HasManyDto;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class HasManyDtoTest extends TestCase
 {
@@ -34,5 +35,18 @@ class HasManyDtoTest extends TestCase
             [1, 5],
             array_values($result->getData()->toArray())
         );
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function parseEmptyData(): void
+    {
+        $result = HasManyDto::make([])->getData();
+
+        self::assertInstanceOf(Collection::class, $result);
+        self::assertCount(0, $result);
     }
 }
