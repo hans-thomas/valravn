@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Core\Models;
 
 use Hans\Valravn\Models\Contracts\Filterable;
 use Hans\Valravn\Models\Contracts\Loadable;
+use Hans\Valravn\Models\Traits\Paginatable;
 use Hans\Valravn\Models\ValravnModel;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Post extends ValravnModel implements Filterable, Loadable
 {
     use HasFactory;
+    use Paginatable;
 
     protected $fillable = [
         'title',
