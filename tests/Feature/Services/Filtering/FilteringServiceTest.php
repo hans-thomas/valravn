@@ -1,6 +1,6 @@
 <?php
 
-namespace Hans\Valravn\Tests\Feature\Services;
+namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 
 use Hans\Valravn\Services\Filtering\FilteringService;
 use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
