@@ -55,7 +55,7 @@ class FilteringServiceTest extends TestCase
             ],
             'order_filter' => [
                 'title' => 'desc',
-            ]
+            ],
         ]);
         $builder = $this->service->apply(Post::query(), ['only' => LikeFilter::class]);
 
