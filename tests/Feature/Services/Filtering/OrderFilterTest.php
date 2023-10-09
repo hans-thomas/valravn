@@ -38,6 +38,7 @@ class OrderFilterTest extends TestCase
             $builder->toSql()
         );
     }
+
     /**
      * @test
      *
