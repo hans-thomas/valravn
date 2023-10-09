@@ -3,6 +3,9 @@
 namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 
 use Hans\Valravn\Services\Filtering\FilteringService;
+use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
+use Hans\Valravn\Tests\Core\Factories\PostFactory;
+use Hans\Valravn\Tests\Core\Models\Category;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
 
@@ -26,14 +29,24 @@ class OrWhereRelationFilterTest extends TestCase
      */
     public function apply(): void
     {
-        // TODO: needs more specific tests
         request()->merge([
+            'where_relation_filter'    => [
+                'categories->id' => '1',
+            ],
             'or_where_relation_filter' => [
                 'categories->name' => 'Send em shots, just know Im hard to kill',
             ],
         ]);
         $builder = $this->service->apply(Post::query());
 
+        self::assertStringContainsString(
+            'and "id" = ?',
+            $builder->toSql()
+        );
+        self::assertStringContainsString(
+            'or exists (',
+            $builder->toSql()
+        );
         self::assertStringContainsString(
             'and "name" = ?',
             $builder->toSql()
