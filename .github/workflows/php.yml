@@ -22,7 +22,7 @@ jobs:
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,11 +35,15 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
-      - name: Cache Composer packages
+      - name: Get Composer cache directory
         id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer packages
         uses: actions/cache@v3
         with:
-          path: ~/.composer/cache/files
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
