@@ -10,7 +10,7 @@
 
 ## What is it
 
-Valravn is a set of predefined and feature reach classes on top of laravel
+Valravn is a set of predefined and feature-rich classes on top of laravel
 that brings many features to your app.
 The classes are very open to overrides and developments. so feel free to
 override or create and use classes on top of valravn classes.
