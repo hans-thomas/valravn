@@ -22,7 +22,7 @@ valravn:controller namespace name --v=1 --relations --actions --requests --resou
 
 the generated classes structure should be like:
 
-```
+```plain
 app/
 └── Http/
     ├── V1/
@@ -164,7 +164,7 @@ valravn:exception namespace name
 
 The generated exception classes go there:
 
-```
+```plain
 app/
 └── Exceptions/
     └── Namespace/
@@ -223,7 +223,7 @@ valravn:policy namespace name
 
 the policy class will locate here
 
-```
+```plain
 app/
 └── Policies/
     └── Namespace/
@@ -245,7 +245,7 @@ valravn:policy namespace name
 
 generated files should be there
 
-```
+```plain
 app/
 └── Repositories/
     ├── Contracts/
@@ -267,7 +267,7 @@ valravn:service namespace name --relations --actions
 
 generated files would be like:
 
-```
+```plain
 app/
 └── Services/
     └── Namespace/
