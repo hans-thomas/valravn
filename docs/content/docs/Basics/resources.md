@@ -8,7 +8,7 @@ classes but there are more features! </br>
 You can create resource classes on your own or just using our
 [resources command](commands.md#resources).
 
-### ValravnJsonResource
+## ValravnJsonResource
 
 it's same as `JsonResource` class on laravel. to start using this, first you
 need to create resource class which should see something like this.
@@ -37,7 +37,7 @@ You can specify the model's attributes in `extract` method that you wand to see
 in response. the `type` method determines related entity on this response for
 the front-end dev.
 
-### ValravnResourceCollection
+## ValravnResourceCollection
 
 The resource collection class is the same as `ValravnJsonResource`.
 
@@ -58,7 +58,7 @@ class SampleCollection extends ValravnResourceCollection {
 }
 ```
 
-## Available methods
+#### Available methods
 
 Resource classes contain several methods and in continue, we will introduce them.
 
