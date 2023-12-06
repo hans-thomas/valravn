@@ -6,7 +6,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hans-thomas/valravn/php.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/hans-thomas/valravn)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hans-thomas/valravn)
-![StyleCi](https://github.styleci.io/repos/631226923/shield?style=plastic)
+![StyleCi](https://github.styleci.io/repos/631226923/shield?style=flat&branch=v1)
 
 ## What is it
 
