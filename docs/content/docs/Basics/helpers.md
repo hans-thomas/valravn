@@ -3,9 +3,7 @@ title: "Helpers"
 weight: 2
 ---
 
-## Traits
-
-### EnumHelper
+## EnumHelper
 
 this trait brings useful static methods to enum classes.
 
@@ -51,39 +49,39 @@ this trait brings useful static methods to enum classes.
 
 {{< /column >}}
 
-#### toArray
+##### toArray
 
 Convert values of an enum class to an array.
 
-#### toArrayKeys
+##### toArrayKeys
 
 Convert keys of an enum class to an array.
 
-#### toArrayExcept
+##### toArrayExcept
 
 Convert values of an enum class to an array except the given values.
 
-#### toArrayKeysExcept
+##### toArrayKeysExcept
 
 Convert keys of an enum class to an array except the given keys.
 
-#### toArrayOnly
+##### toArrayOnly
 
 Convert given values of an enum class to an array.
 
-#### toArrayKeysOnly
+##### toArrayKeysOnly
 
 Convert given keys of an enum class to an array.
 
-#### all
+##### all
 
 Create an array using all enum members.
 
-#### IndexedAll
+##### IndexedAll
 
 Create an array using values of all enum members.
 
-#### tryFromKey
+##### tryFromKey
 
 Find a value using the given key, otherwise return the default value.
 
@@ -117,22 +115,22 @@ Valravn includes several global functions that you can use in your code.
 
 {{< /column >}}
 
-#### user
+##### user
 
 Return authenticated user or optional null.
 
-#### resolveRelatedIdToModel
+##### resolveRelatedIdToModel
 
 Resolve the given id to a related model.
 
-#### resolveMorphableToResource
+##### resolveMorphableToResource
 
 Resolve given Model to a resource class.
 
-#### logg
+##### logg
 
 Log the given exception to a specific channel and format.
 
-#### slugify
+##### slugify
 
 Make a english or non-english string to a slug.

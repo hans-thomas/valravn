@@ -5,7 +5,7 @@ weight: 2
 
 Valravn has several services that each one has their own functionality.
 
-### Service contract
+## Service contract
 
 Service classes must extend `Hans\Valravn\Services\Contracts\Service` class.
 
@@ -40,7 +40,7 @@ Sometimes you need to conditionally determine you want to use cache or not.
 app( ExampleService::class )->cacheWhen( user()->isNotAdmin() )->calculatePopularExamples();
 ```
 
-### Caching logic
+## Caching logic
 
 This service helps up caching data and retrieve them on next calls. the logic of
 this service is a bit complicated but in the simplest way, it caches data and
@@ -70,7 +70,7 @@ use Hans\Valravn\Facades\Cache;
 Cache::store( 'unique_key', fn() => 10 / 12 );
 ```
 
-### Notifiable
+## Notifiable
 
 This contract let you have a notification for each action depending on model.
 the notification contains a title, body and a related model.
@@ -79,7 +79,7 @@ the notification contains a title, body and a related model.
 Notifications will not store in database.
 {{< /tip >}}
 
-### FilteringService
+## FilteringService
 
 The `FilteringService` allows us to apply some logics on query builder instance
 through api calls.
@@ -226,7 +226,7 @@ domain/api/blog/posts/1/comments?or_where_relation_filter[comments->title]=somet
 It's the same as `or_where_relation_filter` but this filter add a where like
 condition instead of where.
 
-### RoutingService
+## RoutingService
 
 This service helps you to define your routes. the `Hans\Valravn\Facades\Router`
 facade is here to make it easy to use this service.

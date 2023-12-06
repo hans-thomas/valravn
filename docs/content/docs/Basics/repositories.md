@@ -6,7 +6,7 @@ weight: 2
 There is a repository base class that contains CRUD and other useful method
 which you can use to avoid redundancy.
 
-### Available methods
+#### Available methods
 
 {{< column "methods-container" >}}
 
@@ -61,26 +61,26 @@ which you can use to avoid redundancy.
 
 {{< /column >}}
 
-#### getQueryBuilder
+##### getQueryBuilder
 
 After creating your repository class by your self our using
 valravn `repository` [command](commands.md#repository), you must implement this
 method to establish related query builder object for repository class.
 
-#### disableAuthorization
+##### disableAuthorization
 
 Every actions on builder instance should authorize. sometimes you don't want to
 authorize your query, so by calling `disableAuthorization` method on your
 repository instance, the repository doesn't authorize the action.
 
-#### enableAuthorization
+##### enableAuthorization
 
 Sometimes you want to run an action without authorization but after that in the
 same scope, you want to run an action with authorization. in this scenario, you
 need to call `disableAuthorization` method first and after that
 call `enableAuthorization` method to enable authorization again.
 
-#### query
+##### query
 
 When you call an action like `all`, you might don't want all columns of rows. so
 you can use `select` method before `all` and pass your specific columns to
@@ -92,7 +92,7 @@ instance.
 Notice: it's recommended to get builder instance using `query` method instead of `getQueryBuilder`.
 {{< /tip >}}
 
-#### authorize
+##### authorize
 
 Using this method you will be able to authorize actions. there is some examples.
 
@@ -144,7 +144,7 @@ public function viewComments( Post $model ): Builder {
 }
 ```
 
-#### authorizeThisAction
+##### authorizeThisAction
 
 It's just a shorthand for `authorize` method.
 
@@ -154,11 +154,11 @@ $this->authorizeThisAction( $param );
 $this->authorize( null, $param );
 ```
 
-#### all
+##### all
 
 Return query builder instance and ables us to access the all rows.
 
-#### find
+##### find
 
 Find a specific resource using `id` by default. but if you want to find a row by
 another column, you just need to do something like this:
@@ -170,20 +170,20 @@ app( SampleRepository::class )->find('specific-slug-for-example','slug');
 First parameter is the value and the second value is the column name that
 Valravn should search in.
 
-#### create
+##### create
 
 Create a resource using given data and return the created model as result.
 
-#### update
+##### update
 
 Update specific Model using given data and return a boolean as result.
 
-#### batchUpdate
+##### batchUpdate
 
 Update many resources in one query at once and also return a bool value as
 result.
 
-#### delete
+##### delete
 
 Delete a specific resource and return `true`. otherwise throw an
 exception. `delete` method contains two `deleting` and `deleted` hook.

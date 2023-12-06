@@ -8,7 +8,7 @@ classes but there are more features! </br>
 You can create resource classes on your own or just using our
 [resources command](commands.md#resources).
 
-### ValravnJsonResource
+## ValravnJsonResource
 
 it's same as `JsonResource` class on laravel. to start using this, first you
 need to create resource class which should see something like this.
@@ -37,7 +37,7 @@ You can specify the model's attributes in `extract` method that you wand to see
 in response. the `type` method determines related entity on this response for
 the front-end dev.
 
-### ValravnResourceCollection
+## ValravnResourceCollection
 
 The resource collection class is the same as `ValravnJsonResource`.
 
@@ -58,7 +58,7 @@ class SampleCollection extends ValravnResourceCollection {
 }
 ```
 
-## Available methods
+#### Available methods
 
 Resource classes contain several methods and in continue, we will introduce them.
 
@@ -359,7 +359,7 @@ SampleResource::make($model)->withExampleInclude();
 let's talk about how The front-end dev should work with defined includes. let's
 assume we just want to include a relationship. all we need to do is this:
 
-```
+```plain
 domain/api/namespace/name?includes=example
 ```
 
@@ -372,7 +372,7 @@ To eager load a relationship, you must pass the registered include using `includ
 Valravn allows you to use nested eager loads. for that you just need to pass the
 nested includes after the first one and split them using a `.` character.
 
-```
+```plain
 domain/api/namespace/name?includes=example.owner
 ```
 
@@ -411,7 +411,7 @@ Columns you pass as parameter to actions, must be in filterable list of related 
 This action allows you just fetch columns that you want. it might help create
 optimized requests.
 
-```
+```plain
 domain/api/blog/posts?includes=comments:select(content).user:select(first_name|last_name)
 ```
 
@@ -425,7 +425,7 @@ doesn't resolve by ORM.
 
 The `order` action ables you to set order for your relationship results.
 
-```
+```plain
 domain/api/blog/posts?includes=comments:select(content):order(created_at)
 ```
 
@@ -434,7 +434,7 @@ domain/api/blog/posts?includes=comments:select(content):order(created_at)
 Using this action, you can limit the number of rows must fetch from related
 relationship.
 
-```
+```plain
 domain/api/blog/categories?includes=posts:limit(5)
 ```
 
@@ -442,7 +442,7 @@ this request will return the categories while each category loaded with at least
 5 related posts. however the `limit` action accepts two parameter. the second
 parameter acts like page number.
 
-```
+```plain
 domain/api/blog/categories?includes=posts:limit(5|2)
 ```
 
@@ -496,5 +496,3 @@ PostResource::make( $this->post )
     ]
 )
 ```
-
-
