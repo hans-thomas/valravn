@@ -41,7 +41,7 @@ class Relation extends Command
      *
      * @var string
      */
-    protected $description = 'Generate store and update request classes.';
+    protected $description = 'Generate store and update request classes for a specific relationship.';
 
     private Filesystem $fs;
 
