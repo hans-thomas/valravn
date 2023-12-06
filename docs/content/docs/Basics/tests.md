@@ -5,7 +5,7 @@ weight: 2
 
 For testing, there is some helpful methods that can be found so handy.
 
-### Available methods
+#### Available methods
 
 {{< column "methods-container" >}}
 
@@ -71,7 +71,7 @@ public function example(): void {
 }
 ```
 
-### Factory contract
+## Factory contract
 
 This contract helps to create fake data for your test suite. the implementation class should be like this.
 
