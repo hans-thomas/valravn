@@ -6,7 +6,7 @@ const snippet_actions = [
     show: true
   },
   {
-    icon: 'order',
+    icon: 'toggle-line-numbers',
     id: 'lines',
     title: toggle_line_numbers_text,
     show: true
