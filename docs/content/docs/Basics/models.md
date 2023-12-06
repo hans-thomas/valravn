@@ -34,7 +34,7 @@ string.
 domain/api/blog/categories?per_page=5
 ```
 
-## Available methods
+#### Available methods
 
 {{< column "methods-container" >}}
 
@@ -52,7 +52,7 @@ domain/api/blog/categories?per_page=5
 
 {{< /column >}}
 
-#### aliasForModelAttributes
+##### aliasForModelAttributes
 
 This method is useful when you want to define an alias for an attribute or a
 foreign key of a model. its usage should be something like this:
@@ -89,7 +89,7 @@ class Comment extends ValravnModel {
 And the `itsPostId` attribute method helps us get the related value using the
 same way of a real attribute.
 
-#### table
+##### table
 
 It's a shorthand for getting table name of a model class.
 
@@ -99,7 +99,7 @@ Example::table()
 ( new Example )->getTable();
 ```
 
-#### foreignKey
+##### foreignKey
 
 It's a shorthand for getting foreign key of a model class.
 
