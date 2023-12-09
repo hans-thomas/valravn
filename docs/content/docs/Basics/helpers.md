@@ -89,8 +89,6 @@ Find a value using the given key, otherwise return the default value.
 
 Valravn includes several global functions that you can use in your code.
 
-#### Available functions
-
 {{< column "methods-container" >}}
 
 {{< column "method" >}}
