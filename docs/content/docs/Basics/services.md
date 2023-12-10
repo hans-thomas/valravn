@@ -186,7 +186,7 @@ domain/api/blog/posts/1/comments?where_pivot_filter[status]=accepted
 This filter ables you to fetch posts that has a command with a specific title.
 
 ```
-domain/api/blog/posts/1/comments?where_relation_filter[comments->title]=something
+domain/api/blog/posts?where_relation_filter[comments->title]=something
 ```
 
 {{< tip >}}
@@ -199,7 +199,7 @@ It has the same functionality as `where_relation_filter` but apply where like
 condition.
 
 ```
-domain/api/blog/posts/1/comments?where_relation_like_filter[comments->title]=something
+domain/api/blog/posts?where_relation_like_filter[comments->title]=something
 ```
 
 ##### or_where_relation_filter
