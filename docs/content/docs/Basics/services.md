@@ -70,15 +70,6 @@ use Hans\Valravn\Facades\Cache;
 Cache::store( 'unique_key', fn() => 10 / 12 );
 ```
 
-## Notifiable
-
-This contract let you have a notification for each action depending on model.
-the notification contains a title, body and a related model.
-
-{{< tip >}}
-Notifications will not store in database.
-{{< /tip >}}
-
 ## FilteringService
 
 The `FilteringService` allows us to apply some logics on query builder instance
