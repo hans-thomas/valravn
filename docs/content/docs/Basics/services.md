@@ -218,7 +218,7 @@ we really wanted. below example, shows how to get posts that has a `title`
 like `valravn` OR has a comment(s) that their `title` is equal to `something`.
 
 ```
-domain/api/blog/posts/1/comments?or_where_relation_filter[comments->title]=something&like_filter[title]=valravn
+domain/api/blog/posts?or_where_relation_filter[comments->title]=something&like_filter[title]=valravn
 ```
 
 ##### or_where_relation_like_filter
