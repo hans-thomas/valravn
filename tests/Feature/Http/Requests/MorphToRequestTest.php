@@ -17,7 +17,7 @@ class MorphToRequestTest extends TestCase
      */
     public function morphTo(): void
     {
-        $rules = ( new LikeLikableRequest(request: ['related.entity' => 'posts']) )->rules();
+        $rules = (new LikeLikableRequest(request: ['related.entity' => 'posts']))->rules();
 
         assertEquals(
             [

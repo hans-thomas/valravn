@@ -67,7 +67,7 @@ abstract class Dto
      */
     public static function export(array $data): Collection
     {
-        return ( new static($data) )->getData();
+        return (new static($data))->getData();
     }
 
     /**
