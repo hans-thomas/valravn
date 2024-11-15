@@ -27,11 +27,10 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      *
-     * @throws Throwable
-     *
      * @return void
+     * @throws Throwable
      */
-    public function handle()
+    public function handle(): void
     {
         $this->comment('Publishing config file...');
         $this->callSilent('vendor:publish', ['--tag' => 'valravn-config']);
@@ -54,16 +53,16 @@ class InstallCommand extends Command
     {
         $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
 
-        $appConfig = file_get_contents(config_path('app.php'));
+        $providersConfig = file_get_contents(base_path('bootstrap/providers.php'));
 
-        if (Str::contains($appConfig, $namespace.'\\Providers\\RepositoryServiceProvider::class')) {
+        if (Str::contains($providersConfig, $namespace.'\\Providers\\RepositoryServiceProvider::class')) {
             return;
         }
 
-        file_put_contents(config_path('app.php'), str_replace(
-            "{$namespace}\\Providers\RouteServiceProvider::class,".PHP_EOL,
-            "{$namespace}\\Providers\RouteServiceProvider::class,".PHP_EOL."        {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL,
-            $appConfig
+        file_put_contents(base_path('bootstrap/providers.php'), str_replace(
+            "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL,
+            "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL."    {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL,
+            $providersConfig
         ));
 
         file_put_contents(app_path('Providers/RepositoryServiceProvider.php'), str_replace(
