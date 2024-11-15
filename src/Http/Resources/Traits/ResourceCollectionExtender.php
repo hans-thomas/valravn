@@ -139,6 +139,6 @@ trait ResourceCollectionExtender
             $this->resource->appends($this->queryParameters);
         }
 
-        return ( new PaginatedResourceResponse($this) )->toResponse($request);
+        return (new PaginatedResourceResponse($this))->toResponse($request);
     }
 }

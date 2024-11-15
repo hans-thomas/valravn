@@ -27,11 +27,11 @@ class SampleWithIncludeResource extends ValravnJsonResource
         $this->loadedPivots(
             data: $data,
             includes: [
-                ( new Post() )->getForeignKey(),
-                ( new Category() )->getForeignKey(),
+                (new Post())->getForeignKey(),
+                (new Category())->getForeignKey(),
             ],
             alias: [
-                ( new Category() )->getForeignKey() => 'category_identifier',
+                (new Category())->getForeignKey() => 'category_identifier',
             ]
         );
     }
