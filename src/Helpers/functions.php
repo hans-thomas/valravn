@@ -52,7 +52,7 @@
             }
 
             try {
-                $model = ( new $entity() )->query()->applyFilters()->findOrFail($id);
+                $model = (new $entity())->query()->applyFilters()->findOrFail($id);
             } catch (Throwable $e) {
                 return false;
             }

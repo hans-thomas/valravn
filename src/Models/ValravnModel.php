@@ -34,7 +34,7 @@ class ValravnModel extends Model
      */
     public static function table(): string
     {
-        return ( new static() )->getTable();
+        return (new static())->getTable();
     }
 
     /**
@@ -44,6 +44,6 @@ class ValravnModel extends Model
      */
     public static function foreignKey(): string
     {
-        return ( new static() )->getForeignKey();
+        return (new static())->getForeignKey();
     }
 }

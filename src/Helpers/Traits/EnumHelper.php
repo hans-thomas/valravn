@@ -14,7 +14,7 @@ trait EnumHelper
     public static function toArray(): array
     {
         $vars = collect();
-        foreach (( new ReflectionClass(static::class) )->getConstants() as $name => $value) {
+        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
             $vars->put($name, $value->value ?? $value->name);
         }
 
@@ -29,7 +29,7 @@ trait EnumHelper
     public static function toArrayKeys(): array
     {
         $vars = collect();
-        foreach (( new ReflectionClass(static::class) )->getConstants() as $name => $value) {
+        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
             $vars->push($name);
         }
 
@@ -120,7 +120,7 @@ trait EnumHelper
     public static function all(): array
     {
         $vars = collect();
-        foreach (( new ReflectionClass(static::class) )->getConstants() as $name => $value) {
+        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
             $vars->put($name, $value);
         }
 
@@ -135,7 +135,7 @@ trait EnumHelper
     public static function IndexedAll(): array
     {
         $vars = collect();
-        foreach (( new ReflectionClass(static::class) )->getConstants() as $value) {
+        foreach ((new ReflectionClass(static::class))->getConstants() as $value) {
             $vars->push($value);
         }
 
