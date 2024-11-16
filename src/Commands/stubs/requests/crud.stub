@@ -13,7 +13,7 @@
 		 */
         protected function fields(): array {
             return [
-
+                // fields definition go here
             ];
         }
 
