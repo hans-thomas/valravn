@@ -2,7 +2,7 @@
 
     namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
 
-    use App\Exceptions\ValravnException;
+    use Hans\Valravn\Exceptions\ValravnException;
     use Symfony\Component\HttpFoundation\Response;
 
     class {{ENTITY::NAME}}Exception extends ValravnException {
