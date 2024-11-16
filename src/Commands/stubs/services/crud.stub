@@ -2,7 +2,7 @@
 
     namespace App\Services\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
 
-    use App\DTOs\BatchUpdateDto;
+    use Hans\Valravn\DTOs\BatchUpdateDto;
     use App\Exceptions\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}}\{{CRUD-SERVICE::MODEL}}Exception;
     use App\Models\{{CRUD-SERVICE::NAMESPACE}}\{{CRUD-SERVICE::MODEL}};
     use App\Repositories\Contracts\{{CRUD-SERVICE::NAMESPACE}}\I{{CRUD-SERVICE::MODEL}}Repository;
@@ -11,7 +11,7 @@
     use Illuminate\Support\Facades\DB;
     use Throwable;
 
-    class {{CRUD-SERVICE::MODEL}}Service extends Service {
+    class {{CRUD-SERVICE::MODEL}}CrudService extends Service {
         private I{{CRUD-SERVICE::MODEL}}Repository $repository;
 
         public function __construct() {
