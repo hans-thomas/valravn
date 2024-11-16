@@ -3,8 +3,7 @@
     namespace App\Policies\{{POLICY::NAMESPACE}};
 
     use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
-    use App\Models\Core\User;
-    use App\Policies\Contracts\ValravnPolicy;
+    use Hans\Valravn\Policies\Contracts\ValravnPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
