@@ -2,7 +2,7 @@
 
     namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
 
-    use App\Exceptions\ErrorCode;
+    use Hans\Valravn\Exceptions\ErrorCode;
 
     class {{ENTITY::NAME}}ErrorCode extends ErrorCode {
         protected static string $prefix = 'ECx';
