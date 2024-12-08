@@ -1,6 +1,13 @@
 {
     "name": "hans-thomas/valravn",
-    "description": "valravn is a sets of predefined classes for laravel.",
+    "description": "valravn is a set of predefined classes for laravel.",
+    "keywords": [
+        "laravel",
+        "api",
+        "starter-kit",
+        "restful-api",
+        "development-tools"
+    ],
     "license": "MIT",
     "authors": [
         {
