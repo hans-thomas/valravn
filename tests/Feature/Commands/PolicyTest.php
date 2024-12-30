@@ -28,8 +28,7 @@ class PolicyTest extends TestCase
     namespace App\Policies\Blog;
 
     use App\Models\Blog\Post;
-    use App\Models\Core\User;
-    use App\Policies\Contracts\ValravnPolicy;
+    use Hans\Valravn\Policies\Contracts\ValravnPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 

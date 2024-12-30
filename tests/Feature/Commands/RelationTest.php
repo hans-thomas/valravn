@@ -46,7 +46,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [
@@ -124,7 +124,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [
@@ -262,7 +262,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [
@@ -340,7 +340,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [
@@ -393,7 +393,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [
@@ -471,7 +471,7 @@ class RelationTest extends TestCase
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [

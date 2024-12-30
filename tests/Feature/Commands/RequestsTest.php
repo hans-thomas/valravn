@@ -42,7 +42,7 @@ class RequestsTest extends TestCase
 		 */
         protected function fields(): array {
             return [
-
+                // fields definition go here
             ];
         }
 
@@ -68,7 +68,7 @@ class RequestsTest extends TestCase
 		 */
         protected function fields(): array {
             return [
-
+                // fields definition go here
             ];
         }
 
@@ -114,7 +114,7 @@ class RequestsTest extends TestCase
 		 */
         protected function fields(): array {
             return [
-
+                // fields definition go here
             ];
         }
 
@@ -140,7 +140,7 @@ class RequestsTest extends TestCase
 		 */
         protected function fields(): array {
             return [
-
+                // fields definition go here
             ];
         }
 
