@@ -239,7 +239,7 @@ Reminder: bind the contract to the repository class in RepositoryServiceProvider
 {{< /tip >}}
 
 ```bash
-valravn:policy namespace name
+valravn:repository namespace name
 
 ```
 

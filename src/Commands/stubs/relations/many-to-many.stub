@@ -19,7 +19,7 @@
 		/**
 		 * Check requested ids are exist
 		 *
-		 * @return Exists
+		 * @return array
 		 */
         protected function pivots(): array {
             return [

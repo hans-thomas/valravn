@@ -31,7 +31,7 @@ class RepositoryTest extends TestCase
     namespace App\Repositories\Contracts\Blog;
 
     use App\Models\Blog\Post;
-    use App\Repositories\Contracts\Repository;
+    use Hans\Valravn\Repositories\Contracts\Repository;
 
     abstract class IPostRepository extends Repository {
 

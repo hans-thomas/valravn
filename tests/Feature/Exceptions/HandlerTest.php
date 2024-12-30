@@ -2,10 +2,10 @@
 
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
-use Hans\Valravn\Exceptions\Handler;
 use Hans\Valravn\Exceptions\ValravnException;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Env;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,7 +21,10 @@ class HandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->handler = $this->app->make(Handler::class);
+        $this->handler->renderable(\Hans\Valravn\Exceptions\Handler::convertUsing());
+
         request()->headers->set('Accept', 'application/json');
         Env::getRepository()->set('RAW_ERROR', false);
     }
@@ -39,15 +42,15 @@ class HandlerTest extends TestCase
         $e = new ModelNotFoundException('test exception.');
 
         self::assertJsonStringEqualsJsonString(
-            '{"title":"Unexpected error!","detail":"test exception.","code":9995}',
-            $this->handler->render(request(), $e)->content()
+            '{"title":"Unexpected error!","detail":"test exception.","code":9997}',
+            $this->handler->render(request(), $e)->getContent()
         );
 
         Env::getRepository()->set('RAW_ERROR', true);
 
         self::assertJsonStringEqualsJsonString(
             '{"message": "test exception."}',
-            $this->handler->render(request(), $e)->content()
+            $this->handler->render(request(), $e)->getContent()
         );
     }
 
@@ -64,7 +67,7 @@ class HandlerTest extends TestCase
 
         self::assertJsonStringEqualsJsonString(
             '{"title":"Unexpected error!","detail":"test exception.","code":9994}',
-            $this->handler->render(request(), $e)->content()
+            $this->handler->render(request(), $e)->getContent()
         );
 
         request()->initialize();
@@ -72,7 +75,7 @@ class HandlerTest extends TestCase
 
         self::assertStringStartsWith(
             '<!DOCTYPE html>',
-            $this->handler->render(request(), $e)->content()
+            $this->handler->render(request(), $e)->getContent()
         );
     }
 
@@ -89,7 +92,7 @@ class HandlerTest extends TestCase
 
         self::assertJsonStringEqualsJsonString(
             '{"title":"Unexpected error!","detail":"test exception.","code":27}',
-            $this->handler->render(request(), $e)->content()
+            $this->handler->render(request(), $e)->getContent()
         );
     }
 
@@ -102,11 +105,11 @@ class HandlerTest extends TestCase
      */
     public function getCodeFromErrorInstance(): void
     {
-        $e = new NotFoundHttpException(code: 4040);
+        $e = new NotFoundHttpException('Route not found!', code: 4040);
 
         self::assertJsonStringEqualsJsonString(
             '{"title":"Unexpected error!","detail":"Route not found!","code":4040}',
-            $this->handler->render(request(), $e)->content()
+            $this->handler->render(request(), $e)->getContent()
         );
         self::assertEquals(
             4040,

@@ -2,47 +2,35 @@
 
 namespace Hans\Valravn\Exceptions;
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class Handler
 {
     /**
-     * Render an exception into an HTTP response.
+     * Converts exceptions to Valravn style.
      *
-     * @param Request   $request
-     * @param Throwable $e
-     *
-     * @throws Throwable
-     *
-     * @return Response
+     * @return callable
      */
-    public function render($request, Throwable $e)
+    public static function convertUsing(): callable
     {
-        if (env('RAW_ERROR', false)) {
-            return parent::render($request, $e);
-        }
-
-        return match (true) {
-            $e instanceof ValidationException    => parent::render($request, $e),
-            $e instanceof AuthorizationException => self::throw($e, defaultErrorCode: 9998, responseCode: 403),
-            $e instanceof NotFoundHttpException  => self::throw($e, 9997, 'Route not found!', 404),
-            $e instanceof QueryException         => self::throw($e, 9996, $e->getPrevious()->getMessage(), 500),
-            $e instanceof ModelNotFoundException => self::throw($e, 9995, $e->getMessage(), 404),
-            $e instanceof HttpException          => $request->wantsJson() ?
-                self::throw($e, defaultErrorCode: 9994) :
-                parent::render($request, $e),
-            default => self::throw($e)
-        };
+        return fn (Throwable $e) => env('RAW_ERROR', false) ?
+            null :
+            match (true) {
+                $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
+                $e instanceof NotFoundHttpException     => self::throw($e, 9997),
+                $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
+                $e instanceof BadRequestHttpException   => self::throw($e, 9995),
+                $e instanceof HttpException             => request()->wantsJson() ?
+                    self::throw($e, defaultErrorCode: 9994) :
+                    null,
+                default => self::throw($e)
+            };
     }
 
     /**
@@ -55,8 +43,12 @@ class Handler extends ExceptionHandler
      *
      * @return JsonResponse
      */
-    private static function throw(Throwable $e, int $defaultErrorCode = 9999, string $message = null, int $responseCode = null): JsonResponse
-    {
+    private static function throw(
+        Throwable $e,
+        int $defaultErrorCode = 9999,
+        string $message = null,
+        int $responseCode = null
+    ): JsonResponse {
         if (method_exists($e, $method = 'getErrorCode')) {
             $errorCode = $e->{$method}();
         } elseif ($e->getCode() > 0) {
@@ -68,8 +60,7 @@ class Handler extends ExceptionHandler
         return ValravnException::make(
             $message ?: $e->getMessage(),
             $errorCode,
-            $responseCode ?: $e->getCode()
-        )
-                               ->render();
+            $responseCode ?: $e->getStatusCode()
+        )->render();
     }
 }

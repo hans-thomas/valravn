@@ -31,7 +31,7 @@ class ExceptionTest extends TestCase
 
     namespace App\Exceptions\Blog\Post;
 
-    use App\Exceptions\ValravnException;
+    use Hans\Valravn\Exceptions\ValravnException;
     use Symfony\Component\HttpFoundation\Response;
 
     class PostException extends ValravnException {
@@ -68,7 +68,7 @@ class ExceptionTest extends TestCase
 
     namespace App\Exceptions\Blog\Post;
 
-    use App\Exceptions\ErrorCode;
+    use Hans\Valravn\Exceptions\ErrorCode;
 
     class PostErrorCode extends ErrorCode {
         protected static string $prefix = \'ECx\';

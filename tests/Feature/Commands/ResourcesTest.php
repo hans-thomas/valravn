@@ -31,7 +31,7 @@ class ResourcesTest extends TestCase
     namespace App\Http\Resources\V1\Blog\Post;
 
     use Illuminate\Database\Eloquent\Model;
-    use App\Http\Resources\Contracts\ValravnJsonResource;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 
     class PostResource extends ValravnJsonResource {
 
@@ -74,7 +74,7 @@ class ResourcesTest extends TestCase
     namespace App\Http\Resources\V1\Blog\Post;
 
     use Illuminate\Database\Eloquent\Model;
-    use App\Http\Resources\Contracts\ValravnResourceCollection;
+    use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 
     class PostCollection extends ValravnResourceCollection {
 

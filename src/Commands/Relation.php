@@ -139,11 +139,11 @@ class Relation extends Command
         }
 
         if (
-            $this->option('belongs-to-many') or
-            $this->option('morphed-by-many') or
-            $this->option('morph-to-many') or
-            $this->option('has-many') or
-            $this->option('morph-to')
+            !($this->option('belongs-to-many') or
+              $this->option('morphed-by-many') or
+              $this->option('morph-to-many') or
+              $this->option('has-many') or
+              $this->option('morph-to'))
         ) {
             $this->error('You should pass one option at least.');
 
