@@ -27,13 +27,13 @@ class ModelTest extends TestCase
 
     namespace App\Models\Blog;
 
-	use App\Models\Contracts\EntityClasses;
-	use App\Models\Contracts\Filterable;
-	use App\Models\Contracts\Loadable;
-	use App\Models\Contracts\ResourceCollectionable;
-	use App\Models\Traits\Paginatable;
-	use App\Models\ValravnModel;
-	use App\Repositories\Contracts\Repository;
+	use Hans\Valravn\Models\Contracts\EntityClasses;
+	use Hans\Valravn\Models\Contracts\Filterable;
+	use Hans\Valravn\Models\Contracts\Loadable;
+	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
+	use Hans\Valravn\Models\Traits\Paginatable;
+	use Hans\Valravn\Models\ValravnModel;
+	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
 	use Hans\Valravn\Services\Contracts\Service;
