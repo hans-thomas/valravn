@@ -3,6 +3,7 @@
 namespace Hans\Valravn;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -27,9 +28,9 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function handle(): void
     {
@@ -54,13 +55,21 @@ class InstallCommand extends Command
     {
         $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
 
-        $providersConfig = file_get_contents(base_path('bootstrap/providers.php'));
+        if (version_compare(App::version(), '11', '>=')) {
+            $providersFile = base_path('bootstrap/providers.php');
+        } elseif (version_compare(App::version(), '10', '>=')) {
+            $providersFile = config_path('app.php');
+        } else {
+            return;
+        }
+
+        $providersConfig = file_get_contents($providersFile);
 
         if (Str::contains($providersConfig, $namespace.'\\Providers\\RepositoryServiceProvider::class')) {
             return;
         }
 
-        file_put_contents(base_path('bootstrap/providers.php'), str_replace(
+        file_put_contents($providersFile, str_replace(
             "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL,
             "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL."    {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL,
             $providersConfig
