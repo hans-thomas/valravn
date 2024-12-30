@@ -32,9 +32,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function rawErrorEnv(): void
     {
@@ -57,9 +57,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function HttpExceptionMatchExpressionTest(): void
     {
@@ -82,9 +82,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function getErrorCodeFromErrorInstance(): void
     {
@@ -99,9 +99,9 @@ class HandlerTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function getCodeFromErrorInstance(): void
     {

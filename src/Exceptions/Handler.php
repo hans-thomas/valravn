@@ -13,7 +13,7 @@ use Throwable;
 class Handler
 {
     /**
-     * Converts exceptions to Valravn style
+     * Converts exceptions to Valravn style.
      *
      * @return callable
      */
@@ -22,11 +22,11 @@ class Handler
         return fn (Throwable $e) => env('RAW_ERROR', false) ?
             null :
             match (true) {
-                $e instanceof QueryException => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
-                $e instanceof NotFoundHttpException => self::throw($e, 9997),
+                $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
+                $e instanceof NotFoundHttpException     => self::throw($e, 9997),
                 $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
-                $e instanceof BadRequestHttpException => self::throw($e, 9995),
-                $e instanceof HttpException => request()->wantsJson() ?
+                $e instanceof BadRequestHttpException   => self::throw($e, 9995),
+                $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
                 default => self::throw($e)
@@ -36,13 +36,14 @@ class Handler
     /**
      * Convert the given exception to the ValravnException class.
      *
-     * @param  Throwable    $e
-     * @param  int          $defaultErrorCode
-     * @param  string|null  $message
-     * @param  int|null     $responseCode
+     * @param Throwable   $e
+     * @param int         $defaultErrorCode
+     * @param string|null $message
+     * @param int|null    $responseCode
+     *
+     * @throws ValravnException
      *
      * @return JsonResponse
-     * @throws ValravnException
      */
     private static function throw(
         Throwable $e,
@@ -59,9 +60,9 @@ class Handler
         }
 
         return ValravnException::make(
-            $message ? : $e->getMessage(),
+            $message ?: $e->getMessage(),
             $errorCode,
-            $responseCode ? : $e->getStatusCode()
+            $responseCode ?: $e->getStatusCode()
         )->render();
     }
 }
