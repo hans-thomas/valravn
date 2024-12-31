@@ -25,7 +25,7 @@ class CommentsQuery extends CollectionQuery
         return [
             'all_comments' => CommentCollection::make(
                 Comment::query()
-                       ->whereIn(( new Post() )->getForeignKey(), $ids)
+                       ->whereIn((new Post())->getForeignKey(), $ids)
                        ->get()
             ),
         ];
