@@ -9,13 +9,13 @@ predefined structure that includes two base classes. first we should create a
 class and extend that from `ValravnException` class.
 
 ```php
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
 
-class AppException extends ValravnException {
+class AppException extends VException {
 
-  public static function failedToDelete( Model $model ): ValravnException {
+  public static function failedToDelete( Model $model ): VException {
     return self::make(
       "Failed to delete [" . get_class( $model ) . "] $model->id",
       AppErrorCode::failedToDelete(),
@@ -29,9 +29,9 @@ class AppException extends ValravnException {
 Next, we need a class to manage our error codes.
 
 ```php
-use Hans\Valravn\Exceptions\ErrorCode;
+use Hans\Valravn\Exceptions\VErrorCode;
 
-class AppErrorCode extends ErrorCode {
+class AppErrorCode extends VErrorCode {
   protected static string $prefix = 'AppECx';
 
   protected int $failedToDelete = 1;
@@ -43,9 +43,9 @@ The related property can be defined in other ways. for example, you can define
 the property like `$FAILED_TO_DELETE` or just define a method like below:
 
 ```php
-use Hans\Valravn\Exceptions\ErrorCode;
+use Hans\Valravn\Exceptions\VErrorCode;
 
-class ValravnErrorCode extends ErrorCode {
+class ValravnErrorCode extends VErrorCode {
   protected static string $prefix = 'ValravnECx';
 
   public static function failedToDelete(): string {
