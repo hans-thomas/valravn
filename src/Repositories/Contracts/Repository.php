@@ -4,7 +4,7 @@ namespace Hans\Valravn\Repositories\Contracts;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Exceptions\Package\PackageException;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -270,10 +270,10 @@ abstract class Repository
      *
      * @param Model|int $model
      *
-     * @throws AuthorizationException
-     * @throws ValravnException
-     *
      * @return bool
+     *@throws VException
+     *
+     * @throws AuthorizationException
      */
     public function delete(Model|int $model): bool
     {

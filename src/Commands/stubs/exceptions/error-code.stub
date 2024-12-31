@@ -2,9 +2,9 @@
 
     namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
 
-    use Hans\Valravn\Exceptions\ErrorCode;
+    use Hans\Valravn\Exceptions\VErrorCode;
 
-    class {{ENTITY::NAME}}ErrorCode extends ErrorCode {
+    class {{ENTITY::NAME}}ErrorCode extends VErrorCode {
         protected static string $prefix = 'ECx';
 
         protected int $FAILED_TO_CREATE = 1;

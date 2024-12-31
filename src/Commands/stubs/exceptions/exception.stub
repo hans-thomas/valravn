@@ -2,27 +2,27 @@
 
     namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
 
-    use Hans\Valravn\Exceptions\ValravnException;
+    use Hans\Valravn\Exceptions\VException;
     use Symfony\Component\HttpFoundation\Response;
 
-    class {{ENTITY::NAME}}Exception extends ValravnException {
+    class {{ENTITY::NAME}}Exception extends VException {
 
-        public static function failedToCreate(): ValravnException {
+        public static function failedToCreate(): VException {
             return self::make( "Failed to create the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToCreate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToUpdate(): ValravnException {
+        public static function failedToUpdate(): VException {
             return self::make( "Failed to update the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToBatchUpdate(): ValravnException {
+        public static function failedToBatchUpdate(): VException {
             return self::make( "Failed to update the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToBatchUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToDelete(): ValravnException {
+        public static function failedToDelete(): VException {
             return self::make( "Failed to delete the {{ENTITY::NAME}}!", {{ENTITY::NAME}}ErrorCode::failedToDelete(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }

@@ -2,13 +2,13 @@
 
 namespace Hans\Valravn\Exceptions\Package;
 
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
 
-class PackageException extends ValravnException
+class PackageException extends VException
 {
-    public static function failedToDelete(Model $model): ValravnException
+    public static function failedToDelete(Model $model): VException
     {
         return self::make(
             'Failed to delete ['.get_class($model)."] $model->id",
@@ -17,7 +17,7 @@ class PackageException extends ValravnException
         );
     }
 
-    public static function invalidEntity(string $entity): ValravnException
+    public static function invalidEntity(string $entity): VException
     {
         return self::make(
             "Invalid entity class for resolving to model. [$entity]",
@@ -26,7 +26,7 @@ class PackageException extends ValravnException
         );
     }
 
-    public static function errorCodeNotFound(string $code): ValravnException
+    public static function errorCodeNotFound(string $code): VException
     {
         return self::make(
             "Called error code not found. [$code]",

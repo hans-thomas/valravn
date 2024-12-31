@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Exceptions\Package;
 
-use Hans\Valravn\Exceptions\ErrorCode;
+use Hans\Valravn\Exceptions\VErrorCode;
 
-class PackageErrorCode extends ErrorCode
+class PackageErrorCode extends VErrorCode
 {
     protected static string $prefix = 'ValravnECx';
 

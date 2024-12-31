@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class Handler
+class VHandler
 {
     /**
      * Converts exceptions to Valravn style.
@@ -57,7 +57,7 @@ class Handler
             $errorCode = $defaultErrorCode;
         }
 
-        return ValravnException::make(
+        return VException::make(
             $message ?: $e->getMessage(),
             $errorCode,
             $responseCode ?: $e->getStatusCode()

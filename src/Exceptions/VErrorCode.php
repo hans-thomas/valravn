@@ -5,7 +5,7 @@ namespace Hans\Valravn\Exceptions;
 use Hans\Valravn\Exceptions\Package\PackageException;
 use Illuminate\Support\Str;
 
-abstract class ErrorCode
+abstract class VErrorCode
 {
     /**
      * Prefix of defined codes.
@@ -38,9 +38,9 @@ abstract class ErrorCode
     /**
      * @param string $name
      *
-     * @throws ValravnException
-     *
      * @return string
+     *@throws VException
+     *
      */
     public function __get(string $name)
     {
@@ -51,9 +51,9 @@ abstract class ErrorCode
      * @param string $name
      * @param array  $arguments
      *
-     * @throws ValravnException
-     *
      * @return string
+     *@throws VException
+     *
      */
     public static function __callStatic(string $name, array $arguments)
     {

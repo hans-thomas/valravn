@@ -1,7 +1,7 @@
 <?php
 
     use Hans\Valravn\Exceptions\Package\PackageException;
-    use Hans\Valravn\Exceptions\ValravnException;
+    use Hans\Valravn\Exceptions\VException;
     use Hans\Valravn\Models\Contracts\ResourceCollectionable;
     use Illuminate\Contracts\Auth\Authenticatable;
     use Illuminate\Database\Eloquent\Model;
@@ -41,9 +41,9 @@
          * @param int    $id
          * @param string $entity
          *
-         * @throws ValravnException
-         *
          * @return Model|false
+         *@throws VException
+         *
          */
         function resolveRelatedIdToModel(int $id, string $entity): Model|false
         {
