@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Services\Routing;
 
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleApiController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleController;
 use Hans\Valravn\Tests\TestCase;
@@ -16,7 +16,7 @@ class RoutingServiceTest extends TestCase
      */
     public function apiResource(): void
     {
-        Router::apiResource('samples', SampleApiController::class);
+        VRouter::apiResource('samples', SampleApiController::class);
 
         $this->getJson(route('samples.index'))->assertOk();
         $this->postJson(route('samples.store'), [])->assertOk();
@@ -32,7 +32,7 @@ class RoutingServiceTest extends TestCase
      */
     public function resource(): void
     {
-        Router::resource('samples', SampleController::class);
+        VRouter::resource('samples', SampleController::class);
 
         $this->getJson(route('samples.index'))->assertOk();
         $this->getJson(route('samples.create'))->assertOk();

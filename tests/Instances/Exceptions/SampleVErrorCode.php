@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Tests\Instances\Exceptions;
 
-use Hans\Valravn\Exceptions\ErrorCode;
+use Hans\Valravn\Exceptions\VErrorCode;
 
-class SampleErrorCode extends ErrorCode
+class SampleVErrorCode extends VErrorCode
 {
     protected static string $prefix = 'SamECx';
 

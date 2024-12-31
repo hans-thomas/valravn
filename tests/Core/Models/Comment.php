@@ -2,13 +2,13 @@
 
 namespace Hans\Valravn\Tests\Core\Models;
 
-use Hans\Valravn\Models\ValravnModel;
+use Hans\Valravn\Models\VModel;
 use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Comment extends ValravnModel
+class Comment extends VModel
 {
     use HasFactory;
 

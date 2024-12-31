@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Http\Resources\Traits;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -11,17 +11,17 @@ trait InteractsWithPivots
     /**
      * Load pivots if exists.
      *
-     * @param array                    $data
-     * @param ValravnJsonResource|null $resource
-     * @param array                    $includes
-     * @param array                    $excludes
-     * @param array                    $alias
+     * @param array              $data
+     * @param VJsonResource|null $resource
+     * @param array              $includes
+     * @param array              $excludes
+     * @param array              $alias
      *
      * @return void
      */
     protected function loadedPivots(
         array &$data,
-        ValravnJsonResource $resource = null,
+        VJsonResource $resource = null,
         array $includes = [],
         array $excludes = [],
         array $alias = []

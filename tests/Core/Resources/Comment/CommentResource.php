@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentResource extends ValravnJsonResource
+class CommentResource extends VJsonResource
 {
     /**
      * @return array

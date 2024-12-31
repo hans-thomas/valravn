@@ -32,14 +32,14 @@ class ModelTest extends TestCase
 	use Hans\Valravn\Models\Contracts\Loadable;
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 	use Hans\Valravn\Models\Traits\Paginatable;
-	use Hans\Valravn\Models\ValravnModel;
+	use Hans\Valravn\Models\VModel;
 	use Hans\Valravn\Repositories\Contracts\Repository;
-	use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-	use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+	use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+	use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 	use Hans\Valravn\Services\Contracts\Service;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-    class Post extends ValravnModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
+    class Post extends VModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
         use HasFactory;
         use Paginatable;
 
@@ -70,15 +70,15 @@ class ModelTest extends TestCase
             // TODO: Implement getLoadableRelations() method.
         }
 
-        public static function getResource(): ValravnJsonResource {
+        public static function getResource(): VJsonResource {
             // TODO: Implement getResource() method.
         }
 
-        public function toResource(): ValravnJsonResource {
+        public function toResource(): VJsonResource {
             // TODO: Implement toResource() method.
         }
 
-        public static function getResourceCollection(): ValravnResourceCollection {
+        public static function getResourceCollection(): VResourceCollection {
             // TODO: Implement getResourceCollection() method.
         }
     }

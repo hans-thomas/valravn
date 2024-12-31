@@ -4,7 +4,7 @@ namespace Hans\Valravn\DTOs\Contracts;
 
 use Illuminate\Support\Collection;
 
-abstract class Dto
+abstract class VDto
 {
     protected Collection $data;
 

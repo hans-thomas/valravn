@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Instances\Http\Queries;
 
 use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Core\Models\Comment;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
@@ -12,11 +12,11 @@ use Illuminate\Support\Collection;
 class CommentsQuery extends CollectionQuery
 {
     /**
-     * @param ValravnJsonResource $resource
+     * @param VJsonResource $resource
      *
      * @return array
      */
-    public function apply(ValravnJsonResource $resource): array
+    public function apply(VJsonResource $resource): array
     {
         $ids = $resource->resource instanceof Collection ?
             $resource->resource->map(fn ($value) => ['id' => $value->id])->flatten() :

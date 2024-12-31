@@ -14,11 +14,11 @@ abstract class CollectionQuery
     /**
      * Implement a custom logic.
      *
-     * @param ValravnJsonResource $resource
+     * @param VJsonResource $resource
      *
      * @return array
      */
-    abstract public function apply(ValravnJsonResource $resource): array;
+    abstract public function apply(VJsonResource $resource): array;
 
     /**
      * Create an instance in static way.
@@ -33,11 +33,11 @@ abstract class CollectionQuery
     /**
      * Apply the custom logic and store processed data.
      *
-     * @param ValravnJsonResource $resource
+     * @param VJsonResource $resource
      *
      * @return $this
      */
-    public function run(ValravnJsonResource $resource): self
+    public function run(VJsonResource $resource): self
     {
         $this->data = $this->apply($resource);
 
@@ -47,11 +47,11 @@ abstract class CollectionQuery
     /**
      * Merge processed data to a resource class.
      *
-     * @param ValravnJsonResource $resource
+     * @param VJsonResource $resource
      *
      * @return void
      */
-    public function mergeDataInto(ValravnJsonResource $resource): void
+    public function mergeDataInto(VJsonResource $resource): void
     {
         $resource->addAdditional($this->getData());
     }

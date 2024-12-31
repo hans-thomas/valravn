@@ -4,16 +4,16 @@ namespace Hans\Valravn\Services\Queries;
 
 use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class QueryingService
 {
-    private ValravnJsonResource $resource;
+    private VJsonResource $resource;
     private array $executedQueries = [];
 
-    public function __construct(ValravnJsonResource $resource)
+    public function __construct(VJsonResource $resource)
     {
         $this->resource = $resource;
     }

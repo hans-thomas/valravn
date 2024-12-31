@@ -5,7 +5,7 @@ namespace Hans\Valravn\Http\Requests\Contracts;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
 
-abstract class BatchUpdateRequest extends ValravnFormRequest
+abstract class BatchUpdateRequest extends VFormRequest
 {
     /**
      * Get related model class.

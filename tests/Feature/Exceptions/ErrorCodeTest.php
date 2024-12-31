@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
 use Hans\Valravn\Exceptions\Package\PackageException;
-use Hans\Valravn\Tests\Instances\Exceptions\SampleErrorCode;
+use Hans\Valravn\Tests\Instances\Exceptions\SampleVErrorCode;
 use Hans\Valravn\Tests\TestCase;
 
 class ErrorCodeTest extends TestCase
@@ -17,20 +17,20 @@ class ErrorCodeTest extends TestCase
     {
         self::assertEquals(
             'SamECx1',
-            SampleErrorCode::firstOne()
+            SampleVErrorCode::firstOne()
         );
         self::assertEquals(
             'SamECx1',
-            SampleErrorCode::first_one()
+            SampleVErrorCode::first_one()
         );
 
         self::assertEquals(
             'SamECx2',
-            SampleErrorCode::secondOne()
+            SampleVErrorCode::secondOne()
         );
         self::assertEquals(
             'SamECx2',
-            SampleErrorCode::second_one()
+            SampleVErrorCode::second_one()
         );
     }
 
@@ -45,7 +45,7 @@ class ErrorCodeTest extends TestCase
 
         $this->expectExceptionObject(PackageException::errorCodeNotFound($code));
 
-        SampleErrorCode::$code();
+        SampleVErrorCode::$code();
     }
 
     /**
@@ -57,20 +57,20 @@ class ErrorCodeTest extends TestCase
     {
         self::assertEquals(
             'SamECx1',
-            SampleErrorCode::make()->first_one
+            SampleVErrorCode::make()->first_one
         );
         self::assertEquals(
             'SamECx1',
-            SampleErrorCode::make()->firstOne
+            SampleVErrorCode::make()->firstOne
         );
 
         self::assertEquals(
             'SamECx2',
-            SampleErrorCode::make()->second_one
+            SampleVErrorCode::make()->second_one
         );
         self::assertEquals(
             'SamECx2',
-            SampleErrorCode::make()->secondOne
+            SampleVErrorCode::make()->secondOne
         );
     }
 }

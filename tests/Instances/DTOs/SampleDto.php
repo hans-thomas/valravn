@@ -2,10 +2,10 @@
 
 namespace Hans\Valravn\Tests\Instances\DTOs;
 
-use Hans\Valravn\DTOs\Contracts\Dto;
+use Hans\Valravn\DTOs\Contracts\VDto;
 use Illuminate\Support\Collection;
 
-class SampleDto extends Dto
+class SampleDto extends VDto
 {
     /**
      * Process the received data.

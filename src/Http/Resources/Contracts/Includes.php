@@ -43,9 +43,9 @@ abstract class Includes
     /**
      * Convert processed builder instance to a resource class.
      *
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    abstract public function toResource(): ValravnJsonResource;
+    abstract public function toResource(): VJsonResource;
 
     /**
      * Apply the custom logic and store in builder.

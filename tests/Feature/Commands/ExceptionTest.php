@@ -31,27 +31,27 @@ class ExceptionTest extends TestCase
 
     namespace App\Exceptions\Blog\Post;
 
-    use Hans\Valravn\Exceptions\ValravnException;
+    use Hans\Valravn\Exceptions\VException;
     use Symfony\Component\HttpFoundation\Response;
 
-    class PostException extends ValravnException {
+    class PostException extends VException {
 
-        public static function failedToCreate(): ValravnException {
+        public static function failedToCreate(): VException {
             return self::make( "Failed to create the Post!", PostErrorCode::failedToCreate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToUpdate(): ValravnException {
+        public static function failedToUpdate(): VException {
             return self::make( "Failed to update the Post!", PostErrorCode::failedToUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToBatchUpdate(): ValravnException {
+        public static function failedToBatchUpdate(): VException {
             return self::make( "Failed to update the Post!", PostErrorCode::failedToBatchUpdate(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
-        public static function failedToDelete(): ValravnException {
+        public static function failedToDelete(): VException {
             return self::make( "Failed to delete the Post!", PostErrorCode::failedToDelete(),
                 Response::HTTP_INTERNAL_SERVER_ERROR );
         }
@@ -68,9 +68,9 @@ class ExceptionTest extends TestCase
 
     namespace App\Exceptions\Blog\Post;
 
-    use Hans\Valravn\Exceptions\ErrorCode;
+    use Hans\Valravn\Exceptions\VErrorCode;
 
-    class PostErrorCode extends ErrorCode {
+    class PostErrorCode extends VErrorCode {
         protected static string $prefix = \'ECx\';
 
         protected int $FAILED_TO_CREATE = 1;

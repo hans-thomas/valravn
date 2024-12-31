@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Services\Contracts;
 
-use Hans\Valravn\Facades\Cache;
+use Hans\Valravn\Facades\VCache;
 use Hans\Valravn\Services\Caching\CachingService;
 
 abstract class Service
@@ -14,7 +14,7 @@ abstract class Service
      */
     public function cache(): CachingService
     {
-        return Cache::setService($this);
+        return VCache::setService($this);
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class SampleWithHookCollection extends ValravnResourceCollection
+class SampleWithHookCollection extends VResourceCollection
 {
     /**
      * @param Model $model
@@ -32,12 +32,12 @@ class SampleWithHookCollection extends ValravnResourceCollection
     /**
      * Executes when data loaded.
      *
-     * @param                          $data
-     * @param ValravnJsonResource|null $resource
+     * @param                    $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */
-    protected function loaded(&$data, ValravnJsonResource $resource = null): void
+    protected function loaded(&$data, VJsonResource $resource = null): void
     {
         $this->addExtra([
             'all-loaded' => 'i might regret this when tomorrow comes',

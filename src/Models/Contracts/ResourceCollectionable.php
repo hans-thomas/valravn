@@ -2,29 +2,29 @@
 
 namespace Hans\Valravn\Models\Contracts;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 
 interface ResourceCollectionable
 {
     /**
      * Return related resource class.
      *
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    public static function getResource(): ValravnJsonResource;
+    public static function getResource(): VJsonResource;
 
     /**
      * Convert current instance to a related resource class.
      *
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    public function toResource(): ValravnJsonResource;
+    public function toResource(): VJsonResource;
 
     /**
      * Return related resource collection class.
      *
-     * @return ValravnResourceCollection
+     * @return VResourceCollection
      */
-    public static function getResourceCollection(): ValravnResourceCollection;
+    public static function getResourceCollection(): VResourceCollection;
 }

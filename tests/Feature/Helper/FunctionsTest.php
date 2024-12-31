@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Helper;
 
 use Hans\Valravn\Exceptions\Package\PackageException;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -69,7 +69,7 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
+     * @throws VException
      *
      * @return void
      */
@@ -89,7 +89,7 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
+     * @throws VException
      *
      * @return void
      */
@@ -103,7 +103,7 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
+     * @throws VException
      *
      * @return void
      */

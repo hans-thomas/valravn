@@ -119,9 +119,9 @@ Now, we can register our entity routes.
 ```php
 // routes/app/blog.php
 
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::resource( 'posts', PostCrudController::class )
+VRouter::resource( 'posts', PostCrudController::class )
       ->withBatchUpdate()
       ->relations(
           PostRelationsController::class,
@@ -239,7 +239,7 @@ use App\Exceptions\Blog\Post\PostException;
 use App\Models\Blog\Post;
 use App\Repositories\Contracts\Blog\IPostRepository;
 use Hans\Valravn\DTOs\BatchUpdateDto;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Throwable;
@@ -307,7 +307,7 @@ use App\Exceptions\Blog\Post\PostException;
 use App\Models\Blog\Post;
 use App\Repositories\Contracts\Blog\IPostRepository;
 use Hans\Valravn\DTOs\ManyToManyDto;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class PostRelationsService {
@@ -355,12 +355,12 @@ To handle `PostRelationsService` needed exceptions, open `PostException` class a
 ```php
 // app/Exceptions/Blog/Post/PostException.php
 
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostException extends ValravnException {
+class PostException extends VException {
 
-    public static function failedToUpdateCategories(): ValravnException {
+    public static function failedToUpdateCategories(): VException {
         return self::make(
             "Failed to update post's categories!",
             PostErrorCode::failedToUpdateCategories(),
@@ -368,7 +368,7 @@ class PostException extends ValravnException {
         );
     }
 
-    public static function failedToAttachCategories(): ValravnException {
+    public static function failedToAttachCategories(): VException {
         return self::make(
             "Failed to attach post's categories!",
             PostErrorCode::failedToAttachCategories(),
@@ -376,7 +376,7 @@ class PostException extends ValravnException {
         );
     }
 
-    public static function failedToDetachCategories(): ValravnException {
+    public static function failedToDetachCategories(): VException {
         return self::make(
             "Failed to detach post's categories!",
             PostErrorCode::failedToDetachCategories(),
@@ -392,9 +392,9 @@ Then in the `PostErrorCode` class, we should add new error codes.
 ```php
 // app/Exceptions/Blog/Post/PostErrorCode.php
 
-use Hans\Valravn\Exceptions\ErrorCode;
+use Hans\Valravn\Exceptions\VErrorCode;
 
-class PostErrorCode extends ErrorCode {
+class PostErrorCode extends VErrorCode {
     protected static string $prefix = 'PECx';
 
     protected int $FAILED_TO_UPDATE_CATEGORIES = 1; // or failedToUpdateCategories
@@ -418,9 +418,9 @@ In addition, we should set up our `PostStoreRequest` and `PostUpdateRequest` req
 ```php
 // app/Http/Requests/V1/Blog/Post/PostStoreRequest.php
 
-use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-class PostUpdateRequest extends ValravnFormRequest {
+class PostUpdateRequest extends VFormRequest {
 
     protected function fields(): array {
         return [
@@ -436,9 +436,9 @@ Also, we have these rules for updating request.
 ```php
 // app/Http/Requests/V1/Blog/Post/PostUpdateRequest.php
 
-use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-class PostUpdateRequest extends ValravnFormRequest {
+class PostUpdateRequest extends VFormRequest {
 
     protected function fields(): array {
         return [

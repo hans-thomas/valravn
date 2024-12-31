@@ -13,9 +13,9 @@ separately. to do so, you can override the `$perPageMax` property or just
 call `setPerPageMax` method inside of `booted` method.
 
 ```php
-use Hans\Valravn\Models\ValravnModel;
+use Hans\Valravn\Models\VModel;
 
-class Example extends ValravnModel {
+class Example extends VModel {
 
     protected static int $perPageMax = 20;
     
@@ -58,9 +58,9 @@ This method is useful when you want to define an alias for an attribute or a
 foreign key of a model. its usage should be something like this:
 
 ```php
-use Hans\Valravn\Models\ValravnModel;
+use Hans\Valravn\Models\VModel;
 
-class Comment extends ValravnModel {
+class Comment extends VModel {
 
   protected $fillable = [
     'content',

@@ -5,7 +5,7 @@ namespace Hans\Valravn\Exceptions;
 use Hans\Valravn\Exceptions\Package\PackageException;
 use Illuminate\Support\Str;
 
-abstract class ErrorCode
+abstract class VErrorCode
 {
     /**
      * Prefix of defined codes.
@@ -38,7 +38,7 @@ abstract class ErrorCode
     /**
      * @param string $name
      *
-     * @throws ValravnException
+     * @throws VException
      *
      * @return string
      */
@@ -51,7 +51,7 @@ abstract class ErrorCode
      * @param string $name
      * @param array  $arguments
      *
-     * @throws ValravnException
+     * @throws VException
      *
      * @return string
      */

@@ -2,8 +2,8 @@
 
 namespace Hans\Valravn\Tests\Core\Models;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Resources\User\UserCollection;
@@ -35,9 +35,9 @@ class User extends Authenticatable implements ResourceCollectionable
     /**
      * Return related resource class.
      *
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    public static function getResource(): ValravnJsonResource
+    public static function getResource(): VJsonResource
     {
         return UserResource::make(...func_get_args());
     }
@@ -45,9 +45,9 @@ class User extends Authenticatable implements ResourceCollectionable
     /**
      * Convert current instance to a related resource class.
      *
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    public function toResource(): ValravnJsonResource
+    public function toResource(): VJsonResource
     {
         return self::getResource($this, ...func_get_args());
     }
@@ -55,9 +55,9 @@ class User extends Authenticatable implements ResourceCollectionable
     /**
      * Return related resource collection class.
      *
-     * @return ValravnResourceCollection
+     * @return VResourceCollection
      */
-    public static function getResourceCollection(): ValravnResourceCollection
+    public static function getResourceCollection(): VResourceCollection
     {
         return UserCollection::make(...func_get_args());
     }

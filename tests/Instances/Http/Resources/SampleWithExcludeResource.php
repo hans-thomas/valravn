@@ -2,12 +2,12 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Core\Models\Category;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 
-class SampleWithExcludeResource extends ValravnJsonResource
+class SampleWithExcludeResource extends VJsonResource
 {
     public function extract(Model $model): ?array
     {

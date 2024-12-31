@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Http\Resources\Traits;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Models\Contracts\Loadable;
 use Illuminate\Support\Arr;
 
@@ -25,12 +25,12 @@ trait InteractsWithRelations
     /**
      * Load relationships data if exists.
      *
-     * @param array                    $data
-     * @param ValravnJsonResource|null $resource
+     * @param array              $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */
-    protected function loadedRelations(array &$data, ValravnJsonResource $resource = null): void
+    protected function loadedRelations(array &$data, VJsonResource $resource = null): void
     {
         $instance = $resource ?? $this;
         if ($instance->resource instanceof Loadable) {

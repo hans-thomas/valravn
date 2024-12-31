@@ -35,8 +35,8 @@ class ValravnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('routing-service', RoutingService::class);
-        $this->app->bind('caching-service', CachingService::class);
+        $this->app->bind('v-routing-service', RoutingService::class);
+        $this->app->bind('v-caching-service', CachingService::class);
     }
 
     /**

@@ -49,12 +49,12 @@ abstract class ResourceQuery
     /**
      * Merge processed data to given array.
      *
-     * @param ValravnJsonResource $resource
-     * @param array               $data
+     * @param VJsonResource $resource
+     * @param array         $data
      *
      * @return void
      */
-    public function mergeDataInto(ValravnJsonResource $resource, array &$data): void
+    public function mergeDataInto(VJsonResource $resource, array &$data): void
     {
         $data = array_merge($data, $this->getData());
     }

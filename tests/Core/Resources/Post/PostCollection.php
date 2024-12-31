@@ -2,14 +2,14 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class PostCollection extends ValravnResourceCollection
+class PostCollection extends VResourceCollection
 {
     /**
      * @return array

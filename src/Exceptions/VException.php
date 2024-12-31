@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-class ValravnException extends Exception
+class VException extends Exception
 {
     private int|string $errorCode;
 

@@ -2,9 +2,9 @@
 
     namespace App\Http\Requests\{{REQUEST::VERSION}}\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
 
-    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class {{REQUEST::MODEL}}{{REQUEST::ACTION}}Request extends ValravnFormRequest {
+    class {{REQUEST::MODEL}}{{REQUEST::ACTION}}Request extends VFormRequest {
 
 		/**
 		 * Get fields and their validation rules
