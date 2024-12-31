@@ -43,7 +43,7 @@ class InstallCommand extends Command
         $this->comment('Registering RepositoryServiceProvider...');
         $this->registerRepositoryServiceProvider();
 
-        $this->info('Valravn scaffolding installed successfully.');
+        $this->info('Valravn installed successfully.');
     }
 
     /**
