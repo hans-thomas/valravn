@@ -270,10 +270,10 @@ abstract class Repository
      *
      * @param Model|int $model
      *
-     * @return bool
-     *@throws VException
-     *
+     * @throws VException
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function delete(Model|int $model): bool
     {

@@ -11,11 +11,11 @@ trait InteractsWithPivots
     /**
      * Load pivots if exists.
      *
-     * @param array               $data
-     * @param VJsonResource|null  $resource
-     * @param array               $includes
-     * @param array               $excludes
-     * @param array               $alias
+     * @param array              $data
+     * @param VJsonResource|null $resource
+     * @param array              $includes
+     * @param array              $excludes
+     * @param array              $alias
      *
      * @return void
      */

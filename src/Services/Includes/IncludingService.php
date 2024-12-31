@@ -14,7 +14,7 @@ class IncludingService
     private array $registeredActions;
 
     /**
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      */
     public function __construct(VJsonResource $resource)
     {

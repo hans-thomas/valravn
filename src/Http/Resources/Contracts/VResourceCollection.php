@@ -100,8 +100,8 @@ abstract class VResourceCollection extends VJsonResource implements Countable, I
     /**
      * Executes when data loaded.
      *
-     * @param                          $data
-     * @param VJsonResource|null       $resource
+     * @param                    $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */

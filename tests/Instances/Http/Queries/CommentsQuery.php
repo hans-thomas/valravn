@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 class CommentsQuery extends CollectionQuery
 {
     /**
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      *
      * @return array
      */

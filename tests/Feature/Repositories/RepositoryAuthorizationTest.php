@@ -60,10 +60,10 @@ class RepositoryAuthorizationTest extends TestCase
     /**
      * @test
      *
-     * @return void
-     *@throws VException
-     *
+     * @throws VException
      * @throws AuthorizationException
+     *
+     * @return void
      */
     public function deleteAction(): void
     {

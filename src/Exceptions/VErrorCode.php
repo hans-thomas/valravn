@@ -38,9 +38,9 @@ abstract class VErrorCode
     /**
      * @param string $name
      *
-     * @return string
-     *@throws VException
+     * @throws VException
      *
+     * @return string
      */
     public function __get(string $name)
     {
@@ -51,9 +51,9 @@ abstract class VErrorCode
      * @param string $name
      * @param array  $arguments
      *
-     * @return string
-     *@throws VException
+     * @throws VException
      *
+     * @return string
      */
     public static function __callStatic(string $name, array $arguments)
     {

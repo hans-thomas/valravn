@@ -25,8 +25,8 @@ trait InteractsWithRelations
     /**
      * Load relationships data if exists.
      *
-     * @param array               $data
-     * @param VJsonResource|null  $resource
+     * @param array              $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */
