@@ -3,13 +3,13 @@
 namespace Hans\Valravn\Tests\Core\Models;
 
 use Hans\Valravn\Models\Contracts\Filterable;
-use Hans\Valravn\Models\ValravnModel;
+use Hans\Valravn\Models\VModel;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Category extends ValravnModel implements Filterable
+class Category extends VModel implements Filterable
 {
     use HasFactory;
 

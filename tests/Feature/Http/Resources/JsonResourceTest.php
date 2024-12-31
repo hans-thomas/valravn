@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Http\Resources;
 
-use Hans\Valravn\Models\ValravnModel;
+use Hans\Valravn\Models\VModel;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleResource;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithDefaultExtractResource;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookResource;
@@ -17,7 +17,7 @@ class JsonResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->model = new class() extends ValravnModel {
+        $this->model = new class() extends VModel {
             protected $fillable = ['name', 'email', 'address'];
         };
         $this->model->forceFill([
@@ -75,7 +75,7 @@ class JsonResourceTest extends TestCase
      */
     public function toArrayAsNullModel(): void
     {
-        $resource = SampleResource::make(new class() extends ValravnModel { });
+        $resource = SampleResource::make(new class() extends VModel { });
         self::assertEquals(
             [
                 'data' => [

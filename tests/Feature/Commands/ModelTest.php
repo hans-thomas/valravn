@@ -32,14 +32,14 @@ class ModelTest extends TestCase
 	use Hans\Valravn\Models\Contracts\Loadable;
 	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 	use Hans\Valravn\Models\Traits\Paginatable;
-	use Hans\Valravn\Models\ValravnModel;
+	use Hans\Valravn\Models\VModel;
 	use Hans\Valravn\Repositories\Contracts\Repository;
 	use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 	use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 	use Hans\Valravn\Services\Contracts\Service;
 	use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-    class Post extends ValravnModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
+    class Post extends VModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
         use HasFactory;
         use Paginatable;
 
