@@ -14,7 +14,7 @@ abstract class CollectionQuery
     /**
      * Implement a custom logic.
      *
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      *
      * @return array
      */
@@ -33,7 +33,7 @@ abstract class CollectionQuery
     /**
      * Apply the custom logic and store processed data.
      *
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      *
      * @return $this
      */
@@ -47,7 +47,7 @@ abstract class CollectionQuery
     /**
      * Merge processed data to a resource class.
      *
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      *
      * @return void
      */

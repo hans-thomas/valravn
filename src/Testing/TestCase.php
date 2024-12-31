@@ -77,7 +77,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Convert resource class to an array.
      *
-     * @param VJsonResource  $resource
+     * @param VJsonResource $resource
      *
      * @return array
      */

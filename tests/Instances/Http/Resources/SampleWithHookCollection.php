@@ -32,8 +32,8 @@ class SampleWithHookCollection extends VResourceCollection
     /**
      * Executes when data loaded.
      *
-     * @param                          $data
-     * @param VJsonResource|null       $resource
+     * @param                    $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */

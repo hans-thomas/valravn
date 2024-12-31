@@ -11,9 +11,9 @@ class ValravnExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
-     *@throws VException
+     * @throws VException
      *
+     * @return void
      */
     public function make(): void
     {
