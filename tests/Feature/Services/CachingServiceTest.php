@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Services;
 
-use Hans\Valravn\Facades\Cache as ValravnCacheFacade;
+use Hans\Valravn\Facades\VCache as ValravnCacheFacade;
 use Hans\Valravn\Services\Contracts\Service;
 use Hans\Valravn\Tests\Instances\Services\SampleService;
 use Hans\Valravn\Tests\TestCase;

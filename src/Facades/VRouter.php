@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @see RoutingService
  */
-class Router extends Facade
+class VRouter extends Facade
 {
     /**
      * Indicates if the resolved instance should be cached.
@@ -27,6 +27,6 @@ class Router extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return 'routing-service';
+        return 'v-routing-service';
     }
 }

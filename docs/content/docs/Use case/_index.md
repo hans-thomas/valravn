@@ -119,9 +119,9 @@ Now, we can register our entity routes.
 ```php
 // routes/app/blog.php
 
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::resource( 'posts', PostCrudController::class )
+VRouter::resource( 'posts', PostCrudController::class )
       ->withBatchUpdate()
       ->relations(
           PostRelationsController::class,

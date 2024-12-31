@@ -15,7 +15,7 @@ use RuntimeException;
  *
  * @see CachingService
  */
-class Cache extends Facade
+class VCache extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -26,6 +26,6 @@ class Cache extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'caching-service';
+        return 'v-caching-service';
     }
 }
