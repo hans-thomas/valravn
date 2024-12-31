@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Repositories;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Repositories\Contracts\Repository;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -60,10 +60,10 @@ class RepositoryAuthorizationTest extends TestCase
     /**
      * @test
      *
-     * @throws AuthorizationException
-     * @throws ValravnException
-     *
      * @return void
+     *@throws VException
+     *
+     * @throws AuthorizationException
      */
     public function deleteAction(): void
     {

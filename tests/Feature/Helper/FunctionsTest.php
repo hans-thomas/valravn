@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Helper;
 
 use Hans\Valravn\Exceptions\Package\PackageException;
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -69,9 +69,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
-     *
      * @return void
+     *@throws VException
+     *
      */
     public function resolveRelatedIdToModel(): void
     {
@@ -89,9 +89,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
-     *
      * @return void
+     *@throws VException
+     *
      */
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
@@ -103,9 +103,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @throws ValravnException
-     *
      * @return void
+     *@throws VException
+     *
      */
     public function resolveRelatedIdToModelWithInvalidId(): void
     {

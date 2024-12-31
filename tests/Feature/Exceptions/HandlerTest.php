@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
-use Hans\Valravn\Exceptions\ValravnException;
+use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
@@ -23,7 +23,7 @@ class HandlerTest extends TestCase
         parent::setUp();
 
         $this->handler = $this->app->make(Handler::class);
-        $this->handler->renderable(\Hans\Valravn\Exceptions\Handler::convertUsing());
+        $this->handler->renderable(\Hans\Valravn\Exceptions\VHandler::convertUsing());
 
         request()->headers->set('Accept', 'application/json');
         Env::getRepository()->set('RAW_ERROR', false);
@@ -88,7 +88,7 @@ class HandlerTest extends TestCase
      */
     public function getErrorCodeFromErrorInstance(): void
     {
-        $e = ValravnException::make('test exception.', 27);
+        $e = VException::make('test exception.', 27);
 
         self::assertJsonStringEqualsJsonString(
             '{"title":"Unexpected error!","detail":"test exception.","code":27}',
