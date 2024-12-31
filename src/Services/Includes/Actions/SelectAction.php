@@ -11,8 +11,8 @@ class SelectAction extends Actions
         $attributes = collect($params)->map(
             fn ($value) => $this->getFilterableColumn($value)
         )->filter(
-                fn ($value) => !is_null($value)
-            );
+            fn ($value) => !is_null($value)
+        );
 
         if (!empty($attributes)) {
             $attributes[] = 'id';
