@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\DTOs;
 
-use Hans\Valravn\DTOs\Contracts\Dto;
+use Hans\Valravn\DTOs\Contracts\VDto;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-class ManyToManyDto extends Dto
+class ManyToManyDto extends VDto
 {
     /**
      * Process the received data.

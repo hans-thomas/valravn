@@ -2,10 +2,10 @@
 
 namespace Hans\Valravn\DTOs;
 
-use Hans\Valravn\DTOs\Contracts\Dto;
+use Hans\Valravn\DTOs\Contracts\VDto;
 use Illuminate\Support\Collection;
 
-class MorphToDto extends Dto
+class MorphToDto extends VDto
 {
     /**
      * Process the received data.
