@@ -4,7 +4,7 @@ namespace Hans\Valravn\Http\Requests\Contracts;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class ValravnFormRequest extends FormRequest
+abstract class VFormRequest extends FormRequest
 {
     /**
      * Get fields and their validation rules.

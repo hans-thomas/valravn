@@ -14,10 +14,10 @@ it's same as `JsonResource` class on laravel. to start using this, first you
 need to create resource class which should see something like this.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
-class SampleResource extends ValravnJsonResource {
+class SampleResource extends VJsonResource {
 
   public function extract( Model $model ): ?array {
       return [
@@ -42,10 +42,10 @@ the front-end dev.
 The resource collection class is the same as `ValravnJsonResource`.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
-class SampleCollection extends ValravnResourceCollection {
+class SampleCollection extends VResourceCollection {
 
   public function extract( Model $model ): ?array {
       return null;
@@ -200,12 +200,12 @@ this data will merge into the `data` key on response.
 Collection Query just can be registered on `ValravnResourceCollection` instances.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
 
 class RelatedExamplesCollectionQuery extends CollectionQuery {
 
-  public function apply( ValravnJsonResource $resource ): array {
+  public function apply( VJsonResource $resource ): array {
     $ids = $resource->resource instanceof Collection ?
       $resource->resource->map( fn( $value ) => [ 'id' => $value->id ] )->flatten() :
       [ $resource->resource->id ];

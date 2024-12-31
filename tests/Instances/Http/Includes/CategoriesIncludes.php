@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Instances\Http\Includes;
 
 use Hans\Valravn\Http\Resources\Contracts\Includes;
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -21,9 +21,9 @@ class CategoriesIncludes extends Includes
     }
 
     /**
-     * @return ValravnJsonResource
+     * @return VJsonResource
      */
-    public function toResource(): ValravnJsonResource
+    public function toResource(): VJsonResource
     {
         return CategoryCollection::make($this->getBuilder()->get());
     }

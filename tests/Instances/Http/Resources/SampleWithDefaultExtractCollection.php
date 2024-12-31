@@ -2,10 +2,10 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
-class SampleWithDefaultExtractCollection extends ValravnResourceCollection
+class SampleWithDefaultExtractCollection extends VResourceCollection
 {
     /**
      * @param Model $model

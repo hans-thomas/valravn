@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
@@ -107,7 +107,7 @@ class TestCase extends BaseTestCase
         );
     }
 
-    public function resourceToJson(ValravnJsonResource $resource): array
+    public function resourceToJson(VJsonResource $resource): array
     {
         return json_decode(
             $resource->toResponse(request())->content(),

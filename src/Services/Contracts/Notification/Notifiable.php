@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Services\Contracts\Notification;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Notifiable
@@ -62,7 +62,7 @@ abstract class Notifiable
     /**
      * Return an entity that relates to the model.
      *
-     * @return ValravnJsonResource|null
+     * @return VJsonResource|null
      */
-    abstract protected function getRelatedEntity(): ?ValravnJsonResource;
+    abstract protected function getRelatedEntity(): ?VJsonResource;
 }

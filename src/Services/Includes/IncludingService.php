@@ -3,20 +3,20 @@
 namespace Hans\Valravn\Services\Includes;
 
 use Hans\Valravn\Http\Resources\Contracts\Includes;
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class IncludingService
 {
-    private ValravnJsonResource $resource;
+    private VJsonResource $resource;
     private array $data = [];
     private array $registeredActions;
 
     /**
-     * @param ValravnJsonResource $resource
+     * @param VJsonResource  $resource
      */
-    public function __construct(ValravnJsonResource $resource)
+    public function __construct(VJsonResource $resource)
     {
         $this->resource = $resource;
         $this->registeredActions = valravn_config('actions');

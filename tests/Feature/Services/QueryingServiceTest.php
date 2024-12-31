@@ -2,8 +2,8 @@
 
 namespace Hans\Valravn\Tests\Feature\Services;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\ValravnResourceCollection;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
@@ -25,9 +25,9 @@ class QueryingServiceTest extends TestCase
 {
     private Collection $posts;
     private QueryingServiceProxy $serviceCollection;
-    private ValravnResourceCollection $collection;
+    private VResourceCollection $collection;
     private QueryingServiceProxy $serviceResource;
-    private ValravnJsonResource $resource;
+    private VJsonResource $resource;
 
     /**
      * @return void

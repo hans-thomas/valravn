@@ -31,9 +31,9 @@ class RequestsTest extends TestCase
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class PostStoreRequest extends ValravnFormRequest {
+    class PostStoreRequest extends VFormRequest {
 
 		/**
 		 * Get fields and their validation rules
@@ -57,9 +57,9 @@ class RequestsTest extends TestCase
 
     namespace App\Http\Requests\V1\Blog\Post;
 
-    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class PostUpdateRequest extends ValravnFormRequest {
+    class PostUpdateRequest extends VFormRequest {
 
 		/**
 		 * Get fields and their validation rules
@@ -103,9 +103,9 @@ class RequestsTest extends TestCase
 
     namespace App\Http\Requests\V2\Blog\Post;
 
-    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class PostStoreRequest extends ValravnFormRequest {
+    class PostStoreRequest extends VFormRequest {
 
 		/**
 		 * Get fields and their validation rules
@@ -129,9 +129,9 @@ class RequestsTest extends TestCase
 
     namespace App\Http\Requests\V2\Blog\Post;
 
-    use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class PostUpdateRequest extends ValravnFormRequest {
+    class PostUpdateRequest extends VFormRequest {
 
 		/**
 		 * Get fields and their validation rules

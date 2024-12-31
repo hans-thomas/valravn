@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-abstract class ValravnJsonResource extends JsonResource
+abstract class VJsonResource extends JsonResource
 {
     use InteractsWithRelations;
     use InteractsWithPivots;

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
 
-abstract class ValravnResourceCollection extends ValravnJsonResource implements Countable, IteratorAggregate
+abstract class VResourceCollection extends VJsonResource implements Countable, IteratorAggregate
 {
     use ResourceCollectionExtender;
 
@@ -42,7 +42,7 @@ abstract class ValravnResourceCollection extends ValravnJsonResource implements 
             ->registerQueriesUsingQueryStringWhen($this->shouldParseQueries(), $request->getQueryString());
 
         // TODO: error possibility: $item might be a Model instance if there was not any resource class
-        $response = $this->collection->map(function (ValravnJsonResource $item) use ($request) {
+        $response = $this->collection->map(function (VJsonResource $item) use ($request) {
             $extracted = $this->extract($item->resource) ?:
                 $item->extract($item->resource) ?:
                     $item->resource->toArray();
@@ -101,11 +101,11 @@ abstract class ValravnResourceCollection extends ValravnJsonResource implements 
      * Executes when data loaded.
      *
      * @param                          $data
-     * @param ValravnJsonResource|null $resource
+     * @param VJsonResource|null       $resource
      *
      * @return void
      */
-    protected function loaded(&$data, ValravnJsonResource $resource = null): void
+    protected function loaded(&$data, VJsonResource $resource = null): void
     {
         // ...
     }

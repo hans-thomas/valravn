@@ -418,9 +418,9 @@ In addition, we should set up our `PostStoreRequest` and `PostUpdateRequest` req
 ```php
 // app/Http/Requests/V1/Blog/Post/PostStoreRequest.php
 
-use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-class PostUpdateRequest extends ValravnFormRequest {
+class PostUpdateRequest extends VFormRequest {
 
     protected function fields(): array {
         return [
@@ -436,9 +436,9 @@ Also, we have these rules for updating request.
 ```php
 // app/Http/Requests/V1/Blog/Post/PostUpdateRequest.php
 
-use Hans\Valravn\Http\Requests\Contracts\ValravnFormRequest;
+use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-class PostUpdateRequest extends ValravnFormRequest {
+class PostUpdateRequest extends VFormRequest {
 
     protected function fields(): array {
         return [

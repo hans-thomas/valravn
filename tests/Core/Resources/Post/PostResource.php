@@ -2,14 +2,14 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class PostResource extends ValravnJsonResource
+class PostResource extends VJsonResource
 {
     /**
      * List of available queries of this resource.

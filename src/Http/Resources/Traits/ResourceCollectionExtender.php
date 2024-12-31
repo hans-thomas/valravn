@@ -26,7 +26,7 @@ trait ResourceCollectionExtender
     /**
      * The mapped collection instance.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     public $collection;
 
@@ -47,8 +47,7 @@ trait ResourceCollectionExtender
     /**
      * Create a new resource instance.
      *
-     * @param mixed $resource
-     *
+     * @param  mixed  $resource
      * @return void
      */
     public function __construct($resource)
@@ -73,8 +72,7 @@ trait ResourceCollectionExtender
     /**
      * Specify the query string parameters that should be present on pagination links.
      *
-     * @param array $query
-     *
+     * @param  array  $query
      * @return $this
      */
     public function withQuery(array $query)
@@ -99,9 +97,8 @@ trait ResourceCollectionExtender
     /**
      * Transform the resource into a JSON array.
      *
-     * @param Request $request
-     *
-     * @return array|Arrayable|JsonSerializable
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray(Request $request)
     {
@@ -111,9 +108,8 @@ trait ResourceCollectionExtender
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param Request $request
-     *
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function toResponse($request)
     {
@@ -127,15 +123,14 @@ trait ResourceCollectionExtender
     /**
      * Create a paginate-aware HTTP response.
      *
-     * @param Request $request
-     *
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function preparePaginatedResponse($request)
     {
         if ($this->preserveAllQueryParameters) {
             $this->resource->appends($request->query());
-        } elseif (!is_null($this->queryParameters)) {
+        } elseif (! is_null($this->queryParameters)) {
             $this->resource->appends($this->queryParameters);
         }
 

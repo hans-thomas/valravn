@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Services;
 
-use Hans\Valravn\Http\Resources\Contracts\ValravnJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Services\Includes\Actions\LimitAction;
 use Hans\Valravn\Services\Includes\IncludingService;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
@@ -18,7 +18,7 @@ class IncludingServiceTest extends TestCase
 {
     private Collection $posts;
     private IncludingService $service;
-    private ValravnJsonResource $resource;
+    private VJsonResource $resource;
 
     /**
      * @return void
