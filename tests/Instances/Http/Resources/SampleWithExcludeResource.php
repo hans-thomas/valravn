@@ -27,14 +27,14 @@ class SampleWithExcludeResource extends ValravnJsonResource
         $this->loadedPivots(
             data: $data,
             includes: [
-                ( new Post() )->getForeignKey(),
-                ( new Category() )->getForeignKey(),
+                (new Post())->getForeignKey(),
+                (new Category())->getForeignKey(),
             ],
             excludes: [
                 'order',
             ],
             alias: [
-                ( new Category() )->getForeignKey() => 'category_identifier',
+                (new Category())->getForeignKey() => 'category_identifier',
             ]
         );
     }
