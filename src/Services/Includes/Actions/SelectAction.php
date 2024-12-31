@@ -9,8 +9,10 @@ class SelectAction extends Actions
     public function apply(array $params): void
     {
         $attributes = collect($params)->map(
-            fn ($value) => $this->getFilterableColumn($value))->filter(fn ($value) => !is_null($value)
-        );
+            fn ($value) => $this->getFilterableColumn($value)
+        )->filter(
+                fn ($value) => !is_null($value)
+            );
 
         if (!empty($attributes)) {
             $attributes[] = 'id';
