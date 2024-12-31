@@ -3,11 +3,11 @@
     namespace App\Policies\{{POLICY::NAMESPACE}};
 
     use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
-    use Hans\Valravn\Policies\Contracts\ValravnPolicy;
+    use Hans\Valravn\Policies\Contracts\VPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
-    class {{POLICY::MODEL}}Policy extends ValravnPolicy {
+    class {{POLICY::MODEL}}Policy extends VPolicy {
 
         /**
          * Set the related model class

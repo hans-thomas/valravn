@@ -28,11 +28,11 @@ class PolicyTest extends TestCase
     namespace App\Policies\Blog;
 
     use App\Models\Blog\Post;
-    use Hans\Valravn\Policies\Contracts\ValravnPolicy;
+    use Hans\Valravn\Policies\Contracts\VPolicy;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Collection;
 
-    class PostPolicy extends ValravnPolicy {
+    class PostPolicy extends VPolicy {
 
         /**
          * Set the related model class

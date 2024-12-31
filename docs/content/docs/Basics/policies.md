@@ -16,9 +16,9 @@ the `guessAbility` method returns `core-user-view` ability to authorize.
 There is an example of implementation.
 
 ```php
-use Hans\Valravn\Policies\Contracts\ValravnPolicy;
+use Hans\Valravn\Policies\Contracts\VPolicy;
 
-class SamplePolicy extends ValravnPolicy {
+class SamplePolicy extends VPolicy {
 
     /**
      * Set the related model class
