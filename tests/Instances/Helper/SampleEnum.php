@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\Tests\Instances\Helper;
 
-use Hans\Valravn\Helpers\Traits\EnumHelper;
+use Hans\Valravn\Helpers\Traits\VEnumHelper;
 
 enum SampleEnum
 {
-    use EnumHelper;
+    use VEnumHelper;
 
     case FIRST;
     case SECOND;

@@ -3,7 +3,7 @@ title: "Helpers"
 weight: 2
 ---
 
-## EnumHelper
+## VEnumHelper
 
 this trait brings useful static methods to enum classes.
 

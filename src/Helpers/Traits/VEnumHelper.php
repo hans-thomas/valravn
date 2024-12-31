@@ -4,7 +4,7 @@ namespace Hans\Valravn\Helpers\Traits;
 
 use ReflectionClass;
 
-trait EnumHelper
+trait VEnumHelper
 {
     /**
      * Convert values of enum class to an array.
