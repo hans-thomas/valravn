@@ -22,7 +22,6 @@ class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__.'/Core/migrations');
     }
 
     /**
@@ -105,6 +104,18 @@ class TestCase extends BaseTestCase
         $router->get(
             '/queries/posts',
             fn () => PostCollection::make(Post::all())->parseQueries()
+        );
+    }
+
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadMigrationsFrom(
+            __DIR__.'/Core/migrations'
         );
     }
 
