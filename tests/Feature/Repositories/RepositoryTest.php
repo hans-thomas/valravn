@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\Repositories;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
@@ -12,6 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use function Laravel\Prompts\select;
 
 class RepositoryTest extends TestCase
 {
@@ -23,7 +25,7 @@ class RepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        PostFactory::new()->count(5)->create();
+        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
         $this->repository = app(SampleRepository::class)->disableAuthorization();
     }
 
@@ -31,6 +33,7 @@ class RepositoryTest extends TestCase
      * @test
      *
      * @return void
+     * @throws AuthorizationException
      */
     public function shouldAuthorizeAsDefault(): void
     {
@@ -109,6 +112,25 @@ class RepositoryTest extends TestCase
      *
      * @return void
      */
+    public function allUsingWith(): void
+    {
+        $models = $this->repository->with('categories')->all()->get();
+        self::assertEquals(
+            Post::all()->map(
+                fn ($value) => array_merge($value->toArray(), ['categories' => $value->categories->toArray()])
+            )
+                ->toArray(),
+            $models->toArray()
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @throws AuthorizationException
+     *
+     * @return void
+     */
     public function find(): void
     {
         $model = $this->repository->find(1);
@@ -132,6 +154,21 @@ class RepositoryTest extends TestCase
             [
                 'id' => 1,
             ],
+            $model->toArray()
+        );
+    }
+    /**
+     * @test
+     *
+     * @throws AuthorizationException
+     *
+     * @return void
+     */
+    public function findUsingWith(): void
+    {
+        $model = $this->repository->with('categories')->find(1);
+        self::assertEquals(
+            array_merge($model->withoutRelations()->toArray(),['categories' => $model->categories->toArray()]),
             $model->toArray()
         );
     }
@@ -182,6 +219,7 @@ class RepositoryTest extends TestCase
      * @test
      *
      * @return void
+     * @throws AuthorizationException
      */
     public function batchUpdateAction(): void
     {
