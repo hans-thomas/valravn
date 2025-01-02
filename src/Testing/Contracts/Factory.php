@@ -16,7 +16,7 @@ abstract class Factory
      */
     protected Model $model;
 
-    public function __construct(array $data = [])
+    final public function __construct(array $data = [])
     {
         $this->model = static::factory()->create($data);
     }

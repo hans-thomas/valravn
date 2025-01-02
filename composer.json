@@ -22,7 +22,8 @@
     },
     "require-dev": {
         "orchestra/testbench": "^8|^9",
-        "nunomaduro/collision": "^7|^8"
+        "nunomaduro/collision": "^7|^8",
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -51,6 +52,7 @@
         "testbench": "./vendor/bin/testbench",
         "test": "./vendor/bin/phpunit",
         "test:testbench": "./vendor/bin/testbench package:test",
-        "test:coverage": "./vendor/bin/phpunit --coverage-clover ./coverage.xml"
+        "test:coverage": "./vendor/bin/phpunit --coverage-clover ./coverage.xml",
+        "analys": "./vendor/bin/phpstan analys src"
     }
 }

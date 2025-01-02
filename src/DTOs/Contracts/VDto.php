@@ -8,7 +8,7 @@ abstract class VDto
 {
     protected Collection $data;
 
-    public function __construct(array $data)
+    final public function __construct(array $data)
     {
         $this->data = $this->parse($data);
     }

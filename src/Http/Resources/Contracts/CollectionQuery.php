@@ -11,6 +11,10 @@ abstract class CollectionQuery
      */
     private array $data = [];
 
+    final public function __construct()
+    {
+    }
+
     /**
      * Implement a custom logic.
      *

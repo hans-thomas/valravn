@@ -109,11 +109,14 @@ class Relation extends Command
                 $extends = class_basename(HasManyRequest::class);
             }
 
-            $content = Str::replace(
-                '{{RELATION::EXTENDS}}',
-                $extends,
-                $content
-            );
+            if (isset($extends)) {
+                $content = Str::replace(
+                    '{{RELATION::EXTENDS}}',
+                    $extends,
+                    $content
+                );
+            }
+
             $this->fs->write(
                 "Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
                 $content

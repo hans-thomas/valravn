@@ -3,8 +3,10 @@
 namespace Hans\Valravn\Models;
 
 use Hans\Valravn\Models\Traits\Paginatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/** @mixin Builder */
 class VModel extends Model
 {
     use Paginatable;
@@ -34,7 +36,7 @@ class VModel extends Model
      */
     public static function table(): string
     {
-        return (new static())->getTable();
+        return app(static::class)->getTable();
     }
 
     /**
@@ -44,6 +46,6 @@ class VModel extends Model
      */
     public static function foreignKey(): string
     {
-        return (new static())->getForeignKey();
+        return app(static::class)->getForeignKey();
     }
 }
