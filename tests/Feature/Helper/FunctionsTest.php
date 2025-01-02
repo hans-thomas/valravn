@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\Helper;
 
 use Hans\Valravn\Exceptions\Package\PackageException;
 use Hans\Valravn\Exceptions\VException;
+use Hans\Valravn\InstallCommand;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -95,7 +96,7 @@ class FunctionsTest extends TestCase
      */
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
-        $this->expectExceptionObject(PackageException::invalidEntity($entity = GEazy::class));
+        $this->expectExceptionObject(PackageException::invalidEntity($entity = InstallCommand::class));
 
         resolveRelatedIdToModel(1, $entity);
     }

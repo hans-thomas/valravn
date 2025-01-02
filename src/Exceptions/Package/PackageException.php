@@ -12,7 +12,7 @@ class PackageException extends VException
     {
         return self::make(
             'Failed to delete ['.get_class($model)."] $model->id",
-            PackageErrorCode::$failedToDelete,
+            'ValravnECx1',
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
@@ -21,7 +21,7 @@ class PackageException extends VException
     {
         return self::make(
             "Invalid entity class for resolving to model. [$entity]",
-            PackageErrorCode::$invalidEntity,
+            'ValravnECx2',
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
@@ -30,7 +30,7 @@ class PackageException extends VException
     {
         return self::make(
             "Called error code not found. [$code]",
-            PackageErrorCode::$errorCodeNotFound,
+            'ValravnECx3',
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }

@@ -47,7 +47,7 @@ if (!function_exists('resolveRelatedIdToModel')) {
      */
     function resolveRelatedIdToModel(int $id, string $entity): Model|false
     {
-        if (!(class_exists($entity) and is_a($entity, Model::class, true))) {
+        if (!class_exists($entity) || !is_a($entity, Model::class, true)) {
             throw PackageException::invalidEntity($entity);
         }
 
