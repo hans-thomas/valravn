@@ -8,7 +8,7 @@ class PackageErrorCode extends VErrorCode
 {
     protected static string $prefix = 'ValravnECx';
 
-    protected int $failedToDelete = 1;
-    protected int $invalidEntity = 2;
-    protected int $errorCodeNotFound = 3;
+    public static int $failedToDelete = 1;
+    public static int $invalidEntity = 2;
+    public static int $errorCodeNotFound = 3;
 }

@@ -2,6 +2,9 @@
 
 namespace Hans\Valravn\Models\Traits;
 
+
+use Illuminate\Database\Eloquent\Builder;
+
 trait Paginatable
 {
     /**
@@ -30,7 +33,7 @@ trait Paginatable
     /**
      * Set amount of maximum items on a page.
      *
-     * @param int $perPageMax
+     * @param  int  $perPageMax
      */
     public static function setPerPageMax(int $perPageMax): void
     {

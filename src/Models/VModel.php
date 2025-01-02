@@ -3,8 +3,10 @@
 namespace Hans\Valravn\Models;
 
 use Hans\Valravn\Models\Traits\Paginatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/** @mixin Builder */
 class VModel extends Model
 {
     use Paginatable;

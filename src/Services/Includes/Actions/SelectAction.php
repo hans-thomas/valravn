@@ -14,7 +14,7 @@ class SelectAction extends Actions
             fn ($value) => !is_null($value)
         );
 
-        if (!empty($attributes)) {
+        if ($attributes->isNotEmpty()) {
             $attributes[] = 'id';
             $this->builder()->select(...$attributes);
         }
