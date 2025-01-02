@@ -43,6 +43,14 @@ which you can use to avoid redundancy.
 {{< /column >}}
 
 {{< column "method" >}}
+[select](#select)
+{{< /column >}}
+
+{{< column "method" >}}
+[with](#with)
+{{< /column >}}
+
+{{< column "method" >}}
 [create](#create)
 {{< /column >}}
 
@@ -169,6 +177,24 @@ app( SampleRepository::class )->find('specific-slug-for-example','slug');
 
 First parameter is the value and the second value is the column name that
 Valravn should search in.
+
+##### select
+
+Using `all` and `find` methods, we could get suitable data. To optimizing the returned result of
+these methods, we can call `select` method to reduce the result size.
+
+```php
+app( SampleRepository::class )->select('id')->find(1);
+```
+
+##### with
+
+The `with` method is same as the `select` method. To apply an eagerload before fetching the result, 
+call the `with` method right before the `find` or `all` methods.
+
+```php
+app( SampleRepository::class )->with('relation')->find(1);
+```
 
 ##### create
 
