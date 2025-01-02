@@ -13,7 +13,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
-use function Laravel\Prompts\select;
 
 class RepositoryTest extends TestCase
 {
@@ -32,8 +31,9 @@ class RepositoryTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws AuthorizationException
+     *
+     * @return void
      */
     public function shouldAuthorizeAsDefault(): void
     {
@@ -157,6 +157,7 @@ class RepositoryTest extends TestCase
             $model->toArray()
         );
     }
+
     /**
      * @test
      *
@@ -168,7 +169,7 @@ class RepositoryTest extends TestCase
     {
         $model = $this->repository->with('categories')->find(1);
         self::assertEquals(
-            array_merge($model->withoutRelations()->toArray(),['categories' => $model->categories->toArray()]),
+            array_merge($model->withoutRelations()->toArray(), ['categories' => $model->categories->toArray()]),
             $model->toArray()
         );
     }
@@ -218,8 +219,9 @@ class RepositoryTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws AuthorizationException
+     *
+     * @return void
      */
     public function batchUpdateAction(): void
     {
