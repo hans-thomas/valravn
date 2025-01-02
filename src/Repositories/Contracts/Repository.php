@@ -132,13 +132,25 @@ abstract class Repository
     }
 
     /**
-     * Set a select statement to the current builder instance.
+     * Apply a select statement to the current builder instance.
      *
      * @return $this
      */
     public function select(): self
     {
         $this->builder = $this->query()->select(...func_get_args());
+
+        return $this;
+    }
+
+    /**
+     * Apply an eager load statement to the current builder instance.
+     *
+     * @return $this
+     */
+    public function with(): self
+    {
+        $this->builder = $this->query()->with(...func_get_args());
 
         return $this;
     }
