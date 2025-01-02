@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Notifiable
 {
-    final public function __construct(protected Model $model) { }
+    final public function __construct(protected Model $model)
+    {
+    }
 
     /**
      * Create an instance statically.

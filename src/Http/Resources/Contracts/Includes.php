@@ -21,7 +21,9 @@ abstract class Includes
      */
     private array $actions = [];
 
-    final public function __construct() { }
+    final public function __construct()
+    {
+    }
 
     /**
      * Create an instance statically.
