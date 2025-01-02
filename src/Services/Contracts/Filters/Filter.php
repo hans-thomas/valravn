@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class Filter
 {
+    final public function __construct() { }
+
     /**
      * Implement a custom logic.
      *

@@ -7,17 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Notifiable
 {
-    /**
-     * Model instance.
-     *
-     * @var Model
-     */
-    protected Model $model;
-
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    final public function __construct(protected Model $model) { }
 
     /**
      * Create an instance statically.
@@ -26,7 +16,7 @@ abstract class Notifiable
      *
      * @return static
      */
-    public static function make(Model $model): self
+    public static function make(Model $model): static
     {
         return new static($model);
     }

@@ -21,6 +21,8 @@ abstract class VErrorCode
      */
     private static self $instance;
 
+    final public function __construct() { }
+
     /**
      * Make a singleton instance.
      *

@@ -13,6 +13,8 @@ abstract class ResourceQuery
      */
     private array $data = [];
 
+    final public function __construct() { }
+
     /**
      * Implement a custom logic.
      *

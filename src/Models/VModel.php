@@ -34,7 +34,7 @@ class VModel extends Model
      */
     public static function table(): string
     {
-        return (new static())->getTable();
+        return app(static::class)->getTable();
     }
 
     /**
@@ -44,6 +44,6 @@ class VModel extends Model
      */
     public static function foreignKey(): string
     {
-        return (new static())->getForeignKey();
+        return app(static::class)->getForeignKey();
     }
 }
