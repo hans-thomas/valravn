@@ -4,6 +4,7 @@ namespace Hans\Valravn\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class VException extends Exception
@@ -27,18 +28,23 @@ class VException extends Exception
      * @param  int             $errorCode
      * @param  int             $responseCode
      * @param  Throwable|null  $previous
+     *
+     * @throws Exception
      */
     public function __construct(string $message, int $errorCode, int $responseCode = 500, Throwable $previous = null)
     {
         parent::__construct($message, $responseCode, $previous);
         $this->errorCode = $errorCode;
+
+        if (empty($this->errorCodePrefix)) {
+            throw new Exception('The prefix for error codes is not defined.',Response::HTTP_EXPECTATION_FAILED);
+        }
     }
 
     /**
      * Render the exception as an HTTP response.
      *
      * @return JsonResponse
-     * @throws Exception
      */
     public function render(): JsonResponse
     {
@@ -55,14 +61,9 @@ class VException extends Exception
      * Return the error code of the exception.
      *
      * @return string
-     * @throws Exception
      */
     public function getErrorCode(): string
     {
-        if (!isset($this->errorCodePrefix)) {
-            throw new Exception('The prefix for error codes is not defined.');
-        }
-
         return $this->errorCodePrefix.$this->errorCode;
     }
 }
