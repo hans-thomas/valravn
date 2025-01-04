@@ -1,5 +1,6 @@
 <?php
 
+use Hans\Valravn\Exceptions\Package\InvalidEntityException;
 use Hans\Valravn\Exceptions\Package\PackageException;
 use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Models\Contracts\ResourceCollectionable;
@@ -48,7 +49,7 @@ if (!function_exists('resolveRelatedIdToModel')) {
     function resolveRelatedIdToModel(int $id, string $entity): Model|false
     {
         if (!class_exists($entity) || !is_a($entity, Model::class, true)) {
-            throw PackageException::invalidEntity($entity);
+            throw new InvalidEntityException($entity);
         }
 
         try {
