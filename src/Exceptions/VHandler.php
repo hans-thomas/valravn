@@ -60,7 +60,12 @@ class VHandler
             $errorCode = $defaultErrorCode;
         }
 
-        $e = new VException($message ?: $e->getMessage(), $errorCode, $responseCode ?: $e->getStatusCode());
+        $e = new VException(
+            $message ? : $e->getMessage(),
+            $errorCode,
+            $responseCode ? : $e->getStatusCode(),
+            errorCodePrefix: 'LEcx',
+        );
 
         return $e->render();
     }
