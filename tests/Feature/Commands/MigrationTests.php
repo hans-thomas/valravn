@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\File;
 
 class MigrationTests extends TestCase
 {
+    protected string $datePrefix;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->datePrefix = now()->format('Y_m_d_His');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $file = base_path("database/migrations/Blog/{$this->datePrefix}_create_posts_table.php");
+        File::delete($file);
+    }
+
     /**
      * @test
      *
@@ -15,8 +32,8 @@ class MigrationTests extends TestCase
      */
     public function migration(): void
     {
-        $datePrefix = now()->format('Y_m_d_His');
-        $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+        $this->withoutMockingConsoleOutput();
+        $file = base_path("database/migrations/Blog/{$this->datePrefix}_create_posts_table.php");
         File::delete($file);
         self::assertFileDoesNotExist($file);
 
@@ -55,11 +72,10 @@ class MigrationTests extends TestCase
     };
 ';
 
-        self::assertEquals(
-            $actions_file,
-            file_get_contents($file)
-        );
-        // cuz in next test run the migration file name isn't the same
-        File::delete($file);
+        self::assertEquals($actions_file, file_get_contents($file));
+        self::assertStringContainsString('migration class successfully created!', Artisan::output());
+
+        Artisan::call('valravn:migration blog posts');
+        self::assertStringContainsString('migration class exists!', Artisan::output());
     }
 }

@@ -74,12 +74,23 @@ class Pivot extends Command
         $pivot = Str::replace('{{PIVOT::FIRST-MODEL-SINGLE-LOWER}}', $names[0], $pivot);
         $pivot = Str::replace('{{PIVOT::SECOND-MODEL-SINGLE-LOWER}}', $names[1], $pivot);
 
+        $path = "migrations/$namespace";
         $datePrefix = now()->format('Y_m_d_His');
+        $fileName = "create_{$names[0]}_{$names[1]}_table.php";
+
+        foreach ($this->fs->allFiles($path) as $file) {
+            if (preg_match("/[0-9 _]+_$fileName/s", $file)) {
+                $this->info('pivot migration class exists!');
+
+                return;
+            }
+        }
+
         $this->fs->write(
-            "migrations/$namespace/{$datePrefix}_create_{$names[0]}_{$names[1]}_table.php",
+            "$path/{$datePrefix}_$fileName",
             $pivot
         );
 
-        $this->info('pivot migration file successfully created!');
+        $this->info('pivot migration class successfully created!');
     }
 }
