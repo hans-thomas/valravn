@@ -16,14 +16,14 @@ class VExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function runtimeException(): void
     {
-        $exception = new VException('Runtime exception',1,errorCodePrefix: 'RTEcx');
+        $exception = new VException('Runtime exception', 1, errorCodePrefix: 'RTEcx');
 
         self::assertEquals(
             [
@@ -40,13 +40,13 @@ class VExceptionTest extends TestCase
         throw $exception;
     }
 
-  /**
+    /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function exceptionWithManipulatingErrorCodePrefix(): void
     {
@@ -63,12 +63,12 @@ class VExceptionTest extends TestCase
 
         $this->expectExceptionMessage('Failed with new prefix');
         $this->expectExceptionCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-        self::assertNotEquals('TEcx3',$exception->render()->getData(true)['code']);
+        self::assertNotEquals('TEcx3', $exception->render()->getData(true)['code']);
 
         throw $exception;
     }
 
-  /**
+    /**
      * @test
      *
      * @throws Exception

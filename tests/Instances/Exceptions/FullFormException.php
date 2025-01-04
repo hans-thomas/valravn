@@ -18,8 +18,9 @@ class FullFormException extends VException
     {
         return new self('Failed to find your data', 2, Response::HTTP_NOT_FOUND);
     }
-    public static function failedWithDifferentPrefix($newPrefix):self
+
+    public static function failedWithDifferentPrefix($newPrefix): self
     {
-        return new self('Failed with new prefix',3,errorCodePrefix: $newPrefix);
+        return new self('Failed with new prefix', 3, errorCodePrefix: $newPrefix);
     }
 }

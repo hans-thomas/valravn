@@ -36,14 +36,14 @@ class VException extends Exception
         int $errorCode,
         int $responseCode = 500,
         Throwable $previous = null,
-        string $errorCodePrefix = ""
+        string $errorCodePrefix = ''
     ) {
         parent::__construct($message, $responseCode, $previous);
         $this->errorCode = $errorCode;
 
         if (empty($this->errorCodePrefix) && empty($errorCodePrefix)) {
             throw new Exception('The prefix for error codes is not defined.', Response::HTTP_EXPECTATION_FAILED);
-        }elseif (empty($this->errorCodePrefix) && !empty($errorCodePrefix)){
+        } elseif (empty($this->errorCodePrefix) && !empty($errorCodePrefix)) {
             $this->errorCodePrefix = $errorCodePrefix;
         }
     }

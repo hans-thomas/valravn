@@ -89,7 +89,7 @@ class VHandlerTest extends TestCase
      */
     public function getErrorCodeFromErrorInstance(): void
     {
-        $e = new VException('test exception.', 27,errorCodePrefix: 'TLEcx');
+        $e = new VException('test exception.', 27, errorCodePrefix: 'TLEcx');
 
         self::assertJsonStringEqualsJsonString(
             '{"title":"Unexpected error!","detail":"test exception.","code":"TLEcx27"}',
@@ -113,7 +113,7 @@ class VHandlerTest extends TestCase
             $this->handler->render(request(), $e)->getContent()
         );
         self::assertEquals(
-            "LEcx4040",
+            'LEcx4040',
             $this->handler->render(request(), $e)->getOriginalContent()['code']
         );
     }
