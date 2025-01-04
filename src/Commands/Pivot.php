@@ -78,7 +78,6 @@ class Pivot extends Command
         $datePrefix = now()->format('Y_m_d_His');
         $fileName = "create_{$names[0]}_{$names[1]}_table.php";
 
-
         foreach ($this->fs->allFiles($path) as $file) {
             if (preg_match("/[0-9 _]+_$fileName/s", $file)) {
                 $this->info('pivot migration class exists!');

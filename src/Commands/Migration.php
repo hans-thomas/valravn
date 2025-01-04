@@ -43,9 +43,9 @@ class Migration extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function handle()
     {
@@ -63,7 +63,7 @@ class Migration extends Command
 
         $path = "migrations/$namespace";
         $datePrefix = now()->format('Y_m_d_His');
-        $fileName = "create_".Str::snake($plural).'_table.php';
+        $fileName = 'create_'.Str::snake($plural).'_table.php';
 
         foreach ($this->fs->allFiles($path) as $file) {
             if (preg_match("/[0-9 _]+_$fileName/s", $file)) {

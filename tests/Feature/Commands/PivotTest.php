@@ -78,9 +78,9 @@ class PivotTest extends TestCase
 ";
 
         self::assertEquals($content, file_get_contents($pivot));
-        self::assertStringContainsString('pivot migration class successfully created!',Artisan::output());
+        self::assertStringContainsString('pivot migration class successfully created!', Artisan::output());
 
         Artisan::call('valravn:pivot blog posts core category');
-        self::assertStringContainsString('pivot migration class exists!',Artisan::output());
+        self::assertStringContainsString('pivot migration class exists!', Artisan::output());
     }
 }
