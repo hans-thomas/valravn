@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Visibility;
@@ -29,7 +29,7 @@ class Migration extends Command
      */
     protected $description = 'Generate migration file.';
 
-    private Filesystem $fs;
+    private FilesystemAdapter $fs;
 
     public function __construct()
     {
@@ -43,9 +43,9 @@ class Migration extends Command
     /**
      * Execute the console command.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function handle()
     {
@@ -60,9 +60,21 @@ class Migration extends Command
             $migrationStub
         );
         $migrationStub = Str::replace('{{MODEL::CLASS}}', $singular, $migrationStub);
+
+        $path = "migrations/$namespace";
         $datePrefix = now()->format('Y_m_d_His');
+        $fileName = "create_".Str::snake($plural).'_table.php';
+
+        foreach ($this->fs->allFiles($path) as $file) {
+            if (preg_match("/[0-9 _]+_$fileName/s", $file)) {
+                $this->info('migration class exists!');
+
+                return;
+            }
+        }
+
         $this->fs->write(
-            "migrations/$namespace/{$datePrefix}_create_".Str::snake($plural).'_table.php',
+            "$path/{$datePrefix}_$fileName",
             $migrationStub
         );
 
