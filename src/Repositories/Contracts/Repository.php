@@ -4,7 +4,6 @@ namespace Hans\Valravn\Repositories\Contracts;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Exceptions\Package\FailedToDeleteException;
-use Hans\Valravn\Exceptions\Package\PackageException;
 use Hans\Valravn\Exceptions\VException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -294,6 +293,7 @@ abstract class Repository
         $this->authorize($model);
 
         DB::beginTransaction();
+
         try {
             $this->deleting($model);
             $model->delete();

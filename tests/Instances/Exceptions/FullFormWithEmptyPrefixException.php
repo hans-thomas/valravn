@@ -11,6 +11,6 @@ class FullFormWithEmptyPrefixException extends VException
 
     public static function failedAgain(): self
     {
-        return new self("The prefix is empty", 1, Response::HTTP_BAD_REQUEST);
+        return new self('The prefix is empty', 1, Response::HTTP_BAD_REQUEST);
     }
 }
