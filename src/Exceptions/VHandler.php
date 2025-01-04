@@ -63,8 +63,7 @@ class VHandler
             $message ? : $e->getMessage(),
             $errorCode,
             $responseCode ? : $e->getStatusCode(),
-            null,
-            'LEcx'
+            errorCodePrefix: 'LEcx',
         );
 
         return $e->render();
