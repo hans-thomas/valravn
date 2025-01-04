@@ -4,26 +4,71 @@ namespace Hans\Valravn\Tests\Feature\Exceptions;
 
 use Exception;
 use Hans\Valravn\Exceptions\VException;
-use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\Instances\Exceptions\CompactFormException;
 use Hans\Valravn\Tests\Instances\Exceptions\FullFormException;
 use Hans\Valravn\Tests\Instances\Exceptions\FullFormWithEmptyPrefixException;
 use Hans\Valravn\Tests\Instances\Exceptions\FullFormWithoutPrefixException;
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Foundation\Exceptions\Handler;
 use Symfony\Component\HttpFoundation\Response;
 
 class VExceptionTest extends TestCase
 {
-    protected function setUp(): void
+    /**
+     * @test
+     *
+     * @return void
+     * @throws Exception
+     *
+     * @throws VException
+     */
+    public function runtimeException(): void
     {
-        parent::setUp();
+        $exception = new VException('Runtime exception',1,errorCodePrefix: 'RTEcx');
 
-        $this->handler = $this->app->make(Handler::class);
-        $this->handler->renderable(VHandler::convertUsing());
+        self::assertEquals(
+            [
+                'title'  => 'Unexpected error!',
+                'detail' => 'Runtime exception',
+                'code'   => 'RTEcx1',
+            ],
+            $exception->render()->getData(true)
+        );
+
+        $this->expectExceptionMessage('Runtime exception');
+        $this->expectExceptionCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        throw $exception;
     }
 
-    /**
+  /**
+     * @test
+     *
+     * @return void
+     * @throws Exception
+     *
+     * @throws VException
+     */
+    public function exceptionWithManipulatingErrorCodePrefix(): void
+    {
+        $exception = FullFormException::failedWithDifferentPrefix('TEcx3');
+
+        self::assertEquals(
+            [
+                'title'  => 'Unexpected error!',
+                'detail' => 'Failed with new prefix',
+                'code'   => 'FFEcx3',
+            ],
+            $exception->render()->getData(true)
+        );
+
+        $this->expectExceptionMessage('Failed with new prefix');
+        $this->expectExceptionCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+        self::assertNotEquals('TEcx3',$exception->render()->getData(true)['code']);
+
+        throw $exception;
+    }
+
+  /**
      * @test
      *
      * @return void

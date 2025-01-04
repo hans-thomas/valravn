@@ -31,13 +31,20 @@ class VException extends Exception
      *
      * @throws Exception
      */
-    public function __construct(string $message, int $errorCode, int $responseCode = 500, Throwable $previous = null)
-    {
+    public function __construct(
+        string $message,
+        int $errorCode,
+        int $responseCode = 500,
+        Throwable $previous = null,
+        string $errorCodePrefix = ""
+    ) {
         parent::__construct($message, $responseCode, $previous);
         $this->errorCode = $errorCode;
 
-        if (empty($this->errorCodePrefix)) {
-            throw new Exception('The prefix for error codes is not defined.',Response::HTTP_EXPECTATION_FAILED);
+        if (empty($this->errorCodePrefix) && empty($errorCodePrefix)) {
+            throw new Exception('The prefix for error codes is not defined.', Response::HTTP_EXPECTATION_FAILED);
+        }elseif (empty($this->errorCodePrefix) && !empty($errorCodePrefix)){
+            $this->errorCodePrefix = $errorCodePrefix;
         }
     }
 
