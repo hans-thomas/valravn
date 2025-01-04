@@ -10,24 +10,24 @@ use Throwable;
 class VException extends Exception
 {
     /**
-     * A unique code for each error
+     * A unique code for each error.
      *
      * @var int
      */
     private int $errorCode;
 
     /**
-     * A unique string acts as a namespace
+     * A unique string acts as a namespace.
      *
      * @var string
      */
     protected string $errorCodePrefix;
 
     /**
-     * @param  string          $message
-     * @param  int             $errorCode
-     * @param  int             $responseCode
-     * @param  Throwable|null  $previous
+     * @param string         $message
+     * @param int            $errorCode
+     * @param int            $responseCode
+     * @param Throwable|null $previous
      *
      * @throws Exception
      */
@@ -37,7 +37,7 @@ class VException extends Exception
         $this->errorCode = $errorCode;
 
         if (empty($this->errorCodePrefix)) {
-            throw new Exception('The prefix for error codes is not defined.',Response::HTTP_EXPECTATION_FAILED);
+            throw new Exception('The prefix for error codes is not defined.', Response::HTTP_EXPECTATION_FAILED);
         }
     }
 

@@ -23,11 +23,11 @@ class VHandler
         return fn (Throwable $e) => env('RAW_ERROR', false) ?
             null :
             match (true) {
-                $e instanceof QueryException => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
-                $e instanceof NotFoundHttpException => self::throw($e, 9997),
+                $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
+                $e instanceof NotFoundHttpException     => self::throw($e, 9997),
                 $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
-                $e instanceof BadRequestHttpException => self::throw($e, 9995),
-                $e instanceof HttpException => request()->wantsJson() ?
+                $e instanceof BadRequestHttpException   => self::throw($e, 9995),
+                $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
                 default => self::throw($e)
@@ -37,13 +37,14 @@ class VHandler
     /**
      * Convert the given exception to the ValravnException class.
      *
-     * @param  Throwable    $e
-     * @param  int          $defaultErrorCode
-     * @param  string|null  $message
-     * @param  int|null     $responseCode
+     * @param Throwable   $e
+     * @param int         $defaultErrorCode
+     * @param string|null $message
+     * @param int|null    $responseCode
+     *
+     * @throws Exception
      *
      * @return JsonResponse
-     * @throws Exception
      */
     private static function throw(
         Throwable $e,
@@ -59,7 +60,7 @@ class VHandler
             $errorCode = $defaultErrorCode;
         }
 
-        $e = new VException($message ? : $e->getMessage(), $errorCode, $responseCode ? : $e->getStatusCode());
+        $e = new VException($message ?: $e->getMessage(), $errorCode, $responseCode ?: $e->getStatusCode());
 
         return $e->render();
     }

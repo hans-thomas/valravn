@@ -1,7 +1,6 @@
 <?php
 
 use Hans\Valravn\Exceptions\Package\InvalidEntityException;
-use Hans\Valravn\Exceptions\Package\PackageException;
 use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 use Illuminate\Contracts\Auth\Authenticatable;

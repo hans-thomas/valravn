@@ -26,10 +26,10 @@ class VExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function exception(): void
     {
@@ -53,10 +53,10 @@ class VExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function exceptionWithCustomHttpResponseCode(): void
     {
@@ -80,10 +80,10 @@ class VExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function exceptionWithNoPrefix(): void
     {
@@ -97,10 +97,10 @@ class VExceptionTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function exceptionWithEmptyPrefix(): void
     {
@@ -111,14 +111,13 @@ class VExceptionTest extends TestCase
         throw FullFormWithEmptyPrefixException::failedAgain();
     }
 
-
     /**
      * @test
      *
-     * @return void
      * @throws Exception
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function compactExceptionWithCustomHttpResponseCode(): void
     {
@@ -138,5 +137,4 @@ class VExceptionTest extends TestCase
 
         throw $exception;
     }
-
 }
