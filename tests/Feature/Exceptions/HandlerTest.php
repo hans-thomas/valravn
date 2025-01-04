@@ -3,6 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
 use Hans\Valravn\Exceptions\VException;
+use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
@@ -23,7 +24,7 @@ class HandlerTest extends TestCase
         parent::setUp();
 
         $this->handler = $this->app->make(Handler::class);
-        $this->handler->renderable(\Hans\Valravn\Exceptions\VHandler::convertUsing());
+        $this->handler->renderable(VHandler::convertUsing());
 
         request()->headers->set('Accept', 'application/json');
         Env::getRepository()->set('RAW_ERROR', false);
