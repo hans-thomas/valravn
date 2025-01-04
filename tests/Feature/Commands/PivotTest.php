@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\File;
 
 class PivotTest extends TestCase
 {
+    protected string $datePrefix;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->datePrefix = now()->format('Y_m_d_His');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $pivot = database_path("migrations/Blog/{$this->datePrefix}_create_category_post_table.php");
+        File::delete($pivot);
+    }
+
     /**
      * @test
      *
@@ -15,9 +32,9 @@ class PivotTest extends TestCase
      */
     public function pivot(): void
     {
-        $datePrefix = now()->format('Y_m_d_His');
-        $pivot = database_path("migrations/Blog/{$datePrefix}_create_category_post_table.php");
+        $this->withoutMockingConsoleOutput();
 
+        $pivot = database_path("migrations/Blog/{$this->datePrefix}_create_category_post_table.php");
         File::delete($pivot);
 
         self::assertFileDoesNotExist($pivot);
@@ -60,11 +77,10 @@ class PivotTest extends TestCase
     };
 ";
 
-        self::assertEquals(
-            $content,
-            file_get_contents($pivot)
-        );
+        self::assertEquals($content, file_get_contents($pivot));
+        self::assertStringContainsString('pivot migration class successfully created!',Artisan::output());
 
-        File::delete($pivot);
+        Artisan::call('valravn:pivot blog posts core category');
+        self::assertStringContainsString('pivot migration class exists!',Artisan::output());
     }
 }
