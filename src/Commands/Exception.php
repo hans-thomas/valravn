@@ -20,6 +20,8 @@ class Exception extends Command
 		valravn:exception 
 		{namespace : Group of the entity}
 		{name : Name of the entity}
+		{prefix : A unique string to prefix the error}
+		{--c|compact= : Creates a compact exception}
 		';
 
     /**
@@ -49,23 +51,24 @@ class Exception extends Command
      */
     public function handle()
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
         $namespace = ucfirst($this->argument('namespace'));
+        $name = ucfirst(Str::singular($this->argument('name')));
+        $directory = $name;
+        $prefixCode = ucfirst($this->argument('prefix'));
 
-        // exceptions: error code
-        $errorCodeStub = file_get_contents(__DIR__.'/stubs/exceptions/error-code.stub');
-        $errorCodeStub = Str::replace('{{ENTITY::NAMESPACE}}', $namespace, $errorCodeStub);
-        $errorCodeStub = Str::replace('{{ENTITY::NAME}}', $singular, $errorCodeStub);
-        $errorCode = "Exceptions/$namespace/$singular/{$singular}ErrorCode.php";
-        $this->fs->write($errorCode, $errorCodeStub);
+        $exceptionStub = file_get_contents(__DIR__.'/stubs/exceptions/fullFormException.stub');
 
-        // exceptions: exception
-        $exceptionStub = file_get_contents(__DIR__.'/stubs/exceptions/exception.stub');
+        if ($this->option('compact')) {
+            $name = ucfirst($this->option('compact'));
+            $exceptionStub = file_get_contents(__DIR__.'/stubs/exceptions/compactFormException.stub');
+        }
+
         $exceptionStub = Str::replace('{{ENTITY::NAMESPACE}}', $namespace, $exceptionStub);
-        $exceptionStub = Str::replace('{{ENTITY::NAME}}', $singular, $exceptionStub);
-        $exception = "Exceptions/$namespace/$singular/{$singular}Exception.php";
-        $this->fs->write($exception, $exceptionStub);
+        $exceptionStub = Str::replace('{{ENTITY::NAME}}', $name, $exceptionStub);
+        $exceptionStub = Str::replace('{{ENTITY::CODE}}', $prefixCode, $exceptionStub);
+        $exceptionFile = "Exceptions/$namespace/$directory/{$name}Exception.php";
+        $this->fs->write($exceptionFile, $exceptionStub);
 
-        $this->info('exception and error code classes successfully created!');
+        $this->info('Exception class successfully created!');
     }
 }

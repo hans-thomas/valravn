@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
+
+use Hans\Valravn\Exceptions\VException;
+
+class {{ENTITY::NAME}}Exception extends VException
+{
+    protected string $errorCodePrefix = '';
+
+    public static function failedToCreate(): self
+    {
+        return new self("Failed to create the {{ENTITY::NAME}}!", 1);
+    }
+
+    public static function failedToUpdate(): self
+    {
+        return new self("Failed to update the {{ENTITY::NAME}}!", 2);
+    }
+
+    public static function failedToBatchUpdate(): self
+    {
+        return new self("Failed to update the {{ENTITY::NAME}}!", 3);
+    }
+
+    public static function failedToDelete(): self
+    {
+        return new self("Failed to delete the {{ENTITY::NAME}}!", 4);
+    }
+
+}

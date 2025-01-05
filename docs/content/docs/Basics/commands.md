@@ -155,22 +155,25 @@ valravn:requests namespace name --v=1
 
 ## Exceptions
 
-this command generates Exception and ErrorCode classes.
+The exceptions arrive in two different form. The first one is full form exception which enables you to keep all
+errors in one exception class. On  the other hand, the compact form is way more simpler and just contain one error
+and is very useful when you doesn't have a bunch of errors.
 
 ```bash
-valravn:exception namespace name
+valravn:exception namespace name prefix
 
 ```
+This command has `namespace` and `name` arguments as well but there is a third argument named `prefix`. The `prefix`
+will be used to prefix the error numbers and acts as namespace for error codes.
 
-The generated exception classes go there:
+The generated exception class is available under determined folder:
 
 ```plain
 app/
 └── Exceptions/
     └── Namespace/
         └── Name/
-            ├── NameException
-            └── NameErrorCode
+            └── NameException
 ```
 
 for more information [see this](exceptions.md).
@@ -282,7 +285,7 @@ app/
 And in the end, we have this command to create all classes and files at once.
 
 ```bash
-valravn:entity namespace name --v=1
+valravn:entity namespace name prefix --v=1
 
 ```
 

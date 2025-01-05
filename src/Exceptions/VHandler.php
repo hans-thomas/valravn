@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Exceptions;
 
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -41,6 +42,8 @@ class VHandler
      * @param string|null $message
      * @param int|null    $responseCode
      *
+     * @throws Exception
+     *
      * @return JsonResponse
      */
     private static function throw(
@@ -57,10 +60,13 @@ class VHandler
             $errorCode = $defaultErrorCode;
         }
 
-        return VException::make(
+        $e = new VException(
             $message ?: $e->getMessage(),
             $errorCode,
-            $responseCode ?: $e->getStatusCode()
-        )->render();
+            $responseCode ?: $e->getStatusCode(),
+            'LEcx',
+        );
+
+        return $e->render();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Helper;
 
-use Hans\Valravn\Exceptions\Package\PackageException;
+use Hans\Valravn\Exceptions\Package\InvalidEntityException;
 use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\InstallCommand;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
@@ -96,7 +96,7 @@ class FunctionsTest extends TestCase
      */
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
-        $this->expectExceptionObject(PackageException::invalidEntity($entity = InstallCommand::class));
+        $this->expectExceptionObject(new InvalidEntityException($entity = InstallCommand::class));
 
         resolveRelatedIdToModel(1, $entity);
     }

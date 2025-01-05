@@ -17,6 +17,7 @@ class Entity extends Command
 		valravn:entity 
 		{namespace : Group of the entity}
 		{name : Name of the entity}
+		{prefix : A unique string to prefix exceptions of the entity}
 		{--v=1 : Version of the entity}
 		';
 
@@ -36,11 +37,12 @@ class Entity extends Command
      */
     public function handle()
     {
-        $name = $this->argument('name');
         $namespace = $this->argument('namespace');
+        $name = $this->argument('name');
+        $prefix = $this->argument('prefix');
         $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
 
-        Artisan::call("valravn:exception $namespace $name");
+        Artisan::call("valravn:exception $namespace $name $prefix");
 
         Artisan::call("valravn:model $namespace $name --seeder --factory --migration");
 

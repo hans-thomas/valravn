@@ -16,7 +16,6 @@ class EntityTest extends TestCase
     public function entity(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
-        $errorCode = app_path('Exceptions/Blog/Post/PostErrorCode.php');
 
         $model = app_path('Models/Blog/Post.php');
         $factory = base_path('database/factories/Blog/PostFactory.php');
@@ -44,7 +43,6 @@ class EntityTest extends TestCase
 
         File::delete([
             $exception,
-            $errorCode,
 
             $model,
             $factory,
@@ -71,7 +69,6 @@ class EntityTest extends TestCase
         ]);
 
         self::assertFileDoesNotExist($exception);
-        self::assertFileDoesNotExist($errorCode);
 
         self::assertFileDoesNotExist($model);
         self::assertFileDoesNotExist($factory);
@@ -96,10 +93,9 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($relationsService);
         self::assertFileDoesNotExist($actionsService);
 
-        Artisan::call('valravn:entity blog posts');
+        Artisan::call('valravn:entity blog posts BPEcx');
 
         self::assertFileExists($exception);
-        self::assertFileExists($errorCode);
 
         self::assertFileExists($model);
         self::assertFileExists($factory);
@@ -134,7 +130,6 @@ class EntityTest extends TestCase
     public function version(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
-        $errorCode = app_path('Exceptions/Blog/Post/PostErrorCode.php');
 
         $model = app_path('Models/Blog/Post.php');
         $factory = base_path('database/factories/Blog/PostFactory.php');
@@ -162,7 +157,6 @@ class EntityTest extends TestCase
 
         File::delete([
             $exception,
-            $errorCode,
 
             $model,
             $factory,
@@ -189,7 +183,6 @@ class EntityTest extends TestCase
         ]);
 
         self::assertFileDoesNotExist($exception);
-        self::assertFileDoesNotExist($errorCode);
 
         self::assertFileDoesNotExist($model);
         self::assertFileDoesNotExist($factory);
@@ -214,10 +207,9 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($relationsService);
         self::assertFileDoesNotExist($actionsService);
 
-        Artisan::call('valravn:entity blog posts --v 2');
+        Artisan::call('valravn:entity blog posts BPTEcx --v 2');
 
         self::assertFileExists($exception);
-        self::assertFileExists($errorCode);
 
         self::assertFileExists($model);
         self::assertFileExists($factory);

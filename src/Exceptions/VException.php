@@ -4,31 +4,48 @@ namespace Hans\Valravn\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class VException extends Exception
 {
-    private int|string $errorCode;
-
-    public function __construct(string $message = '', int|string $errorCode = 0, int $responseCode = 500, Throwable $previous = null)
-    {
-        parent::__construct($message, $responseCode < 100 ? 500 : $responseCode, $previous);
-        $this->errorCode = $errorCode;
-    }
+    /**
+     * A unique code for each error.
+     *
+     * @var int
+     */
+    private int $errorCode;
 
     /**
-     * Make an instance of the exception class.
+     * A unique string acts as a namespace.
      *
+     * @var string
+     */
+    protected string $errorCodePrefix;
+
+    /**
      * @param string         $message
-     * @param int|string     $errorCode
+     * @param int            $errorCode
      * @param int            $responseCode
      * @param Throwable|null $previous
      *
-     * @return static
+     * @throws Exception
      */
-    public static function make(string $message = '', int|string $errorCode = 0, int $responseCode = 500, Throwable $previous = null): self
-    {
-        return new self($message, $errorCode, $responseCode, $previous);
+    public function __construct(
+        string $message,
+        int $errorCode,
+        int $responseCode = 500,
+        string $errorCodePrefix = '',
+        Throwable $previous = null,
+    ) {
+        parent::__construct($message, $responseCode, $previous);
+        $this->errorCode = $errorCode;
+
+        if (empty($this->errorCodePrefix) && empty($errorCodePrefix)) {
+            throw new Exception('The prefix for error codes is not defined.', Response::HTTP_EXPECTATION_FAILED);
+        } elseif (empty($this->errorCodePrefix) && !empty($errorCodePrefix)) {
+            $this->errorCodePrefix = $errorCodePrefix;
+        }
     }
 
     /**
@@ -50,10 +67,10 @@ class VException extends Exception
     /**
      * Return the error code of the exception.
      *
-     * @return int|string
+     * @return string
      */
-    public function getErrorCode(): int|string
+    public function getErrorCode(): string
     {
-        return $this->errorCode;
+        return $this->errorCodePrefix.$this->errorCode;
     }
 }
