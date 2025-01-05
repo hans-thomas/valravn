@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Exceptions\{{ENTITY::NAMESPACE}}\{{ENTITY::NAME}};
+
+use Hans\Valravn\Exceptions\VException;
+use Symfony\Component\HttpFoundation\Response;
+
+class {{ENTITY::NAME}}Exception extends VException
+{
+    protected string $errorCodePrefix = '{{ENTITY::CODE}}';
+
+    public function __construct()
+    {
+        parent::__construct("Reason", 1, Response::HTTP_NOT_FOUND);
+    }
+}
