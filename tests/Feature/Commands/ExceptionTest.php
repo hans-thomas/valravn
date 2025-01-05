@@ -35,7 +35,7 @@ class ExceptionTest extends TestCase
         );
     }
 
-     /**
+    /**
      * @test
      *
      * @return void
@@ -62,7 +62,7 @@ class ExceptionTest extends TestCase
         );
     }
 
-     /**
+    /**
      * @test
      *
      * @return void
@@ -80,7 +80,7 @@ class ExceptionTest extends TestCase
         self::assertFileExists($exception);
     }
 
-     /**
+    /**
      * @test
      *
      * @return void
@@ -97,5 +97,4 @@ class ExceptionTest extends TestCase
 
         self::assertFileExists($exception);
     }
-
 }
