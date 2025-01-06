@@ -19,10 +19,10 @@ class MigrationTests extends TestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $file = base_path("database/migrations/Blog/{$this->datePrefix}_create_posts_table.php");
         File::delete($file);
+
+        parent::tearDown();
     }
 
     /**

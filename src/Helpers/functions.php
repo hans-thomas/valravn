@@ -79,19 +79,22 @@ if (!function_exists('resolveMorphableToResource')) {
     }
 }
 
-if (!function_exists('logg')) {
+if (!function_exists('vlog')) {
     /**
      * Log the given exception to a specific channel and format.
      *
-     * @param string    $location
-     * @param Throwable $e
-     * @param array     $context
+     * @param Throwable|string $message
+     * @param array            $context
      *
      * @return void
      */
-    function logg(string $location, Throwable $e, array $context = []): void
+    function vlog(Throwable|string $message, array $context = []): void
     {
-        Log::channel('valravn')->debug($location.' => '.'message: '.$e->getMessage(), $context);
+        $backtrace = debug_backtrace(limit: 2)[1];
+        $location = $backtrace['class'].'::'.$backtrace['function'];
+        $message = is_string($message) ? $message : $message->getMessage();
+
+        Log::channel('valravn')->debug("At: [$location] => \"$message\"", $context);
     }
 }
 
@@ -111,7 +114,7 @@ if (!function_exists('valravn_config')) {
 
 if (!function_exists('slugify')) {
     /**
-     * Make a english or non-english string to a slug.
+     * Make an english or non-english string to a slug.
      *
      * @param string $string
      * @param string $separator

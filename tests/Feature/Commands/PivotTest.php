@@ -19,10 +19,10 @@ class PivotTest extends TestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $pivot = database_path("migrations/Blog/{$this->datePrefix}_create_category_post_table.php");
         File::delete($pivot);
+
+        parent::tearDown();
     }
 
     /**
