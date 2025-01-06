@@ -28,7 +28,7 @@ class InstallTest extends TestCase
         file_put_contents($this->providersFile, str_replace(
             '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
             '',
-            file_get_contents(base_path('bootstrap/providers.php'))
+            file_get_contents($this->providersFile)
         ));
 
         $this->configFile = config_path('valravn.php');
