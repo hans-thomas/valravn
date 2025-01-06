@@ -210,7 +210,7 @@ class FunctionsTest extends TestCase
 
         $actual = file_get_contents($file);
         $expected = <<<EOT
-        Location: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogContent] => "The reason: something"
+        At: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogContent] => "The reason: something"
         EOT;
 
         self::assertStringContainsString(
@@ -241,7 +241,7 @@ class FunctionsTest extends TestCase
 
         $actual = file_get_contents($file);
         $expected = <<<EOT
-        Location: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogThrowableAsMessage] => "Failed to found your data"
+        At: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogThrowableAsMessage] => "Failed to found your data"
         EOT;
 
         self::assertStringContainsString(

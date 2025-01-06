@@ -94,7 +94,7 @@ if (!function_exists('vlog')) {
         $location = $backtrace['class'].'::'.$backtrace['function'];
         $message = is_string($message) ? $message : $message->getMessage();
 
-        Log::channel('valravn')->debug("Location: [$location] => \"$message\"", $context);
+        Log::channel('valravn')->debug("At: [$location] => \"$message\"", $context);
     }
 }
 
