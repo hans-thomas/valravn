@@ -38,12 +38,12 @@ if (!function_exists('resolveRelatedIdToModel')) {
     /**
      * Resolve the given id to a related model.
      *
-     * @param  int     $id
-     * @param  string  $entity
+     * @param int    $id
+     * @param string $entity
      *
-     * @return Model|false
      * @throws VException
      *
+     * @return Model|false
      */
     function resolveRelatedIdToModel(int $id, string $entity): Model|false
     {
@@ -65,7 +65,7 @@ if (!function_exists('resolveMorphableToResource')) {
     /**
      * Resolve given Model to a resource class.
      *
-     * @param  Model|null  $morphable
+     * @param Model|null $morphable
      *
      * @return JsonResource
      */
@@ -83,12 +83,12 @@ if (!function_exists('vlog')) {
     /**
      * Log the given exception to a specific channel and format.
      *
-     * @param  Throwable|string  $message
-     * @param  array             $context
+     * @param Throwable|string $message
+     * @param array            $context
      *
      * @return void
      */
-    function vlog(Throwable|string $message, array $context=[]): void
+    function vlog(Throwable|string $message, array $context = []): void
     {
         $backtrace = debug_backtrace(limit: 2)[1];
         $location = $backtrace['class'].'::'.$backtrace['function'];
@@ -102,7 +102,7 @@ if (!function_exists('valravn_config')) {
     /**
      * Get valravn config data.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return string|array
      */
@@ -116,8 +116,8 @@ if (!function_exists('slugify')) {
     /**
      * Make an english or non-english string to a slug.
      *
-     * @param  string  $string
-     * @param  string  $separator
+     * @param string $string
+     * @param string $separator
      *
      * @return string|null
      */

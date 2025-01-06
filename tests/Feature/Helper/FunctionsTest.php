@@ -2,7 +2,6 @@
 
 namespace Hans\Valravn\Tests\Feature\Helper;
 
-use App\Exceptions\Blog\NotFound\NotFoundException;
 use Hans\Valravn\Exceptions\Package\InvalidEntityException;
 use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\InstallCommand;
@@ -33,11 +32,11 @@ class FunctionsTest extends TestCase
         $this->user = UserFactory::new()->create();
         $this->post = PostFactory::new()->create();
         $this->date = now()->format('Y-m-d');
-        config()->set('logging.channels.valravn',[
-            'driver' => 'daily',
-            'path' => storage_path('logs/valravn.log'),
-            'level' => 'debug',
-            'days' => 1,
+        config()->set('logging.channels.valravn', [
+            'driver'               => 'daily',
+            'path'                 => storage_path('logs/valravn.log'),
+            'level'                => 'debug',
+            'days'                 => 1,
             'replace_placeholders' => true,
         ]);
     }
@@ -206,7 +205,7 @@ class FunctionsTest extends TestCase
     {
         $file = storage_path("logs/valravn-$this->date.log");
         $e = new NotFoundHttpException('Failed to found your data');
-        vlog('The reason: {r}', ['r' => 'something','previous' => $e]);
+        vlog('The reason: {r}', ['r' => 'something', 'previous' => $e]);
 
         $actual = file_get_contents($file);
         $expected = <<<EOT
@@ -218,8 +217,8 @@ class FunctionsTest extends TestCase
             $actual
         );
 
-        $expected = <<<EOD
-        [object] (Symfony\\\\Component\\\\HttpKernel\\\\Exception\\\\NotFoundHttpException(code: 0): Failed to found your data
+        $expected = <<<'EOD'
+        [object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0): Failed to found your data
         EOD;
 
         self::assertStringContainsString(
