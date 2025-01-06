@@ -38,12 +38,12 @@ if (!function_exists('resolveRelatedIdToModel')) {
     /**
      * Resolve the given id to a related model.
      *
-     * @param int    $id
-     * @param string $entity
-     *
-     * @throws VException
+     * @param  int     $id
+     * @param  string  $entity
      *
      * @return Model|false
+     * @throws VException
+     *
      */
     function resolveRelatedIdToModel(int $id, string $entity): Model|false
     {
@@ -65,7 +65,7 @@ if (!function_exists('resolveMorphableToResource')) {
     /**
      * Resolve given Model to a resource class.
      *
-     * @param Model|null $morphable
+     * @param  Model|null  $morphable
      *
      * @return JsonResource
      */
@@ -79,19 +79,22 @@ if (!function_exists('resolveMorphableToResource')) {
     }
 }
 
-if (!function_exists('logg')) {
+if (!function_exists('vlog')) {
     /**
      * Log the given exception to a specific channel and format.
      *
-     * @param string    $location
-     * @param Throwable $e
-     * @param array     $context
+     * @param  Throwable|string  $message
+     * @param  array             $context
      *
      * @return void
      */
-    function logg(string $location, Throwable $e, array $context = []): void
+    function vlog(Throwable|string $message, array $context=[]): void
     {
-        Log::channel('valravn')->debug($location.' => '.'message: '.$e->getMessage(), $context);
+        $backtrace = debug_backtrace(limit: 2)[1];
+        $location = $backtrace['class'].'::'.$backtrace['function'];
+        $message = is_string($message) ? $message : $message->getMessage();
+
+        Log::channel('valravn')->debug("Location: [$location] => \"$message\"", $context);
     }
 }
 
@@ -99,7 +102,7 @@ if (!function_exists('valravn_config')) {
     /**
      * Get valravn config data.
      *
-     * @param string $key
+     * @param  string  $key
      *
      * @return string|array
      */
@@ -111,10 +114,10 @@ if (!function_exists('valravn_config')) {
 
 if (!function_exists('slugify')) {
     /**
-     * Make a english or non-english string to a slug.
+     * Make an english or non-english string to a slug.
      *
-     * @param string $string
-     * @param string $separator
+     * @param  string  $string
+     * @param  string  $separator
      *
      * @return string|null
      */
