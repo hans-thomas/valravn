@@ -31,6 +31,8 @@ php artisan valravn:install
 
 That's it.
 
+Documentation for version 1 is available through this [site](https://v1-valravn.vercel.app/)
+
 ## Tests
 
 To start testing run below commands step by step:
