@@ -55,7 +55,7 @@ class VException extends Exception
      */
     public function render(): JsonResponse
     {
-        logg(self::class, $this, ['errorCode' => $this->getErrorCode(), 'responseCode' => $this->getCode()]);
+        vlog($this);
 
         return new JsonResponse([
             'title'  => 'Unexpected error!',
