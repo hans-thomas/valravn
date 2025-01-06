@@ -104,7 +104,7 @@ Valravn includes several global functions that you can use in your code.
 {{< /column >}}
 
 {{< column "method" >}}
-[logg](#logg)
+[vlog](#vlog)
 {{< /column >}}
 
 {{< column "method" >}}
@@ -125,9 +125,43 @@ Resolve the given id to a related model.
 
 Resolve given Model to a resource class.
 
-##### logg
+##### vlog
 
-Log the given exception to a specific channel and format.
+Log the error in a dedicated channel with a simplified format.
+
+```php
+class someClass {
+    public function someMethod(): void
+    {
+        try{
+            // do something
+        }catch (Exception $e){
+            vlog('The reason');
+        }
+    }
+}
+```
+The logged content should be like this:
+
+```text
+[2025-01-06 07:57:54] testing.DEBUG: At: [Namespace\someClass::someMethod] => "The reason"
+```
+
+Also, You can pass the exception to track the issue.
+
+```php
+catch (Exception $e){
+    vlog('The reason',['previous' => $e]);
+}
+```
+
+And if you just want to log the error, you need to pass the exception only.
+
+```php
+catch (Exception $e){
+    vlog($e);
+}
+```
 
 ##### slugify
 
