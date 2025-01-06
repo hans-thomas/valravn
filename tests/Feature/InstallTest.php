@@ -9,6 +9,17 @@ use Illuminate\Support\Str;
 
 class InstallTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        file_put_contents(base_path('bootstrap/providers.php'),str_replace(
+            '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
+            '',
+            file_get_contents(base_path('bootstrap/providers.php'))
+        ));
+
+        parent::tearDown();
+    }
+
     /**
      * @test
      *
@@ -16,61 +27,28 @@ class InstallTest extends TestCase
      */
     public function install(): void
     {
-        $config = config_path('valravn.php');
-        $serviceProvider = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$config, $serviceProvider]);
+        $configFile = config_path('valravn.php');
+        $serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+        File::delete([$configFile, $serviceProviderFile]);
 
-        self::assertFileDoesNotExist($config);
-        self::assertFileDoesNotExist($serviceProvider);
+        self::assertFileDoesNotExist($configFile);
+        self::assertFileDoesNotExist($serviceProviderFile);
 
         Artisan::call('valravn:install');
 
-        self::assertFileExists($config);
-        self::assertFileExists($serviceProvider);
+        self::assertFileExists($configFile);
+        self::assertFileExists($serviceProviderFile);
 
-        $serviceProviderContent = '<?php
-
-    namespace App\Providers;
-
-    use Illuminate\Support\ServiceProvider;
-
-    class RepositoryServiceProvider extends ServiceProvider {
-
-        /**
-         * Register services.
-         *
-         * @return void
-         */
-        public function register() {
-            // bind your repository contracts to your repository classes
-        }
-
-        /**
-         * Bootstrap services.
-         *
-         * @return void
-         */
-        public function boot() {
-            //
-        }
-
-    }
-';
+        $serviceProviderContent = file_get_contents(__DIR__ . '/../../src/stubs/RepositoryServiceProvider.stub');
 
         self::assertEquals(
             $serviceProviderContent,
-            file_get_contents($serviceProvider)
+            file_get_contents($serviceProviderFile)
         );
 
-        // remove registered RepositoryServiceProvider in app config
-        $appConfig = file_get_contents(config_path('app.php'));
-
-        if (Str::contains($appConfig, 'App\\Providers\\RepositoryServiceProvider::class')) {
-            file_put_contents(config_path('app.php'), str_replace(
-                "App\\Providers\RepositoryServiceProvider::class,".PHP_EOL,
-                null,
-                $appConfig
-            ));
-        }
+        self::assertStringContainsString(
+            'App\\Providers\\RepositoryServiceProvider::class',
+            file_get_contents(base_path('bootstrap/providers.php'))
+        );
     }
 }

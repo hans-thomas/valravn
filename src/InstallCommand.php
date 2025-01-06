@@ -47,7 +47,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Register the RepositoryServiceProvider in the application configuration file.
+     * Register the RepositoryServiceProvider in the application.
      *
      * @return void
      */
