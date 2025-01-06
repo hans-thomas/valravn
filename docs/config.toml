@@ -1,5 +1,5 @@
 baseURL = "https://v1-valravn.vercel.app/"
-title = "Valravn v1"
+title = "Valravn:v1"
 enableRobotsTXT = true
 # this example loads the theme as hugo module
 # comment out line below, and uncomment the line after it if you prefer to load the theme normally
