@@ -70,8 +70,8 @@ class InstallCommand extends Command
         }
 
         file_put_contents($providersFile, str_replace(
-            "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL,
-            "{$namespace}\\Providers\AppServiceProvider::class,".PHP_EOL."    {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL,
+            "];",
+            "    {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL."];",
             $providersConfig
         ));
 

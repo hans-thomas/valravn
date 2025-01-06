@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\File;
 
 class InstallTest extends TestCase
 {
+    private string $configFile;
+    private string $serviceProviderFile;
+
     protected function tearDown(): void
     {
         file_put_contents(base_path('bootstrap/providers.php'), str_replace(
@@ -15,6 +18,9 @@ class InstallTest extends TestCase
             '',
             file_get_contents(base_path('bootstrap/providers.php'))
         ));
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+        File::delete([$this->configFile, $this->serviceProviderFile]);
 
         parent::tearDown();
     }
@@ -26,23 +32,23 @@ class InstallTest extends TestCase
      */
     public function install(): void
     {
-        $configFile = config_path('valravn.php');
-        $serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$configFile, $serviceProviderFile]);
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+        File::delete([$this->configFile, $this->serviceProviderFile]);
 
-        self::assertFileDoesNotExist($configFile);
-        self::assertFileDoesNotExist($serviceProviderFile);
+        self::assertFileDoesNotExist($this->configFile);
+        self::assertFileDoesNotExist($this->serviceProviderFile);
 
         Artisan::call('valravn:install');
 
-        self::assertFileExists($configFile);
-        self::assertFileExists($serviceProviderFile);
+        self::assertFileExists($this->configFile);
+        self::assertFileExists($this->serviceProviderFile);
 
         $serviceProviderContent = file_get_contents(__DIR__.'/../../src/stubs/RepositoryServiceProvider.stub');
 
         self::assertEquals(
             $serviceProviderContent,
-            file_get_contents($serviceProviderFile)
+            file_get_contents($this->serviceProviderFile)
         );
 
         self::assertStringContainsString(
