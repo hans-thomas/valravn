@@ -5,10 +5,39 @@ namespace Hans\Valravn\Tests\Feature;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class InstallTest extends TestCase
 {
+    private string $configFile;
+    private string $serviceProviderFile;
+    private string $providersFile;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (version_compare($this->app->version(), '11', '>=')) {
+            $this->providersFile = base_path('bootstrap/providers.php');
+        } elseif (version_compare($this->app->version(), '10', '>=')) {
+            $this->providersFile = config_path('app.php');
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        file_put_contents($this->providersFile, str_replace(
+            '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
+            '',
+            file_get_contents($this->providersFile)
+        ));
+
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+        File::delete([$this->configFile, $this->serviceProviderFile]);
+
+        parent::tearDown();
+    }
+
     /**
      * @test
      *
@@ -16,61 +45,28 @@ class InstallTest extends TestCase
      */
     public function install(): void
     {
-        $config = config_path('valravn.php');
-        $serviceProvider = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$config, $serviceProvider]);
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+        File::delete([$this->configFile, $this->serviceProviderFile]);
 
-        self::assertFileDoesNotExist($config);
-        self::assertFileDoesNotExist($serviceProvider);
+        self::assertFileDoesNotExist($this->configFile);
+        self::assertFileDoesNotExist($this->serviceProviderFile);
 
         Artisan::call('valravn:install');
 
-        self::assertFileExists($config);
-        self::assertFileExists($serviceProvider);
+        self::assertFileExists($this->configFile);
+        self::assertFileExists($this->serviceProviderFile);
 
-        $serviceProviderContent = '<?php
-
-    namespace App\Providers;
-
-    use Illuminate\Support\ServiceProvider;
-
-    class RepositoryServiceProvider extends ServiceProvider {
-
-        /**
-         * Register services.
-         *
-         * @return void
-         */
-        public function register() {
-            // bind your repository contracts to your repository classes
-        }
-
-        /**
-         * Bootstrap services.
-         *
-         * @return void
-         */
-        public function boot() {
-            //
-        }
-
-    }
-';
+        $serviceProviderContent = file_get_contents(__DIR__.'/../../src/stubs/RepositoryServiceProvider.stub');
 
         self::assertEquals(
             $serviceProviderContent,
-            file_get_contents($serviceProvider)
+            file_get_contents($this->serviceProviderFile)
         );
 
-        // remove registered RepositoryServiceProvider in app config
-        $appConfig = file_get_contents(config_path('app.php'));
-
-        if (Str::contains($appConfig, 'App\\Providers\\RepositoryServiceProvider::class')) {
-            file_put_contents(config_path('app.php'), str_replace(
-                "App\\Providers\RepositoryServiceProvider::class,".PHP_EOL,
-                null,
-                $appConfig
-            ));
-        }
+        self::assertStringContainsString(
+            'App\\Providers\\RepositoryServiceProvider::class',
+            file_get_contents($this->providersFile)
+        );
     }
 }
