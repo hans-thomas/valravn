@@ -109,7 +109,6 @@ class ValravnServiceProvider extends ServiceProvider
      */
     private function registerMacros()
     {
-        // TODO: should be documented
         if (env('ENABLE_DB_LOG', false)) {
             DB::listen(function (QueryExecuted $query) {
                 $bindings = implode(',', $query->bindings);
