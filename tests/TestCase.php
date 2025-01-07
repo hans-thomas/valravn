@@ -19,12 +19,42 @@ class TestCase extends BaseTestCase
 
     /**
      * Setup the test environment.
+     *
+     * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
     }
 
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        $this->clearUp([
+            app_path('Http/Controllers/V1/Blog/Post'),
+            app_path('Http/Requests/V1/Blog/Post'),
+            app_path('Http/Resources/V1/Blog/Post'),
+            app_path('Http/Controllers/V2/Blog/Post'),
+            app_path('Http/Requests/V2/Blog/Post'),
+            app_path('Http/Resources/V2/Blog/Post'),
+            app_path('Exceptions/Blog/Post'),
+            app_path('Models/Blog'),
+            app_path('Policies/Blog'),
+            app_path('Repositories/Contracts/Blog'),
+            app_path('Repositories/Blog'),
+            app_path('Services/Blog/Post'),
+
+            base_path('database/factories/Blog'),
+            base_path('database/seeders/Blog'),
+            base_path('database/migrations'),
+        ]);
+
+        parent::tearDown();
+    }
     /**
      * Get application timezone.
      *
@@ -108,7 +138,7 @@ class TestCase extends BaseTestCase
         );
     }
 
-    public function resourceToJson(VJsonResource $resource): array
+    protected function resourceToJson(VJsonResource $resource): array
     {
         return json_decode(
             $resource->toResponse(request())->content(),
@@ -116,16 +146,27 @@ class TestCase extends BaseTestCase
         );
     }
 
-    public function clearDirectories(array $paths, array $ignoreFiles = []): void
+    protected function clearUp(array $paths, array $ignoreFiles = []): void
     {
         $fs = new Filesystem();
 
         foreach ($paths as $path) {
-            foreach ($fs->allFiles($path) as $file) {
-                if (!in_array($file, $ignoreFiles)) {
-                    $fs->delete($file);
+            if ($fs->isFile($path)) {
+                $fs->delete($path);
+            }
+
+            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path,true)) {
+                foreach ($fs->allFiles($path) as $file) {
+                    if (!in_array($file, $ignoreFiles)) {
+                        $fs->delete($file);
+                    }
                 }
             }
         }
+    }
+
+    protected function getStub(string $stub): string
+    {
+        return file_get_contents(__DIR__."/../src/Commands/stubs/$stub");
     }
 }
