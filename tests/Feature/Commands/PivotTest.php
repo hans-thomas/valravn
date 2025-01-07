@@ -8,23 +8,6 @@ use Illuminate\Support\Facades\File;
 
 class PivotTest extends TestCase
 {
-    protected string $datePrefix;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->datePrefix = now()->format('Y_m_d_His');
-    }
-
-    protected function tearDown(): void
-    {
-        $pivot = database_path("migrations/Blog/{$this->datePrefix}_create_category_post_table.php");
-        File::delete($pivot);
-
-        parent::tearDown();
-    }
-
     /**
      * @test
      *
@@ -34,8 +17,8 @@ class PivotTest extends TestCase
     {
         $this->withoutMockingConsoleOutput();
 
-        $pivot = database_path("migrations/Blog/{$this->datePrefix}_create_category_post_table.php");
-        File::delete($pivot);
+        $datePrefix = now()->format('Y_m_d_His');
+        $pivot = database_path("migrations/Blog/{$datePrefix}_create_category_post_table.php");
 
         self::assertFileDoesNotExist($pivot);
 
@@ -43,41 +26,15 @@ class PivotTest extends TestCase
 
         self::assertFileExists($pivot);
 
-        $content = "<?php
+        $pivotStub = $this->getStub('migrations/pivot.stub');
+        $pivotStub = str_replace('{{PIVOT::NAMESPACE}}','Blog',$pivotStub);
+        $pivotStub = str_replace('{{PIVOT::MODEL}}','Post',$pivotStub);
+        $pivotStub = str_replace('{{PIVOT::RELATED-NAMESPACE}}','Core',$pivotStub);
+        $pivotStub = str_replace('{{PIVOT::RELATED-MODEL}}','Category',$pivotStub);
+        $pivotStub = str_replace('{{PIVOT::FIRST-MODEL-SINGLE-LOWER}}','category',$pivotStub);
+        $pivotStub = str_replace('{{PIVOT::SECOND-MODEL-SINGLE-LOWER}}','post',$pivotStub);
 
-    use App\Models\Blog\Post;
-    use App\Models\Core\Category;
-    use Illuminate\Database\Migrations\Migration;
-    use Illuminate\Database\Schema\Blueprint;
-    use Illuminate\Support\Facades\Schema;
-
-    return new class extends Migration {
-        /**
-         * Run the migrations.
-         *
-         * @return void
-         */
-        public function up() {
-            Schema::create( 'category_post', function( Blueprint \$table ) {
-                \$table->foreignIdFor( Post::class )->constrained()->cascadeOnDelete();
-                \$table->foreignIdFor( Category::class )->constrained()->cascadeOnDelete();
-
-                \$table->primary( [ Post::foreignKey(), Category::foreignKey() ] );
-            } );
-        }
-
-        /**
-         * Reverse the migrations.
-         *
-         * @return void
-         */
-        public function down() {
-            Schema::dropIfExists( 'category_post' );
-        }
-    };
-";
-
-        self::assertEquals($content, file_get_contents($pivot));
+        self::assertEquals($pivotStub, file_get_contents($pivot));
         self::assertStringContainsString('pivot migration class successfully created!', Artisan::output());
 
         Artisan::call('valravn:pivot blog posts core category');

@@ -93,10 +93,10 @@ class Relation extends Command
 
             $content = Str::replace('{{RELATION::VERSION}}', $version, $content);
             $content = Str::replace('{{RELATION::NAMESPACE}}', $namespace, $content);
-            $content = Str::replace('{{RELATION::ENTITY}}', $singular, $content);
+            $content = Str::replace('{{RELATION::MODEL}}', $singular, $content);
 
             $content = Str::replace('{{RELATION::RELATED-NAMESPACE}}', $relatedNamespace, $content);
-            $content = Str::replace('{{RELATION::MODEL}}', $relatedSingular, $content);
+            $content = Str::replace('{{RELATION::RELATED-MODEL}}', $relatedSingular, $content);
             $content = Str::replace('{{RELATION::RELATION}}', $relation, $content);
 
             if ($this->option('belongs-to-many')) {

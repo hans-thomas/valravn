@@ -16,7 +16,6 @@ class ExceptionTest extends TestCase
     public function fullFormException(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
-        File::delete($exception);
 
         self::assertFileDoesNotExist($exception);
 
@@ -24,7 +23,7 @@ class ExceptionTest extends TestCase
 
         self::assertFileExists($exception);
 
-        $exception_file = file_get_contents(__DIR__.'/../../../src/Commands/stubs/exceptions/fullFormException.stub');
+        $exception_file = $this->getStub('exceptions/fullFormException.stub');
         $exception_file = str_replace('{{ENTITY::NAMESPACE}}', 'Blog', $exception_file);
         $exception_file = str_replace('{{ENTITY::NAME}}', 'Post', $exception_file);
         $exception_file = str_replace('{{ENTITY::CODE}}', 'BPEcx', $exception_file);
@@ -43,7 +42,6 @@ class ExceptionTest extends TestCase
     public function compactFormException(): void
     {
         $exception = app_path('Exceptions/Blog/Post/NotFoundException.php');
-        File::delete($exception);
 
         self::assertFileDoesNotExist($exception);
 
@@ -51,7 +49,7 @@ class ExceptionTest extends TestCase
 
         self::assertFileExists($exception);
 
-        $exception_file = file_get_contents(__DIR__.'/../../../src/Commands/stubs/exceptions/compactFormException.stub');
+        $exception_file = $this->getStub('exceptions/compactFormException.stub');
         $exception_file = str_replace('{{ENTITY::NAMESPACE}}', 'Blog', $exception_file);
         $exception_file = str_replace('{{ENTITY::NAME}}', 'NotFound', $exception_file);
         $exception_file = str_replace('{{ENTITY::CODE}}', 'BPEcx', $exception_file);
@@ -70,7 +68,6 @@ class ExceptionTest extends TestCase
     public function compactFormExceptionWithEmptyCompact(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
-        File::delete($exception);
 
         self::assertFileDoesNotExist($exception);
 

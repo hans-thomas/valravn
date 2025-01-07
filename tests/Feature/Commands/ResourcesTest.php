@@ -18,7 +18,6 @@ class ResourcesTest extends TestCase
         $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
         $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
 
-        File::delete([$resource, $collection]);
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
@@ -26,86 +25,23 @@ class ResourcesTest extends TestCase
 
         self::assertFileExists($resource);
 
-        $resource_file = '<?php
+        $resourceStub = $this->getStub('resources/resource.stub');
+        $resourceStub = str_replace('{{RESOURCE::VERSION}}', 'V1', $resourceStub);
+        $resourceStub = str_replace('{{RESOURCE::NAMESPACE}}', 'Blog', $resourceStub);
+        $resourceStub = str_replace('{{RESOURCE::MODEL}}', 'Post', $resourceStub);
+        $resourceStub = str_replace('{{RESOURCE::PLURAL}}', 'posts', $resourceStub);
 
-    namespace App\Http\Resources\V1\Blog\Post;
-
-    use Illuminate\Database\Eloquent\Model;
-    use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-
-    class PostResource extends VJsonResource {
-
-        /**
-         * Extract attributes of the given model
-         * if null returned, the parent::toArray method called by default
-         *
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        public function extract( Model $model ): ?array {
-            return [
-                \'id\' => $model->id,
-                //
-            ];
-        }
-
-        /**
-         * Specify the type of your resource
-         *
-         * @return string
-         */
-        public function type(): string {
-            return \'posts\';
-        }
-
-    }
-';
-
-        self::assertEquals(
-            $resource_file,
-            file_get_contents($resource)
-        );
+        self::assertEquals($resourceStub, file_get_contents($resource));
 
         self::assertFileExists($collection);
 
-        $collection_file = '<?php
+        $collectionStub = $this->getStub('resources/collection.stub');
+        $collectionStub = str_replace('{{COLLECTION::VERSION}}', 'V1', $collectionStub);
+        $collectionStub = str_replace('{{COLLECTION::NAMESPACE}}', 'Blog', $collectionStub);
+        $collectionStub = str_replace('{{COLLECTION::MODEL}}', 'Post', $collectionStub);
+        $collectionStub = str_replace('{{COLLECTION::PLURAL}}', 'posts', $collectionStub);
 
-    namespace App\Http\Resources\V1\Blog\Post;
-
-    use Illuminate\Database\Eloquent\Model;
-    use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
-
-    class PostCollection extends VResourceCollection {
-
-        /**
-         * Extract attributes of the given model
-         * if null returned, the parent::toArray method called by default
-         *
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        public function extract( Model $model ): ?array {
-            return null;
-        }
-
-        /**
-         * Specify the type of your resource
-         *
-         * @return string
-         */
-        public function type(): string {
-            return \'posts\';
-        }
-
-    }
-';
-
-        self::assertEquals(
-            $collection_file,
-            file_get_contents($collection)
-        );
+        self::assertEquals($collectionStub, file_get_contents($collection));
     }
 
     /**
@@ -118,7 +54,6 @@ class ResourcesTest extends TestCase
         $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');
         $collection = app_path('Http/Resources/V2/Blog/Post/PostCollection.php');
 
-        File::delete([$resource, $collection]);
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 

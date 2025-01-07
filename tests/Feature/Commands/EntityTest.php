@@ -41,33 +41,6 @@ class EntityTest extends TestCase
         $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
         $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
 
-        File::delete([
-            $exception,
-
-            $model,
-            $factory,
-            $seeder,
-            $migration,
-
-            $crud,
-            $relations,
-            $actions,
-            $store,
-            $update,
-            $batchUpdate,
-            $resource,
-            $collection,
-
-            $policy,
-
-            $contract,
-            $repository,
-
-            $crudService,
-            $relationsService,
-            $actionsService,
-        ]);
-
         self::assertFileDoesNotExist($exception);
 
         self::assertFileDoesNotExist($model);
@@ -118,8 +91,6 @@ class EntityTest extends TestCase
         self::assertFileExists($crudService);
         self::assertFileExists($relationsService);
         self::assertFileExists($actionsService);
-
-        File::delete($migration);
     }
 
     /**
@@ -154,33 +125,6 @@ class EntityTest extends TestCase
         $crudService = app_path('Services/Blog/Post/PostCrudService.php');
         $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
         $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
-
-        File::delete([
-            $exception,
-
-            $model,
-            $factory,
-            $seeder,
-            $migration,
-
-            $crud,
-            $relations,
-            $actions,
-            $store,
-            $update,
-            $batchUpdate,
-            $resource,
-            $collection,
-
-            $policy,
-
-            $contract,
-            $repository,
-
-            $crudService,
-            $relationsService,
-            $actionsService,
-        ]);
 
         self::assertFileDoesNotExist($exception);
 
@@ -233,7 +177,5 @@ class EntityTest extends TestCase
         self::assertFileExists($crudService);
         self::assertFileExists($relationsService);
         self::assertFileExists($actionsService);
-
-        File::delete($migration);
     }
 }

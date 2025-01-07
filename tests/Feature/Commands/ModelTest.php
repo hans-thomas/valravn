@@ -4,7 +4,6 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 
 class ModelTest extends TestCase
 {
@@ -13,81 +12,23 @@ class ModelTest extends TestCase
      *
      * @return void
      */
-    public function model(): void
+    public function modelFile(): void
     {
         $file = app_path('Models/Blog/Post.php');
-        File::delete($file);
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:model blog posts');
 
         self::assertFileExists($file);
 
-        $model_file = '<?php
+        $modelStub = $this->getStub('models/model.stub');
+        $modelStub = str_replace('{{MODEL::NAMESPACE}}', 'Blog', $modelStub);
+        $modelStub = str_replace('{{MODEL::CLASS}}', 'Post', $modelStub);
+        $modelStub = str_replace('{{MODEL::TABLE}}', 'blog_posts', $modelStub);
+        $modelStub = str_replace('{{MODEL::FOREIGNKEY}}', 'blog_post_id', $modelStub);
 
-    namespace App\Models\Blog;
-
-	use Hans\Valravn\Models\Contracts\EntityClasses;
-	use Hans\Valravn\Models\Contracts\Filterable;
-	use Hans\Valravn\Models\Contracts\Loadable;
-	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
-	use Hans\Valravn\Models\Traits\Paginatable;
-	use Hans\Valravn\Models\VModel;
-	use Hans\Valravn\Repositories\Contracts\Repository;
-	use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-	use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
-	use Hans\Valravn\Services\Contracts\Service;
-	use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-    class Post extends VModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
-        use HasFactory;
-        use Paginatable;
-
-        protected $table = \'blog_posts\';
-        protected $fillable = [ ];
-
-        public function getForeignKey() {
-            return \'blog_post_id\';
-        }
-
-        public function getRepository(): Repository {
-            // TODO: Implement getRepository() method.
-        }
-
-        public function getService(): Service {
-            // TODO: Implement getService() method.
-        }
-
-        public function getRelationsService(): Service {
-            // TODO: Implement getRelationsService() method.
-        }
-
-        public function getFilterableAttributes(): array {
-            // TODO: Implement getFilterableAttributes() method.
-        }
-
-        public function getLoadableRelations(): array {
-            // TODO: Implement getLoadableRelations() method.
-        }
-
-        public static function getResource(): VJsonResource {
-            // TODO: Implement getResource() method.
-        }
-
-        public function toResource(): VJsonResource {
-            // TODO: Implement toResource() method.
-        }
-
-        public static function getResourceCollection(): VResourceCollection {
-            // TODO: Implement getResourceCollection() method.
-        }
-    }
-';
-
-        self::assertEquals(
-            $model_file,
-            file_get_contents($file)
-        );
+        self::assertEquals($modelStub, file_get_contents($file));
     }
 
     /**
@@ -95,10 +36,10 @@ class ModelTest extends TestCase
      *
      * @return void
      */
-    public function factory(): void
+    public function factoryFile(): void
     {
         $file = base_path('database/factories/Blog/PostFactory.php');
-        File::delete($file);
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:model blog posts -f');
@@ -111,10 +52,10 @@ class ModelTest extends TestCase
      *
      * @return void
      */
-    public function seeder(): void
+    public function seederFile(): void
     {
         $file = base_path('database/seeders/Blog/PostSeeder.php');
-        File::delete($file);
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:model blog posts -s');
@@ -127,16 +68,15 @@ class ModelTest extends TestCase
      *
      * @return void
      */
-    public function migration(): void
+    public function migrationFile(): void
     {
         $datePrefix = now()->format('Y_m_d_His');
         $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
-        File::delete($file);
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:model blog posts -m');
 
         self::assertFileExists($file);
-        File::delete($file);
     }
 }

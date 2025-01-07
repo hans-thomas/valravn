@@ -4,7 +4,6 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 
 class RepositoryTest extends TestCase
 {
@@ -18,7 +17,6 @@ class RepositoryTest extends TestCase
         $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
         $repository = app_path('Repositories/Blog/PostRepository.php');
 
-        File::delete([$contract, $repository]);
         self::assertFileDoesNotExist($contract);
         self::assertFileDoesNotExist($repository);
 
@@ -26,46 +24,18 @@ class RepositoryTest extends TestCase
 
         self::assertFileExists($contract);
 
-        $contract_file = '<?php
+        $contractStub = $this->getStub('repositories/repository-contract.stub');
+        $contractStub = str_replace('{{IREPOSITORY::NAMESPACE}}', 'Blog', $contractStub);
+        $contractStub = str_replace('{{IREPOSITORY::MODEL}}', 'Post', $contractStub);
 
-    namespace App\Repositories\Contracts\Blog;
-
-    use App\Models\Blog\Post;
-    use Hans\Valravn\Repositories\Contracts\Repository;
-
-    abstract class IPostRepository extends Repository {
-
-    }
-';
-
-        self::assertEquals(
-            $contract_file,
-            file_get_contents($contract)
-        );
+        self::assertEquals($contractStub, file_get_contents($contract));
 
         self::assertFileExists($repository);
 
-        $repository_file = '<?php
+        $repositoryStub = $this->getStub('repositories/repository.stub');
+        $repositoryStub = str_replace('{{REPOSITORY::NAMESPACE}}', 'Blog', $repositoryStub);
+        $repositoryStub = str_replace('{{REPOSITORY::MODEL}}', 'Post', $repositoryStub);
 
-    namespace App\Repositories\Blog;
-
-    use App\Models\Blog\Post;
-    use App\Repositories\Contracts\Blog\IPostRepository;
-    use Illuminate\Contracts\Database\Eloquent\Builder;
-    use Illuminate\Support\Facades\Gate;
-
-    class PostRepository extends IPostRepository {
-
-        protected function getQueryBuilder(): Builder {
-            return Post::query();
-        }
-
-    }
-';
-
-        self::assertEquals(
-            $repository_file,
-            file_get_contents($repository)
-        );
+        self::assertEquals($repositoryStub, file_get_contents($repository));
     }
 }

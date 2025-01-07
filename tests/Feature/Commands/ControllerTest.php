@@ -16,107 +16,17 @@ class ControllerTest extends TestCase
     public function crud(): void
     {
         $file = app_path('Http/Controllers/V1/Blog/Post/PostCrudController.php');
-        File::delete($file);
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:controller blog posts');
 
         self::assertFileExists($file);
 
-        $crud_file = '<?php
-
-    namespace App\Http\Controllers\V1\Blog\Post;
-
-    use App\Http\Controllers\Controller;
-    use App\Http\Requests\V1\Blog\Post\PostBatchUpdateRequest;
-    use App\Http\Requests\V1\Blog\Post\PostStoreRequest;
-    use App\Http\Requests\V1\Blog\Post\PostUpdateRequest;
-    use App\Http\Resources\V1\Blog\Post\PostCollection;
-    use App\Http\Resources\V1\Blog\Post\PostResource;
-    use App\Models\Blog\Post;
-    use App\Services\Blog\Post\PostService;
-    use Hans\Valravn\DTOs\BatchUpdateDto;
-    use Throwable;
-
-    class PostCrudController extends Controller {
-        private PostService $service;
-
-        public function __construct() {
-            $this->service    = app( PostService::class );
-        }
-
-        /**
-         * Display a listing of the resource.
-         *
-         * @return PostCollection
-         */
-        public function index(): PostCollection {
-            return Post::getResourceCollection( $this->service->all() );
-        }
-
-        /**
-         * Store a newly created resource in storage.
-         *
-         * @param PostStoreRequest $request
-         *
-         * @return PostResource
-         * @throws Throwable
-         */
-        public function store( PostStoreRequest $request ): PostResource {
-            return $this->service->create( $request->validated() )->toResource();
-        }
-
-        /**
-         * Display the specified resource.
-         *
-         * @param int|string $post
-         *
-         * @return PostResource
-         */
-        public function show( int|string $post ): PostResource {
-            return $this->service->find( $post )->toResource();
-        }
-
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param PostUpdateRequest $request
-         * @param Post              $post
-         *
-         * @return PostResource
-         * @throws Throwable
-         */
-        public function update( PostUpdateRequest $request, Post $post ): PostResource {
-            return $this->service->update( $post, $request->validated() )->toResource();
-        }
-
-        /**
-         * Batch update the specified resource in storage.
-         *
-         * @param PostBatchUpdateRequest $request
-         *
-         * @return PostCollection
-         * @throws Throwable
-         */
-        public function batchUpdate( PostBatchUpdateRequest $request ): PostCollection {
-            return Post::getResourceCollection(
-                $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
-            );
-        }
-
-        /**
-         * Remove the specified resource from storage.
-         *
-         * @param Post $post
-         *
-         * @return PostResource
-         * @throws Throwable
-         */
-        public function destroy( Post $post ): PostResource {
-            return $this->service->delete( $post )->toResource();
-        }
-    }
-';
+        $crud_file = $this->getStub('controllers/crud.stub');
+        $crud_file = str_replace('{{CRUD::VERSION}}','V1',$crud_file);
+        $crud_file = str_replace('{{CRUD::NAMESPACE}}','Blog',$crud_file);
+        $crud_file = str_replace('{{CRUD::MODEL}}','Post',$crud_file);
+        $crud_file = str_replace('{{CRUD::MODEL-lower}}','post',$crud_file);
 
         self::assertEquals(
             $crud_file,
@@ -132,9 +42,7 @@ class ControllerTest extends TestCase
     public function relations(): void
     {
         $file = app_path('Http/Controllers/V1/Blog/Post/PostRelationsController.php');
-        if (File::exists($file)) {
-            unlink($file);
-        }
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:controller blog posts --relations');
@@ -150,9 +58,7 @@ class ControllerTest extends TestCase
     public function actions(): void
     {
         $file = app_path('Http/Controllers/V1/Blog/Post/PostActionsController.php');
-        if (File::exists($file)) {
-            unlink($file);
-        }
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:controller blog posts --actions');
@@ -170,8 +76,6 @@ class ControllerTest extends TestCase
         $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
         $update = app_path('Http/Requests/V1/Blog/Post/PostUpdateRequest.php');
         $batchUpdate = app_path('Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php');
-
-        File::delete([$update, $store, $batchUpdate]);
 
         self::assertFileDoesNotExist($store);
         self::assertFileDoesNotExist($update);
@@ -192,12 +96,7 @@ class ControllerTest extends TestCase
     {
         $store = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
         $update = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
-        if (File::exists($store)) {
-            unlink($store);
-        }
-        if (File::exists($update)) {
-            unlink($update);
-        }
+
         self::assertFileDoesNotExist($store);
         self::assertFileDoesNotExist($update);
 

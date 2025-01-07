@@ -16,38 +16,19 @@ class PolicyTest extends TestCase
     public function policy(): void
     {
         $file = app_path('Policies/Blog/PostPolicy.php');
-        File::delete($file);
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:policy blog posts');
 
         self::assertFileExists($file);
 
-        $policy_file = '<?php
-
-    namespace App\Policies\Blog;
-
-    use App\Models\Blog\Post;
-    use Hans\Valravn\Policies\Contracts\VPolicy;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Support\Collection;
-
-    class PostPolicy extends VPolicy {
-
-        /**
-         * Set the related model class
-         *
-         * @return string
-         */
-        protected function getModel(): string {
-            return Post::class;
-        }
-
-    }
-';
+        $policyStub = $this->getStub('policies/policy.stub');
+        $policyStub = str_replace('{{POLICY::NAMESPACE}}','Blog', $policyStub);
+        $policyStub = str_replace('{{POLICY::MODEL}}','Post', $policyStub);
 
         self::assertEquals(
-            $policy_file,
+            $policyStub,
             file_get_contents($file)
         );
     }
