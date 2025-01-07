@@ -6,7 +6,7 @@ use Hans\Valravn\Tests\Instances\DTOs\SampleDto;
 use Hans\Valravn\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-class DtoTest extends TestCase
+class VDtoTest extends TestCase
 {
     #[Test]
     public function make(): void
@@ -15,9 +15,28 @@ class DtoTest extends TestCase
             ['id' => 1],
             ['id' => 3],
         ];
-        $result = SampleDto::make([
-            'related' => $data,
-        ]);
+
+        $result = SampleDto::make(['related' => $data]);
+
+        self::assertEquals(
+            [
+                ['id' => 1],
+                ['id' => 3],
+            ],
+            $result->getData()->toArray()
+        );
+    }
+
+    #[Test]
+    public function makeWithNoWrapper(): void
+    {
+        $data = [
+            ['id' => 1],
+            ['id' => 3],
+        ];
+
+        $result = SampleDto::make($data);
+
         self::assertEquals(
             [
                 ['id' => 1],
@@ -37,7 +56,9 @@ class DtoTest extends TestCase
                 'the artist' => 'post malone',
             ],
         ];
+
         $result = SampleDto::makeFromArray($data);
+
         self::assertEquals(
             [
                 ['id' => 1],
