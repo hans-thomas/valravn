@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Test;
 class RepositoryAuthorizationTest extends TestCase
 {
     private Repository $repository;
-    
+
     protected function setUp(): void
     {
         parent::setUp();

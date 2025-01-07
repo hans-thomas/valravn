@@ -99,7 +99,7 @@ trait ResourceCollectionExtender
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
      * @return array|Arrayable|JsonSerializable
      */
@@ -111,7 +111,7 @@ trait ResourceCollectionExtender
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -127,7 +127,7 @@ trait ResourceCollectionExtender
     /**
      * Create a paginate-aware HTTP response.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
      * @return JsonResponse
      */
