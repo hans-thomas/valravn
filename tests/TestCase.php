@@ -7,6 +7,7 @@ use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 use Hans\Valravn\ValravnServiceProvider;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Routing\Router;
@@ -27,7 +28,7 @@ class TestCase extends BaseTestCase
     /**
      * Get application timezone.
      *
-     * @param Application $app
+     * @param  Application  $app
      *
      * @return string|null
      */
@@ -39,7 +40,7 @@ class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param Application $app
+     * @param  Application  $app
      *
      * @return array
      */
@@ -53,7 +54,7 @@ class TestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param Application $app
+     * @param  Application  $app
      *
      * @return void
      */
@@ -71,7 +72,7 @@ class TestCase extends BaseTestCase
     /**
      * Define routes setup.
      *
-     * @param Router $router
+     * @param  Router  $router
      *
      * @return void
      */
@@ -113,5 +114,18 @@ class TestCase extends BaseTestCase
             $resource->toResponse(request())->content(),
             true
         );
+    }
+
+    public function clearDirectories(array $paths, array $ignoreFiles = []): void
+    {
+        $fs = new Filesystem();
+
+        foreach ($paths as $path) {
+            foreach ($fs->allFiles($path) as $file) {
+                if (!in_array($file, $ignoreFiles)) {
+                    $fs->delete($file);
+                }
+            }
+        }
     }
 }
