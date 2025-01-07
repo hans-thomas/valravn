@@ -10,7 +10,7 @@ class BatchUpdateDto extends VDto
     /**
      * Process the received data.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return Collection
      */
@@ -31,11 +31,9 @@ class BatchUpdateDto extends VDto
         return new self($data);
     }
 
-
     /** @inheritDoc */
     public static function getKeyName(): string
     {
         return 'batch';
     }
-
 }

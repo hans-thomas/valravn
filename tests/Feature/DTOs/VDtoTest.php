@@ -16,7 +16,7 @@ class VDtoTest extends TestCase
             ['id' => 3],
         ];
 
-        $result = SampleDto::make(['related' => $data,]);
+        $result = SampleDto::make(['related' => $data]);
 
         self::assertEquals(
             [

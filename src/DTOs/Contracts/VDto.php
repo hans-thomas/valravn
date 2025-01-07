@@ -41,7 +41,7 @@ abstract class VDto
     /**
      * Import data from array.
      *
-     * @param  array|Collection  $data
+     * @param array|Collection $data
      *
      * @return static
      */
@@ -84,7 +84,7 @@ abstract class VDto
     }
 
     /**
-     * Return keyName of DTO object
+     * Return keyName of DTO object.
      *
      * @return string
      */
@@ -92,5 +92,4 @@ abstract class VDto
     {
         return 'related';
     }
-
 }
