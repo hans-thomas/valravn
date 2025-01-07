@@ -11,7 +11,6 @@ use Illuminate\Support\Env;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
 class VHandlerTest extends TestCase
 {

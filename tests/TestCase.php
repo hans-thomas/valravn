@@ -55,10 +55,11 @@ class TestCase extends BaseTestCase
 
         parent::tearDown();
     }
+
     /**
      * Get application timezone.
      *
-     * @param  Application  $app
+     * @param Application $app
      *
      * @return string|null
      */
@@ -70,7 +71,7 @@ class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param  Application  $app
+     * @param Application $app
      *
      * @return array
      */
@@ -84,7 +85,7 @@ class TestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param  Application  $app
+     * @param Application $app
      *
      * @return void
      */
@@ -102,7 +103,7 @@ class TestCase extends BaseTestCase
     /**
      * Define routes setup.
      *
-     * @param  Router  $router
+     * @param Router $router
      *
      * @return void
      */
@@ -155,7 +156,7 @@ class TestCase extends BaseTestCase
                 $fs->delete($path);
             }
 
-            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path,true)) {
+            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path, true)) {
                 foreach ($fs->allFiles($path) as $file) {
                     if (!in_array($file, $ignoreFiles)) {
                         $fs->delete($file);
