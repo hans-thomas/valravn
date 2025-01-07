@@ -4,7 +4,6 @@ namespace Hans\Valravn\Tests\Feature;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Attributes\Test;
 
 class InstallTest extends TestCase
