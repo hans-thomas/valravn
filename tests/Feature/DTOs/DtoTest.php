@@ -4,14 +4,11 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 
 use Hans\Valravn\Tests\Instances\DTOs\SampleDto;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DtoTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function make(): void
     {
         $data = [
@@ -30,11 +27,7 @@ class DtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function makeFromArray(): void
     {
         $data = [
@@ -60,11 +53,7 @@ class DtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function export(): void
     {
         $data = [

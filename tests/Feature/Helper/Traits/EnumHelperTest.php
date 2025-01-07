@@ -4,14 +4,11 @@ namespace Hans\Valravn\Tests\Feature\Helper\Traits;
 
 use Hans\Valravn\Tests\Instances\Helper\SampleEnum;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnumHelperTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArray(): void
     {
         self::assertEquals(
@@ -24,11 +21,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayKeys(): void
     {
         self::assertEquals(
@@ -41,11 +34,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayExcept(): void
     {
         self::assertEquals(
@@ -57,11 +46,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayKeysExcept(): void
     {
         self::assertEquals(
@@ -73,11 +58,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayOnly(): void
     {
         self::assertEquals(
@@ -88,11 +69,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayKeysOnly(): void
     {
         self::assertEquals(
@@ -103,11 +80,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function all(): void
     {
         self::assertEquals(
@@ -120,11 +93,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function IndexedAll(): void
     {
         self::assertEquals(
@@ -137,11 +106,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function tryFromKeyAsNotExistsKey(): void
     {
         self::assertEquals(
@@ -150,11 +115,7 @@ class EnumHelperTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function tryFromKey(): void
     {
         self::assertEquals(

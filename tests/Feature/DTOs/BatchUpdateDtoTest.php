@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class BatchUpdateDtoTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parse(): void
     {
         $data = [
@@ -33,11 +30,7 @@ class BatchUpdateDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parseEmptyData(): void
     {
         $result = BatchUpdateDto::make([])->getData();

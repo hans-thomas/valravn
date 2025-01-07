@@ -9,14 +9,12 @@ use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithAliasResource;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithExcludeResource;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithIncludeResource;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class InteractsWithPivotsTest extends TestCase
 {
     private Post $post;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,11 +26,7 @@ class InteractsWithPivotsTest extends TestCase
                                  ->create();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function alias(): void
     {
         $resource = SampleWithAliasResource::make($category = $this->post->categories()->first());
@@ -52,11 +46,7 @@ class InteractsWithPivotsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function includes(): void
     {
         $resource = SampleWithIncludeResource::make($category = $this->post->categories()->first());
@@ -79,11 +69,7 @@ class InteractsWithPivotsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function excludes(): void
     {
         $resource = SampleWithExcludeResource::make($category = $this->post->categories()->first());

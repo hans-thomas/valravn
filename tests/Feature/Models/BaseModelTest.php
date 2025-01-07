@@ -7,6 +7,7 @@ use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Instances\Models\AliasForModelAttributesModel;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\Test;
 
 class BaseModelTest extends TestCase
 {
@@ -15,6 +16,7 @@ class BaseModelTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $post = PostFactory::new()->create();
         $this->model = AliasForModelAttributesModel::query()->make([
             'content' => fake()->paragraph(),
@@ -23,11 +25,7 @@ class BaseModelTest extends TestCase
         $this->model->save();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function aliasForModelAttributesOnGettingAlias(): void
     {
         self::assertEquals(
@@ -36,11 +34,7 @@ class BaseModelTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function aliasForModelAttributesOnUpdatingAlias(): void
     {
         $post = PostFactory::new()->create();
@@ -54,11 +48,7 @@ class BaseModelTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function table(): void
     {
         self::assertEquals(
@@ -67,11 +57,7 @@ class BaseModelTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function foreignKey(): void
     {
         self::assertEquals(

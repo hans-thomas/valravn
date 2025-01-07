@@ -4,24 +4,23 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class EntityTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->freezeTime();
+    }
+
+    #[Test]
     public function entity(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
 
-        $model = app_path('Models/Blog/Post.php');
-        $factory = base_path('database/factories/Blog/PostFactory.php');
-        $seeder = base_path('database/seeders/Blog/PostSeeder.php');
-        $datePrefix = now()->format('Y_m_d_His');
-        $migration = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+        self::assertFileDoesNotExist($exception);
 
         $crud = app_path('Http/Controllers/V1/Blog/Post/PostCrudController.php');
         $relations = app_path('Http/Controllers/V1/Blog/Post/PostRelationsController.php');
@@ -32,49 +31,6 @@ class EntityTest extends TestCase
         $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
         $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
 
-        $policy = app_path('Policies/Blog/PostPolicy.php');
-
-        $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
-        $repository = app_path('Repositories/Blog/PostRepository.php');
-
-        $crudService = app_path('Services/Blog/Post/PostCrudService.php');
-        $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
-        $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
-
-        File::delete([
-            $exception,
-
-            $model,
-            $factory,
-            $seeder,
-            $migration,
-
-            $crud,
-            $relations,
-            $actions,
-            $store,
-            $update,
-            $batchUpdate,
-            $resource,
-            $collection,
-
-            $policy,
-
-            $contract,
-            $repository,
-
-            $crudService,
-            $relationsService,
-            $actionsService,
-        ]);
-
-        self::assertFileDoesNotExist($exception);
-
-        self::assertFileDoesNotExist($model);
-        self::assertFileDoesNotExist($factory);
-        self::assertFileDoesNotExist($seeder);
-        self::assertFileDoesNotExist($migration);
-
         self::assertFileDoesNotExist($crud);
         self::assertFileDoesNotExist($relations);
         self::assertFileDoesNotExist($actions);
@@ -84,23 +40,38 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
+        $policy = app_path('Policies/Blog/PostPolicy.php');
+
         self::assertFileDoesNotExist($policy);
+
+        $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
+        $repository = app_path('Repositories/Blog/PostRepository.php');
 
         self::assertFileDoesNotExist($contract);
         self::assertFileDoesNotExist($repository);
+
+        $crudService = app_path('Services/Blog/Post/PostCrudService.php');
+        $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
+        $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
 
         self::assertFileDoesNotExist($crudService);
         self::assertFileDoesNotExist($relationsService);
         self::assertFileDoesNotExist($actionsService);
 
+        $model = app_path('Models/Blog/Post.php');
+        $factory = base_path('database/factories/Blog/PostFactory.php');
+        $seeder = base_path('database/seeders/Blog/PostSeeder.php');
+        $datePrefix = now()->format('Y_m_d_His');
+        $migration = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+
+        self::assertFileDoesNotExist($model);
+        self::assertFileDoesNotExist($factory);
+        self::assertFileDoesNotExist($seeder);
+        self::assertFileDoesNotExist($migration);
+
         Artisan::call('valravn:entity blog posts BPEcx');
 
         self::assertFileExists($exception);
-
-        self::assertFileExists($model);
-        self::assertFileExists($factory);
-        self::assertFileExists($seeder);
-        self::assertFileExists($migration);
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
@@ -119,23 +90,18 @@ class EntityTest extends TestCase
         self::assertFileExists($relationsService);
         self::assertFileExists($actionsService);
 
-        File::delete($migration);
+        self::assertFileExists($model);
+        self::assertFileExists($factory);
+        self::assertFileExists($seeder);
+        self::assertFileExists($migration);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
 
-        $model = app_path('Models/Blog/Post.php');
-        $factory = base_path('database/factories/Blog/PostFactory.php');
-        $seeder = base_path('database/seeders/Blog/PostSeeder.php');
-        $datePrefix = now()->format('Y_m_d_His');
-        $migration = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+        self::assertFileDoesNotExist($exception);
 
         $crud = app_path('Http/Controllers/V2/Blog/Post/PostCrudController.php');
         $relations = app_path('Http/Controllers/V2/Blog/Post/PostRelationsController.php');
@@ -146,49 +112,6 @@ class EntityTest extends TestCase
         $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');
         $collection = app_path('Http/Resources/V2/Blog/Post/PostCollection.php');
 
-        $policy = app_path('Policies/Blog/PostPolicy.php');
-
-        $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
-        $repository = app_path('Repositories/Blog/PostRepository.php');
-
-        $crudService = app_path('Services/Blog/Post/PostCrudService.php');
-        $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
-        $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
-
-        File::delete([
-            $exception,
-
-            $model,
-            $factory,
-            $seeder,
-            $migration,
-
-            $crud,
-            $relations,
-            $actions,
-            $store,
-            $update,
-            $batchUpdate,
-            $resource,
-            $collection,
-
-            $policy,
-
-            $contract,
-            $repository,
-
-            $crudService,
-            $relationsService,
-            $actionsService,
-        ]);
-
-        self::assertFileDoesNotExist($exception);
-
-        self::assertFileDoesNotExist($model);
-        self::assertFileDoesNotExist($factory);
-        self::assertFileDoesNotExist($seeder);
-        self::assertFileDoesNotExist($migration);
-
         self::assertFileDoesNotExist($crud);
         self::assertFileDoesNotExist($relations);
         self::assertFileDoesNotExist($actions);
@@ -198,23 +121,38 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
+        $policy = app_path('Policies/Blog/PostPolicy.php');
+
         self::assertFileDoesNotExist($policy);
+
+        $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
+        $repository = app_path('Repositories/Blog/PostRepository.php');
 
         self::assertFileDoesNotExist($contract);
         self::assertFileDoesNotExist($repository);
+
+        $crudService = app_path('Services/Blog/Post/PostCrudService.php');
+        $relationsService = app_path('Services/Blog/Post/PostRelationsService.php');
+        $actionsService = app_path('Services/Blog/Post/PostActionsService.php');
 
         self::assertFileDoesNotExist($crudService);
         self::assertFileDoesNotExist($relationsService);
         self::assertFileDoesNotExist($actionsService);
 
+        $model = app_path('Models/Blog/Post.php');
+        $factory = base_path('database/factories/Blog/PostFactory.php');
+        $seeder = base_path('database/seeders/Blog/PostSeeder.php');
+        $datePrefix = now()->format('Y_m_d_His');
+        $migration = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+
+        self::assertFileDoesNotExist($model);
+        self::assertFileDoesNotExist($factory);
+        self::assertFileDoesNotExist($seeder);
+        self::assertFileDoesNotExist($migration);
+
         Artisan::call('valravn:entity blog posts BPTEcx --v 2');
 
         self::assertFileExists($exception);
-
-        self::assertFileExists($model);
-        self::assertFileExists($factory);
-        self::assertFileExists($seeder);
-        self::assertFileExists($migration);
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
@@ -234,6 +172,9 @@ class EntityTest extends TestCase
         self::assertFileExists($relationsService);
         self::assertFileExists($actionsService);
 
-        File::delete($migration);
+        self::assertFileExists($model);
+        self::assertFileExists($factory);
+        self::assertFileExists($seeder);
+        self::assertFileExists($migration);
     }
 }

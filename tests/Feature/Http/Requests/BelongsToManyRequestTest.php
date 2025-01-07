@@ -7,16 +7,13 @@ use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesRequest;
 use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesWithPivotRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Validation\Rule;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
 class BelongsToManyRequestTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToMany(): void
     {
         $rules = app(PostCategoriesRequest::class)->rules();
@@ -30,11 +27,7 @@ class BelongsToManyRequestTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToManyWithPivot(): void
     {
         $rules = app(PostCategoriesWithPivotRequest::class)->rules();

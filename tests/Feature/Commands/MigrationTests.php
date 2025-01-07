@@ -4,75 +4,30 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class MigrationTests extends TestCase
 {
-    protected string $datePrefix;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->datePrefix = now()->format('Y_m_d_His');
-    }
-
-    protected function tearDown(): void
-    {
-        $file = base_path("database/migrations/Blog/{$this->datePrefix}_create_posts_table.php");
-        File::delete($file);
-
-        parent::tearDown();
-    }
-
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function migration(): void
     {
         $this->withoutMockingConsoleOutput();
-        $file = base_path("database/migrations/Blog/{$this->datePrefix}_create_posts_table.php");
-        File::delete($file);
+        $this->freezeTime();
+
+        $datePrefix = now()->format('Y_m_d_His');
+        $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
+
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:migration blog posts');
 
         self::assertFileExists($file);
 
-        $actions_file = '<?php
+        $migrationStub = $this->getStub('migrations/migration.stub');
+        $migrationStub = str_replace('{{MODEL::NAMESPACE}}', 'Blog', $migrationStub);
+        $migrationStub = str_replace('{{MODEL::CLASS}}', 'Post', $migrationStub);
 
-    use App\Models\Blog\Post;
-    use Illuminate\Database\Migrations\Migration;
-    use Illuminate\Database\Schema\Blueprint;
-    use Illuminate\Support\Facades\Schema;
-
-    return new class extends Migration {
-        /**
-         * Run the migrations.
-         *
-         * @return void
-         */
-        public function up() {
-            Schema::create( Post::table(), function( Blueprint $table ) {
-                $table->id();
-                $table->timestamps();
-            } );
-        }
-
-        /**
-         * Reverse the migrations.
-         *
-         * @return void
-         */
-        public function down() {
-            Schema::dropIfExists( Post::table() );
-        }
-    };
-';
-
-        self::assertEquals($actions_file, file_get_contents($file));
+        self::assertEquals($migrationStub, file_get_contents($file));
         self::assertStringContainsString('migration class successfully created!', Artisan::output());
 
         Artisan::call('valravn:migration blog posts');

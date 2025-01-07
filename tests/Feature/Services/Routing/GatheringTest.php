@@ -6,25 +6,19 @@ use Hans\Valravn\Services\Routing\GatheringRegisterer;
 use Hans\Valravn\Services\Routing\RoutingService;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleGatheringController;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GatheringTest extends TestCase
 {
     private RoutingService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(RoutingService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function addRoute(): void
     {
         $this->service
@@ -42,11 +36,7 @@ class GatheringTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $this->service

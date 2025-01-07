@@ -14,6 +14,7 @@ use Hans\Valravn\Tests\TestCase;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Optional;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FunctionsTest extends TestCase
@@ -48,11 +49,7 @@ class FunctionsTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function user(): void
     {
         self::assertInstanceOf(
@@ -76,11 +73,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function generate_order(): void
     {
         self::assertIsFloat(generate_order());
@@ -134,11 +127,7 @@ class FunctionsTest extends TestCase
         self::assertFalse($model);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveMorphableToResource(): void
     {
         $resource = resolveMorphableToResource($this->post);
@@ -149,11 +138,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveMorphableToResourceWithResourceCollectionableImplemented(): void
     {
         $resource = resolveMorphableToResource($this->user);
@@ -164,11 +149,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function slugify(): void
     {
         // Poetry meaning: if you are alive now, don't let the present pass without happiness -Omar Khayyam
@@ -182,11 +163,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function vlogLogFile(): void
     {
         self::assertFileDoesNotExist(storage_path("logs/valravn-$this->date.log"));
@@ -196,11 +173,7 @@ class FunctionsTest extends TestCase
         self::assertFileExists(storage_path("logs/valravn-$this->date.log"));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function vlogContent(): void
     {
         $file = storage_path("logs/valravn-$this->date.log");
@@ -227,11 +200,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function vlogThrowableAsMessage(): void
     {
         $file = storage_path("logs/valravn-$this->date.log");

@@ -7,25 +7,19 @@ use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonResourceQueriesTest extends TestCase
 {
     private Post $post;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function queries(): void
     {
         $resource = PostResource::make($this->post)->withFirstCommentQuery();
@@ -48,11 +42,7 @@ class JsonResourceQueriesTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function queriesThroughApi(): void
     {
         $content = $this->get("/queries/posts/{$this->post->id}?with_first_comment")

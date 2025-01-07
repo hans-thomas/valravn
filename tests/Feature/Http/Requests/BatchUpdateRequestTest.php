@@ -6,14 +6,11 @@ use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Instances\Http\Requests\PostBatchUpdateRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Validation\Rule;
+use PHPUnit\Framework\Attributes\Test;
 
 class BatchUpdateRequestTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdate(): void
     {
         $rules = app(PostBatchUpdateRequest::class)->rules();

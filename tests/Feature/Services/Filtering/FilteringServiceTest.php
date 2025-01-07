@@ -7,14 +7,12 @@ use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class FilteringServiceTest extends TestCase
 {
     private FilteringService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,11 +20,7 @@ class FilteringServiceTest extends TestCase
         PostFactory::new()->count(5)->create();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function apply(): void
     {
         request()->merge([
@@ -42,11 +36,7 @@ class FilteringServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyWithOnly(): void
     {
         request()->merge([
@@ -69,11 +59,7 @@ class FilteringServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyWithExcept(): void
     {
         request()->merge([
@@ -96,11 +82,7 @@ class FilteringServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getRegistered(): void
     {
         self::assertEquals(

@@ -2,12 +2,15 @@
 
 namespace Hans\Valravn\Http\Resources\Traits;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\CollectsResources;
 use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Collection;
+use JsonSerializable;
 
 trait ResourceCollectionExtender
 {
@@ -23,7 +26,7 @@ trait ResourceCollectionExtender
     /**
      * The mapped collection instance.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $collection;
 
@@ -96,9 +99,9 @@ trait ResourceCollectionExtender
     /**
      * Transform the resource into a JSON array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray(Request $request)
     {
@@ -108,9 +111,9 @@ trait ResourceCollectionExtender
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function toResponse($request)
     {
@@ -124,9 +127,9 @@ trait ResourceCollectionExtender
     /**
      * Create a paginate-aware HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function preparePaginatedResponse($request)
     {

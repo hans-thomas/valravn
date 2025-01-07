@@ -4,21 +4,26 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestsTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            app_path('Http/Requests/V3/Blog/Post'),
+            app_path('Http/Requests/V5/Blog/Post'),
+        ]);
+
+        parent::tearDown();
+    }
+
+    #[Test]
     public function requests(): void
     {
         $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
         $update = app_path('Http/Requests/V1/Blog/Post/PostUpdateRequest.php');
 
-        File::delete([$store, $update]);
         self::assertFileDoesNotExist($store);
         self::assertFileDoesNotExist($update);
 
@@ -27,234 +32,89 @@ class RequestsTest extends TestCase
         self::assertFileExists($store);
         self::assertFileExists($update);
 
-        $storeContent = "<?php
+        $storeStub = $this->getStub('requests/crud.stub');
+        $storeStub = str_replace('{{REQUEST::VERSION}}', 'V1', $storeStub);
+        $storeStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $storeStub);
+        $storeStub = str_replace('{{REQUEST::MODEL}}', 'Post', $storeStub);
+        $storeStub = str_replace('{{REQUEST::ACTION}}', 'Store', $storeStub);
 
-    namespace App\Http\Requests\V1\Blog\Post;
+        self::assertEquals($storeStub, file_get_contents($store));
 
-    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
+        $updateStub = $this->getStub('requests/crud.stub');
+        $updateStub = str_replace('{{REQUEST::VERSION}}', 'V1', $updateStub);
+        $updateStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $updateStub);
+        $updateStub = str_replace('{{REQUEST::MODEL}}', 'Post', $updateStub);
+        $updateStub = str_replace('{{REQUEST::ACTION}}', 'Update', $updateStub);
 
-    class PostStoreRequest extends VFormRequest {
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $storeContent,
-            file_get_contents($store)
-        );
-
-        $updateContent = "<?php
-
-    namespace App\Http\Requests\V1\Blog\Post;
-
-    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
-
-    class PostUpdateRequest extends VFormRequest {
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $updateContent,
-            file_get_contents($update)
-        );
+        self::assertEquals($updateStub, file_get_contents($update));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
-        $store = app_path('Http/Requests/V2/Blog/Post/PostStoreRequest.php');
-        $update = app_path('Http/Requests/V2/Blog/Post/PostUpdateRequest.php');
+        $store = app_path('Http/Requests/V3/Blog/Post/PostStoreRequest.php');
+        $update = app_path('Http/Requests/V3/Blog/Post/PostUpdateRequest.php');
 
-        File::delete([$store, $update]);
         self::assertFileDoesNotExist($store);
         self::assertFileDoesNotExist($update);
 
-        Artisan::call('valravn:requests blog posts --v 2');
+        Artisan::call('valravn:requests blog posts --v 3');
 
         self::assertFileExists($store);
         self::assertFileExists($update);
 
-        $storeContent = "<?php
+        $storeStub = $this->getStub('requests/crud.stub');
+        $storeStub = str_replace('{{REQUEST::VERSION}}', 'V3', $storeStub);
+        $storeStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $storeStub);
+        $storeStub = str_replace('{{REQUEST::MODEL}}', 'Post', $storeStub);
+        $storeStub = str_replace('{{REQUEST::ACTION}}', 'Store', $storeStub);
 
-    namespace App\Http\Requests\V2\Blog\Post;
+        self::assertEquals($storeStub, file_get_contents($store));
 
-    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
+        $updateStub = $this->getStub('requests/crud.stub');
+        $updateStub = str_replace('{{REQUEST::VERSION}}', 'V3', $updateStub);
+        $updateStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $updateStub);
+        $updateStub = str_replace('{{REQUEST::MODEL}}', 'Post', $updateStub);
+        $updateStub = str_replace('{{REQUEST::ACTION}}', 'Update', $updateStub);
 
-    class PostStoreRequest extends VFormRequest {
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $storeContent,
-            file_get_contents($store)
-        );
-
-        $updateContent = "<?php
-
-    namespace App\Http\Requests\V2\Blog\Post;
-
-    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
-
-    class PostUpdateRequest extends VFormRequest {
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $updateContent,
-            file_get_contents($update)
-        );
+        self::assertEquals($updateStub, file_get_contents($update));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdate(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php');
 
-        File::delete($file);
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:requests blog posts --batch-update');
 
         self::assertFileExists($file);
 
-        $content = "<?php
+        $batchUpdateStub = $this->getStub('requests/batch-update.stub');
+        $batchUpdateStub = str_replace('{{REQUEST::VERSION}}', 'V1', $batchUpdateStub);
+        $batchUpdateStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $batchUpdateStub);
+        $batchUpdateStub = str_replace('{{REQUEST::MODEL}}', 'Post', $batchUpdateStub);
 
-    namespace App\Http\Requests\V1\Blog\Post;
-
-    use App\Models\Blog\Post;
-    use Hans\Valravn\Http\Requests\Contracts\BatchUpdateRequest;
-
-    class PostBatchUpdateRequest extends BatchUpdateRequest {
-
-		/**
-		 * Get related model class
-		 *
-		 * @return string
-		 */
-        protected function model(): string {
-            return Post::class;
-        }
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $content,
-            file_get_contents($file)
-        );
+        self::assertEquals($batchUpdateStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdateWithVersion(): void
     {
         $file = app_path('Http/Requests/V5/Blog/Post/PostBatchUpdateRequest.php');
 
-        File::delete($file);
         self::assertFileDoesNotExist($file);
 
         Artisan::call('valravn:requests blog posts --batch-update --v 5');
 
         self::assertFileExists($file);
 
-        $content = "<?php
+        $batchUpdateStub = $this->getStub('requests/batch-update.stub');
+        $batchUpdateStub = str_replace('{{REQUEST::VERSION}}', 'V5', $batchUpdateStub);
+        $batchUpdateStub = str_replace('{{REQUEST::NAMESPACE}}', 'Blog', $batchUpdateStub);
+        $batchUpdateStub = str_replace('{{REQUEST::MODEL}}', 'Post', $batchUpdateStub);
 
-    namespace App\Http\Requests\V5\Blog\Post;
-
-    use App\Models\Blog\Post;
-    use Hans\Valravn\Http\Requests\Contracts\BatchUpdateRequest;
-
-    class PostBatchUpdateRequest extends BatchUpdateRequest {
-
-		/**
-		 * Get related model class
-		 *
-		 * @return string
-		 */
-        protected function model(): string {
-            return Post::class;
-        }
-
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
-    }
-";
-        self::assertEquals(
-            $content,
-            file_get_contents($file)
-        );
+        self::assertEquals($batchUpdateStub, file_get_contents($file));
     }
 }

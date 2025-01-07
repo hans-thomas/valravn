@@ -4,7 +4,7 @@ namespace Hans\Valravn\Tests\Feature;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class InstallTest extends TestCase
 {
@@ -33,21 +33,17 @@ class InstallTest extends TestCase
 
         $this->configFile = config_path('valravn.php');
         $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$this->configFile, $this->serviceProviderFile]);
+
+        $this->cleanUp([$this->configFile, $this->serviceProviderFile]);
 
         parent::tearDown();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function install(): void
     {
         $this->configFile = config_path('valravn.php');
         $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$this->configFile, $this->serviceProviderFile]);
 
         self::assertFileDoesNotExist($this->configFile);
         self::assertFileDoesNotExist($this->serviceProviderFile);
