@@ -5,6 +5,7 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class RelationTest extends TestCase
 {
@@ -21,11 +22,7 @@ class RelationTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToMany(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -48,11 +45,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToManyWithPivot(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -69,11 +62,7 @@ class RelationTest extends TestCase
         self::assertFileExists($pivot);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToManyWithVersion(): void
     {
         $file = app_path('Http/Requests/V3/Blog/Post/PostCategoriesRequest.php');
@@ -96,11 +85,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function hasMany(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -124,11 +109,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function hasManyWithVersion(): void
     {
         $file = app_path('Http/Requests/V4/Blog/Post/PostCategoriesRequest.php');
@@ -151,11 +132,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedByMany(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -178,11 +155,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedByManyWithPivot(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -199,11 +172,7 @@ class RelationTest extends TestCase
         self::assertFileExists($pivot);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedByManyWithVersion(): void
     {
         $file = app_path('Http/Requests/V6/Blog/Post/PostCategoriesRequest.php');
@@ -226,11 +195,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedToMany(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -254,11 +219,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedToManyWithPivot(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
@@ -275,11 +236,7 @@ class RelationTest extends TestCase
         self::assertFileExists($pivot);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphedToManyWithVersion(): void
     {
         $file = app_path('Http/Requests/V8/Blog/Post/PostCategoriesRequest.php');
@@ -302,11 +259,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphTo(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Like/LikeLikableRequest.php');
@@ -327,11 +280,7 @@ class RelationTest extends TestCase
         self::assertEquals($relationStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function morphToWithVersion(): void
     {
         $file = app_path('Http/Requests/V9/Blog/Like/LikeLikableRequest.php');

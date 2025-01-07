@@ -6,14 +6,11 @@ use Hans\Valravn\Facades\VRouter;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleApiController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleController;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RoutingServiceTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function apiResource(): void
     {
         VRouter::apiResource('samples', SampleApiController::class);
@@ -25,11 +22,7 @@ class RoutingServiceTest extends TestCase
         $this->deleteJson(route('samples.destroy', 1))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resource(): void
     {
         VRouter::resource('samples', SampleController::class);

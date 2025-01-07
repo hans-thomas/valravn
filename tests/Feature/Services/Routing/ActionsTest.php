@@ -6,25 +6,19 @@ use Hans\Valravn\Services\Routing\ActionsRegisterer;
 use Hans\Valravn\Services\Routing\RoutingService;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleActionsController;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ActionsTest extends TestCase
 {
     private RoutingService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(RoutingService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function withId(): void
     {
         $this->service
@@ -42,11 +36,7 @@ class ActionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parameters(): void
     {
         $this->service
@@ -73,11 +63,7 @@ class ActionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getRoute(): void
     {
         $this->service
@@ -91,11 +77,7 @@ class ActionsTest extends TestCase
         $this->getJson(route('samples.actions.action-with-no-param'))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function postRoute(): void
     {
         $this->service
@@ -109,11 +91,7 @@ class ActionsTest extends TestCase
         $this->postJson(route('samples.actions.action-with-no-param'))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function patchRoute(): void
     {
         $this->service
@@ -127,11 +105,7 @@ class ActionsTest extends TestCase
         $this->patchJson(route('samples.actions.action-with-no-param'))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function deleteRoute(): void
     {
         $this->service

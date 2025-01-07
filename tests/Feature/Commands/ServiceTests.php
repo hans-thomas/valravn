@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class ServiceTests extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function crud(): void
     {
         $crud = app_path('Services/Blog/Post/PostCrudService.php');
@@ -30,11 +27,7 @@ class ServiceTests extends TestCase
         self::assertEquals($crudStub, file_get_contents($crud));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relations(): void
     {
         $relations = app_path('Services/Blog/Post/PostRelationsService.php');
@@ -52,11 +45,7 @@ class ServiceTests extends TestCase
         self::assertEquals($relationsStub, file_get_contents($relations));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function actions(): void
     {
         $actions = app_path('Services/Blog/Post/PostActionsService.php');

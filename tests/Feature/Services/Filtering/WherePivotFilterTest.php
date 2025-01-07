@@ -8,14 +8,12 @@ use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Category;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class WherePivotFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,11 +24,7 @@ class WherePivotFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function apply(): void
     {
         request()->merge([
@@ -46,11 +40,7 @@ class WherePivotFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyWithMultipleValues(): void
     {
         request()->merge([

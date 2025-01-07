@@ -4,14 +4,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Test;
 
 class ModelTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function modelFile(): void
     {
         $file = app_path('Models/Blog/Post.php');
@@ -31,11 +28,7 @@ class ModelTest extends TestCase
         self::assertEquals($modelStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function factoryFile(): void
     {
         $file = base_path('database/factories/Blog/PostFactory.php');
@@ -47,11 +40,7 @@ class ModelTest extends TestCase
         self::assertFileExists($file);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function seederFile(): void
     {
         $file = base_path('database/seeders/Blog/PostSeeder.php');
@@ -63,11 +52,7 @@ class ModelTest extends TestCase
         self::assertFileExists($file);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function migrationFile(): void
     {
         $datePrefix = now()->format('Y_m_d_His');

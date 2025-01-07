@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class PolicyTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function policy(): void
     {
         $file = app_path('Policies/Blog/PostPolicy.php');

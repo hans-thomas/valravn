@@ -5,25 +5,19 @@ namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 use Hans\Valravn\Services\Filtering\FilteringService;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class WhereRelationFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(FilteringService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function apply(): void
     {
         request()->merge([

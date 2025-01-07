@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourcesTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resources(): void
     {
         $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
@@ -44,11 +41,7 @@ class ResourcesTest extends TestCase
         self::assertEquals($collectionStub, file_get_contents($collection));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');

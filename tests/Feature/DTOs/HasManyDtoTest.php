@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 use Hans\Valravn\DTOs\HasManyDto;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class HasManyDtoTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parse(): void
     {
         $data = [
@@ -37,11 +34,7 @@ class HasManyDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parseEmptyData(): void
     {
         $result = HasManyDto::make([])->getData();

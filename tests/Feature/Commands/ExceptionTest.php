@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class ExceptionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function fullFormException(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
@@ -34,11 +31,7 @@ class ExceptionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function compactFormException(): void
     {
         $exception = app_path('Exceptions/Blog/Post/NotFoundException.php');
@@ -60,11 +53,7 @@ class ExceptionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function compactFormExceptionWithEmptyCompact(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
@@ -77,11 +66,7 @@ class ExceptionTest extends TestCase
         self::assertFileExists($exception);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function compactFormExceptionWithNullCompact(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');

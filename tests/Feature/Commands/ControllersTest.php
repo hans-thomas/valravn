@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class ControllersTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function controllers(): void
     {
         $crud = app_path('Http/Controllers/V1/Blog/Post/PostCrudController.php');
@@ -30,11 +27,7 @@ class ControllersTest extends TestCase
         self::assertFileExists($actions);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function requests(): void
     {
         $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
@@ -51,11 +44,7 @@ class ControllersTest extends TestCase
         self::assertFileExists($batchUpdate);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resources(): void
     {
         $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
@@ -70,11 +59,7 @@ class ControllersTest extends TestCase
         self::assertFileExists($collection);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $crud = app_path('Http/Controllers/V2/Blog/Post/PostCrudController.php');

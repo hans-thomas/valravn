@@ -9,25 +9,19 @@ use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
 use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonResourceInteractsWithRelationsTest extends TestCase
 {
     private Post $post;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveRelationsUsing(): void
     {
         $this->post->loadMissing('comments');
@@ -68,11 +62,7 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function skipRelationsForModel(): void
     {
         $this->post->loadMissing('comments');

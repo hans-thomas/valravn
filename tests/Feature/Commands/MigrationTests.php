@@ -4,14 +4,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Test;
 
 class MigrationTests extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function migration(): void
     {
         $this->withoutMockingConsoleOutput();

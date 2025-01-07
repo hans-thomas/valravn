@@ -9,6 +9,7 @@ use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithDefaultExtractCollecti
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookCollection;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceCollectionTest extends TestCase
 {
@@ -17,6 +18,7 @@ class ResourceCollectionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->models = collect();
         $object = new class() extends VModel {
             protected $fillable = ['name', 'email', 'address'];
@@ -35,11 +37,7 @@ class ResourceCollectionTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function make(): void
     {
         $collection = SampleCollection::make($this->models);
@@ -60,11 +58,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayAsNull(): void
     {
         $collection = SampleCollection::make(null);
@@ -77,11 +71,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayAsNullModel(): void
     {
         $resource = SampleCollection::make(collect([new class() extends VModel { }]));
@@ -101,11 +91,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function makeAsDefaultExtract(): void
     {
         $resource = SampleWithDefaultExtractCollection::make($this->models);
@@ -124,11 +110,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function makeAsDefaultExtractInCollection(): void
     {
         $resource = SampleWithCollectionDefaultExtractCollection::make($this->models);
@@ -149,11 +131,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function allLoaded(): void
     {
         $resource = SampleWithHookCollection::make($this->models);
@@ -173,11 +151,7 @@ class ResourceCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function only(): void
     {
         $collection = SampleCollection::make($this->models)->only(['email']);

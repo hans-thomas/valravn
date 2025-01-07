@@ -6,14 +6,11 @@ use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesHasManyRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Validation\Rule;
+use PHPUnit\Framework\Attributes\Test;
 
 class HasManyRequestTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function hasMany(): void
     {
         $rules = app(PostCategoriesHasManyRequest::class)->rules();

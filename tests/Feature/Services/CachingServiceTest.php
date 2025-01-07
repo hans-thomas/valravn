@@ -7,25 +7,19 @@ use Hans\Valravn\Services\Contracts\Service;
 use Hans\Valravn\Tests\Instances\Services\SampleService;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\Test;
 
 class CachingServiceTest extends TestCase
 {
     private Service $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(SampleService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function remember(): void
     {
         Cache::shouldReceive('remember')
@@ -34,11 +28,7 @@ class CachingServiceTest extends TestCase
         $this->service->cache()->addition(1, 2);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function cache(): void
     {
         Cache::shouldReceive('remember')

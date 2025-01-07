@@ -13,14 +13,12 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
     private Repository $repository;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,13 +26,7 @@ class RepositoryTest extends TestCase
         $this->repository = app(SampleRepository::class)->disableAuthorization();
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function shouldAuthorizeAsDefault(): void
     {
         Gate::shouldReceive('authorize')
@@ -42,26 +34,14 @@ class RepositoryTest extends TestCase
         app(SampleRepository::class)->all();
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function shouldAuthorizeAsDisabled(): void
     {
         $this->repository->disableAuthorization();
         self::assertInstanceOf(Builder::class, $this->repository->all());
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function shouldAuthorizeAsEnabled(): void
     {
         $this->repository->disableAuthorization()->enableAuthorization();
@@ -70,13 +50,7 @@ class RepositoryTest extends TestCase
         $this->repository->all();
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function all(): void
     {
         $models = $this->repository->all()->get();
@@ -86,13 +60,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function allUsingSelect(): void
     {
         $models = $this->repository->select('id')->all()->get();
@@ -105,13 +73,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function allUsingWith(): void
     {
         $models = $this->repository->with('categories')->all()->get();
@@ -124,13 +86,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function find(): void
     {
         $model = $this->repository->find(1);
@@ -140,13 +96,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function findUsingSelect(): void
     {
         $model = $this->repository->select('id')->find(1);
@@ -158,13 +108,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function findUsingWith(): void
     {
         $model = $this->repository->with('categories')->find(1);
@@ -174,24 +118,14 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function deleteAction(): void
     {
         self::assertTrue($this->repository->delete(1));
         $this->assertDatabaseMissing(Post::table(), ['id' => 1]);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function createAction(): void
     {
         $data = PostFactory::new()->make()->toArray();
@@ -202,13 +136,7 @@ class RepositoryTest extends TestCase
         $this->assertDatabaseHas(Post::table(), $data);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function updateAction(): void
     {
         $data = PostFactory::new()->make()->toArray();
@@ -216,13 +144,7 @@ class RepositoryTest extends TestCase
         $this->assertDatabaseHas(Post::table(), $data + ['id' => 1]);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdateAction(): void
     {
         $data = [

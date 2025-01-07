@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 use Hans\Valravn\DTOs\MorphToDto;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class MorphToDtoTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parse(): void
     {
         $data = [
@@ -30,11 +27,7 @@ class MorphToDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parseEmptyData(): void
     {
         $result = MorphToDto::make([])->getData();

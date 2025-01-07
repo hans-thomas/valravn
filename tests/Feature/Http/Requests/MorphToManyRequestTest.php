@@ -7,21 +7,16 @@ use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesMorphToManyRequest;
 use Hans\Valravn\Tests\Instances\Http\Requests\PostCategoriesMorphToManyWithPivotRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Validation\Rule;
-
-use function PHPUnit\Framework\assertEquals;
+use PHPUnit\Framework\Attributes\Test;
 
 class MorphToManyRequestTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToMany(): void
     {
         $rules = app(PostCategoriesMorphToManyRequest::class)->rules();
 
-        assertEquals(
+        self::assertEquals(
             [
                 'related'      => ['array'],
                 'related.*.id' => ['required', 'numeric', Rule::exists(Post::class, 'id')],
@@ -30,16 +25,12 @@ class MorphToManyRequestTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function belongsToManyWithPivot(): void
     {
         $rules = app(PostCategoriesMorphToManyWithPivotRequest::class)->rules();
 
-        assertEquals(
+        self::assertEquals(
             [
                 'related'               => ['array'],
                 'related.*.id'          => ['required', 'numeric', Rule::exists(Post::class, 'id')],

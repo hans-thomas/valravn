@@ -9,6 +9,7 @@ use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithHookResource;
 use Hans\Valravn\Tests\Instances\Http\Resources\SampleWithTypeOverrideResource;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\Test;
 
 class JsonResourceTest extends TestCase
 {
@@ -17,6 +18,7 @@ class JsonResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->model = new class() extends VModel {
             protected $fillable = ['name', 'email', 'address'];
         };
@@ -28,11 +30,7 @@ class JsonResourceTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function make(): void
     {
         $resource = SampleResource::make($this->model);
@@ -51,11 +49,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayAsNull(): void
     {
         $resource = SampleResource::make(null);
@@ -68,11 +62,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function toArrayAsNullModel(): void
     {
         $resource = SampleResource::make(new class() extends VModel { });
@@ -91,11 +81,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function addExtra(): void
     {
         $resource = SampleResource::make($this->model)
@@ -120,11 +106,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function addExtrasInChain(): void
     {
         $resource = SampleResource::make($this->model)
@@ -153,11 +135,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function addAdditional(): void
     {
         $resource = SampleResource::make($this->model)
@@ -180,11 +158,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function addAdditionalInChain(): void
     {
         $resource = SampleResource::make($this->model)
@@ -211,11 +185,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function makeAsDefaultExtract(): void
     {
         $resource = SampleWithDefaultExtractResource::make($this->model);
@@ -231,11 +201,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function makeAsTypeOverride(): void
     {
         $resource = SampleWithTypeOverrideResource::make($this->model);
@@ -252,11 +218,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function loaded(): void
     {
         $resource = SampleWithHookResource::make($this->model);
@@ -274,11 +236,7 @@ class JsonResourceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function only(): void
     {
         $resource = SampleResource::make($this->model)->only('name', 'email');

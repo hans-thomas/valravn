@@ -12,25 +12,19 @@ use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphedByManyController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToManyController;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RelationsTest extends TestCase
 {
     private RoutingService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(RoutingService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsBelongsTo(): void
     {
         $this->withoutExceptionHandling();
@@ -47,11 +41,7 @@ class RelationsTest extends TestCase
         $this->postJson(route('samples.relation.update', [1, 3]))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsBelongsToMany(): void
     {
         $this->service
@@ -68,11 +58,7 @@ class RelationsTest extends TestCase
         $this->deleteJson(route('samples.relations.detach', [1]))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsHasMany(): void
     {
         $this->service
@@ -87,11 +73,7 @@ class RelationsTest extends TestCase
         $this->postJson(route('samples.relations.update', [1]), [])->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsHasOne(): void
     {
         $this->service
@@ -106,11 +88,7 @@ class RelationsTest extends TestCase
         $this->postJson(route('samples.relation.update', [1, 2]))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsMorphedByMany(): void
     {
         $this->service
@@ -127,11 +105,7 @@ class RelationsTest extends TestCase
         $this->deleteJson(route('samples.relations.detach', [1]))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsMorphTo(): void
     {
         $this->service
@@ -146,11 +120,7 @@ class RelationsTest extends TestCase
         $this->postJson(route('samples.relation.update', [1, 3]))->assertOk();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function relationsMorphToMany(): void
     {
         $this->service

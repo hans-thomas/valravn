@@ -11,28 +11,21 @@ use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
+use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryAuthorizationTest extends TestCase
 {
     private Repository $repository;
-
-    /**
-     * @return void
-     */
+    
     protected function setUp(): void
     {
         parent::setUp();
+
         PostFactory::new()->count(2)->create();
         $this->repository = app(SampleRepository::class);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function allAction(): void
     {
         Gate::shouldReceive('authorize')
@@ -41,13 +34,7 @@ class RepositoryAuthorizationTest extends TestCase
         $this->repository->all()->get();
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function findAction(): void
     {
         $model = Post::query()->first();
@@ -74,13 +61,7 @@ class RepositoryAuthorizationTest extends TestCase
         $this->repository->delete($model->id);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function createAction(): void
     {
         $data = PostFactory::new()->make()->toArray();
@@ -90,13 +71,7 @@ class RepositoryAuthorizationTest extends TestCase
         $this->repository->create($data);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function updateAction(): void
     {
         $data = PostFactory::new()->make()->toArray();
@@ -107,13 +82,7 @@ class RepositoryAuthorizationTest extends TestCase
         $this->repository->update($model, $data);
     }
 
-    /**
-     * @test
-     *
-     * @throws AuthorizationException
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdateAction(): void
     {
         $data = [

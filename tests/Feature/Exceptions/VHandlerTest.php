@@ -8,6 +8,7 @@ use Hans\Valravn\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Env;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -30,13 +31,7 @@ class VHandlerTest extends TestCase
         Env::getRepository()->set('RAW_ERROR', false);
     }
 
-    /**
-     * @test
-     *
-     * @throws Throwable
-     *
-     * @return void
-     */
+    #[Test]
     public function rawErrorEnv(): void
     {
         Env::getRepository()->set('RAW_ERROR', false);
@@ -55,13 +50,7 @@ class VHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws Throwable
-     *
-     * @return void
-     */
+    #[Test]
     public function HttpExceptionMatchExpressionTest(): void
     {
         $e = new HttpException(500, 'test exception.');
@@ -80,13 +69,7 @@ class VHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws Throwable
-     *
-     * @return void
-     */
+    #[Test]
     public function getErrorCodeFromErrorInstance(): void
     {
         $e = new VException('test exception.', 27, errorCodePrefix: 'TLEcx');
@@ -97,13 +80,7 @@ class VHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws Throwable
-     *
-     * @return void
-     */
+    #[Test]
     public function getCodeFromErrorInstance(): void
     {
         $e = new NotFoundHttpException('Route not found!', code: 4040);

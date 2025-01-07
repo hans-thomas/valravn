@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Models;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class PaginatableTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getPerPage(): void
     {
         $model = new Post();
@@ -31,11 +28,7 @@ class PaginatableTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function perPageMax(): void
     {
         $model = new Post();
@@ -61,11 +54,7 @@ class PaginatableTest extends TestCase
         Post::setPerPageMax(30);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function perPageAll(): void
     {
         PostFactory::new()->count(100)->create();

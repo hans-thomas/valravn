@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\DTOs;
 use Hans\Valravn\DTOs\ManyToManyDto;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class ManyToManyDtoTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parse(): void
     {
         $data = [
@@ -61,11 +58,7 @@ class ManyToManyDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function withValues(): void
     {
         $data = [
@@ -101,11 +94,7 @@ class ManyToManyDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function withValuesForced(): void
     {
         $data = [
@@ -142,11 +131,7 @@ class ManyToManyDtoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parseEmptyData(): void
     {
         $result = ManyToManyDto::make([])->getData();

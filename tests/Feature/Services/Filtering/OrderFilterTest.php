@@ -5,25 +5,19 @@ namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 use Hans\Valravn\Services\Filtering\FilteringService;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class OrderFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->service = app(FilteringService::class);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyAsc(): void
     {
         request()->merge([
@@ -39,11 +33,7 @@ class OrderFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyDesc(): void
     {
         request()->merge([

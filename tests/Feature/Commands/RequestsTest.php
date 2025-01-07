@@ -5,6 +5,7 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestsTest extends TestCase
 {
@@ -18,11 +19,7 @@ class RequestsTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function requests(): void
     {
         $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
@@ -53,11 +50,7 @@ class RequestsTest extends TestCase
         self::assertEquals($updateStub, file_get_contents($update));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $store = app_path('Http/Requests/V3/Blog/Post/PostStoreRequest.php');
@@ -88,11 +81,7 @@ class RequestsTest extends TestCase
         self::assertEquals($updateStub, file_get_contents($update));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdate(): void
     {
         $file = app_path('Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php');
@@ -111,11 +100,7 @@ class RequestsTest extends TestCase
         self::assertEquals($batchUpdateStub, file_get_contents($file));
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function batchUpdateWithVersion(): void
     {
         $file = app_path('Http/Requests/V5/Blog/Post/PostBatchUpdateRequest.php');

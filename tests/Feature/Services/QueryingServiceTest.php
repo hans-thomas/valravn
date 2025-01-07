@@ -20,6 +20,7 @@ use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
 use Hans\Valravn\Tests\Instances\Services\QueryingServiceProxy;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class QueryingServiceTest extends TestCase
 {
@@ -29,12 +30,10 @@ class QueryingServiceTest extends TestCase
     private QueryingServiceProxy $serviceResource;
     private VJsonResource $resource;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->posts = PostFactory::new()
                                               ->count(3)
                                               ->has(CommentFactory::new()->count(5))
@@ -46,11 +45,7 @@ class QueryingServiceTest extends TestCase
         $this->serviceResource = app(QueryingServiceProxy::class, ['resource' => $this->resource]);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function registerQueriesUsingQueryString(): void
     {
         $this->serviceCollection->registerQueriesUsingQueryString('with_all_comments=&with_first_comment=&with_first_category=&something_false=');
@@ -64,11 +59,7 @@ class QueryingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyRequestedQueries(): void
     {
         $this->serviceResource->registerQueriesUsingQueryString(
@@ -85,11 +76,7 @@ class QueryingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyRequestedCollectionQueries(): void
     {
         $this->serviceCollection->registerQueriesUsingQueryString(
@@ -102,11 +89,7 @@ class QueryingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function mergeQueriedDataInto(): void
     {
         $data = [];
@@ -129,11 +112,7 @@ class QueryingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getQueriedData(): void
     {
         $data = $this->serviceResource->registerQueriesUsingQueryString(
@@ -155,11 +134,7 @@ class QueryingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function mergeCollectionQueriedData(): void
     {
         $this->serviceCollection->registerQueriesUsingQueryString(

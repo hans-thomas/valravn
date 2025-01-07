@@ -5,14 +5,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Attributes\Test;
 
 class EntityTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function entity(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
@@ -93,11 +90,7 @@ class EntityTest extends TestCase
         self::assertFileExists($actionsService);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function version(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');

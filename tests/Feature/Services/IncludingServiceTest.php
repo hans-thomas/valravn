@@ -13,6 +13,7 @@ use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class IncludingServiceTest extends TestCase
 {
@@ -20,9 +21,6 @@ class IncludingServiceTest extends TestCase
     private IncludingService $service;
     private VJsonResource $resource;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,11 +33,7 @@ class IncludingServiceTest extends TestCase
         $this->service = app(IncludingService::class, ['resource' => $this->resource]);
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getRequestedIncludes(): void
     {
         $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments');
@@ -52,11 +46,7 @@ class IncludingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getRequestedIncludesAsNotLoadableRelations(): void
     {
         $this->service->registerIncludesUsingQueryString('users');
@@ -66,11 +56,7 @@ class IncludingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function getNestedEagerLoads(): void
     {
         $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments');
@@ -83,11 +69,7 @@ class IncludingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function parseInclude(): void
     {
         $parse = $this->service->parseInclude('comments:limit(1).post:select(id).comments');
@@ -103,11 +85,7 @@ class IncludingServiceTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function applyRequestedIncludes(): void
     {
         $model = $this->posts->first();

@@ -9,25 +9,20 @@ use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceCollectionQueryTest extends TestCase
 {
     private Collection $posts;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->posts = PostFactory::new()->count(3)->has(CommentFactory::new()->count(5))->create();
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function collection(): void
     {
         $resource = PostCollection::make($this->posts)
@@ -59,11 +54,7 @@ class ResourceCollectionQueryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function includesOnCollectionClassThroughApi(): void
     {
         $content = $this->get('/includes/posts?includes=comments')
@@ -94,11 +85,7 @@ class ResourceCollectionQueryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function queriesThroughApi(): void
     {
         $content = $this->get('/queries/posts?with_first_comment')
@@ -126,11 +113,7 @@ class ResourceCollectionQueryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function queriesInCollectionClass(): void
     {
         $resource = PostCollection::make($this->posts)->withFirstCommentQuery();

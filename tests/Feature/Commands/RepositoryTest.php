@@ -4,14 +4,11 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
+use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @return void
-     */
+    #[Test]
     public function repository(): void
     {
         $contract = app_path('Repositories/Contracts/Blog/IPostRepository.php');
