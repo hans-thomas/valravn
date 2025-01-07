@@ -12,6 +12,7 @@ class PivotTest extends TestCase
     public function pivot(): void
     {
         $this->withoutMockingConsoleOutput();
+        $this->freezeTime();
 
         $datePrefix = now()->format('Y_m_d_His');
         $pivot = database_path("migrations/Blog/{$datePrefix}_create_category_post_table.php");

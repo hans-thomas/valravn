@@ -55,6 +55,8 @@ class ModelTest extends TestCase
     #[Test]
     public function migrationFile(): void
     {
+        $this->freezeTime();
+
         $datePrefix = now()->format('Y_m_d_His');
         $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
 

@@ -48,6 +48,8 @@ class RelationTest extends TestCase
     #[Test]
     public function belongsToManyWithPivot(): void
     {
+        $this->freezeTime();
+
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
 
         $datePrefix = now()->format('Y_m_d_His');
@@ -158,6 +160,8 @@ class RelationTest extends TestCase
     #[Test]
     public function morphedByManyWithPivot(): void
     {
+        $this->freezeTime();
+
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
 
         $datePrefix = now()->format('Y_m_d_His');
@@ -222,6 +226,8 @@ class RelationTest extends TestCase
     #[Test]
     public function morphedToManyWithPivot(): void
     {
+        $this->freezeTime();
+
         $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
 
         $datePrefix = now()->format('Y_m_d_His');

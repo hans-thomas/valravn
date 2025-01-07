@@ -8,6 +8,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 class EntityTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->freezeTime();
+    }
+
     #[Test]
     public function entity(): void
     {

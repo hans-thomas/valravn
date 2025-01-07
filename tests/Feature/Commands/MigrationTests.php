@@ -12,6 +12,8 @@ class MigrationTests extends TestCase
     public function migration(): void
     {
         $this->withoutMockingConsoleOutput();
+        $this->freezeTime();
+
         $datePrefix = now()->format('Y_m_d_His');
         $file = base_path("database/migrations/Blog/{$datePrefix}_create_posts_table.php");
 
