@@ -10,7 +10,7 @@ class RequestsTest extends TestCase
 {
     protected function tearDown(): void
     {
-        $this->clearUp([
+        $this->cleanUp([
             app_path('Http/Requests/V3/Blog/Post'),
             app_path('Http/Requests/V5/Blog/Post'),
         ]);

@@ -34,7 +34,7 @@ class TestCase extends BaseTestCase
      */
     protected function tearDown(): void
     {
-        $this->clearUp([
+        $this->cleanUp([
             app_path('Http/Controllers/V1/Blog/Post'),
             app_path('Http/Requests/V1/Blog/Post'),
             app_path('Http/Resources/V1/Blog/Post'),
@@ -147,7 +147,7 @@ class TestCase extends BaseTestCase
         );
     }
 
-    protected function clearUp(array $paths, array $ignoreFiles = []): void
+    protected function cleanUp(array $paths, array $ignoreFiles = []): void
     {
         $fs = new Filesystem();
 

@@ -11,7 +11,7 @@ class RelationTest extends TestCase
 {
     protected function tearDown(): void
     {
-        $this->clearUp([
+        $this->cleanUp([
             app_path('Http/Requests/V3/Blog/Post'),
             app_path('Http/Requests/V4/Blog/Post'),
             app_path('Http/Requests/V6/Blog/Post'),

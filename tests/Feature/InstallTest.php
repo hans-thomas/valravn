@@ -34,7 +34,8 @@ class InstallTest extends TestCase
 
         $this->configFile = config_path('valravn.php');
         $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$this->configFile, $this->serviceProviderFile]);
+
+        $this->cleanUp([$this->configFile, $this->serviceProviderFile]);
 
         parent::tearDown();
     }
@@ -44,7 +45,6 @@ class InstallTest extends TestCase
     {
         $this->configFile = config_path('valravn.php');
         $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-        File::delete([$this->configFile, $this->serviceProviderFile]);
 
         self::assertFileDoesNotExist($this->configFile);
         self::assertFileDoesNotExist($this->serviceProviderFile);
