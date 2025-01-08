@@ -12,6 +12,8 @@ on:
 
 permissions:
   actions: read
+  contents: read
+  security-events: write
 
 jobs:
   phpstan:
@@ -63,7 +65,7 @@ jobs:
             phpstan-result-cache-
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan analyse src -l 1 --no-interaction --no-progress --ansi --error-format=sarif > phpstan.sarif
+        run: ./vendor/bin/phpstan analyse src -l 1 --no-interaction --no-progress --ansi --error-format=sarif > ./phpstan.sarif
         continue-on-error: true
 
       - name: "Upload SARIF report"
