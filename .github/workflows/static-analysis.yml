@@ -10,6 +10,9 @@ on:
         type: string
         required: true
 
+permissions:
+  actions: read
+
 jobs:
   phpstan:
     runs-on: "ubuntu-latest"
