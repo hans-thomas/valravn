@@ -133,12 +133,14 @@ class ValravnServiceProvider extends ServiceProvider
 
         if (!Builder::hasGlobalMacro('whereLike')) {
             Builder::macro('whereLike', function ($column, $value = null, $boolean = 'and') {
+                /** @var Builder $this */
                 $this->where($column, 'LIKE', "%{$value}%", $boolean);
             });
         }
 
         if (!Builder::hasGlobalMacro('orWhereLike')) {
             Builder::macro('orWhereLike', function ($column, $value = null, $boolean = 'and') {
+                /** @var Builder $this */
                 $this->orWhere($column, 'LIKE', "%{$value}%", $boolean);
             });
         }
