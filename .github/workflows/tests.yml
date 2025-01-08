@@ -47,7 +47,7 @@ jobs:
             phpstan-result-cache-
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan analyse src -l 1 --no-interaction --no-progress --ansi
+        run: ./vendor/bin/phpstan analyse src tests -l 1 --no-interaction --no-progress --ansi
 
   build:
     runs-on: ${{ matrix.os }}
