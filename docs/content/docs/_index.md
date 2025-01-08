@@ -22,13 +22,13 @@ override or create and use classes on top of valravn classes.
 
 To add `Valravn` package to your project, you can install it using Composer.
 
-```bash
+```shell
 composer require hans-thomas/valravn
 ```
 
 Then, install Valravn resources using this command.
 
-```bash
+```shell
 php artisan valravn:install
 ```
 
@@ -38,7 +38,7 @@ That's it.
 
 To start testing clone the repository and then run below commands step by step:
 
-```bash
+```shell
 > docker compose up -d
 > docker compose exec app bash
 > composer install

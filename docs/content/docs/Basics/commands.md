@@ -16,7 +16,7 @@ namespace with several entities in it but in different versions.
 
 this command helps to generate controller classes.
 
-```bash 
+```shell 
 valravn:controller namespace name --v=1 --relations --actions --requests --resources
 ```
 
@@ -51,7 +51,7 @@ app/
 Controllers command is a shorthand for `valravn:controller` command that
 generates controllers and other related classes at once.
 
-```bash 
+```shell 
 valravn:controllers namespace name --v=1 --requests --resources
 ```
 
@@ -59,7 +59,7 @@ valravn:controllers namespace name --v=1 --requests --resources
 
 to generate only request classes, use this command.
 
-```bash
+```shell
 valravn:requests namespace name --v=1
 
 ```
@@ -67,7 +67,7 @@ valravn:requests namespace name --v=1
 This command generates `store` and `update` requests by default. if you defined your entity with
 a [batch update](services.md#withbatchupdate) route, you can create a batch update request using `--batch-update` flag.
 
-```bash
+```shell
 valravn:requests namespace name --v=1 --batch-update
 
 ```
@@ -76,7 +76,7 @@ valravn:requests namespace name --v=1 --batch-update
 
 Using `relations` command, you can generate your requests for handling relationships.
 
-```bash
+```shell
 valravn:relation namespace name related-namespace related-name --v=1
 
 ```
@@ -91,7 +91,7 @@ After passing needed parameters, you should determine the relation type
 between two entities. for instance, assume there is a `BelongsToMany` relationship between `posts` entity from `blog`
 namespace and `categories` entity from `core` namespace.
 
-```bash
+```shell
 valravn:relation blog posts core categories --belongs-to-many
 
 ```
@@ -124,7 +124,7 @@ are: `--belongs-to-many`, `--has-many`, `--morphed-by-many`, `--morph-to-many`, 
 
 The usage of `--morph-to` flag is a bit different. so let's go for having an example.
 
-```bash
+```shell
 valravn:relation core likes likable --morph-to
 
 ```
@@ -135,7 +135,7 @@ the related entities.
 
 There is a `--with-pivot` flag that allows you to create a pivot migration file for your many-to-many relationship.
 
-```bash
+```shell
 valravn:relation blog posts core categories --belongs-to-many --with-pivot
 
 ```
@@ -148,7 +148,7 @@ If you want more information about this command, [see this](../../use-case/#data
 
 This command generates only resource and resource collection classes.
 
-```bash
+```shell
 valravn:requests namespace name --v=1
 
 ```
@@ -159,7 +159,7 @@ The exceptions arrive in two different form. The first one is full form exceptio
 errors in one exception class. On  the other hand, the compact form is way more simpler and just contain one error
 and is very useful when you doesn't have a bunch of errors.
 
-```bash
+```shell
 valravn:exception namespace name prefix
 
 ```
@@ -182,7 +182,7 @@ for more information [see this](exceptions.md).
 
 you can generate migration file using this command.
 
-```bash
+```shell
 valravn:migration namespace name
 
 ```
@@ -198,7 +198,7 @@ Valravn will register your migration files in sub folders. so, you can create an
 
 To create pivot migration file, just enter the base entity and the related one's names and namespaces.
 
-```bash
+```shell
 valravn:pivot namespace name related-namespace related-name
 
 ```
@@ -207,7 +207,7 @@ valravn:pivot namespace name related-namespace related-name
 
 it generates model and related classes for you.
 
-```bash
+```shell
 valravn:model namespace name --factory --seeder --migration
 
 ```
@@ -219,7 +219,7 @@ in `database/migrations/Namespace/date_create_samples_table.php` path.
 
 Policy command generates a policy class.
 
-```bash
+```shell
 valravn:policy namespace name
 
 ```
@@ -241,7 +241,7 @@ This command generates repository and repository contract.
 Reminder: bind the contract to the repository class in RepositoryServiceProvider
 {{< /tip >}}
 
-```bash
+```shell
 valravn:repository namespace name
 
 ```
@@ -263,7 +263,7 @@ app/
 Service command generates your service classes such as relation and action
 services.
 
-```bash
+```shell
 valravn:service namespace name --relations --actions
 
 ```
@@ -284,7 +284,7 @@ app/
 
 And in the end, we have this command to create all classes and files at once.
 
-```bash
+```shell
 valravn:entity namespace name prefix --v=1
 
 ```

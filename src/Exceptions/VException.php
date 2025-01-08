@@ -27,6 +27,7 @@ class VException extends Exception
      * @param string         $message
      * @param int            $errorCode
      * @param int            $responseCode
+     * @param string         $errorCodePrefix
      * @param Throwable|null $previous
      *
      * @throws Exception
