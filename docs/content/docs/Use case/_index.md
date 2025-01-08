@@ -4,24 +4,31 @@ weight: 5
 ---
 
 In this section, we will create an api using `Valravn` to show how you should use this. let's assume there is a `posts`
-entity and have a `BelongsToMany` relationship with `categories` entity. the `posts` entity is from `blog` namespace
-and `categories` entity is from `core` namespace.
+entity and have a `BelongsToMany` relationship with `categories` entity. the namespace of `posts` entity is `blog`
+and `categories` entity is under `core` namespace.
 
 ## Entity
 
 First of all, we should create entity files by `entity` command.
 
-```php
-php artisan valravn:entity blog posts
+```shell
+php artisan valravn:entity blog posts BPEcx
 ```
 
-It will create all files we needed. so let's configure the generated files.
+The first parameter determines the namespace, The second one is the entity name and the third one is a prefix for
+error codes of the entity. It will create all files we needed. so let's configure the generated files.
+
+{{< tip >}}
+More info about error code prefixing, [see](../basics/commands#exceptions)
+{{< /tip >}}
 
 ## Database
 
-To set up related table, edit migration file in `database/migration/Blog/{date}_create_posts_table.php`.
+To setup the related table, edit migration file.
 
 ```php
+// database/migration/Blog/{date}_create_posts_table.php
+
 use App\Models\Blog\Post;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -47,7 +54,7 @@ return new class extends Migration {
 As we said, there is a `BelongsToMany` relationship with `categories` entity, so we should have a pivot table. to create
 a pivot migration file, run this command.
 
-```bash
+```shell
 valravn:pivot blog posts core categories
 
 ```
@@ -82,36 +89,25 @@ return new class extends Migration {
 
 ```
 
-There are a factory and seeder classes that you should configure that classes too.
+There will be factory and seeder classes that you should configure that classes too.
 
 ## Routing
 
 It's recommended to define your routes in separate files and name the files as your namespaces. so i create a `php` file
-in `routes/app` directory named `blog.php`. then, we should register our new file in `RouteServiceProvider`.
+in `routes/app` directory named `blog.php`. then, we should register our new file in `app.php`.
 
 ```php
-// app/Providers/RouteServiceProvider.php
+// bootstrap/app.php
 
-class RouteServiceProvider extends ServiceProvider {
-
+->withRouting(
     // ...
-
-    public function boot() {
-        // ...
-        $this->routes( function() {
-            // ...
-            
-            Route::prefix( 'api/blog' )
-                 ->name( 'blog.' )
-                 ->middleware( 'api' )
-                 ->group( base_path( 'routes/app/blog.php' ) );
-                 
-        } );
+    then: function  (Application $app){
+        Route::prefix('api/blog')
+               ->name( 'blog.' )
+               ->middleware( 'api' )
+               ->group(base_path('routes/app/blog.php'));
     }
-
-    // ...
-    
-}
+)
 ```
 
 Now, we can register our entity routes.
@@ -129,7 +125,6 @@ VRouter::resource( 'posts', PostCrudController::class )
               $relations->belongsToMany( 'categories' );
           }
       );
-
 ```
 
 ## Repository
@@ -144,7 +139,7 @@ use App\Repositories\Contracts\Repository;
 use Hans\Valravn\DTOs\ManyToManyDto;
 use Illuminate\Contracts\Database\Eloquent\Builder;
     
-abstract class IUserRepository extends Repository {
+abstract class IPostRepository extends Repository {
 
     abstract public function viewCategories( Post $post ): Builder;
 
@@ -216,11 +211,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         // ...
         $this->app->bind( IPostRepository::class, PostRepository::class );
     }
-
-    public function boot() {
-        //
-    }
     
+    //...
 }
 ```
 
@@ -360,46 +352,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostException extends VException {
 
+    protected string $errorCodePrefix = 'BPEcx';
+
     public static function failedToUpdateCategories(): VException {
-        return self::make(
-            "Failed to update post's categories!",
-            PostErrorCode::failedToUpdateCategories(),
-            Response::HTTP_INTERNAL_SERVER_ERROR
-        );
+        return new self("Failed to update post's categories!", 1);
     }
 
     public static function failedToAttachCategories(): VException {
-        return self::make(
-            "Failed to attach post's categories!",
-            PostErrorCode::failedToAttachCategories(),
-            Response::HTTP_INTERNAL_SERVER_ERROR
-        );
+        return new self("Failed to attach post's categories!", 2);
     }
 
     public static function failedToDetachCategories(): VException {
-        return self::make(
-            "Failed to detach post's categories!",
-            PostErrorCode::failedToDetachCategories(),
-            Response::HTTP_INTERNAL_SERVER_ERROR
-        );
+        return new self("Failed to detach post's categories!", 3);
     }
 
-}
-```
-
-Then in the `PostErrorCode` class, we should add new error codes.
-
-```php
-// app/Exceptions/Blog/Post/PostErrorCode.php
-
-use Hans\Valravn\Exceptions\VErrorCode;
-
-class PostErrorCode extends VErrorCode {
-    protected static string $prefix = 'PECx';
-
-    protected int $FAILED_TO_UPDATE_CATEGORIES = 1; // or failedToUpdateCategories
-    protected int $FAILED_TO_ATTACH_CATEGORIES = 2;
-    protected int $FAILED_TO_DETACH_CATEGORIES = 3;
 }
 ```
 
@@ -453,13 +419,13 @@ class PostUpdateRequest extends VFormRequest {
 
 As we have a `BelongsToMany` relationship, we should create related relation request using below command.
 
-```bash
+```shell
 php artisan valravn:relation blog posts core categories --belongs-to-many
 
 ```
 
 {{< tip >}}
-If you have some pivot columns, [see this](../basics/commands#relation)
+If you have some pivot columns, [see](../basics/commands#relation)
 {{< /tip >}}
 
 Next, we should add the needed methods to our relations controller.
@@ -511,34 +477,28 @@ class PostRelationsController extends Controller {
 
 ## Policy
 
-In continue, to register `PostPolicy` class to related model, should register it in the `AuthServiceProvider`.
+In continue, to register `PostPolicy` class to related model, should register it in the `AppServiceProvider`.
 
 ```php
-// app/Providers/AuthServiceProvider.php
+// app/Providers/AppServiceProvider.php
 
 use App\Models\Blog\Post;
 use App\Policies\Blog\PostPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
     /**
-     * The policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
+     * Register any application services.
      */
-    protected $policies = [
-        // ...
-        Post::class => PostPolicy::class,
-    ];
-
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot() {
-        $this->registerPolicies();
+    public function register(): void
+    {
+        //...
+        Gate::policy(Post::class, PostPolicy::class);
     }
 
+    //...
 }
 ```
+
+Finally, our api service for working with `posts` entity and its relationship with `categories` is ready!
