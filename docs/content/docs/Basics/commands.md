@@ -17,7 +17,7 @@ namespace with several entities in it but in different versions.
 this command helps to generate controller classes.
 
 ```shell 
-valravn:controller namespace name --v=1 --relations --actions --requests --resources
+php artisan valravn:controller namespace name --v=1 --relations --actions --requests --resources
 ```
 
 the generated classes structure should be like:
@@ -52,7 +52,7 @@ Controllers command is a shorthand for `valravn:controller` command that
 generates controllers and other related classes at once.
 
 ```shell 
-valravn:controllers namespace name --v=1 --requests --resources
+php artisan valravn:controllers namespace name --v=1 --requests --resources
 ```
 
 ## Requests
@@ -60,7 +60,7 @@ valravn:controllers namespace name --v=1 --requests --resources
 to generate only request classes, use this command.
 
 ```shell
-valravn:requests namespace name --v=1
+php artisan valravn:requests namespace name --v=1
 
 ```
 
@@ -68,7 +68,7 @@ This command generates `store` and `update` requests by default. if you defined 
 a [batch update](services.md#withbatchupdate) route, you can create a batch update request using `--batch-update` flag.
 
 ```shell
-valravn:requests namespace name --v=1 --batch-update
+php artisan valravn:requests namespace name --v=1 --batch-update
 
 ```
 
@@ -77,7 +77,7 @@ valravn:requests namespace name --v=1 --batch-update
 Using `relations` command, you can generate your requests for handling relationships.
 
 ```shell
-valravn:relation namespace name related-namespace related-name --v=1
+php artisan valravn:relation namespace name related-namespace related-name --v=1
 
 ```
 
@@ -92,7 +92,7 @@ between two entities. for instance, assume there is a `BelongsToMany` relationsh
 namespace and `categories` entity from `core` namespace.
 
 ```shell
-valravn:relation blog posts core categories --belongs-to-many
+php artisan valravn:relation blog posts core categories --belongs-to-many
 
 ```
 
@@ -125,7 +125,7 @@ are: `--belongs-to-many`, `--has-many`, `--morphed-by-many`, `--morph-to-many`, 
 The usage of `--morph-to` flag is a bit different. so let's go for having an example.
 
 ```shell
-valravn:relation core likes likable --morph-to
+php artisan valravn:relation core likes likable --morph-to
 
 ```
 
@@ -136,7 +136,7 @@ the related entities.
 There is a `--with-pivot` flag that allows you to create a pivot migration file for your many-to-many relationship.
 
 ```shell
-valravn:relation blog posts core categories --belongs-to-many --with-pivot
+php artisan valravn:relation blog posts core categories --belongs-to-many --with-pivot
 
 ```
 
@@ -149,7 +149,7 @@ If you want more information about this command, [see this](../../use-case/#data
 This command generates only resource and resource collection classes.
 
 ```shell
-valravn:requests namespace name --v=1
+php artisan valravn:requests namespace name --v=1
 
 ```
 
@@ -160,7 +160,7 @@ errors in one exception class. On  the other hand, the compact form is way more 
 and is very useful when you doesn't have a bunch of errors.
 
 ```shell
-valravn:exception namespace name prefix
+php artisan valravn:exception namespace name prefix
 
 ```
 This command has `namespace` and `name` arguments as well but there is a third argument named `prefix`. The `prefix`
@@ -183,7 +183,7 @@ for more information [see this](exceptions.md).
 you can generate migration file using this command.
 
 ```shell
-valravn:migration namespace name
+php artisan valravn:migration namespace name
 
 ```
 
@@ -199,7 +199,7 @@ Valravn will register your migration files in sub folders. so, you can create an
 To create pivot migration file, just enter the base entity and the related one's names and namespaces.
 
 ```shell
-valravn:pivot namespace name related-namespace related-name
+php artisan valravn:pivot namespace name related-namespace related-name
 
 ```
 
@@ -208,7 +208,7 @@ valravn:pivot namespace name related-namespace related-name
 it generates model and related classes for you.
 
 ```shell
-valravn:model namespace name --factory --seeder --migration
+php artisan valravn:model namespace name --factory --seeder --migration
 
 ```
 
@@ -220,7 +220,7 @@ in `database/migrations/Namespace/date_create_samples_table.php` path.
 Policy command generates a policy class.
 
 ```shell
-valravn:policy namespace name
+php artisan valravn:policy namespace name
 
 ```
 
@@ -242,7 +242,7 @@ Reminder: bind the contract to the repository class in RepositoryServiceProvider
 {{< /tip >}}
 
 ```shell
-valravn:repository namespace name
+php artisan valravn:repository namespace name
 
 ```
 
@@ -264,7 +264,7 @@ Service command generates your service classes such as relation and action
 services.
 
 ```shell
-valravn:service namespace name --relations --actions
+php artisan valravn:service namespace name --relations --actions
 
 ```
 
@@ -285,7 +285,7 @@ app/
 And in the end, we have this command to create all classes and files at once.
 
 ```shell
-valravn:entity namespace name prefix --v=1
+php artisan valravn:entity namespace name prefix --v=1
 
 ```
 
