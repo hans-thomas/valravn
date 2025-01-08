@@ -55,7 +55,7 @@ As we said, there is a `BelongsToMany` relationship with `categories` entity, so
 a pivot migration file, run this command.
 
 ```shell
-valravn:pivot blog posts core categories
+php artisan valravn:pivot blog posts core categories
 
 ```
 
