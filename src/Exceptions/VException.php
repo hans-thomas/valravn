@@ -24,11 +24,11 @@ class VException extends Exception
     protected string $errorCodePrefix;
 
     /**
-     * @param  string          $message
-     * @param  int             $errorCode
-     * @param  int             $responseCode
-     * @param  string          $errorCodePrefix
-     * @param  Throwable|null  $previous
+     * @param string         $message
+     * @param int            $errorCode
+     * @param int            $responseCode
+     * @param string         $errorCodePrefix
+     * @param Throwable|null $previous
      *
      * @throws Exception
      */
