@@ -15,6 +15,7 @@ use Hans\Valravn\Commands\Repository;
 use Hans\Valravn\Commands\Requests;
 use Hans\Valravn\Commands\Resources;
 use Hans\Valravn\Commands\Service;
+use Hans\Valravn\Exceptions\Package\PublishedVersionOutDatedException;
 use Hans\Valravn\Services\Caching\CachingService;
 use Hans\Valravn\Services\Filtering\FilteringService;
 use Hans\Valravn\Services\Routing\RoutingService;
@@ -25,6 +26,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class ValravnServiceProvider extends ServiceProvider
 {
@@ -42,11 +44,22 @@ class ValravnServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @throws Throwable
+     *
      * @return void
      */
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'valravn');
+        $configFile = __DIR__.'/../config/config.php';
+        $config = require $configFile;
+        if ($publishedConfigVersion = config('valravn.config_version', false)) {
+            throw_if(
+                version_compare($config['config_version'], $publishedConfigVersion, '>'),
+                new PublishedVersionOutDatedException()
+            );
+        }
+
+        $this->mergeConfigFrom($configFile, 'valravn');
 
         $this->registerMacros();
         if ($this->app->runningInConsole()) {

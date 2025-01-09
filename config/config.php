@@ -63,4 +63,15 @@
         'migrations' => [
             database_path('migrations'),
         ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Configuration version
+        |--------------------------------------------------------------------------
+        |
+        | Every update in config file will increase the config version. It will be
+        | used to inform devs to update their published config file.
+        |
+        */
+        'config_version' => '1.0.0',
     ];
