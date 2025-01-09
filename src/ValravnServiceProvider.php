@@ -44,8 +44,9 @@ class ValravnServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @return void
      * @throws Throwable
+     *
+     * @return void
      */
     public function boot()
     {
@@ -54,7 +55,7 @@ class ValravnServiceProvider extends ServiceProvider
         if ($publishedConfigVersion = config('valravn.config_version', false)) {
             throw_if(
                 version_compare($config['config_version'], $publishedConfigVersion, '>'),
-                new PublishedVersionOutDatedException
+                new PublishedVersionOutDatedException()
             );
         }
 

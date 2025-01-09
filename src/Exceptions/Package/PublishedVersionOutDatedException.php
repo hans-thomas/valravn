@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Exceptions\Package;
 
 use Hans\Valravn\Exceptions\VException;
-use Illuminate\Database\Eloquent\Model;
 
 class PublishedVersionOutDatedException extends VException
 {

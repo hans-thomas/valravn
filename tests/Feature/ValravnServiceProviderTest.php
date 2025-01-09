@@ -14,7 +14,7 @@ class ValravnServiceProviderTest extends TestCase
     {
         $configFile = __DIR__.'/../../config/config.php';
         $publishedVersion = config('valravn.config_version');
-        $newVersion = str_split($publishedVersion,strrpos($publishedVersion,'.'))[0].".999";
+        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
 
         // revert 'config_version' key
         $configContent = file_get_contents($configFile);
@@ -46,7 +46,7 @@ class ValravnServiceProviderTest extends TestCase
         $configFile = __DIR__.'/../../config/config.php';
         $publishedVersion = config('valravn.config_version');
 
-        $newVersion = str_split($publishedVersion,strrpos($publishedVersion,'.'))[0].".999";
+        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
         // change 'config_version' key
         $newConfigContent = file_get_contents($configFile);
         $newConfigContent = str_replace($publishedVersion, $newVersion, $newConfigContent);
@@ -57,5 +57,4 @@ class ValravnServiceProviderTest extends TestCase
         $provider = new ValravnServiceProvider($this->app);
         $provider->boot();
     }
-
 }
