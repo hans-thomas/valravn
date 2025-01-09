@@ -38,9 +38,10 @@ class ServiceTests extends TestCase
 
         self::assertFileExists($relations);
 
-        $relationsStub = $this->getStub('services/relations.stub');
+        $relationsStub = $this->getStub('services/custom.stub');
         $relationsStub = str_replace('{{CRUD-SERVICE::NAMESPACE}}', 'Blog', $relationsStub);
         $relationsStub = str_replace('{{CRUD-SERVICE::MODEL}}', 'Post', $relationsStub);
+        $relationsStub = str_replace('{{CRUD-SERVICE::ACTION}}', 'Relations', $relationsStub);
 
         self::assertEquals($relationsStub, file_get_contents($relations));
     }
@@ -57,9 +58,10 @@ class ServiceTests extends TestCase
 
         self::assertFileExists($actions);
 
-        $actionsStub = $this->getStub('services/actions.stub');
+        $actionsStub = $this->getStub('services/custom.stub');
         $actionsStub = str_replace('{{CRUD-SERVICE::NAMESPACE}}', 'Blog', $actionsStub);
         $actionsStub = str_replace('{{CRUD-SERVICE::MODEL}}', 'Post', $actionsStub);
+        $relationsStub = str_replace('{{CRUD-SERVICE::ACTION}}', 'Actions', $actionsStub);
 
         self::assertEquals($actionsStub, file_get_contents($actions));
     }

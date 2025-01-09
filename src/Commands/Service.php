@@ -62,17 +62,19 @@ class Service extends Command
 
         // relations service
         if ($this->option('relations')) {
-            $relationsService = file_get_contents(__DIR__.'/stubs/services/relations.stub');
+            $relationsService = file_get_contents(__DIR__.'/stubs/services/custom.stub');
             $relationsService = Str::replace('{{CRUD-SERVICE::NAMESPACE}}', $namespace, $relationsService);
             $relationsService = Str::replace('{{CRUD-SERVICE::MODEL}}', $singular, $relationsService);
+            $relationsService = Str::replace('{{CRUD-SERVICE::ACTION}}', 'Relations', $relationsService);
             $this->fs->write("Services/$namespace/$singular/{$singular}RelationsService.php", $relationsService);
         }
 
         // actions service
         if ($this->option('actions')) {
-            $actionsService = file_get_contents(__DIR__.'/stubs/services/actions.stub');
+            $actionsService = file_get_contents(__DIR__.'/stubs/services/custom.stub');
             $actionsService = Str::replace('{{CRUD-SERVICE::NAMESPACE}}', $namespace, $actionsService);
             $actionsService = Str::replace('{{CRUD-SERVICE::MODEL}}', $singular, $actionsService);
+            $relationsService = Str::replace('{{CRUD-SERVICE::ACTION}}', 'Actions', $actionsService);
             $this->fs->write("Services/$namespace/$singular/{$singular}ActionsService.php", $actionsService);
         }
 

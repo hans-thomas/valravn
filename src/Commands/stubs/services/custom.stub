@@ -10,7 +10,7 @@
     use Illuminate\Support\Facades\DB;
     use Throwable;
 
-    class {{CRUD-SERVICE::MODEL}}ActionsService extends Service {
+    class {{CRUD-SERVICE::MODEL}}{{CRUD-SERVICE::ACTION}}Service extends Service {
         private I{{CRUD-SERVICE::MODEL}}Repository $repository;
 
         public function __construct() {
