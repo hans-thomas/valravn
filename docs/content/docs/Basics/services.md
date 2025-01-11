@@ -60,14 +60,14 @@ You can set your custom interval by using `setInterval` method.
 app( PostRelationsService::class )->cache()->setInterval( 20 )->viewCategories();
 ```
 
-#### Cache facade
+#### VCache facade
 
-This facade let you cache some data using same [logic](#caching-logic).
+This facade let you cache data using same [logic](#caching-logic).
 
 ```php
 use Hans\Valravn\Facades\Cache;
 
-Cache::store( 'unique_key', fn() => 10 / 12 );
+VCache::store( 'unique_key', fn() => 10 / 12 );
 ```
 
 ## FilteringService
