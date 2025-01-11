@@ -49,10 +49,14 @@
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
+        "complete-check": [
+            "@analys",
+            "@test"
+        ],
         "testbench": "./vendor/bin/testbench",
         "test": "./vendor/bin/phpunit",
         "test:testbench": "./vendor/bin/testbench package:test",
         "test:coverage": "./vendor/bin/phpunit --coverage-clover ./coverage.xml",
-        "analys": "./vendor/bin/phpstan analys src"
+        "analys": "./vendor/bin/phpstan analys src --level 1 --memory-limit=512M"
     }
 }
