@@ -7,7 +7,13 @@ permissions:
 
 jobs:
   phpstan:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ 8.1, 8.2, 8.3, 8.4 ]
+        dependency-version: [ prefer-stable ]
 
     steps:
       - uses: actions/checkout@v4
@@ -15,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: ${{ matrix.php }}
           extensions: curl, mbstring
           tools: composer:v2
           coverage: none
@@ -47,13 +53,12 @@ jobs:
             phpstan-result-cache-
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan analyse src tests -l 1 --no-interaction --no-progress --ansi
+        run: composer analys -- --no-interaction --no-progress --ansi
 
   build:
     runs-on: ${{ matrix.os }}
     needs: phpstan
     strategy:
-      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
         php: [ 8.1, 8.2, 8.3, 8.4 ]
