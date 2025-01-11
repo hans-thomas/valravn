@@ -1,6 +1,6 @@
 <?php
 
-namespace Hans\Valravn\Tests\Feature\Services;
+namespace Hans\Valravn\Tests\Feature\Services\Includes;
 
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Services\Includes\Actions\LimitAction;
