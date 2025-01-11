@@ -13,9 +13,6 @@ class IncludingService
     private array $data = [];
     private array $registeredActions;
 
-    /**
-     * @param VJsonResource $resource
-     */
     public function __construct(VJsonResource $resource)
     {
         $this->resource = $resource;
@@ -23,6 +20,8 @@ class IncludingService
     }
 
     /**
+     * Register includes using a query string.
+     *
      * @param string|array|null $includes
      *
      * @return $this
@@ -56,6 +55,14 @@ class IncludingService
         return $this;
     }
 
+    /**
+     * If true, then register the includes.
+     *
+     * @param bool              $condition
+     * @param string|array|null $includes
+     *
+     * @return $this
+     */
     public function registerIncludesUsingQueryStringWhen(bool $condition, string|array|null $includes): self
     {
         if ($condition) {
@@ -65,6 +72,13 @@ class IncludingService
         return $this;
     }
 
+    /**
+     * Parse the given include and make it ready to apply.
+     *
+     * @param string $include
+     *
+     * @return array
+     */
     public function parseInclude(string $include): array
     {
         $data['relation'] = null;
@@ -83,6 +97,7 @@ class IncludingService
                                ->after('.')
                                ->toString();
         $data['nested'] = $nested;
+
         // actions data
         $filters = Str::of($include)
                       ->replace("$relation.", '')
@@ -108,6 +123,13 @@ class IncludingService
         return $data;
     }
 
+    /**
+     * Apply the Includes on the related resource instance.
+     *
+     * @param Model $model
+     *
+     * @return $this
+     */
     public function applyRequestedIncludes(Model $model): self
     {
         foreach ($this->resource->getRequestedIncludes() as $include => $actions) {
@@ -126,16 +148,23 @@ class IncludingService
         return $this;
     }
 
+    /**
+     * Get the available includes list from resource instance.
+     *
+     * @return array
+     */
     protected function getAvailableIncludes(): array
     {
         return $this->resource->getAvailableIncludes();
     }
 
-    protected function getIncludeInstance(string $include): Includes
-    {
-        return app($this->getAvailableIncludes()[$include]);
-    }
-
+    /**
+     * Return the instance key using an include instance.
+     *
+     * @param string|object $instance
+     *
+     * @return string
+     */
     protected function getInstanceKey(string|object $instance): string
     {
         $instance = is_object($instance) ? get_class($instance) : $instance;
@@ -144,6 +173,8 @@ class IncludingService
     }
 
     /**
+     * Return Included data.
+     *
      * @return array
      */
     public function getIncludedData(): array
@@ -151,12 +182,21 @@ class IncludingService
         return $this->data;
     }
 
+    /**
+     * Will merge included data to the given array.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
     public function mergeIncludedDataTo(array &$data): void
     {
         $data = array_merge($data, $this->getIncludedData());
     }
 
     /**
+     * Return the list of registered actions.
+     *
      * @return array
      */
     public function getRegisteredActions(): array

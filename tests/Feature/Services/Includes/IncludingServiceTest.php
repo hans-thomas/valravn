@@ -1,9 +1,11 @@
 <?php
 
-namespace Hans\Valravn\Tests\Feature\Services;
+namespace Hans\Valravn\Tests\Feature\Services\Includes;
 
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Services\Includes\Actions\LimitAction;
+use Hans\Valravn\Services\Includes\Actions\OrderAction;
+use Hans\Valravn\Services\Includes\Actions\SelectAction;
 use Hans\Valravn\Services\Includes\IncludingService;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\CommentFactory;
@@ -52,6 +54,26 @@ class IncludingServiceTest extends TestCase
         $this->service->registerIncludesUsingQueryString('users');
         self::assertEquals(
             [],
+            $this->resource->getRequestedIncludes()
+        );
+    }
+
+    #[Test]
+    public function getRequestedIncludesAsNull(): void
+    {
+        $this->service->registerIncludesUsingQueryString(null);
+        self::assertEquals(
+            [],
+            $this->resource->getRequestedIncludes()
+        );
+    }
+
+    #[Test]
+    public function getRequestedIncludesAsCondition(): void
+    {
+        $this->service->registerIncludesUsingQueryStringWhen(true, 'categories');
+        self::assertEquals(
+            [CategoriesIncludes::class => []],
             $this->resource->getRequestedIncludes()
         );
     }
@@ -147,6 +169,20 @@ class IncludingServiceTest extends TestCase
                 ],
             ],
             $output
+        );
+    }
+
+    #[Test]
+    public function getRegisteredActions(): void
+    {
+        $actions = $this->service->getRegisteredActions();
+        self::assertEquals(
+            [
+                'select' => SelectAction::class,
+                'order'  => OrderAction::class,
+                'limit'  => LimitAction::class,
+            ],
+            $actions
         );
     }
 }

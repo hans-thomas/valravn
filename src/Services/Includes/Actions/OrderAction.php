@@ -8,9 +8,10 @@ class OrderAction extends Actions
 {
     public function apply(array $params): void
     {
-        if (!isset($params[0])) {
+        if (empty($params[0])) {
             return;
         }
+
         $params[0] = $this->getFilterableColumn($params[0]);
         $direction = 'asc';
         if (isset($params[1])) {

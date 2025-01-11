@@ -423,10 +423,17 @@ doesn't resolve by ORM.
 
 ##### order
 
-The `order` action ables you to set order for your relationship results.
+The `order` action can set an ordering to the relationship result data.
 
 ```plain
 domain/api/blog/posts?includes=comments:select(content):order(created_at)
+```
+
+Also, To change the direction, pass 'asc' or 'desc' options as the second parameter.
+If none passed, the `asc` option set as default.
+
+```plain
+domain/api/blog/posts?includes=comments:select(content):order(created_at|desc)
 ```
 
 ##### limit
