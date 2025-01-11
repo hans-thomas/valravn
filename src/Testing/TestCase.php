@@ -22,7 +22,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return TestResponse
      */
-    public function getJsonRequest($uri, array $headers = [], string $token = null): TestResponse
+    public function getJsonRequest($uri, array $headers = [], ?string $token = null): TestResponse
     {
         return $this->getJson($uri, $headers + ['Authorization' => $token]);
     }
@@ -37,7 +37,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return TestResponse
      */
-    public function postJsonRequest($uri, array $data = [], array $headers = [], string $token = null): TestResponse
+    public function postJsonRequest($uri, array $data = [], array $headers = [], ?string $token = null): TestResponse
     {
         return $this->postJson($uri, $data, $headers + ['Authorization' => $token]);
     }
@@ -52,7 +52,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return TestResponse
      */
-    public function patchJsonRequest($uri, array $data = [], array $headers = [], string $token = null): TestResponse
+    public function patchJsonRequest($uri, array $data = [], array $headers = [], ?string $token = null): TestResponse
     {
         return $this->patchJson($uri, $data, $headers + ['Authorization' => $token]);
     }
@@ -67,7 +67,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return TestResponse
      */
-    public function deleteJsonRequest($uri, array $data = [], array $headers = [], string $token = null): TestResponse
+    public function deleteJsonRequest($uri, array $data = [], array $headers = [], ?string $token = null): TestResponse
     {
         return $this->deleteJson($uri, $data, $headers + ['Authorization' => $token]);
     }

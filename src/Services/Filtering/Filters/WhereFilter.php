@@ -11,8 +11,8 @@ class WhereFilter extends Filter
     {
         foreach ($values ?? [] as $attribute => $where) {
             $items = collect(explode(',', $where))
-                ->map(fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
-                ->filter(fn ($value) => !empty($value));
+                ->map(static fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
+                ->filter(static fn ($value) => !empty($value));
             if (in_array(
                 $attribute,
                 $filterables = $this->getFilterables($builder)

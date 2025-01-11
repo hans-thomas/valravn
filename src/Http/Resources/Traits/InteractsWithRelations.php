@@ -30,7 +30,7 @@ trait InteractsWithRelations
      *
      * @return void
      */
-    protected function loadedRelations(array &$data, VJsonResource $resource = null): void
+    protected function loadedRelations(array &$data, ?VJsonResource $resource = null): void
     {
         $instance = $resource ?? $this;
         if ($instance->resource instanceof Loadable) {

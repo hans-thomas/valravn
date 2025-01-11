@@ -20,7 +20,7 @@ class VHandler
      */
     public static function convertUsing(): callable
     {
-        return fn (Throwable $e) => env('RAW_ERROR', false) ?
+        return static fn (Throwable $e) => env('RAW_ERROR', false) ?
             null :
             match (true) {
                 $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
@@ -49,8 +49,8 @@ class VHandler
     private static function throw(
         Throwable $e,
         int $defaultErrorCode = 9999,
-        string $message = null,
-        int $responseCode = null
+        ?string $message = null,
+        ?int $responseCode = null
     ): JsonResponse {
         if (method_exists($e, $method = 'getErrorCode')) {
             $errorCode = $e->{$method}();

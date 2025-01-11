@@ -123,7 +123,7 @@ class ValravnServiceProvider extends ServiceProvider
     private function registerMacros()
     {
         if (env('ENABLE_DB_LOG', false)) {
-            DB::listen(function (QueryExecuted $query) {
+            DB::listen(static function (QueryExecuted $query) {
                 $bindings = implode(',', $query->bindings);
                 Log::info(
                     $query->sql,
@@ -134,12 +134,14 @@ class ValravnServiceProvider extends ServiceProvider
 
         if (!Builder::hasGlobalMacro('applyFilters')) {
             Builder::macro('applyFilters', function (array $options = []) {
+                /** @var Builder $this */
                 return app(FilteringService::class)->apply($this, $options);
             });
         }
 
         if (!Relation::hasMacro('applyFilters')) {
             Relation::macro('applyFilters', function (array $options = []) {
+                /** @var \Illuminate\Contracts\Database\Eloquent\Builder $this */
                 return app(FilteringService::class)->apply($this, $options);
             });
         }
@@ -159,7 +161,7 @@ class ValravnServiceProvider extends ServiceProvider
         }
 
         if (!Application::hasMacro('runningInDev')) {
-            Application::macro('runningInDev', function () {
+            Application::macro('runningInDev', static function () {
                 if (env('APP_ENV', 'local') != 'production') {
                     return true;
                 }
@@ -182,12 +184,12 @@ class ValravnServiceProvider extends ServiceProvider
                 $directories,
                 array_filter(
                     scandir($migrationPath),
-                    fn ($item) => !in_array($item, ['.', '..'])
+                    static fn ($item) => !in_array($item, ['.', '..'])
                 )
             );
         }
         $paths = array_map(
-            fn ($item) => database_path("migrations/$item"),
+            static fn ($item) => database_path("migrations/$item"),
             $directories
         );
 

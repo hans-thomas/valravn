@@ -37,7 +37,7 @@ class VException extends Exception
         int $errorCode,
         int $responseCode = 500,
         string $errorCodePrefix = '',
-        Throwable $previous = null,
+        ?Throwable $previous = null,
     ) {
         parent::__construct($message, $responseCode, $previous);
         $this->errorCode = $errorCode;
