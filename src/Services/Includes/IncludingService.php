@@ -20,7 +20,7 @@ class IncludingService
     }
 
     /**
-     * Register includes using a query string
+     * Register includes using a query string.
      *
      * @param string|array|null $includes
      *
@@ -56,10 +56,10 @@ class IncludingService
     }
 
     /**
-     * If true, then register the includes
+     * If true, then register the includes.
      *
-     * @param  bool               $condition
-     * @param  string|array|null  $includes
+     * @param bool              $condition
+     * @param string|array|null $includes
      *
      * @return $this
      */
@@ -73,9 +73,9 @@ class IncludingService
     }
 
     /**
-     * Parse the given include and make it ready to apply
+     * Parse the given include and make it ready to apply.
      *
-     * @param  string  $include
+     * @param string $include
      *
      * @return array
      */
@@ -124,9 +124,9 @@ class IncludingService
     }
 
     /**
-     * Apply the Includes on the related resource instance
+     * Apply the Includes on the related resource instance.
      *
-     * @param  Model  $model
+     * @param Model $model
      *
      * @return $this
      */
@@ -149,7 +149,7 @@ class IncludingService
     }
 
     /**
-     * Get the available includes list from resource instance
+     * Get the available includes list from resource instance.
      *
      * @return array
      */
@@ -159,9 +159,9 @@ class IncludingService
     }
 
     /**
-     * Return the instance key using an include instance
+     * Return the instance key using an include instance.
      *
-     * @param  string|object  $instance
+     * @param string|object $instance
      *
      * @return string
      */
@@ -173,7 +173,7 @@ class IncludingService
     }
 
     /**
-     * Return Included data
+     * Return Included data.
      *
      * @return array
      */
@@ -183,9 +183,9 @@ class IncludingService
     }
 
     /**
-     * Will merge included data to the given array
+     * Will merge included data to the given array.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return void
      */
@@ -195,8 +195,8 @@ class IncludingService
     }
 
     /**
-     * Return the list of registered actions
-     * 
+     * Return the list of registered actions.
+     *
      * @return array
      */
     public function getRegisteredActions(): array

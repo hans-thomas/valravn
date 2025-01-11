@@ -37,7 +37,7 @@ class OrderActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories)
+                'categories' => CategoryCollection::make($model->categories),
             ],
             $data
         );
@@ -53,7 +53,7 @@ class OrderActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories()->orderByDesc('id')->get())
+                'categories' => CategoryCollection::make($model->categories()->orderByDesc('id')->get()),
             ],
             $data
         );
@@ -69,7 +69,7 @@ class OrderActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories)
+                'categories' => CategoryCollection::make($model->categories),
             ],
             $data
         );

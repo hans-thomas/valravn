@@ -53,7 +53,7 @@ class SelectActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories)
+                'categories' => CategoryCollection::make($model->categories),
             ],
             $data
         );

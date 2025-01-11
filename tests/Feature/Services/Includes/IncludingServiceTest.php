@@ -71,7 +71,7 @@ class IncludingServiceTest extends TestCase
     #[Test]
     public function getRequestedIncludesAsCondition(): void
     {
-        $this->service->registerIncludesUsingQueryStringWhen(true,'categories');
+        $this->service->registerIncludesUsingQueryStringWhen(true, 'categories');
         self::assertEquals(
             [CategoriesIncludes::class => []],
             $this->resource->getRequestedIncludes()

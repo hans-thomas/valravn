@@ -2,18 +2,11 @@
 
 namespace Hans\Valravn\Tests\Feature\Services\Includes;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-use Hans\Valravn\Services\Includes\Actions\LimitAction;
-use Hans\Valravn\Services\Includes\Actions\OrderAction;
-use Hans\Valravn\Services\Includes\Actions\SelectAction;
 use Hans\Valravn\Services\Includes\IncludingService;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
-use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
-use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
@@ -44,7 +37,7 @@ class LimitActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories()->take(2)->get())
+                'categories' => CategoryCollection::make($model->categories()->take(2)->get()),
             ],
             $data
         );
@@ -60,7 +53,7 @@ class LimitActionTest extends TestCase
 
         self::assertEquals(
             [
-                'categories' => CategoryCollection::make($model->categories)
+                'categories' => CategoryCollection::make($model->categories),
             ],
             $data
         );
