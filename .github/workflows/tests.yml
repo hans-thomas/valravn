@@ -57,7 +57,7 @@ jobs:
       - name: Run PHPStan
         run: composer analys -- --no-interaction --no-progress --ansi
 
-  build:
+  tests:
     runs-on: ${{ matrix.os }}
     needs: phpstan
     strategy:
