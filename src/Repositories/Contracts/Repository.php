@@ -176,7 +176,7 @@ abstract class Repository
             $ability = $this->guessAbility();
         }
 
-        $this->ifShouldAuthorize(fn () => Gate::authorize($ability, $params));
+        $this->ifShouldAuthorize(static fn () => Gate::authorize($ability, $params));
     }
 
     /**

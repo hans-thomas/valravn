@@ -10,9 +10,9 @@ class OrderPivotFilter extends Filter
     public function apply(Builder $builder, $values = null)
     {
         $items = collect($values ?? [])
-            ->map(fn ($value) => (string) $value)
-            ->map(fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
-            ->filter(fn ($value) => in_array($value, ['asc', 'desc']))
+            ->map(static fn ($value) => (string) $value)
+            ->map(static fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
+            ->filter(static fn ($value) => in_array($value, ['asc', 'desc']))
             ->filter(fn ($value, $attribute) => in_array($attribute, $this->getPivotFilterable($builder)));
         if ($items->isNotEmpty()) {
             $builder->reorder();

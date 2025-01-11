@@ -12,10 +12,10 @@ class WherePivotFilter extends Filter
     {
         if ($builder instanceof Relation) {
             foreach ($values as $attribute => $where) {
-                $items = collect(explode(',', $where))->map(fn ($value) => filter_var(
+                $items = collect(explode(',', $where))->map(static fn ($value) => filter_var(
                     $value,
                     FILTER_SANITIZE_FULL_SPECIAL_CHARS
-                ))->filter(fn ($value) => !empty($value));
+                ))->filter(static fn ($value) => !empty($value));
                 if (in_array($attribute, $this->getPivotFilterable($builder)) and $items->isNotEmpty()) {
                     $builder->wherePivotIn($attribute, $items);
                 }

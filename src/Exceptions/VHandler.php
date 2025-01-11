@@ -20,7 +20,7 @@ class VHandler
      */
     public static function convertUsing(): callable
     {
-        return fn (Throwable $e) => env('RAW_ERROR', false) ?
+        return static fn (Throwable $e) => env('RAW_ERROR', false) ?
             null :
             match (true) {
                 $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),

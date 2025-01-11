@@ -94,7 +94,7 @@ abstract class Factory
         return static::factory()
                      ->count($count)
                      ->create($data)
-                     ->map(fn (Model $model) => $model->fresh());
+                     ->map(static fn (Model $model) => $model->fresh());
     }
 
     /**

@@ -153,7 +153,7 @@ class CachingService
             return $this->remember(
                 $method,
                 $params,
-                fn () => $this->service->{$method}(...$params)
+                static fn () => $this->service->{$method}(...$params)
             );
         }
 

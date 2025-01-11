@@ -30,12 +30,12 @@ trait InteractsWithPivots
         if (isset($instance->resource->pivot)) {
             $data['pivot'] = collect($instance->resource->pivot->getAttributes())
                 ->filter(
-                    fn ($value, $key) => !in_array($key, $excludes) and
+                    static fn ($value, $key) => !in_array($key, $excludes) and
                                           (!Str::contains($key, ['_id', '_type']) or
                                             in_array($key, $includes))
                 )
                 ->mapWithKeys(
-                    fn ($value, $key) => ($index = array_search($key, array_keys($alias))) !== false ?
+                    static fn ($value, $key) => ($index = array_search($key, array_keys($alias))) !== false ?
                         [
                             Arr::get(array_values($alias), $index) => $value,
                         ] :
