@@ -49,8 +49,8 @@ class VHandler
     private static function throw(
         Throwable $e,
         int $defaultErrorCode = 9999,
-        string $message = null,
-        int $responseCode = null
+        ?string $message = null,
+        ?int $responseCode = null
     ): JsonResponse {
         if (method_exists($e, $method = 'getErrorCode')) {
             $errorCode = $e->{$method}();

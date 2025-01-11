@@ -21,7 +21,7 @@ trait InteractsWithPivots
      */
     protected function loadedPivots(
         array &$data,
-        VJsonResource $resource = null,
+        ?VJsonResource $resource = null,
         array $includes = [],
         array $excludes = [],
         array $alias = []

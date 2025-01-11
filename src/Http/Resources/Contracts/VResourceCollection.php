@@ -105,7 +105,7 @@ abstract class VResourceCollection extends VJsonResource implements Countable, I
      *
      * @return void
      */
-    protected function loaded(&$data, VJsonResource $resource = null): void
+    protected function loaded(&$data, ?VJsonResource $resource = null): void
     {
         // ...
     }
