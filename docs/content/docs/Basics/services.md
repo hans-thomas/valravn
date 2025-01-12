@@ -341,7 +341,7 @@ Router::apiResource( 'posts' , PostCrudController::class )
         ->actions(
             PostActionsController::class,
             function( ActionsRegisterer $actions ) {
-                $actions->get( 'markAsReviewNeeded' );
+                $actions->get( 'markedAsReviewNeeded' );
                 $actions->withId()->get( 'makeDraft' );
                 $actions->withId()->parameters( 'user' )->get( 'setUserToReview' );
                 $actions->withId()->parameters( [ 'reviewer' => 'user' ] )->get( 'setUserToSpellCheck' );
@@ -349,8 +349,8 @@ Router::apiResource( 'posts' , PostCrudController::class )
         )
 ```
 
-First action generates `domain/api/blog/posts/-actions/mark-as-review-needed`
-path and route that to `markAsReviewNeeded` method on related controller.
+First action generates `domain/api/blog/posts/-actions/marked-as-review-needed`
+path and route that to `markedAsReviewNeeded` method on related controller.
 
 Second one used `withId` method that ended up to
 register `domain/api/blog/posts/-actions/{post}/make-draft` path which routes
@@ -368,7 +368,7 @@ like `domain/api/blog/posts/-actions/{post}/set-user-to-spell-check/reviewer/{us
 
 In the end, routes will be accessible through `{name}.actions.{action_name}`
 naming pattern. for instance, the first action's name should
-be `posts.actions.mark-as-review-needed`.
+be `posts.actions.marked-as-review-needed`.
 
 ##### gathering
 
