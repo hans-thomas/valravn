@@ -127,7 +127,23 @@ Resolve given Model to a resource class.
 
 ##### vlog
 
-Log the error in a dedicated channel with a simplified format.
+Log the error in a dedicated channel with a simplified format. First, To create the channel, Add these 
+lines in `config/logging.php`:
+
+```php
+'channels' => [
+    // ...
+    'valravn' => [
+        'driver'               => 'daily',
+        'path'                 => storage_path('logs/valravn.log'),
+        'level'                => 'debug',
+        'days'                 => 1,
+        'replace_placeholders' => true,
+    ]
+],
+```
+
+Then, You can use the `vlog` function like below examples.
 
 ```php
 class someClass {
