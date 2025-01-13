@@ -17,18 +17,18 @@ trait PolicyHelperTrait
     /**
      * normalize the model name.
      *
-     * @param  string  $model
+     * @param string $model
      *
      * @return string
      */
     private function normalizeModelName(string $model): string
     {
         $namespace = $exploded = explode('\\', strtolower($model));
-        $class = array_splice($namespace, count($exploded)-1);
+        $class = array_splice($namespace, count($exploded) - 1);
 
         if (count($namespace) <= 2) {
             $name = end($class);
-        }else{
+        } else {
             $name = end($namespace).'-'.end($class);
         }
 
