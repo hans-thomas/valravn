@@ -75,7 +75,7 @@ jobs:
           - laravel: 11.*
             testbench: 9.*
 
-    name: "TESTS: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - OS ${{ matrix.os }} - dependency-version ${{ matrix.dependency-version }}"
+    name: "PHPUNIT: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - OS ${{ matrix.os }} - dependency-version ${{ matrix.dependency-version }}"
 
     steps:
       - uses: actions/checkout@v4
