@@ -22,9 +22,11 @@ use Hans\Valravn\Services\Routing\RoutingService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Throwable;
 
@@ -67,6 +69,9 @@ class ValravnServiceProvider extends ServiceProvider
             $this->registerPublishes();
             $this->registerMigrations();
         }
+        if (env('REGISTER_ROUTES', true)) {
+            $this->registerRoutes();
+        }
     }
 
     /**
@@ -74,7 +79,7 @@ class ValravnServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerCommands()
+    private function registerCommands(): void
     {
         $this->commands([
             InstallCommand::class,
@@ -99,7 +104,7 @@ class ValravnServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerPublishes()
+    private function registerPublishes(): void
     {
         $this->publishes(
             [
@@ -120,7 +125,7 @@ class ValravnServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerMacros()
+    private function registerMacros(): void
     {
         if (env('ENABLE_DB_LOG', false)) {
             DB::listen(static function (QueryExecuted $query) {
@@ -176,7 +181,7 @@ class ValravnServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerMigrations()
+    private function registerMigrations(): void
     {
         $directories = [];
         foreach (valravn_config('migrations') as $migrationPath) {
@@ -194,5 +199,30 @@ class ValravnServiceProvider extends ServiceProvider
         );
 
         $this->loadMigrationsFrom($paths);
+    }
+
+    /**
+     * Automatically register routes defined in routes directory.
+     *
+     * @return void
+     */
+    private function registerRoutes(): void
+    {
+        $path = base_path('routes/');
+        $fs = new Filesystem();
+
+        foreach ($fs->allFiles($path) as $file) {
+            if (!in_array($file->getBasename(), ['console.php', 'web.php', 'api.php'])) {
+                $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
+
+                Route::prefix("api/$name")
+                     ->name("$name.")
+                     ->middleware('api')
+                     ->group($file->getRealPath());
+            }
+        }
+
+        Route::getRoutes()->refreshNameLookups();
+        Route::getRoutes()->refreshActionLookups();
     }
 }

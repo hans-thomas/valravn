@@ -5,7 +5,8 @@ namespace Hans\Valravn\Tests\Feature;
 use Hans\Valravn\Exceptions\Package\PublishedVersionOutDatedException;
 use Hans\Valravn\Tests\TestCase;
 use Hans\Valravn\ValravnServiceProvider;
-use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 
 class ValravnServiceProviderTest extends TestCase
@@ -21,8 +22,11 @@ class ValravnServiceProviderTest extends TestCase
         $configContent = str_replace($newVersion, $publishedVersion, $configContent);
         file_put_contents($configFile, $configContent);
 
-        File::delete(base_path('config/valravn.php'));
-        self::assertFileDoesNotExist(base_path('config/valravn.php'));
+        $this->cleanUp([
+            base_path('config/valravn.php'),
+            base_path('routes/app/blog.php'),
+            base_path('routes/web.php'),
+        ]);
 
         parent::tearDown();
     }
@@ -56,5 +60,24 @@ class ValravnServiceProviderTest extends TestCase
 
         $provider = new ValravnServiceProvider($this->app);
         $provider->boot();
+    }
+
+    #[Test]
+    public function registeringRoute(): void
+    {
+        self::assertFalse(Route::has('blog.posts.index'));
+
+        $fs = new Filesystem();
+        $fs->ensureDirectoryExists(base_path('routes/app'));
+        $fs->put(base_path('routes/app/blog.php'), file_get_contents(__DIR__.'/../Instances/routes/blog.stub'));
+        $fs->put(base_path('routes/web.php'), file_get_contents(__DIR__.'/../Instances/routes/blog.stub'));
+
+        self::assertFileExists(base_path('routes/app/blog.php'));
+
+        $sp = new ValravnServiceProvider($this->app);
+        $sp->boot();
+
+        self::assertTrue(Route::has('blog.posts.index'));
+        self::assertFalse(Route::has('web.posts.index'));
     }
 }
