@@ -6,7 +6,6 @@ use Hans\Valravn\Exceptions\Package\PublishedVersionOutDatedException;
 use Hans\Valravn\Tests\TestCase;
 use Hans\Valravn\ValravnServiceProvider;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -62,9 +61,10 @@ class ValravnServiceProviderTest extends TestCase
         $provider = new ValravnServiceProvider($this->app);
         $provider->boot();
     }
-    
+
     #[Test]
-    public function registeringRoute(): void {
+    public function registeringRoute(): void
+    {
         self::assertFalse(Route::has('blog.posts.index'));
 
         $fs = new Filesystem();
