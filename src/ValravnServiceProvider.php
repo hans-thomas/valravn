@@ -219,8 +219,10 @@ class ValravnServiceProvider extends ServiceProvider
                      ->name( "$name." )
                      ->middleware( 'api' )
                      ->group( $file->getRealPath() );
-
             }
         }
+
+        Route::getRoutes()->refreshNameLookups();
+        Route::getRoutes()->refreshActionLookups();
     }
 }
