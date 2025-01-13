@@ -262,9 +262,9 @@ Register CRUD routes for api. it has a same behaviour as `Route::apiResource` of
 laravel.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::apiResource( 'posts' , PostCrudController::class );
+VRouter::apiResource( 'posts' , PostCrudController::class );
 ```
 
 you can access the registered routes as usual in laravel.
@@ -274,9 +274,9 @@ you can access the registered routes as usual in laravel.
 The same as `apiResource` method but for MPA (Multi Page Application).
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::resource( 'posts' , PostCrudController::class );
+VRouter::resource( 'posts' , PostCrudController::class );
 ```
 
 ##### name
@@ -286,9 +286,9 @@ entity. next you will be able to register your related relations or whatever
 routes.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::name( 'posts' );
+VRouter::name( 'posts' );
 ```
 
 ##### withBatchUpdate
@@ -296,9 +296,9 @@ Router::name( 'posts' );
 This method determine you want to have a batch update route for your entity.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::apiResource( 'posts' , PostCrudController::class )->withBatchUpdate();
+VRouter::apiResource( 'posts' , PostCrudController::class )->withBatchUpdate();
 ```
 
 Created route's name is like `posts.batch-update`.
@@ -310,9 +310,9 @@ pass the related controller class and then a closure. inside the closure, you
 can register your relationships.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::apiResource( 'posts' , PostCrudController::class )
+VRouter::apiResource( 'posts' , PostCrudController::class )
         ->withBatchUpdate()
         ->relations(
             PostRelationsController::class,
@@ -334,9 +334,9 @@ and `posts.categories.update`.
 This method allows you to define some custom actions.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::apiResource( 'posts' , PostCrudController::class )
+VRouter::apiResource( 'posts' , PostCrudController::class )
         ->withBatchUpdate()
         ->actions(
             PostActionsController::class,
@@ -377,9 +377,9 @@ data for a page using one request. everything is the same as `actions` method
 with several tiny difference.
 
 ```php
-use Hans\Valravn\Facades\Router;
+use Hans\Valravn\Facades\VRouter;
 
-Router::apiResource( 'posts' , PostCrudController::class )
+VRouter::apiResource( 'posts' , PostCrudController::class )
         ->withBatchUpdate()
         ->gathering(
             PostGatheringController::class,

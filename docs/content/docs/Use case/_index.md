@@ -93,8 +93,10 @@ There will be factory and seeder classes that you should configure that classes 
 
 ## Routing
 
-It's recommended to define your routes in separate files and name the files as your namespaces. so i create a `php` file
-in `routes/app` directory named `blog.php`. then, we should register our new file in `app.php`.
+It's recommended to define your routes in separate files and name the files equals to your namespaces. So, I create a `php` file
+in `routes/app` directory named `blog.php`. then, the Valravn will register the route file automatically.
+However, You can register the route files by your own. To do so, Set the `REGISTER_ROUTES` env to false and then
+register the route file like below:
 
 ```php
 // bootstrap/app.php
@@ -117,7 +119,7 @@ Now, we can register our entity routes.
 
 use Hans\Valravn\Facades\VRouter;
 
-VRouter::resource( 'posts', PostCrudController::class )
+VRouter::apiResource( 'posts', PostCrudController::class )
       ->withBatchUpdate()
       ->relations(
           PostRelationsController::class,
