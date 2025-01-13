@@ -202,23 +202,23 @@ class ValravnServiceProvider extends ServiceProvider
     }
 
     /**
-     * Automatically register routes defined in routes directory
+     * Automatically register routes defined in routes directory.
      *
      * @return void
      */
     private function registerRoutes(): void
     {
         $path = base_path('routes/');
-        $fs = new Filesystem;
+        $fs = new Filesystem();
 
         foreach ($fs->allFiles($path) as $file) {
-            if (!in_array($file->getBasename(),['console.php','web.php','api.php'])) {
+            if (!in_array($file->getBasename(), ['console.php', 'web.php', 'api.php'])) {
                 $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
 
-                Route::prefix( "api/$name" )
-                     ->name( "$name." )
-                     ->middleware( 'api' )
-                     ->group( $file->getRealPath() );
+                Route::prefix("api/$name")
+                     ->name("$name.")
+                     ->middleware('api')
+                     ->group($file->getRealPath());
             }
         }
 
