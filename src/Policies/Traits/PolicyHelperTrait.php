@@ -21,9 +21,17 @@ trait PolicyHelperTrait
      *
      * @return string
      */
-    protected function normalizeModelName(string $model): string
+    private function normalizeModelName(string $model): string
     {
-        return array_reverse(explode('\\', strtolower($model)))[1].'-'.
-               array_reverse(explode('\\', strtolower($model)))[0];
+        $namespace = $exploded = explode('\\', strtolower($model));
+        $class = array_splice($namespace, count($exploded) - 1);
+
+        if (count($namespace) <= 2) {
+            $name = end($class);
+        } else {
+            $name = end($namespace).'-'.end($class);
+        }
+
+        return $name;
     }
 }
