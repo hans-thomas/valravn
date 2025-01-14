@@ -16,8 +16,8 @@ class FilteringService
     }
 
     /**
-     * @param  Builder  $builder
-     * @param  array    $options
+     * @param Builder $builder
+     * @param array   $options
      *
      * @return Builder
      */
@@ -30,14 +30,14 @@ class FilteringService
         }
 
         foreach ($this->getRequested() as $filter => $args) {
-            call_user_func([new $filter, 'apply'], $builder, $args);
+            call_user_func([new $filter(), 'apply'], $builder, $args);
         }
 
         return $builder;
     }
 
     /**
-     * @param  array  $options
+     * @param array $options
      *
      * @return array
      */

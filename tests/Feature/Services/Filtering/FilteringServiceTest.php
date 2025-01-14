@@ -98,7 +98,7 @@ class FilteringServiceTest extends TestCase
         request()->merge([
             'order_filter' => [
                 'title' => 'desc',
-            ]
+            ],
         ]);
 
         $builder = $this->service->withFilter(LikeFilter::class, ['title' => 'value'])->apply(Post::query());
@@ -136,7 +136,7 @@ class FilteringServiceTest extends TestCase
     {
         $builder = $this->service->withFilters([
             OrderFilter::class => ['title' => 'desc'],
-            Post::class  => ['title' => 'value'],
+            Post::class        => ['title' => 'value'],
         ])->apply(Post::query());
 
         self::assertStringContainsString(
