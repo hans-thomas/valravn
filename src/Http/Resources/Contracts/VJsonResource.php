@@ -183,7 +183,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function addAdditional(array $data): self
+    public function addAdditional(array $data): static
     {
         $this->additional = array_merge($this->additional, $data);
 
@@ -197,7 +197,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function addExtra(array $data): self
+    public function addExtra(array $data): static
     {
         $this->extra = array_merge($this->extra, $data);
 
@@ -219,7 +219,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function parseIncludes(): self
+    public function parseIncludes(): static
     {
         $this->includes = true;
 
@@ -233,7 +233,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function parseIncludesWhen(bool $condition): self
+    public function parseIncludesWhen(bool $condition): static
     {
         if ($condition) {
             $this->parseIncludes();
@@ -260,7 +260,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function registerInclude(string|object $include, array $actions = []): self
+    public function registerInclude(string|object $include, array $actions = []): static
     {
         $include = is_object($include) ? get_class($include) : $include;
         if (in_array($include, $this->getAvailableIncludes())) {
@@ -278,7 +278,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    protected function addRequestedIncludes(string $include, array $actions): self
+    protected function addRequestedIncludes(string $include, array $actions): static
     {
         if (key_exists($include, $this->getRequestedIncludes())) {
             $this->requested_includes[$include] = array_merge(
@@ -311,7 +311,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): self
+    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): static
     {
         $this->requested_eager_loads[$include] = $eagerLoads;
 
@@ -351,7 +351,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function applyNestedEagerLoadsOnRelation(string $nested): self
+    public function applyNestedEagerLoadsOnRelation(string $nested): static
     {
         $data = app(IncludingService::class, ['resource' => $this])->parseInclude($nested);
 
@@ -371,7 +371,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function parseQueries(): self
+    public function parseQueries(): static
     {
         $this->queries = true;
 
@@ -385,7 +385,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function parseQueriesWhen(bool $condition): self
+    public function parseQueriesWhen(bool $condition): static
     {
         if ($condition) {
             $this->parseQueries();
@@ -411,7 +411,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function registerQuery(string|object $query): self
+    public function registerQuery(string|object $query): static
     {
         $query = is_object($query) ? get_class($query) : $query;
         if (in_array($query, $this->getAvailableQueries())) {
@@ -428,7 +428,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function registerQueries(array $queries): self
+    public function registerQueries(array $queries): static
     {
         foreach ($queries as $query) {
             $this->registerQuery($query);
@@ -454,7 +454,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    protected function addRequestedQueries(string $query): self
+    protected function addRequestedQueries(string $query): static
     {
         if (!in_array($query, $this->getRequestedQueries())) {
             $this->requested_queries = array_merge($this->getRequestedQueries(), [$query]);
@@ -480,7 +480,7 @@ abstract class VJsonResource extends JsonResource
      *
      * @return $this
      */
-    public function only(array|string $fields): self
+    public function only(array|string $fields): static
     {
         $this->only = is_array($fields) ? $fields : func_get_args();
 

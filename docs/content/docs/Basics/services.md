@@ -72,15 +72,29 @@ VCache::store( 'unique_key', fn() => 10 / 12 );
 
 ## FilteringService
 
-The `FilteringService` allows us to apply some logics on query builder instance
-through api calls.
+The `FilteringService` provides a super easy way to apply some logics on query builder instance through
+Api calls or manually.
 
 {{< tip >}}
-Only [filterable columns](models.md#filterable) can be use in filtering requests.
+Only [filterable columns](models.md#filterable) can be use in Api calls.
 {{< /tip >}}
 
-To apply requested filters on your queries, you should call `applyFilters` method on your query builder instance. it's
+To apply passed filters through Api calls on your queries, you should call `applyFilters` method on your query builder instance. it's
 recommended to call `applyFilters` in your service layer.
+
+However, To set some filters manually, call `withFilters` method before `apply` method.
+
+```php
+$builder = $this->service->withFilter(LikeFilter::class, ['title' => 'value'])
+                         ->withFilter(LikeFilter::class, ['title' => 'value'])
+                         ->apply(Post::query());
+// Or
+
+$builder = $this->service->withFilters([
+    OrderFilter::class => ['title' => 'desc'],
+    LikeFilter::class  => ['title' => 'value'],
+])->apply(Post::query());
+```
 
 #### Available filters
 
@@ -128,7 +142,7 @@ recommended to call `applyFilters` in your service layer.
 
 Add a where like condition to the current query builder instance.
 
-```
+```plain
 domain/api/blog/posts?like_filter[title]=something
 ```
 
@@ -136,13 +150,13 @@ domain/api/blog/posts?like_filter[title]=something
 
 You can control order of returned items.
 
-```
+```plain
 domain/api/blog/posts?order_filter[id]=asc
 ```
 
 or set a descending order.
 
-```
+```plain
 domain/api/blog/posts?order_filter[id]=desc
 ```
 
@@ -151,13 +165,13 @@ domain/api/blog/posts?order_filter[id]=desc
 If you are retrieving data using a many-to-many relationship and there is a
 pivot table, you can sort items based on a pivot column.
 
-```
+```plain
 domain/api/blog/posts/1/categories?order_pivot_filter[order]=asc
 ```
 
 and for reverse:
 
-```
+```plain
 domain/api/blog/posts/1/categories?order_pivot_filter[order]=desc
 ```
 
@@ -166,7 +180,7 @@ domain/api/blog/posts/1/categories?order_pivot_filter[order]=desc
 Using this filter, you can set one or more where condition on current builder
 instance.
 
-```
+```plain
 domain/api/blog/posts?where_filter[id]=153,42
 ```
 
@@ -177,7 +191,7 @@ on a pivot column. let's assume we have a many-to-many relationship between
 posts and comments and there is a status column in our pivot table. this is how
 we can get accepted comments of a specific post.
 
-```
+```plain
 domain/api/blog/posts/1/comments?where_pivot_filter[status]=accepted
 ```
 
@@ -185,7 +199,7 @@ domain/api/blog/posts/1/comments?where_pivot_filter[status]=accepted
 
 This filter ables you to fetch posts that has a command with a specific title.
 
-```
+```plain
 domain/api/blog/posts?where_relation_filter[comments->title]=something
 ```
 
@@ -198,7 +212,7 @@ Only [loadable relations](models.md#loadable) is valid.
 It has the same functionality as `where_relation_filter` but apply where like
 condition.
 
-```
+```plain
 domain/api/blog/posts?where_relation_like_filter[comments->title]=something
 ```
 
@@ -208,7 +222,7 @@ Mixing this filter with other filters, give us more flexibility to get the data
 we really wanted. below example, shows how to get posts that has a `title`
 like `valravn` OR has a comment(s) that their `title` is equal to `something`.
 
-```
+```plain
 domain/api/blog/posts?or_where_relation_filter[comments->title]=something&like_filter[title]=valravn
 ```
 
