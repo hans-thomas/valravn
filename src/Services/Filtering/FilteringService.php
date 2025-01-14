@@ -7,13 +7,20 @@ use Illuminate\Support\Arr;
 
 class FilteringService
 {
-    private array $registeredFilters;
+    private array $registered_filters;
+    private array $requested_filters;
 
     public function __construct()
     {
-        $this->registeredFilters = valravn_config('filters');
+        $this->registered_filters = valravn_config('filters');
     }
 
+    /**
+     * @param  Builder  $builder
+     * @param  array    $options
+     *
+     * @return Builder
+     */
     public function apply(Builder $builder, array $options = []): Builder
     {
         foreach ($this->scopeActions($options) as $key => $filter) {
@@ -22,12 +29,21 @@ class FilteringService
             }
         }
 
+        foreach ($this->getRequested() as $filter => $args) {
+            call_user_func([new $filter, 'apply'], $builder, $args);
+        }
+
         return $builder;
     }
 
+    /**
+     * @param  array  $options
+     *
+     * @return array
+     */
     private function scopeActions(array $options): array
     {
-        $actions = $this->registeredFilters;
+        $actions = $this->registered_filters;
         if (isset($options['only'])) {
             $actions = array_intersect($actions, Arr::wrap($options['only']));
         }
@@ -39,11 +55,37 @@ class FilteringService
         return $actions;
     }
 
+    public function withFilter(string $filter, array $args): self
+    {
+        if (in_array($filter, $this->registered_filters)) {
+            $this->requested_filters[$filter] = $args;
+        }
+
+        return $this;
+    }
+
+    public function withFilters(array $filters): self
+    {
+        foreach ($filters as $filter => $args) {
+            $this->withFilter($filter, $args);
+        }
+
+        return $this;
+    }
+
     /**
      * @return array
      */
     public function getRegistered(): array
     {
-        return $this->registeredFilters;
+        return $this->registered_filters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequested(): array
+    {
+        return $this->requested_filters ?? [];
     }
 }
