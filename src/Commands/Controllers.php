@@ -35,16 +35,15 @@ class Controllers extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws Throwable
      *
+     * @return int
      */
     public function handle(): int
     {
         $namespace = $this->argument('namespace');
         $name = $this->argument('name');
         $v = $this->option('v');
-
 
         $this->withProgressBar(3, function (ProgressBar $progressBar) use ($namespace, $name, $v) {
             ControllerService::make($namespace, $name, $v)

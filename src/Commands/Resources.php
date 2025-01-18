@@ -30,9 +30,9 @@ class Resources extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function handle()
     {
@@ -43,7 +43,6 @@ class Resources extends Command
         )
                        ->createResource()
                        ->createCollection();
-
 
         $this->info('resource and collection classes successfully created!');
     }

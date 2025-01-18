@@ -46,7 +46,6 @@ final class RequestService extends CommandsService
         $this->writeTo('BatchUpdateRequest', $batchUpdate);
 
         return $this;
-
     }
 
     /**

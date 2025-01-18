@@ -10,7 +10,7 @@ use League\Flysystem\Visibility;
 
 abstract class CommandsService
 {
-    /** @var FilesystemAdapter $filesystem */
+    /** @var FilesystemAdapter */
     protected Filesystem $filesystem;
     protected readonly string $namespace;
     protected readonly string $name;

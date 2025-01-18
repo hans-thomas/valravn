@@ -109,7 +109,7 @@ class ControllersTest extends TestCase
             ->expectsOutput('Controller classes created.')
             ->expectsConfirmation('Should create requests?')
             ->doesntExpectOutput('Request classes created.')
-            ->expectsConfirmation('Should create resources?','yes')
+            ->expectsConfirmation('Should create resources?', 'yes')
             ->expectsOutput('Resource and ResourceCollection classes created.')
             ->assertExitCode(0);
 

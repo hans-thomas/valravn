@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class ControllerTest extends TestCase
@@ -30,7 +29,6 @@ class ControllerTest extends TestCase
             ->doesntExpectOutput('Resources class created.')
 
             ->assertExitCode(0);
-
 
         self::assertFileExists($file);
 
@@ -82,7 +80,7 @@ class ControllerTest extends TestCase
         $this->artisan('valravn:controller blog posts')
             ->expectsOutput('Controller classes created.')
 
-            ->expectsConfirmation('Should create relations?','yes')
+            ->expectsConfirmation('Should create relations?', 'yes')
             ->expectsOutput('Relations class created.')
 
             ->expectsConfirmation('Should create actions?')
@@ -138,7 +136,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create relations?')
             ->doesntExpectOutput('Relations class created.')
 
-            ->expectsConfirmation('Should create actions?','yes')
+            ->expectsConfirmation('Should create actions?', 'yes')
             ->expectsOutput('Actions class created.')
 
             ->expectsConfirmation('Should create requests?')
@@ -202,7 +200,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create actions?')
             ->doesntExpectOutput('Actions class created.')
 
-            ->expectsConfirmation('Should create requests?','yes')
+            ->expectsConfirmation('Should create requests?', 'yes')
             ->expectsOutput('Request classes created.')
 
             ->expectsConfirmation('Should create resources?')
@@ -243,6 +241,7 @@ class ControllerTest extends TestCase
         self::assertFileExists($store);
         self::assertFileExists($update);
     }
+
     #[Test]
     public function resourcesWithoutParam(): void
     {
@@ -264,7 +263,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create requests?')
             ->doesntExpectOutput('Requests class created.')
 
-            ->expectsConfirmation('Should create resources?','yes')
+            ->expectsConfirmation('Should create resources?', 'yes')
             ->doesntExpectOutput('Resources class created.')
 
             ->assertExitCode(0);
