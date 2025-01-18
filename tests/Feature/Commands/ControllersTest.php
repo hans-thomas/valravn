@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class ControllersTest extends TestCase
@@ -19,7 +18,13 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($relations);
         self::assertFileDoesNotExist($actions);
 
-        Artisan::call('valravn:controllers blog posts');
+        $this->artisan('valravn:controllers blog posts')
+             ->expectsOutput('Controller classes created.')
+             ->expectsConfirmation('Should create requests?')
+             ->doesntExpectOutput('Request classes created.')
+             ->expectsConfirmation('Should create resources?')
+             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+             ->assertExitCode(0);
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
@@ -36,7 +41,35 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($store);
         self::assertFileDoesNotExist($update);
 
-        Artisan::call('valravn:controllers blog posts --requests');
+        $this->artisan('valravn:controllers blog posts --requests')
+             ->expectsOutput('Controller classes created.')
+             ->expectsOutput('Request classes created.')
+             ->expectsConfirmation('Should create resources?')
+             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+             ->assertExitCode(0);
+
+        self::assertFileExists($store);
+        self::assertFileExists($update);
+        self::assertFileExists($batchUpdate);
+    }
+
+    #[Test]
+    public function requestsWithoutParam(): void
+    {
+        $store = app_path('Http/Requests/V1/Blog/Post/PostStoreRequest.php');
+        $update = app_path('Http/Requests/V1/Blog/Post/PostUpdateRequest.php');
+        $batchUpdate = app_path('Http/Requests/V1/Blog/Post/PostBatchUpdateRequest.php');
+
+        self::assertFileDoesNotExist($store);
+        self::assertFileDoesNotExist($update);
+
+        $this->artisan('valravn:controllers blog posts')
+             ->expectsOutput('Controller classes created.')
+             ->expectsConfirmation('Should create requests?', 'yes')
+             ->expectsOutput('Request classes created.')
+             ->expectsConfirmation('Should create resources?')
+             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+             ->assertExitCode(0);
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -52,7 +85,33 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
-        Artisan::call('valravn:controllers blog posts --resources');
+        $this->artisan('valravn:controllers blog posts --resources')
+            ->expectsOutput('Controller classes created.')
+            ->expectsConfirmation('Should create requests?')
+            ->doesntExpectOutput('Request classes created.')
+            ->expectsOutput('Resource and ResourceCollection classes created.')
+            ->assertExitCode(0);
+
+        self::assertFileExists($resource);
+        self::assertFileExists($collection);
+    }
+
+    #[Test]
+    public function resourcesWithoutParam(): void
+    {
+        $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
+        $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
+
+        self::assertFileDoesNotExist($resource);
+        self::assertFileDoesNotExist($collection);
+
+        $this->artisan('valravn:controllers blog posts')
+            ->expectsOutput('Controller classes created.')
+            ->expectsConfirmation('Should create requests?')
+            ->doesntExpectOutput('Request classes created.')
+            ->expectsConfirmation('Should create resources?','yes')
+            ->expectsOutput('Resource and ResourceCollection classes created.')
+            ->assertExitCode(0);
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);
@@ -77,7 +136,11 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
-        Artisan::call('valravn:controllers blog posts --requests --resources --v=2');
+        $this->artisan('valravn:controllers blog posts --requests --resources --v=2')
+            ->expectsOutput('Controller classes created.')
+            ->expectsOutput('Request classes created.')
+            ->expectsOutput('Resource and ResourceCollection classes created.')
+            ->assertExitCode(0);
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
