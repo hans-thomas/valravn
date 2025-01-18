@@ -60,10 +60,16 @@ class VHandler
             $errorCode = $defaultErrorCode;
         }
 
+        if ($responseCode == null && method_exists($e, 'getStatusCode')) {
+            $responseCode = $e->getStatusCode();
+        } else {
+            $responseCode = 500;
+        }
+
         $e = new VException(
             $message ?: $e->getMessage(),
             $errorCode,
-            $responseCode ?: $e->getStatusCode(),
+            $responseCode,
             'LEcx',
         );
 

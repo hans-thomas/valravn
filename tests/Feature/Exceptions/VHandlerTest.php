@@ -5,6 +5,7 @@ namespace Hans\Valravn\Tests\Feature\Exceptions;
 use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Env;
@@ -90,6 +91,21 @@ class VHandlerTest extends TestCase
         );
         self::assertEquals(
             'LEcx4040',
+            $this->handler->render(request(), $e)->getOriginalContent()['code']
+        );
+    }
+
+    #[Test]
+    public function handlingBindingResolutionException(): void
+    {
+        $e = new BindingResolutionException('Class IA in not instantiable.', code: 4050);
+
+        self::assertJsonStringEqualsJsonString(
+            '{"title":"Unexpected error!","detail":"Class IA in not instantiable.","code":"LEcx4050"}',
+            $this->handler->render(request(), $e)->getContent()
+        );
+        self::assertEquals(
+            'LEcx4050',
             $this->handler->render(request(), $e)->getOriginalContent()['code']
         );
     }
