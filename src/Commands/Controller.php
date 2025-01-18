@@ -2,12 +2,11 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ControllerService;
+use Hans\Valravn\Commands\Services\RequestService;
+use Hans\Valravn\Commands\Services\ResourceService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Controller extends Command
@@ -34,56 +33,57 @@ class Controller extends Command
      * @var string
      */
     protected $description = 'Generate controller classes.';
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
 
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
      *
-     * @return void
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
-        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
+        $namespace = $this->argument('namespace');
+        $name = $this->argument('name');
+        $v = $this->option('v');
 
-        // controllers: crud
-        $controllerStub = file_get_contents(__DIR__.'/stubs/controllers/crud.stub');
-        $controllerStub = Str::replace('{{CRUD::VERSION}}', $version, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::NAMESPACE}}', $namespace, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::MODEL}}', $singular, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::MODEL-lower}}', strtolower($singular), $controllerStub);
-        $destination = "Http/Controllers/$version/$namespace/$singular/{$singular}CrudController.php";
+        $service = new ControllerService($namespace, $name, $v);
 
-        $this->fs->write($destination, $controllerStub);
-        // controllers: relations
-        if ($this->option('relations')) {
-            Artisan::call("make:controller $version/$namespace/$singular/{$singular}RelationsController");
-        }
-        // controllers: actions
-        if ($this->option('actions')) {
-            Artisan::call("make:controller $version/$namespace/$singular/{$singular}ActionsController");
-        }
+        $this->withProgressBar(5, function (ProgressBar $progressBar) use ($service, $namespace, $name, $v) {
+            $service->createCrud();
+            $this->info('Controller classes created.');
+            $progressBar->advance();
 
-        if ($this->option('requests')) {
-            Artisan::call("valravn:requests $namespace $singular --v $version --batch-update");
-        }
+            if ($this->option('relations') || $this->confirm('Should create relations?')) {
+                $service->CreateRelations();
+                $this->info('Relations class created.');
+            }
+            $progressBar->advance();
 
-        if ($this->option('resources')) {
-            Artisan::call("valravn:resources $namespace $singular --v $version");
-        }
+            if ($this->option('actions') || $this->confirm('Should create actions?')) {
+                $service->CreateActions();
+                $this->info('Actions class created.');
+            }
+            $progressBar->advance();
 
-        $this->info('controller classes successfully created!');
+            if ($this->option('requests') || $this->confirm('Should create requests?')) {
+                RequestService::make($namespace, $name, $v)
+                              ->createStoreRequest()
+                              ->createUpdateRequest()
+                              ->createBatchUpdateRequest();
+                $this->info('Request classes created.');
+            }
+            $progressBar->advance();
+
+            if ($this->option('resources') || $this->confirm('Should create resources?')) {
+                ResourceService::make($namespace, $name, $v)
+                               ->createResource()
+                               ->createCollection();
+                $this->info('Resource classes created.');
+            }
+            $progressBar->advance();
+        });
+
+        return self::SUCCESS;
     }
 }

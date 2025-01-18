@@ -2,8 +2,11 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ControllerService;
+use Hans\Valravn\Commands\Services\RequestService;
+use Hans\Valravn\Commands\Services\ResourceService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Controllers extends Command
@@ -32,26 +35,43 @@ class Controllers extends Command
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
      *
-     * @return void
      */
-    public function handle()
+    public function handle(): int
     {
-        $name = $this->argument('name');
         $namespace = $this->argument('namespace');
-        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
+        $name = $this->argument('name');
+        $v = $this->option('v');
 
-        Artisan::call('valravn:controller', [
-            'namespace'   => $namespace,
-            'name'        => $name,
-            '--v'         => $version,
-            '--relations' => true,
-            '--actions'   => true,
-            '--resources' => $this->option('resources'),
-            '--requests'  => $this->option('requests'),
-        ]);
 
-        $this->info('controller classes successfully created!');
+        $this->withProgressBar(3, function (ProgressBar $progressBar) use ($namespace, $name, $v) {
+            ControllerService::make($namespace, $name, $v)
+                             ->createCrud()
+                             ->CreateActions()
+                             ->CreateRelations();
+            $this->info('Controller classes created.');
+            $progressBar->advance();
+
+            if ($this->option('requests') || $this->confirm('Should create requests?')) {
+                RequestService::make($namespace, $name, $v)
+                              ->createStoreRequest()
+                              ->createUpdateRequest()
+                              ->createBatchUpdateRequest();
+                $this->info('Request classes created.');
+            }
+            $progressBar->advance();
+
+            if ($this->option('resources') || $this->confirm('Should create resources?')) {
+                ResourceService::make($namespace, $name, $v)
+                               ->createResource()
+                               ->createCollection();
+                $this->info('Resource and ResourceCollection classes created.');
+            }
+            $progressBar->advance();
+        });
+
+        return self::SUCCESS;
     }
 }
