@@ -2,11 +2,9 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\PolicyService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Policy extends Command
@@ -29,34 +27,21 @@ class Policy extends Command
      */
     protected $description = 'Generate policy class.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function handle()
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
-
-        $policyStub = file_get_contents(__DIR__.'/stubs/policies/policy.stub');
-        $policyStub = Str::replace('{{POLICY::NAMESPACE}}', $namespace, $policyStub);
-        $policyStub = Str::replace('{{POLICY::MODEL}}', $singular, $policyStub);
-        $this->fs->write("Policies/$namespace/{$singular}Policy.php", $policyStub);
-
-        $this->info('policy class successfully created!');
+        $this->withProgressBar(1, function (ProgressBar $progress) {
+            if (PolicyService::make($this->argument('namespace'), $this->argument('name'))->createPolicy()) {
+                $this->info('Policy class created.');
+            } else {
+                $this->info('Policy class exists or could not be created.');
+            }
+        });
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 
-class MigrationService extends Contracts\CommandsService
+final class MigrationService extends Contracts\CommandsService
 {
     private readonly string $plural;
 

@@ -15,7 +15,10 @@ class PolicyTest extends TestCase
 
         self::assertFileDoesNotExist($file);
 
-        Artisan::call('valravn:policy blog posts');
+        $this->artisan('valravn:policy blog posts')
+            ->expectsOutput('Policy class created.')
+            ->doesntExpectOutput('Policy class exists or could not be created.')
+            ->assertExitCode(0);
 
         self::assertFileExists($file);
 
@@ -27,5 +30,24 @@ class PolicyTest extends TestCase
             $policyStub,
             file_get_contents($file)
         );
+    }
+    #[Test]
+    public function policyExists(): void
+    {
+        $file = app_path('Policies/Blog/PostPolicy.php');
+
+        self::assertFileDoesNotExist($file);
+
+        $this->artisan('valravn:policy blog posts')
+            ->expectsOutput('Policy class created.')
+            ->doesntExpectOutput('Policy class exists or could not be created.')
+            ->assertExitCode(0);
+
+        $this->artisan('valravn:policy blog posts')
+            ->doesntExpectOutput('Policy class created.')
+            ->expectsOutput('Policy class exists or could not be created.')
+            ->assertExitCode(0);
+
+        self::assertFileExists($file);
     }
 }

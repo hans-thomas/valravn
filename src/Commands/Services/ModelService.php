@@ -5,7 +5,7 @@ namespace Hans\Valravn\Commands\Services;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 
-class ModelService extends Contracts\CommandsService
+final class ModelService extends Contracts\CommandsService
 {
     private readonly string $plural;
 
