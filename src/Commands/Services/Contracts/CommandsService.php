@@ -42,4 +42,21 @@ abstract class CommandsService
             'visibility' => Visibility::PUBLIC,
         ]);
     }
+
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+
 }

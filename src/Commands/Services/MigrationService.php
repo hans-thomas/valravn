@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Commands\Services;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 
@@ -21,7 +22,6 @@ class MigrationService extends Contracts\CommandsService
     {
         return parent::make($namespace, $name, $version);
     }
-
 
     /**
      * @throws FilesystemException
@@ -78,6 +78,25 @@ class MigrationService extends Contracts\CommandsService
         }
 
         $this->filesystem->write("$path/{$datePrefix}_$fileName", $stub);
+
+        return true;
+    }
+
+    public function createFactory(): bool
+    {
+        if ($this->filesystem->exists("factories/{$this->namespace}/{$this->name}Factory.php")) {
+            return false;
+        }
+        Artisan::call("make:factory {$this->namespace}/{$this->name}Factory --model {$this->namespace}/{$this->name}");
+
+        return true;
+    }
+    public function createSeeder(): bool
+    {
+        if ($this->filesystem->exists("seeders/{$this->namespace}/{$this->name}Seeder.php")) {
+            return false;
+        }
+        Artisan::call("make:seeder {$this->namespace}/{$this->name}Seeder");
 
         return true;
     }
