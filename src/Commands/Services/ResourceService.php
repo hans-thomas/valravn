@@ -2,10 +2,11 @@
 
 namespace Hans\Valravn\Commands\Services;
 
+use Hans\Valravn\Commands\Services\Contracts\CommandsService;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 
-class ResourceService extends CommandsService
+final class ResourceService extends CommandsService
 {
     /**
      * @throws FilesystemException
