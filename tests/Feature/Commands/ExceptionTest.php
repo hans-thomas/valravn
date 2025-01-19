@@ -3,8 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Attributes\Test;
 
 class ExceptionTest extends TestCase
@@ -16,7 +14,10 @@ class ExceptionTest extends TestCase
 
         self::assertFileDoesNotExist($exception);
 
-        Artisan::call('valravn:exception blog posts BPEcx');
+        $this->artisan('valravn:exception blog posts BPEcx')
+             ->expectsConfirmation('Should create a compact exception?')
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
 
         self::assertFileExists($exception);
 
@@ -34,13 +35,18 @@ class ExceptionTest extends TestCase
     #[Test]
     public function compactFormException(): void
     {
-        $exception = app_path('Exceptions/Blog/Post/NotFoundException.php');
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
 
-        self::assertFileDoesNotExist($exception);
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
 
-        Artisan::call('valravn:exception blog posts BPEcx --compact=notFound');
+        $this->artisan('valravn:exception blog posts BPEcx --compact=notFound')
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
 
-        self::assertFileExists($exception);
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileExists($compactException);
 
         $exception_file = $this->getStub('exceptions/compactFormException.stub');
         $exception_file = str_replace('{{ENTITY::NAMESPACE}}', 'Blog', $exception_file);
@@ -49,34 +55,101 @@ class ExceptionTest extends TestCase
 
         self::assertEquals(
             $exception_file,
-            file_get_contents($exception)
+            file_get_contents($compactException)
+        );
+    }
+
+    #[Test]
+    public function compactFormExceptionWithoutParam(): void
+    {
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
+
+        $this->artisan('valravn:exception blog posts BPEcx')
+             ->expectsConfirmation('Should create a compact exception?', 'yes')
+             ->expectsQuestion('What should be its name?', 'notFound')
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileExists($compactException);
+
+        $exception_file = $this->getStub('exceptions/compactFormException.stub');
+        $exception_file = str_replace('{{ENTITY::NAMESPACE}}', 'Blog', $exception_file);
+        $exception_file = str_replace('{{ENTITY::NAME}}', 'NotFound', $exception_file);
+        $exception_file = str_replace('{{ENTITY::CODE}}', 'BPEcx', $exception_file);
+
+        self::assertEquals(
+            $exception_file,
+            file_get_contents($compactException)
+        );
+    }
+
+    #[Test]
+    public function compactFormExceptionWithoutParamWithExceptionPostfix(): void
+    {
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
+
+        $this->artisan('valravn:exception blog posts BPEcx')
+             ->expectsConfirmation('Should create a compact exception?', 'yes')
+             ->expectsQuestion('What should be its name?', 'notFoundException')
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileExists($compactException);
+
+        $exception_file = $this->getStub('exceptions/compactFormException.stub');
+        $exception_file = str_replace('{{ENTITY::NAMESPACE}}', 'Blog', $exception_file);
+        $exception_file = str_replace('{{ENTITY::NAME}}', 'NotFound', $exception_file);
+        $exception_file = str_replace('{{ENTITY::CODE}}', 'BPEcx', $exception_file);
+
+        self::assertEquals(
+            $exception_file,
+            file_get_contents($compactException)
         );
     }
 
     #[Test]
     public function compactFormExceptionWithEmptyCompact(): void
     {
-        $exception = app_path('Exceptions/Blog/Post/PostException.php');
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
 
-        self::assertFileDoesNotExist($exception);
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
 
-        // Automatically switch to full form
-        Artisan::call('valravn:exception blog posts BPEcx --compact=');
+        $this->artisan('valravn:exception blog posts BPEcx --compact=')
+             ->expectsQuestion('What should be its name?', 'notFound')
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
 
-        self::assertFileExists($exception);
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileExists($compactException);
     }
 
     #[Test]
     public function compactFormExceptionWithNullCompact(): void
     {
-        $exception = app_path('Exceptions/Blog/Post/PostException.php');
-        File::delete($exception);
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
 
-        self::assertFileDoesNotExist($exception);
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
 
-        // Automatically switch to full form
-        Artisan::call('valravn:exception blog posts BPEcx --compact');
+        $this->artisan('valravn:exception blog posts BPEcx --compact')
+             ->expectsQuestion('Should create a compact exception?', false)
+             ->expectsOutput('Exception class created.')
+             ->assertExitCode(0);
 
-        self::assertFileExists($exception);
+        self::assertFileExists($fullException);
+        self::assertFileDoesNotExist($compactException);
     }
 }
