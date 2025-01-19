@@ -27,7 +27,7 @@ class MigrationsTests extends TestCase
         $this->artisan('valravn:migration blog posts')
              ->expectsOutput('Migration file created.')
              ->doesntExpectOutput('Migration file exists or could not be created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -51,7 +51,7 @@ class MigrationsTests extends TestCase
         $this->artisan('valravn:migration blog posts')
              ->doesntExpectOutput('Migration file created.')
              ->expectsOutput('Migration file exists or could not be created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -67,7 +67,7 @@ class MigrationsTests extends TestCase
         $this->artisan('valravn:pivot blog posts core category')
              ->expectsOutput('Pivot migration file created.')
              ->doesntExpectOutput('Pivot migration file exists or could not be created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($pivot);
 
@@ -96,7 +96,7 @@ class MigrationsTests extends TestCase
         $this->artisan('valravn:pivot blog posts core category')
              ->doesntExpectOutput('Pivot migration file created.')
              ->expectsOutput('Pivot migration file exists or could not be created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($pivot);
     }

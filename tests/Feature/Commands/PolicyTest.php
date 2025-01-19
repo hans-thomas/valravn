@@ -18,7 +18,7 @@ class PolicyTest extends TestCase
         $this->artisan('valravn:policy blog posts')
             ->expectsOutput('Policy class created.')
             ->doesntExpectOutput('Policy class exists or could not be created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -41,12 +41,12 @@ class PolicyTest extends TestCase
         $this->artisan('valravn:policy blog posts')
             ->expectsOutput('Policy class created.')
             ->doesntExpectOutput('Policy class exists or could not be created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         $this->artisan('valravn:policy blog posts')
             ->doesntExpectOutput('Policy class created.')
             ->expectsOutput('Policy class exists or could not be created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }

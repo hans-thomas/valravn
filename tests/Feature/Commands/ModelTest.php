@@ -22,7 +22,7 @@ class ModelTest extends TestCase
             ->doesntExpectOutput('Seeder class created.')
             ->expectsQuestion('Should create migration?', false)
             ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -50,7 +50,7 @@ class ModelTest extends TestCase
             ->doesntExpectOutput('Seeder class created.')
             ->expectsQuestion('Should create migration?', false)
             ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts')
              ->expectsOutput('Model class exists or could not be created.')
@@ -60,7 +60,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -87,7 +87,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -106,7 +106,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts -f')
              ->expectsOutput('Model class exists or could not be created.')
@@ -115,7 +115,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -135,7 +135,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -154,7 +154,7 @@ class ModelTest extends TestCase
              ->expectsOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -173,7 +173,7 @@ class ModelTest extends TestCase
              ->expectsOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts -s')
              ->expectsOutput('Model class exists or could not be created.')
@@ -182,7 +182,7 @@ class ModelTest extends TestCase
              ->expectsOutput('Seeder class exists or could not be created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -202,7 +202,7 @@ class ModelTest extends TestCase
              ->expectsOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', false)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -224,7 +224,7 @@ class ModelTest extends TestCase
              ->expectsQuestion('Should create seeder?', false)
              ->doesntExpectOutput('Seeder class created.')
              ->expectsOutput('Migration file created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -246,7 +246,7 @@ class ModelTest extends TestCase
              ->doesntExpectOutput('Seeder class created.')
              ->expectsQuestion('Should create migration?', true)
              ->doesntExpectOutput('Migration class created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($file);
     }

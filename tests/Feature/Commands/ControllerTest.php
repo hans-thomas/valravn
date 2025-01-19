@@ -28,7 +28,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -65,7 +65,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -92,7 +92,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -118,7 +118,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -145,7 +145,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -174,7 +174,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -206,7 +206,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -236,7 +236,7 @@ class ControllerTest extends TestCase
 
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -266,7 +266,7 @@ class ControllerTest extends TestCase
             ->expectsConfirmation('Should create resources?', 'yes')
             ->doesntExpectOutput('Resources class created.')
 
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);

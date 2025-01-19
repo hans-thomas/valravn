@@ -2,17 +2,18 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\RelationService;
+use Hans\Valravn\Exceptions\Package\NoArgsPassedException;
 use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
+use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
+use function PHPUnit\Framework\assertTrue;
 
 class Relation extends Command
 {
@@ -43,116 +44,102 @@ class Relation extends Command
      */
     protected $description = 'Generate store and update request classes for a specific relationship.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
-     * @throws Throwable
-     *
-     * @return void
+     * @return int
+     * @throws FilesystemException
      */
-    public function handle()
+    public function handle(): int
     {
-        $name = $this->argument('name');
-        $singular = Str::of($name)->singular()->ucfirst()->toString();
-        $namespace = ucfirst($this->argument('namespace'));
+        $service = new RelationService(
+            $this->argument('namespace'),
+            $this->argument('name'),
+            $this->option('v'),
+            $this->argument('related-namespace'),
+            $this->argument('related-name')
+        );
 
-        $relatedName = $this->argument('related-name');
-        $relatedSingular = Str::of($relatedName)->singular()->ucfirst()->toString();
-        $relatedNamespace = ucfirst($this->argument('related-namespace'));
+        $option = match (true) {
+            $this->option('belongs-to-many') => BelongsToManyRequest::class,
+            $this->option('morphed-by-many') => MorphedByManyRequest::class,
+            $this->option('morph-to-many') => MorphToManyRequest::class,
+            $this->option('has-many') => HasManyRequest::class,
+            $this->option('morph-to') => MorphToRequest::class,
+            default => null
+        };
 
-        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
-
-        if (
-            $this->option('belongs-to-many') or
-            $this->option('morphed-by-many') or
-            $this->option('morph-to-many') or
-            $this->option('has-many')
+        if ($option === null && !$option = $this->choice(
+                'What relation type should create?',
+                [
+                    class_basename(BelongsToManyRequest::class),
+                    class_basename(MorphedByManyRequest::class),
+                    class_basename(MorphToManyRequest::class),
+                    class_basename(HasManyRequest::class),
+                    class_basename(MorphToRequest::class),
+                ])
         ) {
-            if (is_null($relatedName)) {
-                $this->error('{related-name} parameter should not be empty!');
+            $this->error('At least one argument should pass.');
 
-                return;
-            }
-            $relation = Str::plural($relatedSingular);
-            $content = file_get_contents(
-                $this->option('has-many') ?
-                    __DIR__.'/stubs/relations/has-many.stub' :
-                    __DIR__.'/stubs/relations/many-to-many.stub'
-            );
-
-            $content = Str::replace('{{RELATION::VERSION}}', $version, $content);
-            $content = Str::replace('{{RELATION::NAMESPACE}}', $namespace, $content);
-            $content = Str::replace('{{RELATION::MODEL}}', $singular, $content);
-
-            $content = Str::replace('{{RELATION::RELATED-NAMESPACE}}', $relatedNamespace, $content);
-            $content = Str::replace('{{RELATION::RELATED-MODEL}}', $relatedSingular, $content);
-            $content = Str::replace('{{RELATION::RELATION}}', $relation, $content);
-
-            if ($this->option('belongs-to-many')) {
-                $extends = class_basename(BelongsToManyRequest::class);
-            } elseif ($this->option('morphed-by-many')) {
-                $extends = class_basename(MorphedByManyRequest::class);
-            } elseif ($this->option('morph-to-many')) {
-                $extends = class_basename(MorphToManyRequest::class);
-            } elseif ($this->option('has-many')) {
-                $extends = class_basename(HasManyRequest::class);
-            }
-
-            if (isset($extends)) {
-                $content = Str::replace(
-                    '{{RELATION::EXTENDS}}',
-                    $extends,
-                    $content
-                );
-            }
-
-            $this->fs->write(
-                "Http/Requests/$version/$namespace/$singular/{$singular}{$relation}Request.php",
-                $content
-            );
-
-            if ($this->option('with-pivot') and !$this->option('has-many')) {
-                Artisan::call("valravn:pivot $namespace $name $relatedNamespace $relatedName");
-            }
+            return self::FAILURE;
         }
 
-        if ($this->option('morph-to')) {
-            $morphTo = file_get_contents(__DIR__.'/stubs/relations/morph-to.stub');
-
-            $morphTo = Str::replace('{{RELATION::VERSION}}', $version, $morphTo);
-            $morphTo = Str::replace('{{RELATION::NAMESPACE}}', $namespace, $morphTo);
-            $morphTo = Str::replace('{{RELATION::MODEL}}', $singular, $morphTo);
-            $morphTo = Str::replace('{{RELATION::RELATION}}', $relatedNamespace, $morphTo);
-
-            $this->fs->write(
-                "Http/Requests/$version/$namespace/$singular/{$singular}{$relatedNamespace}Request.php",
-                $morphTo
-            );
+        if (!class_exists($option)) {
+            $namespace = substr(BelongsToManyRequest::class, 0, strrpos(BelongsToManyRequest::class, '\\'));
+            $option = $namespace.'\\'.$option;
+            assert(class_exists($option),'Request class is not exists.');
         }
 
-        if (
-            !($this->option('belongs-to-many') or
-              $this->option('morphed-by-many') or
-              $this->option('morph-to-many') or
-              $this->option('has-many') or
-              $this->option('morph-to'))
+        if ($this->argument('related-name') === null &&
+            in_array($option, [
+                BelongsToManyRequest::class,
+                MorphedByManyRequest::class,
+                MorphToManyRequest::class,
+                HasManyRequest::class,
+            ])
         ) {
-            $this->error('You should pass one option at least.');
+            $this->error('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
 
-            return;
+            return self::FAILURE;
         }
 
-        $this->info('request class successfully created!');
+        $this->withProgressBar(3, function (ProgressBar $progress) use ($service, $option) {
+            $type = substr(class_basename($option), 0, strlen(class_basename($option)) - strlen('Request'));
+
+            if (in_array($option,
+                [
+                    BelongsToManyRequest::class,
+                    MorphedByManyRequest::class,
+                    MorphToManyRequest::class,
+                    HasManyRequest::class,
+                ])) {
+
+                if ($service->creatOneToMany($option)) {
+                    $this->info("Relation $type request class created.");
+                } else {
+                    $this->error("Relation $type request class exists or could not be created.");
+                }
+                $progress->advance(2);
+
+                if ($this->option('with-pivot') && !$this->option('has-many')) {
+                    Artisan::call('valravn:pivot', [
+                        'namespace'         => $this->argument('namespace'),
+                        'name'              => $this->argument('name'),
+                        'related-namespace' => $this->argument('related-namespace'),
+                        'related-name'      => $this->argument('related-name')
+                    ]);
+                }
+                $progress->advance();
+            } elseif ($option === MorphToRequest::class) {
+                if ($service->createMorphTo()) {
+                    $this->info("Relation $type request class created.");
+                } else {
+                    $this->error("Relation $type request class exists or could not be created.");
+                }
+                $progress->advance(3);
+            }
+        });
+
+        return self::SUCCESS;
     }
 }

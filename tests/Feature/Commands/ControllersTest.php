@@ -24,7 +24,7 @@ class ControllersTest extends TestCase
              ->doesntExpectOutput('Request classes created.')
              ->expectsConfirmation('Should create resources?')
              ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
@@ -46,7 +46,7 @@ class ControllersTest extends TestCase
              ->expectsOutput('Request classes created.')
              ->expectsConfirmation('Should create resources?')
              ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -69,7 +69,7 @@ class ControllersTest extends TestCase
              ->expectsOutput('Request classes created.')
              ->expectsConfirmation('Should create resources?')
              ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -90,7 +90,7 @@ class ControllersTest extends TestCase
             ->expectsConfirmation('Should create requests?')
             ->doesntExpectOutput('Request classes created.')
             ->expectsOutput('Resource and ResourceCollection classes created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);
@@ -111,7 +111,7 @@ class ControllersTest extends TestCase
             ->doesntExpectOutput('Request classes created.')
             ->expectsConfirmation('Should create resources?', 'yes')
             ->expectsOutput('Resource and ResourceCollection classes created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);
@@ -140,7 +140,7 @@ class ControllersTest extends TestCase
             ->expectsOutput('Controller classes created.')
             ->expectsOutput('Request classes created.')
             ->expectsOutput('Resource and ResourceCollection classes created.')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
