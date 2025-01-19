@@ -2,11 +2,9 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\MigrationService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Pivot extends Command
@@ -31,66 +29,24 @@ class Pivot extends Command
      */
     protected $description = 'Generate pivot migration file for many-to-many relationships.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => database_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function handle()
     {
-        $singular = Str::of($this->argument('name'))->singular()->ucfirst()->toString();
-        $singularLower = strtolower($singular);
-        $namespace = Str::of($this->argument('namespace'))->ucfirst()->toString();
+        $service = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
-        $relatedSingular = Str::of($this->argument('related-name'))->singular()->ucfirst()->toString();
-        $relatedSingularLower = strtolower($relatedSingular);
-        $relatedNamespace = Str::of($this->argument('related-namespace'))->ucfirst()->toString();
-
-        $pivot = file_get_contents(__DIR__.'/stubs/migrations/pivot.stub');
-
-        $pivot = Str::replace('{{PIVOT::NAMESPACE}}', $namespace, $pivot);
-        $pivot = Str::replace('{{PIVOT::MODEL}}', $singular, $pivot);
-
-        $pivot = Str::replace('{{PIVOT::RELATED-NAMESPACE}}', $relatedNamespace, $pivot);
-        $pivot = Str::replace('{{PIVOT::RELATED-MODEL}}', $relatedSingular, $pivot);
-
-        // alphabetic sort for pivot table name
-        $names = [$singularLower, $relatedSingularLower];
-        sort($names);
-
-        $pivot = Str::replace('{{PIVOT::FIRST-MODEL-SINGLE-LOWER}}', $names[0], $pivot);
-        $pivot = Str::replace('{{PIVOT::SECOND-MODEL-SINGLE-LOWER}}', $names[1], $pivot);
-
-        $path = "migrations/$namespace";
-        $datePrefix = now()->format('Y_m_d_His');
-        $fileName = "create_{$names[0]}_{$names[1]}_table.php";
-
-        foreach ($this->fs->allFiles($path) as $file) {
-            if (preg_match("/[0-9 _]+_$fileName/s", $file)) {
-                $this->info('pivot migration class exists!');
-
-                return;
+        $this->withProgressBar(1, function (ProgressBar $progress) use ($service) {
+            if ($service->createPivot($this->argument('related-namespace'), $this->argument('related-name'))) {
+                $this->info('Pivot migration file created.');
+            } else {
+                $this->error('Pivot migration file exists or could not be created.');
             }
-        }
-
-        $this->fs->write(
-            "$path/{$datePrefix}_$fileName",
-            $pivot
-        );
-
-        $this->info('pivot migration class successfully created!');
+            $progress->advance();
+        });
     }
 }

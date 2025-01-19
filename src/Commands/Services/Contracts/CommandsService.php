@@ -22,10 +22,7 @@ abstract class CommandsService
         $this->name = Str::of($name)->singular()->ucfirst()->toString();
         $this->version = 'V'.filter_var($version, FILTER_SANITIZE_NUMBER_INT);
 
-        $this->filesystem = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
+        $this->filesystem = $this->createFilesystemFromPath(app_path());
     }
 
     public static function make(string $namespace, string $name, string $version): static
@@ -36,5 +33,13 @@ abstract class CommandsService
     protected function getStub(string $path): string
     {
         return file_get_contents(__DIR__."/../../stubs/$path");
+    }
+
+    protected function createFilesystemFromPath(string $path): Filesystem
+    {
+        return Storage::createLocalDriver([
+            'root'       => $path,
+            'visibility' => Visibility::PUBLIC,
+        ]);
     }
 }
