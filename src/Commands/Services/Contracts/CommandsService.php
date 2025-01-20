@@ -26,11 +26,6 @@ abstract class CommandsService
         $this->filesystem = $this->createFilesystemFromPath(app_path());
     }
 
-    public static function make(string $namespace, string $name, string $version): static
-    {
-        return new static($namespace, $name, $version);
-    }
-
     /**
      * @param string $path
      *
