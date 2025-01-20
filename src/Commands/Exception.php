@@ -4,6 +4,7 @@ namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\ExceptionService;
 use Illuminate\Console\Command;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
@@ -32,9 +33,9 @@ class Exception extends Command
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
-     *
-     * @return void
+     * @throws FilesystemException
      */
     public function handle(): int
     {
@@ -51,7 +52,6 @@ class Exception extends Command
             if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
                 $compactName = $compactName ?: $this->ask('What should be its name?');
                 if (blank($compactName)) {
-                    /** @phpstan-ignore-next-line */
                     $this->fail('The name of the compact exception can not be empty.');
                 }
             }
