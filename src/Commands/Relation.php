@@ -9,6 +9,7 @@ use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
 use Illuminate\Console\Command;
+use Illuminate\Console\ManuallyFailedException;
 use Illuminate\Support\Facades\Artisan;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -101,7 +102,7 @@ class Relation extends Command
                     HasManyRequest::class,
                 ])
             ) {
-                $this->fail('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
+                throw new ManuallyFailedException('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
             }
 
             if (in_array(

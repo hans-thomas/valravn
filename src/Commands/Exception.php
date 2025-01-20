@@ -4,6 +4,7 @@ namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\ExceptionService;
 use Illuminate\Console\Command;
+use Illuminate\Console\ManuallyFailedException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
@@ -51,8 +52,7 @@ class Exception extends Command
             if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
                 $compactName = $compactName ? : $this->ask('What should be its name?');
                 if (blank($compactName)) {
-                    /** @var Command $this */
-                    $this->fail('The name of the compact exception can not be empty.');
+                    throw new ManuallyFailedException('The name of the compact exception can not be empty.');
                 }
             }
             if ($compactName) {
