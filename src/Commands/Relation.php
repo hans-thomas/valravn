@@ -14,6 +14,7 @@ use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
+/** @method void fail(Throwable|string|null $exception = null)  */
 class Relation extends Command
 {
     /**
