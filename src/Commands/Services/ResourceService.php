@@ -11,8 +11,9 @@ final class ResourceService extends CommandsService
     /**
      * @throws FilesystemException
      */
-    public function createResource(): self
+    public function createResource(): bool
     {
+        $file = "Http/Resources/$this->version/$this->namespace/$this->name/{$this->name}Resource.php";
         $stub = $this->getStub('resources/resource.stub');
         $plural = Str::of($this->name)->plural()->snake()->lower()->toString();
 
@@ -21,19 +22,15 @@ final class ResourceService extends CommandsService
         $stub = Str::replace('{{RESOURCE::PLURAL}}', $plural, $stub);
         $stub = Str::replace('{{RESOURCE::VERSION}}', $this->version, $stub);
 
-        $this->filesystem->write(
-            "Http/Resources/$this->version/$this->namespace/$this->name/{$this->name}Resource.php",
-            $stub
-        );
-
-        return $this;
+        return $this->writeTo($file, $stub);
     }
 
     /**
      * @throws FilesystemException
      */
-    public function createCollection(): self
+    public function createCollection(): bool
     {
+        $file = "Http/Resources/$this->version/$this->namespace/$this->name/{$this->name}Collection.php";
         $stub = $this->getStub('resources/collection.stub');
         $plural = Str::of($this->name)->plural()->snake()->lower()->toString();
 
@@ -42,11 +39,24 @@ final class ResourceService extends CommandsService
         $stub = Str::replace('{{COLLECTION::PLURAL}}', $plural, $stub);
         $stub = Str::replace('{{COLLECTION::VERSION}}', $this->version, $stub);
 
-        $this->filesystem->write(
-            "Http/Resources/$this->version/$this->namespace/$this->name/{$this->name}Collection.php",
-            $stub
-        );
+        return $this->writeTo($file, $stub);
+    }
 
-        return $this;
+    /**
+     * @param  string  $file
+     * @param  string  $stub
+     *
+     * @return bool
+     * @throws FilesystemException
+     */
+    private function writeTo(string $file, string $stub): bool
+    {
+        if ($this->filesystem->exists($file)) {
+            return false;
+        }
+
+        $this->filesystem->write($file, $stub);
+
+        return true;
     }
 }

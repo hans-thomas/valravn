@@ -4,7 +4,8 @@ namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\ResourceService;
 use Illuminate\Console\Command;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Resources extends Command
 {
@@ -30,20 +31,29 @@ class Resources extends Command
     /**
      * Execute the console command.
      *
-     * @throws Throwable
-     *
-     * @return void
+     * @return int
+     * @throws FilesystemException
      */
-    public function handle()
+    public function handle(): int
     {
-        ResourceService::make(
-            $this->argument('namespace'),
-            $this->argument('name'),
-            $this->option('v')
-        )
-                       ->createResource()
-                       ->createCollection();
+        $service = new ResourceService($this->argument('namespace'), $this->argument('name'), $this->option('v'));
 
-        $this->info('resource and collection classes successfully created!');
+        $this->withProgressBar(2, function (ProgressBar $progress) use ($service) {
+            if ($service->createResource()) {
+                $this->info('Resource class created.');
+            } else {
+                $this->error('Resource class exists or could not be created.');
+            }
+            $progress->advance();
+
+            if ($service->createCollection()) {
+                $this->info('ResourceCollection class created.');
+            } else {
+                $this->error('ResourceCollection class exists or could not be created.');
+            }
+            $progress->advance();
+        });
+
+        return self::SUCCESS;
     }
 }
