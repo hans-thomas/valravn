@@ -26,5 +26,4 @@ final class PolicyService extends Contracts\CommandsService
 
         return true;
     }
-
 }

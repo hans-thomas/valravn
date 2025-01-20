@@ -6,7 +6,6 @@ use Hans\Valravn\Commands\Services\RepositoryService;
 use Illuminate\Console\Command;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Throwable;
 
 class Repository extends Command
 {
@@ -31,8 +30,9 @@ class Repository extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {

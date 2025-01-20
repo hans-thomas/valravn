@@ -35,9 +35,9 @@ class Controllers extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws Throwable
      *
+     * @return int
      */
     public function handle(): int
     {

@@ -80,7 +80,6 @@ class MigrationsTests extends TestCase
         $pivotStub = str_replace('{{PIVOT::SECOND-MODEL-SINGLE-LOWER}}', 'post', $pivotStub);
 
         self::assertEquals($pivotStub, file_get_contents($pivot));
-
     }
 
     #[Test]
