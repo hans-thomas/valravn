@@ -32,9 +32,9 @@ class Exception extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function handle(): int
     {
@@ -49,7 +49,7 @@ class Exception extends Command
         $this->withProgressBar(1, function (ProgressBar $progress) use ($service, $compactName) {
             $this->newLine();
             if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
-                $compactName = $compactName ? : $this->ask('What should be its name?');
+                $compactName = $compactName ?: $this->ask('What should be its name?');
                 if (blank($compactName)) {
                     /** @phpstan-ignore method.notFound */
                     $this->fail('The name of the compact exception can not be empty.');
