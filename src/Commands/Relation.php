@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\RelationService;
-use Hans\Valravn\Exceptions\Package\NoArgsPassedException;
 use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
@@ -13,7 +12,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
-use function PHPUnit\Framework\assertTrue;
 
 class Relation extends Command
 {
@@ -47,8 +45,9 @@ class Relation extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -63,21 +62,22 @@ class Relation extends Command
         $option = match (true) {
             $this->option('belongs-to-many') => BelongsToManyRequest::class,
             $this->option('morphed-by-many') => MorphedByManyRequest::class,
-            $this->option('morph-to-many') => MorphToManyRequest::class,
-            $this->option('has-many') => HasManyRequest::class,
-            $this->option('morph-to') => MorphToRequest::class,
-            default => null
+            $this->option('morph-to-many')   => MorphToManyRequest::class,
+            $this->option('has-many')        => HasManyRequest::class,
+            $this->option('morph-to')        => MorphToRequest::class,
+            default                          => null
         };
 
         if ($option === null && !$option = $this->choice(
-                'What relation type should create?',
-                [
-                    class_basename(BelongsToManyRequest::class),
-                    class_basename(MorphedByManyRequest::class),
-                    class_basename(MorphToManyRequest::class),
-                    class_basename(HasManyRequest::class),
-                    class_basename(MorphToRequest::class),
-                ])
+            'What relation type should create?',
+            [
+                class_basename(BelongsToManyRequest::class),
+                class_basename(MorphedByManyRequest::class),
+                class_basename(MorphToManyRequest::class),
+                class_basename(HasManyRequest::class),
+                class_basename(MorphToRequest::class),
+            ]
+        )
         ) {
             $this->error('At least one argument should pass.');
 
@@ -87,7 +87,7 @@ class Relation extends Command
         if (!class_exists($option)) {
             $namespace = substr(BelongsToManyRequest::class, 0, strrpos(BelongsToManyRequest::class, '\\'));
             $option = $namespace.'\\'.$option;
-            assert(class_exists($option),'Request class is not exists.');
+            assert(class_exists($option), 'Request class is not exists.');
         }
 
         if ($this->argument('related-name') === null &&
@@ -106,14 +106,15 @@ class Relation extends Command
         $this->withProgressBar(3, function (ProgressBar $progress) use ($service, $option) {
             $type = substr(class_basename($option), 0, strlen(class_basename($option)) - strlen('Request'));
 
-            if (in_array($option,
+            if (in_array(
+                $option,
                 [
                     BelongsToManyRequest::class,
                     MorphedByManyRequest::class,
                     MorphToManyRequest::class,
                     HasManyRequest::class,
-                ])) {
-
+                ]
+            )) {
                 if ($service->creatOneToMany($option)) {
                     $this->info("Relation $type request class created.");
                 } else {
@@ -126,7 +127,7 @@ class Relation extends Command
                         'namespace'         => $this->argument('namespace'),
                         'name'              => $this->argument('name'),
                         'related-namespace' => $this->argument('related-namespace'),
-                        'related-name'      => $this->argument('related-name')
+                        'related-name'      => $this->argument('related-name'),
                     ]);
                 }
                 $progress->advance();

@@ -32,7 +32,7 @@ abstract class CommandsService
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      *
      * @return string
      */
@@ -42,7 +42,7 @@ abstract class CommandsService
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      *
      * @return Filesystem
      */
@@ -55,11 +55,12 @@ abstract class CommandsService
     }
 
     /**
-     * @param  string  $file
-     * @param  string  $stub
+     * @param string $file
+     * @param string $stub
+     *
+     * @throws FilesystemException
      *
      * @return bool
-     * @throws FilesystemException
      */
     protected function writeTo(string $file, string $stub): bool
     {
@@ -95,6 +96,4 @@ abstract class CommandsService
     {
         return $this->version;
     }
-
-
 }

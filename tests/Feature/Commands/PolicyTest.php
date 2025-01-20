@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class PolicyTest extends TestCase
@@ -31,6 +30,7 @@ class PolicyTest extends TestCase
             file_get_contents($file)
         );
     }
+
     #[Test]
     public function policyExists(): void
     {

@@ -228,6 +228,7 @@ class ModelTest extends TestCase
 
         self::assertFileExists($file);
     }
+
     #[Test]
     public function migrationFileWithoutParam(): void
     {

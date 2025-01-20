@@ -35,13 +35,12 @@ class Model extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function handle()
     {
-
         $service = new ModelService($this->argument('namespace'), $this->argument('name'));
         $migrationService = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
@@ -79,7 +78,5 @@ class Model extends Command
             }
             $progressBar->advance();
         });
-
-
     }
 }

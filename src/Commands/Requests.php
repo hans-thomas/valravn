@@ -6,7 +6,6 @@ use Hans\Valravn\Commands\Services\RequestService;
 use Illuminate\Console\Command;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Throwable;
 
 class Requests extends Command
 {
@@ -33,8 +32,9 @@ class Requests extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {

@@ -22,7 +22,7 @@ final class ExceptionService extends Contracts\CommandsService
     public function createFullForm(): bool
     {
         $file = "Exceptions/$this->namespace/$this->name/{$this->name}Exception.php";
-        $stub = $this->getStub("exceptions/fullFormException.stub");
+        $stub = $this->getStub('exceptions/fullFormException.stub');
         $stub = Str::replace('{{ENTITY::NAMESPACE}}', $this->namespace, $stub);
         $stub = Str::replace('{{ENTITY::NAME}}', $this->name, $stub);
         $stub = Str::replace('{{ENTITY::CODE}}', $this->prefix, $stub);
@@ -41,7 +41,7 @@ final class ExceptionService extends Contracts\CommandsService
         }
         $file = "Exceptions/$this->namespace/$this->name/{$compactName}Exception.php";
 
-        $stub = $this->getStub("exceptions/compactFormException.stub");
+        $stub = $this->getStub('exceptions/compactFormException.stub');
         $stub = Str::replace('{{ENTITY::NAMESPACE}}', $this->namespace, $stub);
         $stub = Str::replace('{{ENTITY::NAME}}', $compactName, $stub);
         $stub = Str::replace('{{ENTITY::CODE}}', $this->prefix, $stub);

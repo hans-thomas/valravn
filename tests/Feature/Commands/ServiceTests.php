@@ -139,6 +139,7 @@ class ServiceTests extends TestCase
 
         self::assertEquals($actionsStub, file_get_contents($actions));
     }
+
     #[Test]
     public function actionsExists(): void
     {

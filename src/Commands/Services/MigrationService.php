@@ -91,6 +91,7 @@ final class MigrationService extends Contracts\CommandsService
 
         return true;
     }
+
     public function createSeeder(): bool
     {
         if ($this->filesystem->exists("seeders/{$this->namespace}/{$this->name}Seeder.php")) {
