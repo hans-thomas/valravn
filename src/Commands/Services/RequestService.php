@@ -13,10 +13,11 @@ final class RequestService extends CommandsService
      */
     public function createStoreRequest(): bool
     {
+        $file = "Http/Requests/$this->version/$this->namespace/$this->name/{$this->name}StoreRequest.php";
         $stub = $this->requestStub();
         $stub = Str::replace('{{REQUEST::ACTION}}', 'Store', $stub);
 
-        return $this->writeTo('StoreRequest', $stub);
+        return $this->writeTo($file, $stub);
     }
 
     /**
@@ -24,10 +25,11 @@ final class RequestService extends CommandsService
      */
     public function createUpdateRequest(): bool
     {
+        $file = "Http/Requests/$this->version/$this->namespace/$this->name/{$this->name}UpdateRequest.php";
         $stub = $this->requestStub();
         $stub = Str::replace('{{REQUEST::ACTION}}', 'Update', $stub);
 
-        return $this->writeTo('UpdateRequest', $stub);
+        return $this->writeTo($file, $stub);
     }
 
     /**
@@ -35,12 +37,13 @@ final class RequestService extends CommandsService
      */
     public function createBatchUpdateRequest(): bool
     {
-        $batchUpdate = $this->getStub('requests/batch-update.stub');
-        $batchUpdate = Str::replace('{{REQUEST::NAMESPACE}}', $this->namespace, $batchUpdate);
-        $batchUpdate = Str::replace('{{REQUEST::MODEL}}', $this->name, $batchUpdate);
-        $batchUpdate = Str::replace('{{REQUEST::VERSION}}', $this->version, $batchUpdate);
+        $file = "Http/Requests/$this->version/$this->namespace/$this->name/{$this->name}BatchUpdateRequest.php";
+        $stub = $this->getStub('requests/batch-update.stub');
+        $stub = Str::replace('{{REQUEST::NAMESPACE}}', $this->namespace, $stub);
+        $stub = Str::replace('{{REQUEST::MODEL}}', $this->name, $stub);
+        $stub = Str::replace('{{REQUEST::VERSION}}', $this->version, $stub);
 
-        return $this->writeTo('BatchUpdateRequest', $batchUpdate);
+        return $this->writeTo($file, $stub);
     }
 
     /**
@@ -53,24 +56,5 @@ final class RequestService extends CommandsService
         $store = Str::replace('{{REQUEST::MODEL}}', $this->name, $store);
 
         return Str::replace('{{REQUEST::VERSION}}', $this->version, $store);
-    }
-
-    /**
-     * @throws FilesystemException
-     */
-    private function writeTo(string $fileName, string $content): bool
-    {
-        $file = "Http/Requests/$this->version/$this->namespace/$this->name/$this->name$fileName.php";
-
-        if ($this->filesystem->exists($file)) {
-            return false;
-        }
-
-        $this->filesystem->write(
-            $file,
-            $content
-        );
-
-        return true;
     }
 }

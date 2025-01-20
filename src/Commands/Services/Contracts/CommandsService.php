@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\Visibility;
 
 abstract class CommandsService
@@ -30,11 +31,21 @@ abstract class CommandsService
         return new static($namespace, $name, $version);
     }
 
+    /**
+     * @param  string  $path
+     *
+     * @return string
+     */
     protected function getStub(string $path): string
     {
         return file_get_contents(__DIR__."/../../stubs/$path");
     }
 
+    /**
+     * @param  string  $path
+     *
+     * @return Filesystem
+     */
     protected function createFilesystemFromPath(string $path): Filesystem
     {
         return Storage::createLocalDriver([
@@ -43,16 +54,43 @@ abstract class CommandsService
         ]);
     }
 
+    /**
+     * @param  string  $file
+     * @param  string  $stub
+     *
+     * @return bool
+     * @throws FilesystemException
+     */
+    protected function writeTo(string $file, string $stub): bool
+    {
+        if ($this->filesystem->exists($file)) {
+            return false;
+        }
+
+        $this->filesystem->write($file, $stub);
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
     public function getNamespace(): string
     {
         return $this->namespace;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getVersion(): string
     {
         return $this->version;

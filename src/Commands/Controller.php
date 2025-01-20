@@ -37,48 +37,62 @@ class Controller extends Command
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
      *
-     * @return int
      */
     public function handle(): int
     {
         $namespace = $this->argument('namespace');
         $name = $this->argument('name');
-        $v = $this->option('v');
+        $version = $this->option('v');
 
-        $service = new ControllerService($namespace, $name, $v);
+        $service = new ControllerService($namespace, $name, $version);
 
-        $this->withProgressBar(5, function (ProgressBar $progressBar) use ($service, $namespace, $name, $v) {
-            $service->createCrud();
-            $this->info('Controller classes created.');
+        $this->withProgressBar(5, function (ProgressBar $progressBar) use ($service, $namespace, $name, $version) {
+            if ($service->createCrud()) {
+                $this->info('Controller class created.');
+            } else {
+                $this->error('Controller class exists or could not be created.');
+            }
             $progressBar->advance();
 
             if ($this->option('relations') || $this->confirm('Should create relations?')) {
-                $service->CreateRelations();
-                $this->info('Relations class created.');
+                if ($service->CreateRelations()) {
+                    $this->info('Relations class created.');
+                } else {
+                    $this->error('Relations class exists or could not be created.');
+                }
             }
             $progressBar->advance();
 
             if ($this->option('actions') || $this->confirm('Should create actions?')) {
-                $service->CreateActions();
-                $this->info('Actions class created.');
+                if ($service->CreateActions()) {
+                    $this->info('Actions class created.');
+                } else {
+                    $this->error('Actions class exists or could not be created.');
+                }
             }
             $progressBar->advance();
 
             if ($this->option('requests') || $this->confirm('Should create requests?')) {
-                RequestService::make($namespace, $name, $v)
-                              ->createStoreRequest()
-                              ->createUpdateRequest()
-                              ->createBatchUpdateRequest();
+                $requestService = new RequestService(
+                    $this->argument('namespace'),
+                    $this->argument('name'),
+                    $this->option('v')
+                );
+                $requestService->createStoreRequest();
+                $requestService->createUpdateRequest();
+                $requestService->createBatchUpdateRequest();
+
                 $this->info('Request classes created.');
             }
             $progressBar->advance();
 
             if ($this->option('resources') || $this->confirm('Should create resources?')) {
-                ResourceService::make($namespace, $name, $v)
-                               ->createResource()
-                               ->createCollection();
+                $resourceService = new ResourceService($namespace, $name, $version);
+                $resourceService->createResource();
+                $resourceService->createCollection();
                 $this->info('Resource classes created.');
             }
             $progressBar->advance();

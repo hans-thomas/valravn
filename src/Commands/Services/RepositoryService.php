@@ -45,22 +45,4 @@ class RepositoryService extends CommandsService
 
         return $this->writeTo($file, $stub);
     }
-
-    /**
-     * @param  string  $file
-     * @param  string  $stub
-     *
-     * @return bool
-     * @throws FilesystemException
-     */
-    private function writeTo(string $file, string $stub): bool
-    {
-        if ($this->filesystem->exists($file)) {
-            return false;
-        }
-
-        $this->filesystem->write($file, $stub);
-
-        return true;
-    }
 }

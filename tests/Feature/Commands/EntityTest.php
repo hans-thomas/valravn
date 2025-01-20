@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class EntityTest extends TestCase
@@ -69,7 +68,18 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($seeder);
         self::assertFileDoesNotExist($migration);
 
-        Artisan::call('valravn:entity blog posts BPEcx');
+        $this->artisan('valravn:entity blog posts BPEcx')
+             ->expectsQuestion('Should create a compact exception?', false)
+             ->expectsOutput('Exception class created.')
+             ->expectsOutput('Model class created.')
+             ->expectsOutput('Controller classes created.')
+             ->expectsOutput('Policy class created.')
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->expectsOutput('CRUD service created.')
+             ->expectsOutput('Relations service created.')
+             ->expectsOutput('Actions service created.')
+             ->assertSuccessful();
 
         self::assertFileExists($exception);
 
@@ -150,7 +160,18 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($seeder);
         self::assertFileDoesNotExist($migration);
 
-        Artisan::call('valravn:entity blog posts BPTEcx --v 2');
+        $this->artisan('valravn:entity blog posts BPTEcx --v 2')
+             ->expectsQuestion('Should create a compact exception?', false)
+             ->expectsOutput('Exception class created.')
+             ->expectsOutput('Model class created.')
+             ->expectsOutput('Controller classes created.')
+             ->expectsOutput('Policy class created.')
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->expectsOutput('CRUD service created.')
+             ->expectsOutput('Relations service created.')
+             ->expectsOutput('Actions service created.')
+             ->assertSuccessful();
 
         self::assertFileExists($exception);
 

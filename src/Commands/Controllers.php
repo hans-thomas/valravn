@@ -35,37 +35,40 @@ class Controllers extends Command
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
      *
-     * @return int
      */
     public function handle(): int
     {
         $namespace = $this->argument('namespace');
         $name = $this->argument('name');
-        $v = $this->option('v');
+        $version = $this->option('v');
 
-        $this->withProgressBar(3, function (ProgressBar $progressBar) use ($namespace, $name, $v) {
-            ControllerService::make($namespace, $name, $v)
-                             ->createCrud()
-                             ->CreateActions()
-                             ->CreateRelations();
+        $this->withProgressBar(3, function (ProgressBar $progressBar) use ($namespace, $name, $version) {
+            $service = new ControllerService($namespace, $name, $version);
+            $service->createCrud();
+            $service->CreateActions();
+            $service->CreateRelations();
+
             $this->info('Controller classes created.');
             $progressBar->advance();
 
             if ($this->option('requests') || $this->confirm('Should create requests?')) {
-                RequestService::make($namespace, $name, $v)
-                              ->createStoreRequest()
-                              ->createUpdateRequest()
-                              ->createBatchUpdateRequest();
+                $requestService = new RequestService($namespace, $name, $version);
+                $requestService->createStoreRequest();
+                $requestService->createUpdateRequest();
+                $requestService->createBatchUpdateRequest();
+
                 $this->info('Request classes created.');
             }
             $progressBar->advance();
 
             if ($this->option('resources') || $this->confirm('Should create resources?')) {
-                ResourceService::make($namespace, $name, $v)
-                               ->createResource()
-                               ->createCollection();
+                $resourceService = new ResourceService($namespace, $name, $version);
+                $resourceService->createResource();
+                $resourceService->createCollection();
+
                 $this->info('Resource and ResourceCollection classes created.');
             }
             $progressBar->advance();

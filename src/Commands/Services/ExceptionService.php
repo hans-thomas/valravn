@@ -19,44 +19,33 @@ final class ExceptionService extends Contracts\CommandsService
     /**
      * @throws FilesystemException
      */
-    public function createFullForm(): self
+    public function createFullForm(): bool
     {
+        $file = "Exceptions/$this->namespace/$this->name/{$this->name}Exception.php";
         $stub = $this->getStub("exceptions/fullFormException.stub");
         $stub = Str::replace('{{ENTITY::NAMESPACE}}', $this->namespace, $stub);
         $stub = Str::replace('{{ENTITY::NAME}}', $this->name, $stub);
         $stub = Str::replace('{{ENTITY::CODE}}', $this->prefix, $stub);
 
-        $this->writeTo($this->name, $stub);
-
-        return $this;
+        return $this->writeTo($file, $stub);
     }
 
     /**
      * @throws FilesystemException
      */
-    public function createCompactForm(string $name): self
+    public function createCompactForm(string $name): bool
     {
         $compactName = ucfirst($name);
         if (str_ends_with($compactName, 'Exception')) {
             $compactName = substr($compactName, 0, strlen($compactName) - strlen('Exception'));
         }
+        $file = "Exceptions/$this->namespace/$this->name/{$compactName}Exception.php";
 
         $stub = $this->getStub("exceptions/compactFormException.stub");
         $stub = Str::replace('{{ENTITY::NAMESPACE}}', $this->namespace, $stub);
         $stub = Str::replace('{{ENTITY::NAME}}', $compactName, $stub);
         $stub = Str::replace('{{ENTITY::CODE}}', $this->prefix, $stub);
 
-        $this->writeTo($compactName, $stub);
-
-        return $this;
-    }
-
-    /**
-     * @throws FilesystemException
-     */
-    private function writeTo(string $fileName, string $content): void
-    {
-        $path = "Exceptions/$this->namespace/$this->name/{$fileName}Exception.php";
-        $this->filesystem->write($path, $content);
+        return $this->writeTo($file, $stub);
     }
 }
