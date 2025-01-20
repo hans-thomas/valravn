@@ -82,7 +82,7 @@ class Controllers extends Command
                     $resourceService->createCollection(),
                 ])->every(fn ($item) => $item === true)) {
                     $this->info('Resource and ResourceCollection classes created.');
-                }else{
+                } else {
                     $this->error('Some Resource and ResourceCollection classes are exists or could not be created.');
                 }
             }

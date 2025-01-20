@@ -111,7 +111,6 @@ class EntityTest extends TestCase
     #[Test]
     public function entityExists(): void
     {
-
         $this->artisan('valravn:entity blog posts BPEcx')
              ->expectsOutput('Exception class created.')
              ->doesntExpectOutput('Exception class exists or could not be created.')

@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\RelationService;
-use Hans\Valravn\Exceptions\Package\NoArgsPassedException;
 use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
@@ -47,9 +46,10 @@ class Relation extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
      * @throws Throwable
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -64,10 +64,10 @@ class Relation extends Command
         $option = match (true) {
             $this->option('belongs-to-many') => BelongsToManyRequest::class,
             $this->option('morphed-by-many') => MorphedByManyRequest::class,
-            $this->option('morph-to-many') => MorphToManyRequest::class,
-            $this->option('has-many') => HasManyRequest::class,
-            $this->option('morph-to') => MorphToRequest::class,
-            default => null
+            $this->option('morph-to-many')   => MorphToManyRequest::class,
+            $this->option('has-many')        => HasManyRequest::class,
+            $this->option('morph-to')        => MorphToRequest::class,
+            default                          => null
         };
 
         $this->withProgressBar(3, function (ProgressBar $progress) use ($service, $option) {
@@ -82,7 +82,8 @@ class Relation extends Command
                         class_basename(MorphToManyRequest::class),
                         class_basename(HasManyRequest::class),
                         class_basename(MorphToRequest::class),
-                    ]);
+                    ]
+                );
             }
             $type = substr(class_basename($option), 0, strlen(class_basename($option)) - strlen('Request'));
 
@@ -103,14 +104,15 @@ class Relation extends Command
                 $this->fail('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
             }
 
-            if (in_array($option,
+            if (in_array(
+                $option,
                 [
                     BelongsToManyRequest::class,
                     MorphedByManyRequest::class,
                     MorphToManyRequest::class,
                     HasManyRequest::class,
-                ])) {
-
+                ]
+            )) {
                 if ($service->creatOneToMany($option)) {
                     $this->info("Relation $type request class created.");
                 } else {
@@ -124,7 +126,7 @@ class Relation extends Command
                         'namespace'         => $this->argument('namespace'),
                         'name'              => $this->argument('name'),
                         'related-namespace' => $this->argument('related-namespace'),
-                        'related-name'      => $this->argument('related-name')
+                        'related-name'      => $this->argument('related-name'),
                     ]);
                 }
                 $progress->advance();

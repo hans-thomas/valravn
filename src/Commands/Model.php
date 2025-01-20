@@ -35,12 +35,12 @@ class Model extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {
-
         $service = new ModelService($this->argument('namespace'), $this->argument('name'));
         $migrationService = new MigrationService($this->argument('namespace'), $this->argument('name'));
 

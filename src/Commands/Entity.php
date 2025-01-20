@@ -40,8 +40,9 @@ class Entity extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -82,7 +83,7 @@ class Entity extends Command
             $this->newLine();
             if (collect([
                 $modelService->createModel(), $migrationService->createSeeder(), $migrationService->createFactory(),
-                $migrationService->createMigration()
+                $migrationService->createMigration(),
             ])->every(fn ($item) => $item == true)) {
                 $this->info('Model and database classes created.');
             } else {
@@ -95,7 +96,7 @@ class Entity extends Command
                 $controllerService->createCrud(), $controllerService->CreateActions(),
                 $controllerService->CreateRelations(), $requestService->createStoreRequest(),
                 $requestService->createUpdateRequest(), $requestService->createBatchUpdateRequest(),
-                $resourceService->createResource(), $resourceService->createCollection()
+                $resourceService->createResource(), $resourceService->createCollection(),
             ])->every(fn ($item) => $item == true)) {
                 $this->info('Controllers, requests and resources classes created.');
             } else {
@@ -122,7 +123,7 @@ class Entity extends Command
 
             $this->newLine();
             if (collect([
-                $servicesService->createCrud(), $servicesService->CreateActions(), $servicesService->createRelations()
+                $servicesService->createCrud(), $servicesService->CreateActions(), $servicesService->createRelations(),
             ])->every(fn ($item) => $item == true)) {
                 $this->info('Service classes created.');
             } else {

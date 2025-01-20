@@ -67,7 +67,6 @@ class ControllersTest extends TestCase
              ->doesntExpectOutput('Some Resource and ResourceCollection classes are exists or could not be created.')
              ->assertSuccessful();
 
-
         self::assertFileExists($crud);
         self::assertFileExists($relations);
         self::assertFileExists($actions);
