@@ -8,7 +8,6 @@ use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
-/** @method void fail(Throwable|string|null $exception = null)  */
 class Exception extends Command
 {
     /**
@@ -48,10 +47,10 @@ class Exception extends Command
 
         $compactName = $this->option('compact');
 
-        $this->withProgressBar(1, function (ProgressBar $progress) use ($service, $compactName) {
+        $closure = function (ProgressBar $progress) use ($service, $compactName) {
             $this->newLine();
             if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
-                $compactName = $compactName ?: $this->ask('What should be its name?');
+                $compactName = $compactName ? : $this->ask('What should be its name?');
                 if (blank($compactName)) {
                     $this->fail('The name of the compact exception can not be empty.');
                 }
@@ -71,7 +70,9 @@ class Exception extends Command
             }
             $progress->advance();
             $this->newLine();
-        });
+        };
+
+        $this->withProgressBar(1, $closure);
 
         return self::SUCCESS;
     }

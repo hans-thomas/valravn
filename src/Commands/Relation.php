@@ -14,7 +14,6 @@ use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
-/** @method void fail(Throwable|string|null $exception = null)  */
 class Relation extends Command
 {
     /**
@@ -30,7 +29,7 @@ class Relation extends Command
 		{related-name? : Name of the related entity}
 		{--v=1 : Version of the entity}
 		{--b|belongs-to-many : Belongs to many request}
-		{--h|has-many : Has many request}
+		{--a|has-many : Has many request}
 		{--m|morphed-by-many : Morphed by many request}
 		{--o|morph-to-many : Morph to many request}
 		{--r|morph-to : Morph to request}
