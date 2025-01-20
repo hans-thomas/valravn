@@ -101,11 +101,7 @@ class Relation extends Command
                     HasManyRequest::class,
                 ])
             ) {
-                if (version_compare(app()->version(), '11', '>=')) {
-                    $this->fail('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
-                } elseif (version_compare(app()->version(), '10', '>=')) {
                     throw new \Exception('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
-                }
             }
 
             if (in_array(

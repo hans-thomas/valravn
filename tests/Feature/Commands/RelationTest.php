@@ -191,6 +191,8 @@ class RelationTest extends TestCase
 
         self::assertFileDoesNotExist($file);
 
+        $this->expectExceptionMessage('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
+
         $this->artisan('valravn:relation blog Post core --belongs-to-many')
              ->assertFailed();
 

@@ -159,6 +159,8 @@ class ExceptionTest extends TestCase
         self::assertFileDoesNotExist($fullException);
         self::assertFileDoesNotExist($compactException);
 
+        $this->expectExceptionMessage('The name of the compact exception can not be empty.');
+
         $this->artisan('valravn:exception blog posts BPEcx')
             ->expectsConfirmation('Should create a compact exception?', 'yes')
             ->expectsQuestion('What should be its name?', '')
