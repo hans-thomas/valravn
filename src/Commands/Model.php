@@ -6,8 +6,8 @@ use Hans\Valravn\Commands\Services\MigrationService;
 use Hans\Valravn\Commands\Services\ModelService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Throwable;
 
 class Model extends Command
 {
@@ -35,23 +35,24 @@ class Model extends Command
     /**
      * Execute the console command.
      *
-     * @return void
-     * @throws Throwable
-     *
+     * @return int
+     * @throws FilesystemException
      */
-    public function handle()
+    public function handle(): int
     {
 
         $service = new ModelService($this->argument('namespace'), $this->argument('name'));
         $migrationService = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
         $this->withProgressBar(4, function (ProgressBar $progressBar) use ($service, $migrationService) {
+            $this->newLine();
             if ($service->createModel()) {
                 $this->info('Model class created.');
             } else {
                 $this->error('Model class exists or could not be created.');
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('factory') || $this->confirm('Should create factory?')) {
                 if ($migrationService->createFactory()) {
@@ -61,6 +62,7 @@ class Model extends Command
                 }
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('seeder') || $this->confirm('Should create seeder?')) {
                 if ($migrationService->createSeeder()) {
@@ -70,6 +72,7 @@ class Model extends Command
                 }
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('migration') || $this->confirm('Should create migration?')) {
                 Artisan::call(
@@ -78,8 +81,9 @@ class Model extends Command
                 );
             }
             $progressBar->advance();
+            $this->newLine();
         });
 
-
+        return self::SUCCESS;
     }
 }

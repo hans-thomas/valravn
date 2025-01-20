@@ -33,10 +33,10 @@ class Exception extends Command
      * Execute the console command.
      *
      * @return void
-     * @throws Throwable
      *
+     * @throws Throwable
      */
-    public function handle()
+    public function handle(): int
     {
         $namespace = $this->argument('namespace');
         $name = $this->argument('name');
@@ -44,18 +44,33 @@ class Exception extends Command
 
         $service = new ExceptionService($namespace, $name, $prefixCode);
 
-        $this->withProgressBar(1, function (ProgressBar $progress) use ($service) {
-            $compactName = $this->option('compact');
-            if ($compactName !== null || $this->confirm('Should create a compact exception?')) {
-                if ($compactName == null) {
-                    $compactName = $this->ask('What should be its name?', null);
+        $compactName = $this->option('compact');
+
+        $this->withProgressBar(1, function (ProgressBar $progress) use ($service, $compactName) {
+            $this->newLine();
+            if ($compactName === "" || filled($compactName) || $this->confirm('Should create a compact exception?')) {
+                $compactName = $compactName ? : $this->ask('What should be its name?');
+                if (blank($compactName)) {
+                    $this->fail('The name of the compact exception can not be empty.');
                 }
-                $service->createCompactForm($compactName);
-            } else {
-                $service->createFullForm();
             }
-            $this->info('Exception class created.');
+            if ($compactName) {
+                if ($service->createCompactForm($compactName)) {
+                    $this->info('Compact exception class created.');
+                } else {
+                    $this->error('Compact exception class exists or could no be created.');
+                }
+            } else {
+                if ($service->createFullForm()) {
+                    $this->info('Exception class created.');
+                } else {
+                    $this->error('Exception class exists or could no be created.');
+                }
+            }
             $progress->advance();
+            $this->newLine();
         });
+
+        return self::SUCCESS;
     }
 }

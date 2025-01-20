@@ -23,15 +23,6 @@ class RelationTest extends TestCase
     }
 
     #[Test]
-    public function relationWithoutParam(): void
-    {
-        $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', '')
-             ->expectsOutput('At least one argument should pass.')
-             ->assertFailed();
-    }
-
-    #[Test]
     public function relationWithChoiceBelongsToMany(): void
     {
         $this->artisan('valravn:relation blog Post core category')
@@ -201,7 +192,6 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core --belongs-to-many')
-             ->expectsOutput('The {related-name} parameter should not be empty when going to create a many-to-many relationship.')
              ->assertFailed();
 
         self::assertFileDoesNotExist($file);

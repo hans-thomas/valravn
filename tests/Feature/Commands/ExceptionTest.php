@@ -17,6 +17,9 @@ class ExceptionTest extends TestCase
         $this->artisan('valravn:exception blog posts BPEcx')
              ->expectsConfirmation('Should create a compact exception?')
              ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->doesntExpectOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
              ->assertSuccessful();
 
         self::assertFileExists($exception);
@@ -33,6 +36,32 @@ class ExceptionTest extends TestCase
     }
 
     #[Test]
+    public function fullFormExceptionExists(): void
+    {
+        $exception = app_path('Exceptions/Blog/Post/PostException.php');
+
+        self::assertFileDoesNotExist($exception);
+
+        $this->artisan('valravn:exception blog posts BPEcx')
+             ->expectsConfirmation('Should create a compact exception?')
+             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->doesntExpectOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
+             ->assertSuccessful();
+
+        $this->artisan('valravn:exception blog posts BPEcx')
+             ->expectsConfirmation('Should create a compact exception?')
+             ->doesntExpectOutput('Exception class created.')
+             ->expectsOutput('Exception class exists or could no be created.')
+             ->doesntExpectOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
+             ->assertSuccessful();
+
+        self::assertFileExists($exception);
+    }
+
+    #[Test]
     public function compactFormException(): void
     {
         $fullException = app_path('Exceptions/Blog/Post/PostException.php');
@@ -42,7 +71,10 @@ class ExceptionTest extends TestCase
         self::assertFileDoesNotExist($compactException);
 
         $this->artisan('valravn:exception blog posts BPEcx --compact=notFound')
-             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->expectsOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
              ->assertSuccessful();
 
         self::assertFileDoesNotExist($fullException);
@@ -57,6 +89,33 @@ class ExceptionTest extends TestCase
             $exception_file,
             file_get_contents($compactException)
         );
+    }
+
+    #[Test]
+    public function compactFormExceptionExists(): void
+    {
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
+
+        $this->artisan('valravn:exception blog posts BPEcx --compact=notFound')
+             ->doesntExpectOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->expectsOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
+             ->assertSuccessful();
+
+        $this->artisan('valravn:exception blog posts BPEcx --compact=notFound')
+             ->doesntExpectOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->doesntExpectOutput('Compact exception class created.')
+             ->expectsOutput('Compact exception class exists or could no be created.')
+             ->assertSuccessful();
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileExists($compactException);
     }
 
     #[Test]
@@ -71,7 +130,10 @@ class ExceptionTest extends TestCase
         $this->artisan('valravn:exception blog posts BPEcx')
              ->expectsConfirmation('Should create a compact exception?', 'yes')
              ->expectsQuestion('What should be its name?', 'notFound')
-             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could no be created.')
+             ->expectsOutput('Compact exception class created.')
+             ->doesntExpectOutput('Compact exception class exists or could no be created.')
              ->assertSuccessful();
 
         self::assertFileDoesNotExist($fullException);
@@ -89,6 +151,28 @@ class ExceptionTest extends TestCase
     }
 
     #[Test]
+    public function compactFormExceptionWithoutParamWithEmptyCompactName(): void
+    {
+        $fullException = app_path('Exceptions/Blog/Post/PostException.php');
+        $compactException = app_path('Exceptions/Blog/Post/NotFoundException.php');
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
+
+        $this->artisan('valravn:exception blog posts BPEcx')
+            ->expectsConfirmation('Should create a compact exception?', 'yes')
+            ->expectsQuestion('What should be its name?', '')
+            ->doesntExpectOutput('Exception class created.')
+            ->doesntExpectOutput('Exception class exists or could no be created.')
+            ->doesntExpectOutput('Compact exception class created.')
+            ->doesntExpectOutput('Compact exception class exists or could no be created.')
+            ->assertFailed();
+
+        self::assertFileDoesNotExist($fullException);
+        self::assertFileDoesNotExist($compactException);
+    }
+
+    #[Test]
     public function compactFormExceptionWithoutParamWithExceptionPostfix(): void
     {
         $fullException = app_path('Exceptions/Blog/Post/PostException.php');
@@ -98,10 +182,13 @@ class ExceptionTest extends TestCase
         self::assertFileDoesNotExist($compactException);
 
         $this->artisan('valravn:exception blog posts BPEcx')
-             ->expectsConfirmation('Should create a compact exception?', 'yes')
-             ->expectsQuestion('What should be its name?', 'notFoundException')
-             ->expectsOutput('Exception class created.')
-             ->assertSuccessful();
+            ->expectsConfirmation('Should create a compact exception?', 'yes')
+            ->expectsQuestion('What should be its name?', 'notFoundException')
+            ->doesntExpectOutput('Exception class created.')
+            ->doesntExpectOutput('Exception class exists or could no be created.')
+            ->expectsOutput('Compact exception class created.')
+            ->doesntExpectOutput('Compact exception class exists or could no be created.')
+            ->assertSuccessful();
 
         self::assertFileDoesNotExist($fullException);
         self::assertFileExists($compactException);
@@ -127,9 +214,12 @@ class ExceptionTest extends TestCase
         self::assertFileDoesNotExist($compactException);
 
         $this->artisan('valravn:exception blog posts BPEcx --compact=')
-             ->expectsQuestion('What should be its name?', 'notFound')
-             ->expectsOutput('Exception class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What should be its name?', 'notFound')
+            ->doesntExpectOutput('Exception class created.')
+            ->doesntExpectOutput('Exception class exists or could no be created.')
+            ->expectsOutput('Compact exception class created.')
+            ->doesntExpectOutput('Compact exception class exists or could no be created.')
+            ->assertSuccessful();
 
         self::assertFileDoesNotExist($fullException);
         self::assertFileExists($compactException);
@@ -145,9 +235,12 @@ class ExceptionTest extends TestCase
         self::assertFileDoesNotExist($compactException);
 
         $this->artisan('valravn:exception blog posts BPEcx --compact')
-             ->expectsQuestion('Should create a compact exception?', false)
-             ->expectsOutput('Exception class created.')
-             ->assertSuccessful();
+            ->expectsConfirmation('Should create a compact exception?')
+            ->expectsOutput('Exception class created.')
+            ->doesntExpectOutput('Exception class exists or could no be created.')
+            ->doesntExpectOutput('Compact exception class created.')
+            ->doesntExpectOutput('Compact exception class exists or could no be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($fullException);
         self::assertFileDoesNotExist($compactException);

@@ -40,12 +40,14 @@ class Service extends Command
         $service = new ServicesService($this->argument('namespace'), $this->argument('name'));
 
         $this->withProgressBar(3, function (ProgressBar $progress) use ($service) {
+            $this->newLine();
             if ($service->createCrud()) {
                 $this->info('CRUD service created.');
             } else {
                 $this->error('CRUD service exists or could be created.');
             }
             $progress->advance();
+            $this->newLine();
 
             if ($this->option('relations')) {
                 if ($service->createRelations()) {
@@ -55,6 +57,7 @@ class Service extends Command
                 }
             }
             $progress->advance();
+            $this->newLine();
 
             if ($this->option('actions')) {
                 if ($service->createActions()) {
@@ -64,6 +67,7 @@ class Service extends Command
                 }
             }
             $progress->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;

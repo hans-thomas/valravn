@@ -37,6 +37,7 @@ class Repository extends Command
     public function handle(): int
     {
         $this->withProgressBar(2, function (ProgressBar $progress) {
+            $this->newLine();
             $service = new RepositoryService($this->argument('namespace'), $this->argument('name'));
 
             if ($service->createContract()) {
@@ -45,6 +46,7 @@ class Repository extends Command
                 $this->error('Contract class exists or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
 
             if ($service->createClass()) {
                 $this->info('Repository class created.');
@@ -52,6 +54,7 @@ class Repository extends Command
                 $this->error('Repository class exists or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;

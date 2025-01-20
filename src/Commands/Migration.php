@@ -4,6 +4,7 @@ namespace Hans\Valravn\Commands;
 
 use Hans\Valravn\Commands\Services\MigrationService;
 use Illuminate\Console\Command;
+use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
@@ -30,13 +31,13 @@ class Migration extends Command
     /**
      * Execute the console command.
      *
-     * @return void
-     * @throws Throwable
-     *
+     * @return int
+     * @throws FilesystemException
      */
-    public function handle()
+    public function handle(): int
     {
         $this->withProgressBar(1, function (ProgressBar $progress) {
+            $this->newLine();
             $service = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
             if ($service->createMigration()) {
@@ -45,6 +46,9 @@ class Migration extends Command
                 $this->error('Migration file exists or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
         });
+
+        return self::SUCCESS;
     }
 }

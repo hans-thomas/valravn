@@ -23,8 +23,8 @@ class Controller extends Command
 		{--v=1 : Version of the entity}
 		{--r|relations : Generate an extra controller for relations management}
 		{--a|actions : Generate an extra controller for actions management}
-		{--requests : Generate store and update request classes}
-		{--resources : Generate resource and resource collection classes}
+		{--e|requests : Generate store and update request classes}
+		{--s|resources : Generate resource and resource collection classes}
 		     ';
 
     /**
@@ -50,12 +50,15 @@ class Controller extends Command
         $service = new ControllerService($namespace, $name, $version);
 
         $this->withProgressBar(5, function (ProgressBar $progressBar) use ($service, $namespace, $name, $version) {
+            $this->newLine();
             if ($service->createCrud()) {
                 $this->info('Controller class created.');
             } else {
                 $this->error('Controller class exists or could not be created.');
             }
+
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('relations') || $this->confirm('Should create relations?')) {
                 if ($service->CreateRelations()) {
@@ -65,6 +68,7 @@ class Controller extends Command
                 }
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('actions') || $this->confirm('Should create actions?')) {
                 if ($service->CreateActions()) {
@@ -74,6 +78,7 @@ class Controller extends Command
                 }
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('requests') || $this->confirm('Should create requests?')) {
                 $requestService = new RequestService(
@@ -81,21 +86,32 @@ class Controller extends Command
                     $this->argument('name'),
                     $this->option('v')
                 );
-                $requestService->createStoreRequest();
-                $requestService->createUpdateRequest();
-                $requestService->createBatchUpdateRequest();
-
-                $this->info('Request classes created.');
+                if (collect([
+                    $requestService->createStoreRequest(),
+                    $requestService->createUpdateRequest(),
+                    $requestService->createBatchUpdateRequest(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Request classes created.');
+                } else {
+                    $this->error('Some request classes are exist or could not be created.');
+                }
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('resources') || $this->confirm('Should create resources?')) {
                 $resourceService = new ResourceService($namespace, $name, $version);
-                $resourceService->createResource();
-                $resourceService->createCollection();
-                $this->info('Resource classes created.');
+                if (collect([
+                    $resourceService->createResource(),
+                    $resourceService->createCollection(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Resource classes created.');
+                } else {
+                    $this->error('Some resource classes are exist or could not be created.');
+                }
             }
             $progressBar->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;

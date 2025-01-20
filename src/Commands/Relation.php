@@ -13,7 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
-use function PHPUnit\Framework\assertTrue;
+use Throwable;
 
 class Relation extends Command
 {
@@ -29,12 +29,12 @@ class Relation extends Command
 		{related-namespace : Group of the related entity}
 		{related-name? : Name of the related entity}
 		{--v=1 : Version of the entity}
-		{--belongs-to-many : Belongs to many request}
-		{--has-many : Has many request}
-		{--morphed-by-many : Morphed by many request}
-		{--morph-to-many : Morph to many request}
-		{--morph-to : Morph to request}
-		{--with-pivot : create a pivot migration}
+		{--b|belongs-to-many : Belongs to many request}
+		{--h|has-many : Has many request}
+		{--m|morphed-by-many : Morphed by many request}
+		{--o|morph-to-many : Morph to many request}
+		{--r|morph-to : Morph to request}
+		{--p|with-pivot : create a pivot migration}
         ';
 
     /**
@@ -49,6 +49,7 @@ class Relation extends Command
      *
      * @return int
      * @throws FilesystemException
+     * @throws Throwable
      */
     public function handle(): int
     {
@@ -69,42 +70,38 @@ class Relation extends Command
             default => null
         };
 
-        if ($option === null && !$option = $this->choice(
-                'What relation type should create?',
-                [
-                    class_basename(BelongsToManyRequest::class),
-                    class_basename(MorphedByManyRequest::class),
-                    class_basename(MorphToManyRequest::class),
-                    class_basename(HasManyRequest::class),
-                    class_basename(MorphToRequest::class),
-                ])
-        ) {
-            $this->error('At least one argument should pass.');
-
-            return self::FAILURE;
-        }
-
-        if (!class_exists($option)) {
-            $namespace = substr(BelongsToManyRequest::class, 0, strrpos(BelongsToManyRequest::class, '\\'));
-            $option = $namespace.'\\'.$option;
-            assert(class_exists($option),'Request class is not exists.');
-        }
-
-        if ($this->argument('related-name') === null &&
-            in_array($option, [
-                BelongsToManyRequest::class,
-                MorphedByManyRequest::class,
-                MorphToManyRequest::class,
-                HasManyRequest::class,
-            ])
-        ) {
-            $this->error('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
-
-            return self::FAILURE;
-        }
-
         $this->withProgressBar(3, function (ProgressBar $progress) use ($service, $option) {
+            $this->newLine();
+
+            if ($option === null) {
+                $option = $this->choice(
+                    'What relation type should create?',
+                    [
+                        class_basename(BelongsToManyRequest::class),
+                        class_basename(MorphedByManyRequest::class),
+                        class_basename(MorphToManyRequest::class),
+                        class_basename(HasManyRequest::class),
+                        class_basename(MorphToRequest::class),
+                    ]);
+            }
             $type = substr(class_basename($option), 0, strlen(class_basename($option)) - strlen('Request'));
+
+            if (!class_exists($option)) {
+                $namespace = substr(BelongsToManyRequest::class, 0, strrpos(BelongsToManyRequest::class, '\\'));
+                $option = $namespace.'\\'.$option;
+                assert(class_exists($option), 'Request class is not exists.');
+            }
+
+            if ($this->argument('related-name') === null &&
+                in_array($option, [
+                    BelongsToManyRequest::class,
+                    MorphedByManyRequest::class,
+                    MorphToManyRequest::class,
+                    HasManyRequest::class,
+                ])
+            ) {
+                $this->fail('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
+            }
 
             if (in_array($option,
                 [
@@ -120,6 +117,7 @@ class Relation extends Command
                     $this->error("Relation $type request class exists or could not be created.");
                 }
                 $progress->advance(2);
+                $this->newLine();
 
                 if ($this->option('with-pivot') && !$this->option('has-many')) {
                     Artisan::call('valravn:pivot', [
@@ -130,6 +128,7 @@ class Relation extends Command
                     ]);
                 }
                 $progress->advance();
+                $this->newLine();
             } elseif ($option === MorphToRequest::class) {
                 if ($service->createMorphTo()) {
                     $this->info("Relation $type request class created.");
@@ -137,6 +136,7 @@ class Relation extends Command
                     $this->error("Relation $type request class exists or could not be created.");
                 }
                 $progress->advance(3);
+                $this->newLine();
             }
         });
 

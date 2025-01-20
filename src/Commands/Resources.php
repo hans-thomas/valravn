@@ -39,12 +39,14 @@ class Resources extends Command
         $service = new ResourceService($this->argument('namespace'), $this->argument('name'), $this->option('v'));
 
         $this->withProgressBar(2, function (ProgressBar $progress) use ($service) {
+            $this->newLine();
             if ($service->createResource()) {
                 $this->info('Resource class created.');
             } else {
                 $this->error('Resource class exists or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
 
             if ($service->createCollection()) {
                 $this->info('ResourceCollection class created.');
@@ -52,6 +54,7 @@ class Resources extends Command
                 $this->error('ResourceCollection class exists or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;

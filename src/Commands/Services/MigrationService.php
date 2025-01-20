@@ -18,11 +18,6 @@ final class MigrationService extends Contracts\CommandsService
         $this->filesystem = $this->createFilesystemFromPath(database_path());
     }
 
-    public static function make(string $namespace, string $name, string $version = '1'): static
-    {
-        return parent::make($namespace, $name, $version);
-    }
-
     /**
      * @throws FilesystemException
      */

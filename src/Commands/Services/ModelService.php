@@ -16,11 +16,6 @@ final class ModelService extends Contracts\CommandsService
         $this->plural = Str::of($this->name)->plural()->snake()->toString();
     }
 
-    public static function make(string $namespace, string $name, string $version = '1'): static
-    {
-        return parent::make($namespace, $name, $version);
-    }
-
     /**
      * @throws FilesystemException
      */

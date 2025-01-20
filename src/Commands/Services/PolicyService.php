@@ -11,11 +11,6 @@ final class PolicyService extends Contracts\CommandsService
         parent::__construct($namespace, $name, '1');
     }
 
-    public static function make(string $namespace, string $name, string $version = '1'): static
-    {
-        return parent::make($namespace, $name, $version);
-    }
-
     public function createPolicy(): bool
     {
         $file = "Policies/$this->namespace/{$this->name}Policy.php";

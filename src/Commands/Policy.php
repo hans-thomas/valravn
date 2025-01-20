@@ -5,7 +5,6 @@ namespace Hans\Valravn\Commands;
 use Hans\Valravn\Commands\Services\PolicyService;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Throwable;
 
 class Policy extends Command
 {
@@ -30,18 +29,22 @@ class Policy extends Command
     /**
      * Execute the console command.
      *
-     * @return void
-     * @throws Throwable
-     *
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $this->withProgressBar(1, function (ProgressBar $progress) {
-            if (PolicyService::make($this->argument('namespace'), $this->argument('name'))->createPolicy()) {
+        $service = new PolicyService($this->argument('namespace'), $this->argument('name'));
+        $this->withProgressBar(1, function (ProgressBar $progress) use ($service) {
+            $this->newLine();
+            if ($service->createPolicy()) {
                 $this->info('Policy class created.');
             } else {
-                $this->info('Policy class exists or could not be created.');
+                $this->error('Policy class exists or could not be created.');
             }
+            $progress->advance();
+            $this->newLine();
         });
+
+        return self::SUCCESS;
     }
 }

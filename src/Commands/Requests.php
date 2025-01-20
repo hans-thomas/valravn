@@ -20,7 +20,7 @@ class Requests extends Command
 		{namespace : Group of the entity}
 		{name : Name of the entity}
 		{--v=1 : Version of the entity}
-		{--batch-update : Create batch update request}
+		{--b|batch-update : Create batch update request}
         ';
 
     /**
@@ -45,12 +45,14 @@ class Requests extends Command
         );
 
         $this->withProgressBar(2, function (ProgressBar $progressBar) use ($service) {
+            $this->newLine();
             if ($service->createStoreRequest()) {
                 $this->info('Store request created.');
             } else {
                 $this->error('Store request exists or could not be created.');
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($service->createUpdateRequest()) {
                 $this->info('Update request created.');
@@ -58,6 +60,7 @@ class Requests extends Command
                 $this->error('Update request exists or could not be created.');
             }
             $progressBar->advance();
+            $this->newLine();
 
             if ($this->option('batch-update')) {
                 if ($service->createBatchUpdateRequest()) {
@@ -67,6 +70,7 @@ class Requests extends Command
                 }
             }
             $progressBar->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;
