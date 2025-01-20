@@ -101,7 +101,7 @@ class Relation extends Command
                     HasManyRequest::class,
                 ])
             ) {
-                // @phpstan-ignore
+                /** @phpstan-ignore method.notFound */
                 $this->fail('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
             }
 
