@@ -2,12 +2,10 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ServicesService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Service extends Command
 {
@@ -31,53 +29,48 @@ class Service extends Command
      */
     protected $description = 'Generate service classes.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
-     * @throws Throwable
+     * @throws FilesystemException
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = Str::of($this->argument('name'))->singular()->ucfirst()->toString();
-        $namespace = Str::of($this->argument('namespace'))->ucfirst()->toString();
+        $service = new ServicesService($this->argument('namespace'), $this->argument('name'));
 
-        // crud service
-        $crudService = file_get_contents(__DIR__.'/stubs/services/crud.stub');
-        $crudService = Str::replace('{{CRUD-SERVICE::NAMESPACE}}', $namespace, $crudService);
-        $crudService = Str::replace('{{CRUD-SERVICE::MODEL}}', $singular, $crudService);
-        $this->fs->write("Services/$namespace/$singular/{$singular}CrudService.php", $crudService);
+        $this->withProgressBar(3, function (ProgressBar $progress) use ($service) {
+            $this->newLine();
+            if ($service->createCrud()) {
+                $this->info('CRUD service created.');
+            } else {
+                $this->error('CRUD service exists or could be created.');
+            }
+            $progress->advance();
+            $this->newLine();
 
-        // relations service
-        if ($this->option('relations')) {
-            $relationsService = file_get_contents(__DIR__.'/stubs/services/custom.stub');
-            $relationsService = Str::replace('{{CRUD-SERVICE::NAMESPACE}}', $namespace, $relationsService);
-            $relationsService = Str::replace('{{CRUD-SERVICE::MODEL}}', $singular, $relationsService);
-            $relationsService = Str::replace('{{CRUD-SERVICE::ACTION}}', 'Relations', $relationsService);
-            $this->fs->write("Services/$namespace/$singular/{$singular}RelationsService.php", $relationsService);
-        }
+            if ($this->option('relations')) {
+                if ($service->createRelations()) {
+                    $this->info('Relations service created.');
+                } else {
+                    $this->error('Relations service exists or could be created.');
+                }
+            }
+            $progress->advance();
+            $this->newLine();
 
-        // actions service
-        if ($this->option('actions')) {
-            $actionsService = file_get_contents(__DIR__.'/stubs/services/custom.stub');
-            $actionsService = Str::replace('{{CRUD-SERVICE::NAMESPACE}}', $namespace, $actionsService);
-            $actionsService = Str::replace('{{CRUD-SERVICE::MODEL}}', $singular, $actionsService);
-            $relationsService = Str::replace('{{CRUD-SERVICE::ACTION}}', 'Actions', $actionsService);
-            $this->fs->write("Services/$namespace/$singular/{$singular}ActionsService.php", $actionsService);
-        }
+            if ($this->option('actions')) {
+                if ($service->createActions()) {
+                    $this->info('Actions service created.');
+                } else {
+                    $this->error('Actions service exists or could be created.');
+                }
+            }
+            $progress->advance();
+            $this->newLine();
+        });
 
-        $this->info('service classes successfully created!');
+        return self::SUCCESS;
     }
 }

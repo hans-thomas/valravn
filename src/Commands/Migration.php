@@ -2,12 +2,10 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\MigrationService;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Migration extends Command
 {
@@ -29,55 +27,28 @@ class Migration extends Command
      */
     protected $description = 'Generate migration file.';
 
-    private FilesystemAdapter $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => database_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
-     * @throws Throwable
+     * @throws FilesystemException
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $plural = ucfirst(Str::plural($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
+        $this->withProgressBar(1, function (ProgressBar $progress) {
+            $this->newLine();
+            $service = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
-        $migrationStub = file_get_contents(__DIR__.'/stubs/migrations/migration.stub');
-        $migrationStub = Str::replace(
-            '{{MODEL::NAMESPACE}}',
-            $namespace,
-            $migrationStub
-        );
-        $migrationStub = Str::replace('{{MODEL::CLASS}}', $singular, $migrationStub);
-
-        $path = "migrations/$namespace";
-        $datePrefix = now()->format('Y_m_d_His');
-        $fileName = 'create_'.Str::snake($plural).'_table.php';
-
-        foreach ($this->fs->allFiles($path) as $file) {
-            if (preg_match("/[0-9 _]+_$fileName/s", $file)) {
-                $this->info('migration class exists!');
-
-                return;
+            if ($service->createMigration()) {
+                $this->info('Migration file created.');
+            } else {
+                $this->error('Migration file exists or could not be created.');
             }
-        }
+            $progress->advance();
+            $this->newLine();
+        });
 
-        $this->fs->write(
-            "$path/{$datePrefix}_$fileName",
-            $migrationStub
-        );
-
-        $this->info('migration class successfully created!');
+        return self::SUCCESS;
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\MigrationService;
+use Hans\Valravn\Commands\Services\ModelService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Model extends Command
 {
@@ -33,53 +32,58 @@ class Model extends Command
      */
     protected $description = 'Generate model class.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
-     * @throws Throwable
+     * @throws FilesystemException
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $plural = ucfirst(Str::plural($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
+        $service = new ModelService($this->argument('namespace'), $this->argument('name'));
+        $migrationService = new MigrationService($this->argument('namespace'), $this->argument('name'));
 
-        $modelStub = file_get_contents(__DIR__.'/stubs/models/model.stub');
-        $modelStub = Str::replace('{{MODEL::NAMESPACE}}', $namespace, $modelStub);
-        $modelStub = Str::replace('{{MODEL::CLASS}}', $singular, $modelStub);
-        $modelStub = Str::replace(
-            '{{MODEL::TABLE}}',
-            $table = strtolower("{$namespace}_".Str::snake($plural)),
-            $modelStub
-        );
-        $modelStub = Str::replace('{{MODEL::FOREIGNKEY}}', Str::singular($table).'_id', $modelStub);
-        $this->fs->write("Models/$namespace/$singular.php", $modelStub);
+        $this->withProgressBar(4, function (ProgressBar $progressBar) use ($service, $migrationService) {
+            $this->newLine();
+            if ($service->createModel()) {
+                $this->info('Model class created.');
+            } else {
+                $this->error('Model class exists or could not be created.');
+            }
+            $progressBar->advance();
+            $this->newLine();
 
-        if ($this->option('factory')) {
-            Artisan::call("make:factory $namespace/{$singular}Factory --model $namespace/$singular");
-        }
+            if ($this->option('factory') || $this->confirm('Should create factory?')) {
+                if ($migrationService->createFactory()) {
+                    $this->info('Factory class created.');
+                } else {
+                    $this->error('Factory class exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
 
-        if ($this->option('seeder')) {
-            Artisan::call("make:seeder $namespace/{$singular}Seeder");
-        }
+            if ($this->option('seeder') || $this->confirm('Should create seeder?')) {
+                if ($migrationService->createSeeder()) {
+                    $this->info('Seeder class created.');
+                } else {
+                    $this->error('Seeder class exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
 
-        if ($this->option('migration')) {
-            Artisan::call("valravn:migration $namespace $singular");
-        }
+            if ($this->option('migration') || $this->confirm('Should create migration?')) {
+                Artisan::call(
+                    'valravn:migration',
+                    ['namespace' => $this->argument('namespace'), 'name' => $this->argument('name')]
+                );
+            }
+            $progressBar->advance();
+            $this->newLine();
+        });
 
-        $this->info('model class successfully created!');
+        return self::SUCCESS;
     }
 }

@@ -2,12 +2,11 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ControllerService;
+use Hans\Valravn\Commands\Services\RequestService;
+use Hans\Valravn\Commands\Services\ResourceService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Controller extends Command
@@ -24,8 +23,8 @@ class Controller extends Command
 		{--v=1 : Version of the entity}
 		{--r|relations : Generate an extra controller for relations management}
 		{--a|actions : Generate an extra controller for actions management}
-		{--requests : Generate store and update request classes}
-		{--resources : Generate resource and resource collection classes}
+		{--e|requests : Generate store and update request classes}
+		{--s|resources : Generate resource and resource collection classes}
 		     ';
 
     /**
@@ -34,56 +33,87 @@ class Controller extends Command
      * @var string
      */
     protected $description = 'Generate controller classes.';
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
 
     /**
      * Execute the console command.
      *
      * @throws Throwable
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
-        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
+        $namespace = $this->argument('namespace');
+        $name = $this->argument('name');
+        $version = $this->option('v');
 
-        // controllers: crud
-        $controllerStub = file_get_contents(__DIR__.'/stubs/controllers/crud.stub');
-        $controllerStub = Str::replace('{{CRUD::VERSION}}', $version, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::NAMESPACE}}', $namespace, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::MODEL}}', $singular, $controllerStub);
-        $controllerStub = Str::replace('{{CRUD::MODEL-lower}}', strtolower($singular), $controllerStub);
-        $destination = "Http/Controllers/$version/$namespace/$singular/{$singular}CrudController.php";
+        $service = new ControllerService($namespace, $name, $version);
 
-        $this->fs->write($destination, $controllerStub);
-        // controllers: relations
-        if ($this->option('relations')) {
-            Artisan::call("make:controller $version/$namespace/$singular/{$singular}RelationsController");
-        }
-        // controllers: actions
-        if ($this->option('actions')) {
-            Artisan::call("make:controller $version/$namespace/$singular/{$singular}ActionsController");
-        }
+        $this->withProgressBar(5, function (ProgressBar $progressBar) use ($service, $namespace, $name, $version) {
+            $this->newLine();
+            if ($service->createCrud()) {
+                $this->info('Controller class created.');
+            } else {
+                $this->error('Controller class exists or could not be created.');
+            }
 
-        if ($this->option('requests')) {
-            Artisan::call("valravn:requests $namespace $singular --v $version --batch-update");
-        }
+            $progressBar->advance();
+            $this->newLine();
 
-        if ($this->option('resources')) {
-            Artisan::call("valravn:resources $namespace $singular --v $version");
-        }
+            if ($this->option('relations') || $this->confirm('Should create relations?')) {
+                if ($service->CreateRelations()) {
+                    $this->info('Relations class created.');
+                } else {
+                    $this->error('Relations class exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
 
-        $this->info('controller classes successfully created!');
+            if ($this->option('actions') || $this->confirm('Should create actions?')) {
+                if ($service->CreateActions()) {
+                    $this->info('Actions class created.');
+                } else {
+                    $this->error('Actions class exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
+
+            if ($this->option('requests') || $this->confirm('Should create requests?')) {
+                $requestService = new RequestService(
+                    $this->argument('namespace'),
+                    $this->argument('name'),
+                    $this->option('v')
+                );
+                if (collect([
+                    $requestService->createStoreRequest(),
+                    $requestService->createUpdateRequest(),
+                    $requestService->createBatchUpdateRequest(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Request classes created.');
+                } else {
+                    $this->error('Some request classes are exist or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
+
+            if ($this->option('resources') || $this->confirm('Should create resources?')) {
+                $resourceService = new ResourceService($namespace, $name, $version);
+                if (collect([
+                    $resourceService->createResource(),
+                    $resourceService->createCollection(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Resource classes created.');
+                } else {
+                    $this->error('Some resource classes are exist or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
+        });
+
+        return self::SUCCESS;
     }
 }

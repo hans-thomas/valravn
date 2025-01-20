@@ -2,8 +2,11 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ControllerService;
+use Hans\Valravn\Commands\Services\RequestService;
+use Hans\Valravn\Commands\Services\ResourceService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Controllers extends Command
@@ -18,8 +21,8 @@ class Controllers extends Command
 		{namespace : Group of the entity}
 		{name : Name of the entity}
 		{--v=1 : Version of the entity}
-		{--requests : Generate store and update request classes}
-		{--resources : Generate resource and resource collection classes}
+		{--r|requests : Generate store and update request classes}
+		{--s|resources : Generate resource and resource collection classes}
 		';
 
     /**
@@ -34,24 +37,59 @@ class Controllers extends Command
      *
      * @throws Throwable
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $name = $this->argument('name');
         $namespace = $this->argument('namespace');
-        $version = 'V'.filter_var($this->option('v'), FILTER_SANITIZE_NUMBER_INT);
+        $name = $this->argument('name');
+        $version = $this->option('v');
 
-        Artisan::call('valravn:controller', [
-            'namespace'   => $namespace,
-            'name'        => $name,
-            '--v'         => $version,
-            '--relations' => true,
-            '--actions'   => true,
-            '--resources' => $this->option('resources'),
-            '--requests'  => $this->option('requests'),
-        ]);
+        $this->withProgressBar(3, function (ProgressBar $progressBar) use ($namespace, $name, $version) {
+            $this->newLine();
+            $service = new ControllerService($namespace, $name, $version);
+            if (collect([
+                $service->createCrud(),
+                $service->CreateActions(),
+                $service->CreateRelations(),
+            ])->every(fn ($item) => $item === true)) {
+                $this->info('Controller classes created.');
+            } else {
+                $this->error('Some controller classes are exists or could not be created.');
+            }
+            $progressBar->advance();
+            $this->newLine();
 
-        $this->info('controller classes successfully created!');
+            if ($this->option('requests') || $this->confirm('Should create requests?')) {
+                $requestService = new RequestService($namespace, $name, $version);
+                if (collect([
+                    $requestService->createStoreRequest(),
+                    $requestService->createUpdateRequest(),
+                    $requestService->createBatchUpdateRequest(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Request classes created.');
+                } else {
+                    $this->error('Some request classes are exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
+
+            if ($this->option('resources') || $this->confirm('Should create resources?')) {
+                $resourceService = new ResourceService($namespace, $name, $version);
+                if (collect([
+                    $resourceService->createResource(),
+                    $resourceService->createCollection(),
+                ])->every(fn ($item) => $item === true)) {
+                    $this->info('Resource and ResourceCollection classes created.');
+                } else {
+                    $this->error('Some Resource and ResourceCollection classes are exists or could not be created.');
+                }
+            }
+            $progressBar->advance();
+            $this->newLine();
+        });
+
+        return self::SUCCESS;
     }
 }

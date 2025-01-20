@@ -2,12 +2,10 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\RepositoryService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
-use Throwable;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Repository extends Command
 {
@@ -29,41 +27,36 @@ class Repository extends Command
      */
     protected $description = 'Generate repository contract and repository classes.';
 
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
-
     /**
      * Execute the console command.
      *
-     * @throws Throwable
+     * @throws FilesystemException
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $singular = ucfirst(Str::singular($this->argument('name')));
-        $namespace = ucfirst($this->argument('namespace'));
+        $this->withProgressBar(2, function (ProgressBar $progress) {
+            $this->newLine();
+            $service = new RepositoryService($this->argument('namespace'), $this->argument('name'));
 
-        // repository contract
-        $repositoryContractStub = file_get_contents(__DIR__.'/stubs/repositories/repository-contract.stub');
-        $repositoryContractStub = Str::replace('{{IREPOSITORY::NAMESPACE}}', $namespace, $repositoryContractStub);
-        $repositoryContractStub = Str::replace('{{IREPOSITORY::MODEL}}', $singular, $repositoryContractStub);
-        $this->fs->write("Repositories/Contracts/$namespace/I{$singular}Repository.php", $repositoryContractStub);
+            if ($service->createContract()) {
+                $this->info('Contract class created.');
+            } else {
+                $this->error('Contract class exists or could not be created.');
+            }
+            $progress->advance();
+            $this->newLine();
 
-        // repository class
-        $repositoryStub = file_get_contents(__DIR__.'/stubs/repositories/repository.stub');
-        $repositoryStub = Str::replace('{{REPOSITORY::NAMESPACE}}', $namespace, $repositoryStub);
-        $repositoryStub = Str::replace('{{REPOSITORY::MODEL}}', $singular, $repositoryStub);
-        $this->fs->write("Repositories/$namespace/{$singular}Repository.php", $repositoryStub);
+            if ($service->createClass()) {
+                $this->info('Repository class created.');
+            } else {
+                $this->error('Repository class exists or could not be created.');
+            }
+            $progress->advance();
+            $this->newLine();
+        });
 
-        $this->info('repository classes successfully created!');
+        return self::SUCCESS;
     }
 }

@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class ResourcesTest extends TestCase
@@ -17,7 +16,12 @@ class ResourcesTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
-        Artisan::call('valravn:resources blog posts');
+        $this->artisan('valravn:resources blog posts')
+             ->expectsOutput('Resource class created.')
+             ->doesntExpectOutput('Resource class exists or could not be created.')
+             ->expectsOutput('ResourceCollection class created.')
+             ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($resource);
 
@@ -41,6 +45,33 @@ class ResourcesTest extends TestCase
     }
 
     #[Test]
+    public function resourcesExists(): void
+    {
+        $resource = app_path('Http/Resources/V1/Blog/Post/PostResource.php');
+        $collection = app_path('Http/Resources/V1/Blog/Post/PostCollection.php');
+
+        self::assertFileDoesNotExist($resource);
+        self::assertFileDoesNotExist($collection);
+
+        $this->artisan('valravn:resources blog posts')
+             ->expectsOutput('Resource class created.')
+             ->doesntExpectOutput('Resource class exists or could not be created.')
+             ->expectsOutput('ResourceCollection class created.')
+             ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
+             ->assertSuccessful();
+
+        $this->artisan('valravn:resources blog posts')
+             ->doesntExpectOutput('Resource class created.')
+             ->expectsOutput('Resource class exists or could not be created.')
+             ->doesntExpectOutput('ResourceCollection class created.')
+             ->expectsOutput('ResourceCollection class exists or could not be created.')
+             ->assertSuccessful();
+
+        self::assertFileExists($resource);
+        self::assertFileExists($collection);
+    }
+
+    #[Test]
     public function version(): void
     {
         $resource = app_path('Http/Resources/V2/Blog/Post/PostResource.php');
@@ -49,7 +80,8 @@ class ResourcesTest extends TestCase
         self::assertFileDoesNotExist($resource);
         self::assertFileDoesNotExist($collection);
 
-        Artisan::call('valravn:resources blog posts --v 2');
+        $this->artisan('valravn:resources blog posts --v 2')
+             ->assertSuccessful();
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);

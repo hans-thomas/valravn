@@ -2,11 +2,10 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\ExceptionService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use League\Flysystem\Visibility;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
 
 class Exception extends Command
@@ -29,46 +28,53 @@ class Exception extends Command
      *
      * @var string
      */
-    protected $description = 'Generate exception and error code classes.';
-
-    private Filesystem $fs;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fs = Storage::createLocalDriver([
-            'root'       => app_path(),
-            'visibility' => Visibility::PUBLIC,
-        ]);
-    }
+    protected $description = 'Generate exception class.';
 
     /**
      * Execute the console command.
      *
      * @throws Throwable
+     * @throws FilesystemException
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $namespace = ucfirst($this->argument('namespace'));
-        $name = ucfirst(Str::singular($this->argument('name')));
-        $directory = $name;
-        $prefixCode = ucfirst($this->argument('prefix'));
+        $namespace = $this->argument('namespace');
+        $name = $this->argument('name');
+        $prefixCode = $this->argument('prefix');
 
-        $exceptionStub = file_get_contents(__DIR__.'/stubs/exceptions/fullFormException.stub');
+        $service = new ExceptionService($namespace, $name, $prefixCode);
 
-        if ($this->option('compact')) {
-            $name = ucfirst($this->option('compact'));
-            $exceptionStub = file_get_contents(__DIR__.'/stubs/exceptions/compactFormException.stub');
-        }
+        $compactName = $this->option('compact');
 
-        $exceptionStub = Str::replace('{{ENTITY::NAMESPACE}}', $namespace, $exceptionStub);
-        $exceptionStub = Str::replace('{{ENTITY::NAME}}', $name, $exceptionStub);
-        $exceptionStub = Str::replace('{{ENTITY::CODE}}', $prefixCode, $exceptionStub);
-        $exceptionFile = "Exceptions/$namespace/$directory/{$name}Exception.php";
-        $this->fs->write($exceptionFile, $exceptionStub);
+        $closure = function (ProgressBar $progress) use ($service, $compactName) {
+            $this->newLine();
+            if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
+                $compactName = $compactName ?: $this->ask('What should be its name?');
+                if (blank($compactName)) {
+                    throw new \Exception('The name of the compact exception can not be empty.');
+                }
+            }
+            if ($compactName) {
+                if ($service->createCompactForm($compactName)) {
+                    $this->info('Compact exception class created.');
+                } else {
+                    $this->error('Compact exception class exists or could no be created.');
+                }
+            } else {
+                if ($service->createFullForm()) {
+                    $this->info('Exception class created.');
+                } else {
+                    $this->error('Exception class exists or could no be created.');
+                }
+            }
+            $progress->advance();
+            $this->newLine();
+        };
 
-        $this->info('Exception class successfully created!');
+        $this->withProgressBar(1, $closure);
+
+        return self::SUCCESS;
     }
 }

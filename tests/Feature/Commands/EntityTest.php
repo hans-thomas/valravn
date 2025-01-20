@@ -3,7 +3,6 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
 class EntityTest extends TestCase
@@ -69,7 +68,20 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($seeder);
         self::assertFileDoesNotExist($migration);
 
-        Artisan::call('valravn:entity blog posts BPEcx');
+        $this->artisan('valravn:entity blog posts BPEcx')
+             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could not be created.')
+             ->expectsOutput('Model and database classes created.')
+             ->doesntExpectOutput('Some of model or database classes are exist or could not be created.')
+             ->expectsOutput('Controllers, requests and resources classes created.')
+             ->doesntExpectOutput('Some of controllers or requests or resources classes are exist or could not be created.')
+             ->expectsOutput('Policy class created.')
+             ->doesntExpectOutput('Policy class exists or could not be created.')
+             ->expectsOutput('Repository classes created.')
+             ->doesntExpectOutput('Repository classes are exist or could not be created.')
+             ->expectsOutput('Service classes created.')
+             ->doesntExpectOutput('Service classes are exist or could not be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($exception);
 
@@ -97,7 +109,41 @@ class EntityTest extends TestCase
     }
 
     #[Test]
-    public function version(): void
+    public function entityExists(): void
+    {
+        $this->artisan('valravn:entity blog posts BPEcx')
+             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could not be created.')
+             ->expectsOutput('Model and database classes created.')
+             ->doesntExpectOutput('Some of model or database classes are exist or could not be created.')
+             ->expectsOutput('Controllers, requests and resources classes created.')
+             ->doesntExpectOutput('Some of controllers or requests or resources classes are exist or could not be created.')
+             ->expectsOutput('Policy class created.')
+             ->doesntExpectOutput('Policy class exists or could not be created.')
+             ->expectsOutput('Repository classes created.')
+             ->doesntExpectOutput('Repository classes are exist or could not be created.')
+             ->expectsOutput('Service classes created.')
+             ->doesntExpectOutput('Service classes are exist or could not be created.')
+             ->assertSuccessful();
+
+        $this->artisan('valravn:entity blog posts BPEcx')
+             ->doesntExpectOutput('Exception class created.')
+             ->expectsOutput('Exception class exists or could not be created.')
+             ->doesntExpectOutput('Model and database classes created.')
+             ->expectsOutput('Some of model or database classes are exist or could not be created.')
+             ->doesntExpectOutput('Controllers, requests and resources classes created.')
+             ->expectsOutput('Some of controllers or requests or resources classes are exist or could not be created.')
+             ->doesntExpectOutput('Policy class created.')
+             ->expectsOutput('Policy class exists or could not be created.')
+             ->doesntExpectOutput('Repository classes created.')
+             ->expectsOutput('Repository classes are exist or could not be created.')
+             ->doesntExpectOutput('Service classes created.')
+             ->expectsOutput('Service classes are exist or could not be created.')
+             ->assertSuccessful();
+    }
+
+    #[Test]
+    public function entityWithVersion(): void
     {
         $exception = app_path('Exceptions/Blog/Post/PostException.php');
 
@@ -150,7 +196,20 @@ class EntityTest extends TestCase
         self::assertFileDoesNotExist($seeder);
         self::assertFileDoesNotExist($migration);
 
-        Artisan::call('valravn:entity blog posts BPTEcx --v 2');
+        $this->artisan('valravn:entity blog posts BPTEcx --v 2')
+             ->expectsOutput('Exception class created.')
+             ->doesntExpectOutput('Exception class exists or could not be created.')
+             ->expectsOutput('Model and database classes created.')
+             ->doesntExpectOutput('Some of model or database classes are exist or could not be created.')
+             ->expectsOutput('Controllers, requests and resources classes created.')
+             ->doesntExpectOutput('Some of controllers or requests or resources classes are exist or could not be created.')
+             ->expectsOutput('Policy class created.')
+             ->doesntExpectOutput('Policy class exists or could not be created.')
+             ->expectsOutput('Repository classes created.')
+             ->doesntExpectOutput('Repository classes are exist or could not be created.')
+             ->expectsOutput('Service classes created.')
+             ->doesntExpectOutput('Service classes are exist or could not be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($exception);
 

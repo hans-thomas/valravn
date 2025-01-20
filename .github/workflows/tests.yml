@@ -14,8 +14,17 @@ jobs:
         os: [ ubuntu-latest ]
         php: [ 8.1, 8.2, 8.3, 8.4 ]
         dependency-version: [ prefer-stable ]
+        laravel: [ 10.*, 11.* ]
+        exclude:
+          - laravel: 11.*
+            php: 8.1
+        include:
+          - laravel: 10.*
+            testbench: 8.*
+          - laravel: 11.*
+            testbench: 9.*
 
-    name: "PHPSTAN: PHP ${{ matrix.php }} - OS ${{ matrix.os }} - dependency-version ${{ matrix.dependency-version }}"
+    name: "PHPSTAN: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
 
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +52,10 @@ jobs:
           key: dependencies-latest-composer-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
-        run: composer install
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
 
       - name: Restore cache PHPStan results
         id: phpstan-cache-restore
@@ -75,7 +87,7 @@ jobs:
           - laravel: 11.*
             testbench: 9.*
 
-    name: "PHPUNIT: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - OS ${{ matrix.os }} - dependency-version ${{ matrix.dependency-version }}"
+    name: "PHPUNIT: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
 
     steps:
       - uses: actions/checkout@v4
