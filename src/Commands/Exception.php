@@ -53,7 +53,7 @@ class Exception extends Command
             if ($compactName === '' || filled($compactName) || $this->confirm('Should create a compact exception?')) {
                 $compactName = $compactName ?: $this->ask('What should be its name?');
                 if (blank($compactName)) {
-                        throw new \Exception('The name of the compact exception can not be empty.');
+                    throw new \Exception('The name of the compact exception can not be empty.');
                 }
             }
             if ($compactName) {

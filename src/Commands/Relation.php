@@ -101,7 +101,7 @@ class Relation extends Command
                     HasManyRequest::class,
                 ])
             ) {
-                    throw new \Exception('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
+                throw new \Exception('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
             }
 
             if (in_array(
