@@ -3,6 +3,7 @@
 namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 
 class ControllerTest extends TestCase
@@ -32,14 +33,14 @@ class ControllerTest extends TestCase
 
         self::assertFileExists($file);
 
-        $crud_file = $this->getStub('controllers/crud.stub');
-        $crud_file = str_replace('{{CRUD::VERSION}}', 'V1', $crud_file);
-        $crud_file = str_replace('{{CRUD::NAMESPACE}}', 'Blog', $crud_file);
-        $crud_file = str_replace('{{CRUD::MODEL}}', 'Post', $crud_file);
-        $crud_file = str_replace('{{CRUD::MODEL-lower}}', 'post', $crud_file);
+        $stub = $this->getStub('controllers/crud.stub');
+        $stub = str_replace('{{CRUD::VERSION}}', 'V1', $stub);
+        $stub = str_replace('{{CRUD::NAMESPACE}}', 'Blog', $stub);
+        $stub = str_replace('{{CRUD::MODEL}}', 'Post', $stub);
+        $stub = str_replace('{{CRUD::MODEL-lower}}', 'post', $stub);
 
         self::assertEquals(
-            $crud_file,
+            $stub,
             file_get_contents($file)
         );
     }
@@ -111,6 +112,17 @@ class ControllerTest extends TestCase
              ->assertSuccessful();
 
         self::assertFileExists($file);
+
+        $stub = $this->getStub('controllers/custom.stub');
+        $stub = Str::replace('{{CUSTOM::NAMESPACE}}', 'Blog', $stub);
+        $stub = Str::replace('{{CUSTOM::MODEL}}', 'Post', $stub);
+        $stub = Str::replace('{{CUSTOM::VERSION}}', 'V1', $stub);
+        $stub = Str::replace('{{CUSTOM::ACTION}}', 'Relations', $stub);
+
+        self::assertEquals(
+            $stub,
+            file_get_contents($file)
+        );
     }
 
     #[Test]
@@ -203,6 +215,17 @@ class ControllerTest extends TestCase
              ->assertSuccessful();
 
         self::assertFileExists($file);
+
+        $stub = $this->getStub('controllers/custom.stub');
+        $stub = Str::replace('{{CUSTOM::NAMESPACE}}', 'Blog', $stub);
+        $stub = Str::replace('{{CUSTOM::MODEL}}', 'Post', $stub);
+        $stub = Str::replace('{{CUSTOM::VERSION}}', 'V1', $stub);
+        $stub = Str::replace('{{CUSTOM::ACTION}}', 'Actions', $stub);
+
+        self::assertEquals(
+            $stub,
+            file_get_contents($file)
+        );
     }
 
     #[Test]
