@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Controllers\{{CUSTOM::VERSION}}\{{CUSTOM::NAMESPACE}}\{{CUSTOM::MODEL}};
+
+use App\Http\Controllers\Controller;
+use App\Services\{{CUSTOM::NAMESPACE}}\{{CUSTOM::MODEL}}\{{CUSTOM::MODEL}}{{CUSTOM::ACTION}}Service;
+use Hans\Valravn\DTOs\BatchUpdateDto;
+use Throwable;
+
+class {{CUSTOM::MODEL}}{{CUSTOM::ACTION}}Controller extends Controller {
+    private {{CUSTOM::MODEL}}{{CUSTOM::ACTION}}Service $service;
+
+    public function __construct() {
+        $this->service    = app( {{CUSTOM::MODEL}}{{CUSTOM::ACTION}}Service::class );
+    }
+}
