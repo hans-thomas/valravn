@@ -75,6 +75,19 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
+    public function makeFromArrayWithEmptyArray(): void
+    {
+        $data = [];
+
+        $result = SampleDto::makeFromArray($data);
+
+        self::assertEquals(
+            [],
+            $result->getData()->toArray()
+        );
+    }
+
+    #[Test]
     public function export(): void
     {
         $data = [
