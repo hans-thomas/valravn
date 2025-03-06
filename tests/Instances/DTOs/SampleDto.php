@@ -16,6 +16,6 @@ class SampleDto extends VDto
      */
     protected function parse(array $data): Collection
     {
-        return collect($data['related']);
+        return collect($data['related'] ?? []);
     }
 }
