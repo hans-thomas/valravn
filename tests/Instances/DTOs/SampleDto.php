@@ -10,7 +10,7 @@ class SampleDto extends VDto
     /**
      * Process the received data.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return Collection
      */
