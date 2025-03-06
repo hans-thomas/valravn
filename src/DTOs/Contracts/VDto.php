@@ -47,7 +47,7 @@ abstract class VDto
      */
     public static function makeFromArray(array|Collection $data): static
     {
-        $output = null;
+        $output = [];
         $data = $data instanceof Collection ? $data->toArray() : $data;
 
         foreach ($data as $index => $value) {
