@@ -50,9 +50,11 @@ trait InteractsWithRelations
                         continue;
                     }
 
-                    $data[$loadable] = $resource::make($instance->$loadable)
-                                                  ->resolveRelationsUsing($this->relationResolvers)
-                                                  ->skipRelationsForModel($this->skipRelationsForModel);
+                    if (filled($instance->$loadable)) {
+                        $data[$loadable] = $resource::make($instance->$loadable)
+                                                    ->resolveRelationsUsing($this->relationResolvers)
+                                                    ->skipRelationsForModel($this->skipRelationsForModel);
+                    }
                 }
             }
         }
