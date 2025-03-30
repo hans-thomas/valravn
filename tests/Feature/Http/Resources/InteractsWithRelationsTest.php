@@ -15,7 +15,7 @@ class InteractsWithRelationsTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->post = PostFactory::new()
                                  ->hasAttached(
                                      CategoryFactory::new()->count(5),
@@ -23,7 +23,7 @@ class InteractsWithRelationsTest extends TestCase
                                  )
                                  ->create();
     }
-    
+
     #[Test]
     public function loadRelation(): void
     {

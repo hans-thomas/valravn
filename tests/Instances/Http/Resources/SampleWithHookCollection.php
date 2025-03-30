@@ -37,7 +37,7 @@ class SampleWithHookCollection extends VResourceCollection
      *
      * @return void
      */
-    protected function loaded(&$data, VJsonResource $resource = null): void
+    protected function loaded(&$data, ?VJsonResource $resource = null): void
     {
         $this->addExtra([
             'all-loaded' => 'i might regret this when tomorrow comes',

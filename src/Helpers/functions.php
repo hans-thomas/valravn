@@ -121,7 +121,7 @@ if (!function_exists('slugify')) {
      *
      * @return string|null
      */
-    function slugify(string $string, string $separator = '-'): string|null
+    function slugify(string $string, string $separator = '-'): ?string
     {
         $_transliteration = [
             '/ö|œ/'                           => 'e',

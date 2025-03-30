@@ -25,8 +25,8 @@ trait InteractsWithRelations
     /**
      * Load relationships data if exists.
      *
-     * @param  array               $data
-     * @param  VJsonResource|null  $resource
+     * @param array              $data
+     * @param VJsonResource|null $resource
      *
      * @return void
      */
@@ -63,7 +63,7 @@ trait InteractsWithRelations
     /**
      * Accept relations and their custom resource class.
      *
-     * @param  array<string,class-string>  $resolvers
+     * @param array<string,class-string> $resolvers
      *
      * @return static
      */
@@ -77,7 +77,7 @@ trait InteractsWithRelations
     /**
      * Accept models and their models that should be skipped.
      *
-     * @param  array<class-string,string|array>  $resolvers
+     * @param array<class-string,string|array> $resolvers
      *
      * @return static
      */
