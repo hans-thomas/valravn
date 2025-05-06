@@ -6,7 +6,7 @@ use Hans\Valravn\Exceptions\VException;
 
 class {{ENTITY::NAME}}Exception extends VException
 {
-    protected string $errorCodePrefix = '';
+    protected string $errorCodePrefix = '{{ENTITY::CODE}}';
 
     public static function failedToCreate(): self
     {
