@@ -73,7 +73,7 @@ class ActionsRegisterer
 
     protected function addIdParameter(string $uri): string
     {
-        return trim($uri, '/').'/{'.Str::of($this->name)->singular()->replace('-','_').'}';
+        return trim($uri, '/').'/{'.Str::of($this->name)->singular()->replace('-', '_').'}';
     }
 
     protected function addIdParameterWhen(bool $condition, string $uri): string
