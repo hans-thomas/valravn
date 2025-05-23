@@ -5,7 +5,9 @@ namespace Hans\Valravn\Tests\Feature\Services\Routing;
 use Hans\Valravn\Services\Routing\ActionsRegisterer;
 use Hans\Valravn\Services\Routing\RoutingService;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleActionsController;
+use Hans\Valravn\Tests\Instances\Middlewares\SampleMiddleware;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 
 class ActionsTest extends TestCase
@@ -60,6 +62,30 @@ class ActionsTest extends TestCase
         self::assertEquals(
             url('samples/-actions/action-with-no-param'),
             route('samples.actions.action-with-no-param')
+        );
+    }
+
+    #[Test]
+    public function middleware(): void
+    {
+        $this->service
+            ->name('samples')
+            ->actions(
+                SampleActionsController::class,
+                function (ActionsRegisterer $actions) {
+                    $actions->middleware(SampleMiddleware::class)->get('action-with-middleware');
+                }
+            );
+        $this->getJson(
+            route('samples.actions.action-with-middleware')
+        )
+             ->assertOk();
+
+        self::assertEquals(
+            [
+                SampleMiddleware::class,
+            ],
+            Route::getCurrentRoute()->middleware()
         );
     }
 

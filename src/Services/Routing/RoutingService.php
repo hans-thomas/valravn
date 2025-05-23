@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\RouteRegistrar;
 
+/* @mixin PendingResourceRegistration */
 class RoutingService
 {
     /**
