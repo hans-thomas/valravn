@@ -10,6 +10,7 @@ class ActionsRegisterer
     private Router $router;
     protected bool $withId = false;
     protected array $parameters = [];
+    protected array $middleware = [];
     private array $methods = ['GET', 'POST', 'PATCH', 'DELETE'];
 
     public function __construct(protected string $name, protected string $controller)
@@ -27,6 +28,13 @@ class ActionsRegisterer
     public function parameters(...$parameters): self
     {
         $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    public function middleware(...$parameters): self
+    {
+        $this->middleware = $parameters;
 
         return $this;
     }
@@ -60,7 +68,8 @@ class ActionsRegisterer
     {
         if (in_array($method, $this->methods)) {
             $this->router->addRoute($method, $uri, [$this->controller, $action])
-                         ->name("$this->name.{$this->getRouteNamePrefix()}.".Str::snake($action, '-'));
+                ->middleware($this->middleware)
+                ->name("$this->name.{$this->getRouteNamePrefix()}.".Str::snake($action, '-'));
         }
         $this->resetStates();
     }
@@ -69,6 +78,7 @@ class ActionsRegisterer
     {
         $this->withId = false;
         $this->parameters = [];
+        $this->middleware = [];
     }
 
     protected function addIdParameter(string $uri): string
