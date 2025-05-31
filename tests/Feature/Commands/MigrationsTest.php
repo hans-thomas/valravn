@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
+use Hans\Valravn\Commands\Services\ModelService;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,7 +14,7 @@ class MigrationsTest extends TestCase
         parent::setUp();
 
         $this->freezeTime();
-        Artisan::call('valravn:model blog post --no-interaction');
+        (new ModelService('blog', 'post'))->createModel();
     }
 
     protected function tearDown(): void
