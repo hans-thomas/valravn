@@ -103,7 +103,7 @@ class MigrationsTest extends TestCase
 
         self::assertFileDoesNotExist($pivot);
 
-        $service = new MigrationService('blog','post');
+        $service = new MigrationService('blog', 'post');
         $service->createPivot('core', 'category');
 
         $this->artisan('valravn:pivot blog posts core category')
