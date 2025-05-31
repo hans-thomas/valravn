@@ -66,6 +66,19 @@
 
         /*
         |--------------------------------------------------------------------------
+        | Migration paths
+        |--------------------------------------------------------------------------
+        |
+        | You can specify a custom path for you migration files. All subfolders
+        | register automatically.
+        |
+        */
+        'middlewares' => [
+            'api',
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
         | Configuration version
         |--------------------------------------------------------------------------
         |
@@ -73,5 +86,5 @@
         | used to inform devs to update their published config file.
         |
         */
-        'config_version' => '1.0.0',
+        'config_version' => '1.0.1',
     ];
