@@ -30,7 +30,7 @@ class ModelTest extends TestCase
         $modelStub = str_replace('{{MODEL::NAMESPACE}}', 'Blog', $modelStub);
         $modelStub = str_replace('{{MODEL::CLASS}}', 'Post', $modelStub);
         $modelStub = str_replace('{{MODEL::TABLE}}', 'blog_posts', $modelStub);
-        $modelStub = str_replace('{{MODEL::FOREIGNKEY}}', 'blog_post_id', $modelStub);
+        $modelStub = str_replace('{{MODEL::FOREIGN_KEY}}', 'blog_post_id', $modelStub);
 
         self::assertEquals($modelStub, file_get_contents($file));
     }
@@ -68,7 +68,7 @@ class ModelTest extends TestCase
         $modelStub = str_replace('{{MODEL::NAMESPACE}}', 'Blog', $modelStub);
         $modelStub = str_replace('{{MODEL::CLASS}}', 'Post', $modelStub);
         $modelStub = str_replace('{{MODEL::TABLE}}', 'blog_posts', $modelStub);
-        $modelStub = str_replace('{{MODEL::FOREIGNKEY}}', 'blog_post_id', $modelStub);
+        $modelStub = str_replace('{{MODEL::FOREIGN_KEY}}', 'blog_post_id', $modelStub);
 
         self::assertEquals($modelStub, file_get_contents($file));
     }
