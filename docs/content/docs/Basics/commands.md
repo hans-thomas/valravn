@@ -203,6 +203,9 @@ php artisan valravn:pivot namespace name related-namespace related-name
 
 ```
 
+Also, by passing the `--request` option, You can create the respondent request class for handling the relation
+requests.
+
 ## Model
 
 it generates model and related classes for you.
