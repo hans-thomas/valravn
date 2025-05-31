@@ -6,14 +6,24 @@ use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
 
-class MigrationsTests extends TestCase
+class MigrationsTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->freezeTime();
-        Artisan::call('valravn:model blog post');
+        Artisan::call('valravn:model blog post --no-interaction');
+    }
+
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            base_path("database/migrations/Blog/"),
+            app_path('Http/Requests/V1/Blog/Post/'),
+        ]);
+
+        parent::tearDown();
     }
 
     #[Test]
@@ -25,9 +35,9 @@ class MigrationsTests extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:migration blog posts')
-             ->expectsOutput('Migration file created.')
-             ->doesntExpectOutput('Migration file exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Migration file created.')
+            ->doesntExpectOutput('Migration file exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -49,9 +59,9 @@ class MigrationsTests extends TestCase
         Artisan::call('valravn:migration blog posts');
 
         $this->artisan('valravn:migration blog posts')
-             ->doesntExpectOutput('Migration file created.')
-             ->expectsOutput('Migration file exists or could not be created.')
-             ->assertSuccessful();
+            ->doesntExpectOutput('Migration file created.')
+            ->expectsOutput('Migration file exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -65,9 +75,10 @@ class MigrationsTests extends TestCase
         self::assertFileDoesNotExist($pivot);
 
         $this->artisan('valravn:pivot blog posts core category')
-             ->expectsOutput('Pivot migration file created.')
-             ->doesntExpectOutput('Pivot migration file exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Pivot migration file created.')
+            ->doesntExpectOutput('Pivot migration file exists or could not be created.')
+            ->expectsQuestion('Should create request for relationship?',false)
+            ->assertSuccessful();
 
         self::assertFileExists($pivot);
 
@@ -90,13 +101,42 @@ class MigrationsTests extends TestCase
 
         self::assertFileDoesNotExist($pivot);
 
-        Artisan::call('valravn:pivot blog posts core category');
+        Artisan::call('valravn:pivot blog posts core category --no-interaction');
 
         $this->artisan('valravn:pivot blog posts core category')
-             ->doesntExpectOutput('Pivot migration file created.')
-             ->expectsOutput('Pivot migration file exists or could not be created.')
-             ->assertSuccessful();
+            ->doesntExpectOutput('Pivot migration file created.')
+            ->expectsOutput('Pivot migration file exists or could not be created.')
+            ->expectsQuestion('Should create request for relationship?',false)
+            ->assertSuccessful();
 
         self::assertFileExists($pivot);
     }
+
+    #[Test]
+    public function pivotWithRequest(): void
+    {
+        $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
+
+        self::assertFileDoesNotExist($file);
+
+        $this->artisan('valravn:pivot blog posts core category')
+            ->expectsOutput('Pivot migration file created.')
+            ->doesntExpectOutput('Pivot migration file exists or could not be created.')
+            ->expectsQuestion('Should create request for relationship?',true)
+            ->assertSuccessful();
+
+        self::assertFileExists($file);
+
+        $relationStub = $this->getStub('relations/many-to-many.stub');
+        $relationStub = str_replace('{{RELATION::VERSION}}', 'V1', $relationStub);
+        $relationStub = str_replace('{{RELATION::NAMESPACE}}', 'Blog', $relationStub);
+        $relationStub = str_replace('{{RELATION::MODEL}}', 'Post', $relationStub);
+        $relationStub = str_replace('{{RELATION::RELATED-NAMESPACE}}', 'Core', $relationStub);
+        $relationStub = str_replace('{{RELATION::RELATED-MODEL}}', 'Category', $relationStub);
+        $relationStub = str_replace('{{RELATION::RELATION}}', 'Categories', $relationStub);
+        $relationStub = str_replace('{{RELATION::EXTENDS}}', 'BelongsToManyRequest', $relationStub);
+
+        self::assertEquals($relationStub, file_get_contents($file));
+    }
+
 }
