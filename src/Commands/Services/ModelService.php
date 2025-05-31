@@ -30,7 +30,7 @@ final class ModelService extends Contracts\CommandsService
         $stub = Str::replace('{{MODEL::NAMESPACE}}', $this->namespace, $stub);
         $stub = Str::replace('{{MODEL::CLASS}}', $this->name, $stub);
         $stub = Str::replace('{{MODEL::TABLE}}', $table, $stub);
-        $stub = Str::replace('{{MODEL::FOREIGNKEY}}', Str::singular($table).'_id', $stub);
+        $stub = Str::replace('{{MODEL::FOREIGN_KEY}}', Str::singular($table).'_id', $stub);
 
         $this->filesystem->write("Models/$this->namespace/$this->name.php", $stub);
 

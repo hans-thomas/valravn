@@ -2,17 +2,22 @@
 
     namespace App\Models\{{MODEL::NAMESPACE}};
 
-	use Hans\Valravn\Models\Contracts\EntityClasses;
-	use Hans\Valravn\Models\Contracts\Filterable;
-	use Hans\Valravn\Models\Contracts\Loadable;
-	use Hans\Valravn\Models\Contracts\ResourceCollectionable;
-	use Hans\Valravn\Models\Traits\Paginatable;
-	use Hans\Valravn\Models\VModel;
-	use Hans\Valravn\Repositories\Contracts\Repository;
-	use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-	use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
-	use Hans\Valravn\Services\Contracts\Service;
-	use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use App\Http\Resources\V1\{{MODEL::NAMESPACE}}\{{MODEL::CLASS}}\{{MODEL::CLASS}}Collection;
+    use App\Http\Resources\V1\{{MODEL::NAMESPACE}}\{{MODEL::CLASS}}\{{MODEL::CLASS}}Resource;
+    use App\Repositories\Contracts\{{MODEL::NAMESPACE}}\I{{MODEL::CLASS}}Repository;
+    use App\Services\{{MODEL::NAMESPACE}}\{{MODEL::CLASS}}\{{MODEL::CLASS}}RelationsService;
+    use App\Services\{{MODEL::NAMESPACE}}\{{MODEL::CLASS}}\{{MODEL::CLASS}}Service;
+    use Hans\Valravn\Models\Contracts\EntityClasses;
+    use Hans\Valravn\Models\Contracts\Filterable;
+    use Hans\Valravn\Models\Contracts\Loadable;
+    use Hans\Valravn\Models\Contracts\ResourceCollectionable;
+    use Hans\Valravn\Models\Traits\Paginatable;
+    use Hans\Valravn\Models\VModel;
+    use Hans\Valravn\Repositories\Contracts\Repository;
+    use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+    use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+    use Hans\Valravn\Services\Contracts\Service;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
 
     class {{MODEL::CLASS}} extends VModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
         use HasFactory;
@@ -22,38 +27,40 @@
         protected $fillable = [ ];
 
         public function getForeignKey() {
-            return '{{MODEL::FOREIGNKEY}}';
+            return '{{MODEL::FOREIGN_KEY}}';
         }
 
         public function getRepository(): Repository {
-            // TODO: Implement getRepository() method.
+            return app(I{{MODEL::CLASS}}Repository::class);
         }
 
         public function getService(): Service {
-            // TODO: Implement getService() method.
+            return app({{MODEL::CLASS}}Service::class);
         }
 
         public function getRelationsService(): Service {
-            // TODO: Implement getRelationsService() method.
+            return app({{MODEL::CLASS}}RelationsService::class);
         }
 
         public function getFilterableAttributes(): array {
-            // TODO: Implement getFilterableAttributes() method.
+            return [
+                'id',
+            ];
         }
 
         public function getLoadableRelations(): array {
-            // TODO: Implement getLoadableRelations() method.
+            return [];
         }
 
         public static function getResource(): VJsonResource {
-            // TODO: Implement getResource() method.
+            return {{MODEL::CLASS}}Resource::make(...func_get_args());
         }
 
         public function toResource(): VJsonResource {
-            // TODO: Implement toResource() method.
+            return self::getResource($this, ...func_get_args());
         }
 
         public static function getResourceCollection(): VResourceCollection {
-            // TODO: Implement getResourceCollection() method.
+            return {{MODEL::CLASS}}Collection::make(...func_get_args());
         }
     }
