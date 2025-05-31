@@ -10,7 +10,6 @@ use Hans\Valravn\Http\Requests\Contracts\Relations\MorphedByManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\MorphToRequest;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use League\Flysystem\FilesystemException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Throwable;
