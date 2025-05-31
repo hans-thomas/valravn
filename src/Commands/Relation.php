@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Commands;
 
+use Hans\Valravn\Commands\Services\MigrationService;
 use Hans\Valravn\Commands\Services\RelationService;
 use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 use Hans\Valravn\Http\Requests\Contracts\Relations\HasManyRequest;
@@ -122,12 +123,12 @@ class Relation extends Command
                 $this->newLine();
 
                 if ($this->option('with-pivot') && !$this->option('has-many')) {
-                    Artisan::call('valravn:pivot', [
-                        'namespace'         => $this->argument('namespace'),
-                        'name'              => $this->argument('name'),
-                        'related-namespace' => $this->argument('related-namespace'),
-                        'related-name'      => $this->argument('related-name'),
-                    ]);
+                    $migrationService = new MigrationService($this->argument('namespace'), $this->argument('name'));
+                    if ($migrationService->createPivot($this->argument('related-namespace'), $this->argument('related-name'))) {
+                        $this->info('Pivot migration file created.');
+                    } else {
+                        $this->error('Pivot migration file exists or could not be created.');
+                    }
                 }
                 $progress->advance();
                 $this->newLine();
