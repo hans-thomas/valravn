@@ -2,6 +2,7 @@
 
 namespace Hans\Valravn\Tests\Feature\Commands;
 
+use Hans\Valravn\Commands\Services\MigrationService;
 use Hans\Valravn\Commands\Services\ModelService;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
@@ -102,7 +103,8 @@ class MigrationsTest extends TestCase
 
         self::assertFileDoesNotExist($pivot);
 
-        Artisan::call('valravn:pivot blog posts core category --no-interaction');
+        $service = new MigrationService('blog','post');
+        $service->createPivot('core', 'category');
 
         $this->artisan('valravn:pivot blog posts core category')
             ->doesntExpectOutput('Pivot migration file created.')
