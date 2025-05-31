@@ -20,7 +20,7 @@ class MigrationsTest extends TestCase
     protected function tearDown(): void
     {
         $this->cleanUp([
-            base_path("database/migrations/Blog/"),
+            base_path('database/migrations/Blog/'),
             app_path('Http/Requests/V1/Blog/Post/'),
         ]);
 
@@ -78,7 +78,7 @@ class MigrationsTest extends TestCase
         $this->artisan('valravn:pivot blog posts core category')
             ->expectsOutput('Pivot migration file created.')
             ->doesntExpectOutput('Pivot migration file exists or could not be created.')
-            ->expectsQuestion('Should create request for relationship?',false)
+            ->expectsQuestion('Should create request for relationship?', false)
             ->assertSuccessful();
 
         self::assertFileExists($pivot);
@@ -107,7 +107,7 @@ class MigrationsTest extends TestCase
         $this->artisan('valravn:pivot blog posts core category')
             ->doesntExpectOutput('Pivot migration file created.')
             ->expectsOutput('Pivot migration file exists or could not be created.')
-            ->expectsQuestion('Should create request for relationship?',false)
+            ->expectsQuestion('Should create request for relationship?', false)
             ->assertSuccessful();
 
         self::assertFileExists($pivot);
@@ -123,7 +123,7 @@ class MigrationsTest extends TestCase
         $this->artisan('valravn:pivot blog posts core category')
             ->expectsOutput('Pivot migration file created.')
             ->doesntExpectOutput('Pivot migration file exists or could not be created.')
-            ->expectsQuestion('Should create request for relationship?',true)
+            ->expectsQuestion('Should create request for relationship?', true)
             ->assertSuccessful();
 
         self::assertFileExists($file);
@@ -139,5 +139,4 @@ class MigrationsTest extends TestCase
 
         self::assertEquals($relationStub, file_get_contents($file));
     }
-
 }

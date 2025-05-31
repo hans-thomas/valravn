@@ -60,9 +60,9 @@ class Pivot extends Command
                     $this->argument('related-name')
                 );
                 if ($relationService->creatOneToMany(BelongsToManyRequest::class)) {
-                    $this->info("Relation belongsToMany request class created.");
+                    $this->info('Relation belongsToMany request class created.');
                 } else {
-                    $this->error("Relation belongsToMany request class exists or could not be created.");
+                    $this->error('Relation belongsToMany request class exists or could not be created.');
                 }
             }
             $progress->advance();
