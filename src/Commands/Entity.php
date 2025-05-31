@@ -130,6 +130,7 @@ class Entity extends Command
                 $this->error('Service classes are exist or could not be created.');
             }
             $progress->advance();
+            $this->newLine();
         });
 
         return self::SUCCESS;
