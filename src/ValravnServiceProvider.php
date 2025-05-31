@@ -217,7 +217,7 @@ class ValravnServiceProvider extends ServiceProvider
 
                 Route::prefix("api/$name")
                      ->name("$name.")
-                     ->middleware('api')
+                     ->middleware(valravn_config('middlewares'))
                      ->group($file->getRealPath());
             }
         }
