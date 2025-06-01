@@ -59,6 +59,7 @@ class Repository extends Command
             $repositoryProvider = app_path('Providers/RepositoryServiceProvider.php');
             if (!file_exists($repositoryProvider)) {
                 $this->warn('Could not find the repository provider class. Don\'t forget to register the repository class.');
+
                 return;
             }
 
@@ -66,9 +67,9 @@ class Repository extends Command
             $repositoryProviderContent = file_get_contents($repositoryProvider);
 
             // Register binding
-            preg_match_all('/\$this->app->(bind|singleton)\([a-zA-Z:,\n ]*\);/m',$repositoryProviderContent, $matches);
+            preg_match_all('/\$this->app->(bind|singleton)\([a-zA-Z:,\n ]*\);/m', $repositoryProviderContent, $matches);
             if (empty($matches[0])) {
-                preg_match_all('/public function register\(\) \{[\n \/a-zA-Z]*/m',$repositoryProviderContent, $matches);
+                preg_match_all('/public function register\(\) \{[\n \/a-zA-Z]*/m', $repositoryProviderContent, $matches);
             }
 
             $lastBind = array_pop($matches[0]);
@@ -80,10 +81,10 @@ class Repository extends Command
             $repositoryProviderContent = str_replace($lastBind, $newBind, $repositoryProviderContent);
 
             // Import classes
-            preg_match_all('/use[ a-zA-Z\\\]+;/m',$repositoryProviderContent, $matches);
+            preg_match_all('/use[ a-zA-Z\\\]+;/m', $repositoryProviderContent, $matches);
             if (empty($matches[0])) {
-                preg_match_all('/namespace [ a-zA-Z\\\]+;/m',$repositoryProviderContent, $matches);
-                $matches[0][0] .=PHP_EOL;
+                preg_match_all('/namespace [ a-zA-Z\\\]+;/m', $repositoryProviderContent, $matches);
+                $matches[0][0] .= PHP_EOL;
             }
 
             $lastImport = array_pop($matches[0]);
