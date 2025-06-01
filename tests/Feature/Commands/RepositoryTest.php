@@ -7,7 +7,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
-
     protected function tearDown(): void
     {
         $this->cleanUp([
@@ -88,8 +87,8 @@ class RepositoryTest extends TestCase
 
         self::assertFileExists($provider);
 
-        self::assertStringNotContainsString('use App\Repositories\Contracts\Blog\IPostRepository;',file_get_contents($provider));
-        self::assertStringNotContainsString('use App\Repositories\Blog\PostRepository;',file_get_contents($provider));
+        self::assertStringNotContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
+        self::assertStringNotContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
 
         self::assertStringNotContainsString(
             '$this->app->bind(IPostRepository, PostRepository::class);',
@@ -101,8 +100,8 @@ class RepositoryTest extends TestCase
              ->expectsOutput('Repository class created.')
              ->assertSuccessful();
 
-        self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;',file_get_contents($provider));
-        self::assertStringContainsString('use App\Repositories\Blog\PostRepository;',file_get_contents($provider));
+        self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
+        self::assertStringContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
 
         self::assertStringContainsString(
             '$this->app->bind(IPostRepository::class, PostRepository::class);',
@@ -133,10 +132,10 @@ class RepositoryTest extends TestCase
         $providerContent = str_replace('use Illuminate\Support\ServiceProvider;', '', $providerContent);
         file_put_contents($provider, $providerContent);
 
-        self::assertStringNotContainsString('use',file_get_contents($provider));
+        self::assertStringNotContainsString('use', file_get_contents($provider));
 
-        self::assertStringNotContainsString('use App\Repositories\Contracts\Blog\IPostRepository;',file_get_contents($provider));
-        self::assertStringNotContainsString('use App\Repositories\Blog\PostRepository;',file_get_contents($provider));
+        self::assertStringNotContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
+        self::assertStringNotContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
 
         self::assertStringNotContainsString(
             '$this->app->bind(IPostRepository, PostRepository::class);',
@@ -148,8 +147,8 @@ class RepositoryTest extends TestCase
              ->expectsOutput('Repository class created.')
              ->assertSuccessful();
 
-        self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;',file_get_contents($provider));
-        self::assertStringContainsString('use App\Repositories\Blog\PostRepository;',file_get_contents($provider));
+        self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
+        self::assertStringContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
 
         self::assertStringContainsString(
             '$this->app->bind(IPostRepository::class, PostRepository::class);',
