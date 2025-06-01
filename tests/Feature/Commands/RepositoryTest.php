@@ -10,6 +10,7 @@ class RepositoryTest extends TestCase
     protected function tearDown(): void
     {
         $this->cleanUp([
+            config_path('valravn.php'),
             app_path('Providers/RepositoryServiceProvider.php'),
         ]);
 
