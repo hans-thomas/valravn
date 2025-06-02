@@ -14,7 +14,7 @@ it's same as `JsonResource` class on laravel. to start using this, first you
 need to create resource class which should see something like this.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class SampleResource extends VJsonResource {
@@ -42,7 +42,7 @@ the front-end dev.
 The resource collection class is the same as `ValravnJsonResource`.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
 class SampleCollection extends VResourceCollection {
@@ -296,7 +296,7 @@ class ExampleIncludes extends Includes {
     return $model->example();
   }
 
-  public function toResource(): ValravnJsonResource {
+  public function toResource(): VJsonResource {
     return ExampleResource::make( $this->getBuilder()->first() );
   }
   
