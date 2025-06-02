@@ -357,8 +357,8 @@ VRouter::apiResource( 'posts' , PostCrudController::class )
             function( ActionsRegisterer $actions ) {
                 $actions->get( 'markedAsReviewNeeded' );
                 $actions->withId()->get( 'makeDraft' );
-                $actions->withId()->parameters( 'user' )->get( 'setUserToReview' );
-                $actions->withId()->parameters( [ 'reviewer' => 'user' ] )->get( 'setUserToSpellCheck' );
+                $actions->withId()->withParameters( 'user' )->get( 'setUserToReview' );
+                $actions->withId()->withParameters( [ 'reviewer' => 'user' ] )->get( 'setUserToSpellCheck' );
             }
         )
 ```
@@ -371,7 +371,7 @@ register `domain/api/blog/posts/-actions/{post}/make-draft` path which routes
 to `makeDraft` method on related controller. the `makeDraft` method receives a
 post model object.
 
-In third example, we used `parameters` method which adds more parameter(s) to
+In third example, we used `withParameters` method which adds more parameter(s) to
 our path. if the parameter passes as a string like `user`, it will
 create `domain/api/blog/posts/-actions/{post}/setUserToReview/{user}` path and
 as always routes it to `setUserToReview` method on related controller.
