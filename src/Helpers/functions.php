@@ -61,7 +61,7 @@ if (!function_exists('resolveRelatedIdToModel')) {
     }
 }
 
-if (!function_exists('resolveMorphableToResource')) {
+if (!function_exists('resolveMorphableToVResource')) {
     /**
      * Resolve given Model to a resource class.
      *
@@ -69,10 +69,10 @@ if (!function_exists('resolveMorphableToResource')) {
      *
      * @return JsonResource
      */
-    function resolveMorphableToResource(?Model $morphable): JsonResource
+    function resolveMorphableToVResource(?Model $morphable): JsonResource
     {
         if ($morphable instanceof ResourceCollectionable) {
-            return $morphable->toResource();
+            return $morphable->toVResource();
         }
 
         return JsonResource::make($morphable);
