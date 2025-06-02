@@ -37,7 +37,7 @@ class User extends Authenticatable implements ResourceCollectionable
      *
      * @return VJsonResource
      */
-    public static function getResource(): VJsonResource
+    public static function getVResource(): VJsonResource
     {
         return UserResource::make(...func_get_args());
     }
@@ -47,9 +47,9 @@ class User extends Authenticatable implements ResourceCollectionable
      *
      * @return VJsonResource
      */
-    public function toResource(): VJsonResource
+    public function toVResource(): VJsonResource
     {
-        return self::getResource($this, ...func_get_args());
+        return self::getVResource($this, ...func_get_args());
     }
 
     /**
@@ -57,7 +57,7 @@ class User extends Authenticatable implements ResourceCollectionable
      *
      * @return VResourceCollection
      */
-    public static function getResourceCollection(): VResourceCollection
+    public static function getVCollection(): VResourceCollection
     {
         return UserCollection::make(...func_get_args());
     }

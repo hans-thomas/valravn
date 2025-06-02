@@ -130,7 +130,7 @@ class FunctionsTest extends TestCase
     #[Test]
     public function resolveMorphableToResource(): void
     {
-        $resource = resolveMorphableToResource($this->post);
+        $resource = resolveMorphableToVResource($this->post);
 
         self::assertInstanceOf(
             JsonResource::class,
@@ -141,7 +141,7 @@ class FunctionsTest extends TestCase
     #[Test]
     public function resolveMorphableToResourceWithResourceCollectionableImplemented(): void
     {
-        $resource = resolveMorphableToResource($this->user);
+        $resource = resolveMorphableToVResource($this->user);
 
         self::assertInstanceOf(
             UserResource::class,

@@ -31,7 +31,7 @@ class InteractsWithRelationsTest extends TestCase
 
         self::assertArrayHasKey(
             'categories',
-            $this->post->toResource()->toResponse(request())->getData(true)['data']
+            $this->post->toVResource()->toResponse(request())->getData(true)['data']
         );
     }
 
@@ -43,7 +43,7 @@ class InteractsWithRelationsTest extends TestCase
 
         self::assertArrayNotHasKey(
             'categories',
-            $this->post->toResource()->toResponse(request())->getData(true)['data']
+            $this->post->toVResource()->toResponse(request())->getData(true)['data']
         );
     }
 }

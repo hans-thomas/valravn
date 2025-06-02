@@ -23,7 +23,7 @@ class PostIncludes extends Includes
     /**
      * @return VJsonResource
      */
-    public function toResource(): VJsonResource
+    public function toVResource(): VJsonResource
     {
         return PostResource::make($this->getBuilder()->first());
     }

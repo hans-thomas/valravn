@@ -23,7 +23,7 @@ class CategoriesIncludes extends Includes
     /**
      * @return VJsonResource
      */
-    public function toResource(): VJsonResource
+    public function toVResource(): VJsonResource
     {
         return CategoryCollection::make($this->getBuilder()->get());
     }
