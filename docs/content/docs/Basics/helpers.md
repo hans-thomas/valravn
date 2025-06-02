@@ -100,7 +100,7 @@ Valravn includes several global functions that you can use in your code.
 {{< /column >}}
 
 {{< column "method" >}}
-[resolveMorphableToResource](#resolvemorphabletoresource)
+[resolveMorphableToVResource](#resolvemorphabletovresource)
 {{< /column >}}
 
 {{< column "method" >}}
@@ -121,7 +121,7 @@ Return authenticated user or optional null.
 
 Resolve the given id to a related model.
 
-##### resolveMorphableToResource
+##### resolveMorphableToVResource
 
 Resolve given Model to a resource class.
 

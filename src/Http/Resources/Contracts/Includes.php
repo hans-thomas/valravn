@@ -49,7 +49,7 @@ abstract class Includes
      *
      * @return VJsonResource
      */
-    abstract public function toResource(): VJsonResource;
+    abstract public function toVResource(): VJsonResource;
 
     /**
      * Apply the custom logic and store in builder.

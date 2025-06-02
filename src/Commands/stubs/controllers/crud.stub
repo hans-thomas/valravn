@@ -26,7 +26,7 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @return {{CRUD::MODEL}}Collection
      */
     public function index(): {{CRUD::MODEL}}Collection {
-        return {{CRUD::MODEL}}::getResourceCollection( $this->service->all() );
+        return {{CRUD::MODEL}}::getVCollection( $this->service->all() );
     }
 
     /**
@@ -38,7 +38,7 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @throws Throwable
      */
     public function store( {{CRUD::MODEL}}StoreRequest $request ): {{CRUD::MODEL}}Resource {
-        return $this->service->create( $request->validated() )->toResource();
+        return $this->service->create( $request->validated() )->toVResource();
     }
 
     /**
@@ -49,7 +49,7 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @return {{CRUD::MODEL}}Resource
      */
     public function show( int|string ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
-        return $this->service->find( ${{CRUD::MODEL-lower}} )->toResource();
+        return $this->service->find( ${{CRUD::MODEL-lower}} )->toVResource();
     }
 
     /**
@@ -62,7 +62,7 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @throws Throwable
      */
     public function update( {{CRUD::MODEL}}UpdateRequest $request, {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
-        return $this->service->update( ${{CRUD::MODEL-lower}}, $request->validated() )->toResource();
+        return $this->service->update( ${{CRUD::MODEL-lower}}, $request->validated() )->toVResource();
     }
 
     /**
@@ -74,7 +74,7 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @throws Throwable
      */
     public function batchUpdate( {{CRUD::MODEL}}BatchUpdateRequest $request ): {{CRUD::MODEL}}Collection {
-        return {{CRUD::MODEL}}::getResourceCollection(
+        return {{CRUD::MODEL}}::getVCollection(
             $this->service->batchUpdate( BatchUpdateDto::make( $request->validated() ) )
         );
     }
@@ -88,6 +88,6 @@ class {{CRUD::MODEL}}CrudController extends Controller {
      * @throws Throwable
      */
     public function destroy( {{CRUD::MODEL}} ${{CRUD::MODEL-lower}} ): {{CRUD::MODEL}}Resource {
-        return $this->service->delete( ${{CRUD::MODEL-lower}} )->toResource();
+        return $this->service->delete( ${{CRUD::MODEL-lower}} )->toVResource();
     }
 }

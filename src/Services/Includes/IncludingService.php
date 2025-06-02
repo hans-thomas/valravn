@@ -134,9 +134,9 @@ class IncludingService
     {
         foreach ($this->resource->getRequestedIncludes() as $include => $actions) {
             $this->data[$this->getInstanceKey($include)] = app($include)->run($model)
-                                                                              ->registerActions($actions)
-                                                                              ->applyActions()
-                                                                              ->toResource();
+                                                                          ->registerActions($actions)
+                                                                          ->applyActions()
+                                                                          ->toVResource();
             if (key_exists($this->getInstanceKey($include), $this->resource->getNestedEagerLoads())) {
                 $this->data[$this->getInstanceKey($include)]
                     ->applyNestedEagerLoadsOnRelation(

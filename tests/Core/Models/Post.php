@@ -79,7 +79,7 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     /**
      * @inheritDoc
      */
-    public static function getResource(): VJsonResource
+    public static function getVResource(): VJsonResource
     {
         return PostResource::make(...func_get_args());
     }
@@ -87,15 +87,15 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     /**
      * @inheritDoc
      */
-    public function toResource(): VJsonResource
+    public function toVResource(): VJsonResource
     {
-        return self::getResource($this);
+        return self::getVResource($this);
     }
 
     /**
      * @inheritDoc
      */
-    public static function getResourceCollection(): VResourceCollection
+    public static function getVCollection(): VResourceCollection
     {
         return PostCollection::make(...func_get_args());
     }

@@ -12,19 +12,19 @@ interface ResourceCollectionable
      *
      * @return VJsonResource
      */
-    public static function getResource(): VJsonResource;
+    public static function getVResource(): VJsonResource;
 
     /**
      * Convert current instance to a related resource class.
      *
      * @return VJsonResource
      */
-    public function toResource(): VJsonResource;
+    public function toVResource(): VJsonResource;
 
     /**
      * Return related resource collection class.
      *
      * @return VResourceCollection
      */
-    public static function getResourceCollection(): VResourceCollection;
+    public static function getVCollection(): VResourceCollection;
 }

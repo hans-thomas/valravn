@@ -296,7 +296,7 @@ class ExampleIncludes extends Includes {
     return $model->example();
   }
 
-  public function toResource(): VJsonResource {
+  public function toVResource(): VJsonResource {
     return ExampleResource::make( $this->getBuilder()->first() );
   }
   

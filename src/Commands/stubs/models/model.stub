@@ -52,15 +52,15 @@
             return [];
         }
 
-        public static function getResource(): VJsonResource {
+        public static function getVResource(): VJsonResource {
             return {{MODEL::CLASS}}Resource::make(...func_get_args());
         }
 
-        public function toResource(): VJsonResource {
-            return self::getResource($this, ...func_get_args());
+        public function toVResource(): VJsonResource {
+            return self::getVResource($this, ...func_get_args());
         }
 
-        public static function getResourceCollection(): VResourceCollection {
+        public static function getVCollection(): VResourceCollection {
             return {{MODEL::CLASS}}Collection::make(...func_get_args());
         }
     }
