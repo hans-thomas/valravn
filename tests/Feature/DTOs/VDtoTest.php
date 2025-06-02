@@ -47,6 +47,23 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
+    public function makeOneItemWithNoWrapper(): void
+    {
+        $data = [
+            ['id' => 1],
+        ];
+
+        $result = SampleDto::make($data);
+
+        self::assertEquals(
+            [
+                ['id' => 1],
+            ],
+            $result->getData()->toArray()
+        );
+    }
+
+    #[Test]
     public function makeFromArray(): void
     {
         $data = [

@@ -10,7 +10,7 @@ abstract class VDto
 
     final public function __construct(array $data)
     {
-        if (count($data) > 1 && is_int(array_key_first($data))) {
+        if (count($data) >= 1 && is_int(array_key_first($data))) {
             $data = [static::getKeyName() => $data];
         }
 
