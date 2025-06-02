@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\User;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends VJsonResource

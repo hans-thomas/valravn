@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
-use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;

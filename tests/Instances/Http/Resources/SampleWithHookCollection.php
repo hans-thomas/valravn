@@ -2,8 +2,8 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+use Hans\Valravn\Http\Resources\VJsonResource;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

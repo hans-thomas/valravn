@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Category;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryResource extends VJsonResource

@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Resources;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class SampleWithCollectionDefaultExtractResource extends VJsonResource
