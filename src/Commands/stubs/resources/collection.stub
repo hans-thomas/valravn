@@ -3,7 +3,7 @@
     namespace App\Http\Resources\{{COLLECTION::VERSION}}\{{COLLECTION::NAMESPACE}}\{{COLLECTION::MODEL}};
 
     use Illuminate\Database\Eloquent\Model;
-    use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+    use Hans\Valravn\Http\Resources\VResourceCollection;
 
     class {{COLLECTION::MODEL}}Collection extends VResourceCollection {
 
