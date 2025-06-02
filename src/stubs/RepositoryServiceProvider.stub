@@ -12,7 +12,7 @@
          * @return void
          */
         public function register() {
-            // bind your repository contracts to your repository classes
+            //
         }
 
         /**

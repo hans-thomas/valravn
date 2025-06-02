@@ -46,18 +46,20 @@ class ActionsTest extends TestCase
             ->actions(
                 SampleActionsController::class,
                 function (ActionsRegisterer $actions) {
-                    $actions->withId()->parameters('related', 'something')->get('action-with-params');
+                    $actions->withId()->withParameters('related', ['something'=>'some_thing'])->get('action-with-params');
                     $actions->post('action-with-no-param');
                 }
             );
         $this->getJson(
-            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'something' => 3])
+            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
         )
              ->assertOk();
+
         $this->postJson(route('samples.actions.action-with-no-param'))->assertOk();
+
         self::assertEquals(
-            url('samples/-actions/1/action-with-params/2/3'),
-            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'something' => 3])
+            url('samples/-actions/1/action-with-params/2/something/3'),
+            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
         );
         self::assertEquals(
             url('samples/-actions/action-with-no-param'),

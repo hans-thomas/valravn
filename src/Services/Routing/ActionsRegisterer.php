@@ -25,7 +25,7 @@ class ActionsRegisterer
         return $this;
     }
 
-    public function parameters(...$parameters): self
+    public function withParameters(...$parameters): self
     {
         $this->parameters = $parameters;
 
