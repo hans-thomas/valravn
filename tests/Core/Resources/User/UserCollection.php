@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\User;
 
-use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 use Illuminate\Database\Eloquent\Model;
 
 class UserCollection extends VResourceCollection

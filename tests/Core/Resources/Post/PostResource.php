@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;

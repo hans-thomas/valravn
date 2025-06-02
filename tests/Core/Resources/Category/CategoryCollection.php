@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Category;
 
-use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 use Hans\Valravn\Tests\Instances\Http\Includes\PostsIncludes;
 use Illuminate\Database\Eloquent\Model;
 

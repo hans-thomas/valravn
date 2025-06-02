@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
 use Illuminate\Database\Eloquent\Model;
 
