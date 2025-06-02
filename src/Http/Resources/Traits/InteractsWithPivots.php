@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Http\Resources\Traits;
 
-use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
