@@ -76,8 +76,10 @@ if (!function_exists('vlog')) {
      *
      * @return void
      */
-    function vlog(Throwable|string $message, array $context = []): void
+    function vlog(Throwable|string $message, mixed $context = []): void
     {
+        $context = is_array($context) ? $context : [$context];
+
         $backtrace = debug_backtrace(limit: 2)[1];
         $location = $backtrace['class'].'::'.$backtrace['function'];
         $message = is_string($message) ? $message : $message->getMessage();
