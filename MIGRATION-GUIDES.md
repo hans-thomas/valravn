@@ -18,3 +18,5 @@ renamed to `getVCollection`.
 - Rename `Hans\Valravn\Services\Contracts\Routeing\Relations` contract to `Hans\Valravn\Services\Contracts\Routeing\VRelations`
 - Rename `Hans\Valravn\Repositories\Contracts\Repository` contract to `Hans\Valravn\Repositories\Contracts\VRepository`
 - Rename `Hans\Valravn\Http\Resources\Contracts\ResourceQuery` contract to `Hans\Valravn\Http\Resources\Contracts\VResourceQuery`
+- Rename `Hans\Valravn\Http\Resources\Contracts\Includes` contract to `Hans\Valravn\Http\Resources\Contracts\VIncludes`
+- Rename `Hans\Valravn\Http\Resources\Contracts\CollectionQuery` contract to `Hans\Valravn\Http\Resources\Contracts\VCollectionQuery`
