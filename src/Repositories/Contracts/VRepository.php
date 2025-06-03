@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
 
-abstract class Repository
+abstract class VRepository
 {
     /**
      * Authorization flag.
@@ -41,48 +41,6 @@ abstract class Repository
     abstract protected function getQueryBuilder(): Builder;
 
     /**
-     * Return model name using related builder instance.
-     *
-     * @return string
-     */
-    protected function getModelClassName(): string
-    {
-        return get_class($this->getQueryBuilder()->getModel());
-    }
-
-    /**
-     * Guess the ability to authorize.
-     *
-     * @return string
-     */
-    protected function guessAbility(): string
-    {
-        return debug_backtrace()[2]['function'];
-    }
-
-    /**
-     * Resolve model.
-     *
-     * @param Model|int $model
-     *
-     * @return Model
-     */
-    protected function resolveModel(Model|int $model): Model
-    {
-        return $model instanceof Model ? $model : $this->query()->findOrFail($model);
-    }
-
-    /**
-     * Determine should authorize or not.
-     *
-     * @return bool
-     */
-    protected function shouldAuthorize(): bool
-    {
-        return $this->authorization;
-    }
-
-    /**
      * Disable the authorization.
      *
      * @return $this
@@ -107,15 +65,15 @@ abstract class Repository
     }
 
     /**
-     * Call the closure if it should authorize.
+     * Apply a select statement to the current builder instance.
      *
-     * @throws AuthorizationException
+     * @return $this
      */
-    protected function ifShouldAuthorize(callable $callable): void
+    public function select(): self
     {
-        if ($this->shouldAuthorize()) {
-            $callable();
-        }
+        $this->builder = $this->query()->select(...func_get_args());
+
+        return $this;
     }
 
     /**
@@ -132,18 +90,6 @@ abstract class Repository
     }
 
     /**
-     * Apply a select statement to the current builder instance.
-     *
-     * @return $this
-     */
-    public function select(): self
-    {
-        $this->builder = $this->query()->select(...func_get_args());
-
-        return $this;
-    }
-
-    /**
      * Apply an eager load statement to the current builder instance.
      *
      * @return $this
@@ -153,42 +99,6 @@ abstract class Repository
         $this->builder = $this->query()->with(...func_get_args());
 
         return $this;
-    }
-
-    /**
-     * Authorize an action.
-     *
-     * @param null  $ability
-     * @param mixed ...$params
-     *
-     * @throws AuthorizationException
-     */
-    protected function authorize($ability = null, ...$params): void
-    {
-        if ($ability instanceof Model) {
-            $params[] = $ability;
-            $ability = $this->guessAbility();
-        }
-        if (count($params) == 0) {
-            $params = [$this->getModelClassName()];
-        }
-        if (is_null($ability)) {
-            $ability = $this->guessAbility();
-        }
-
-        $this->ifShouldAuthorize(static fn () => Gate::authorize($ability, $params));
-    }
-
-    /**
-     * Guess the action and authorize it.
-     *
-     * @param mixed ...$params
-     *
-     * @throws AuthorizationException
-     */
-    protected function authorizeThisAction(...$params): void
-    {
-        $this->authorize($this->guessAbility(), ...$params);
     }
 
     /**
@@ -240,24 +150,6 @@ abstract class Repository
     }
 
     /**
-     * Update Model using given data.
-     *
-     * @param Model|int $model
-     * @param array     $data
-     *
-     * @throws AuthorizationException
-     *
-     * @return bool
-     */
-    public function update(Model|int $model, array $data): bool
-    {
-        $model = $this->resolveModel($model);
-        $this->authorize($model);
-
-        return $model->update($data);
-    }
-
-    /**
      * Update many resources in one query.
      *
      * @param BatchUpdateDto $dto
@@ -278,12 +170,42 @@ abstract class Repository
     }
 
     /**
+     * Update Model using given data.
+     *
+     * @param Model|int $model
+     * @param array     $data
+     *
+     * @throws AuthorizationException
+     *
+     * @return bool
+     */
+    public function update(Model|int $model, array $data): bool
+    {
+        $model = $this->resolveModel($model);
+        $this->authorize($model);
+
+        return $model->update($data);
+    }
+
+    /**
+     * Resolve model.
+     *
+     * @param Model|int $model
+     *
+     * @return Model
+     */
+    protected function resolveModel(Model|int $model): Model
+    {
+        return $model instanceof Model ? $model : $this->query()->findOrFail($model);
+    }
+
+    /**
      * Delete a specific resource.
      *
      * @param Model|int $model
      *
-     * @throws VException
      * @throws AuthorizationException
+     * @throws VException
      *
      * @return bool
      */
@@ -313,7 +235,7 @@ abstract class Repository
      */
     protected function deleting(Model $model)
     {
-            //
+        //
     }
 
     /**
@@ -323,6 +245,84 @@ abstract class Repository
      */
     protected function deleted(Model $model)
     {
-            //
+        //
+    }
+
+    /**
+     * Guess the action and authorize it.
+     *
+     * @param mixed ...$params
+     *
+     * @throws AuthorizationException
+     */
+    protected function authorizeThisAction(...$params): void
+    {
+        $this->authorize($this->guessAbility(), ...$params);
+    }
+
+    /**
+     * Authorize an action.
+     *
+     * @param null  $ability
+     * @param mixed ...$params
+     *
+     * @throws AuthorizationException
+     */
+    protected function authorize($ability = null, ...$params): void
+    {
+        if ($ability instanceof Model) {
+            $params[] = $ability;
+            $ability = $this->guessAbility();
+        }
+        if (count($params) == 0) {
+            $params = [$this->getModelClassName()];
+        }
+        if (is_null($ability)) {
+            $ability = $this->guessAbility();
+        }
+
+        $this->ifShouldAuthorize(static fn () => Gate::authorize($ability, $params));
+    }
+
+    /**
+     * Guess the ability to authorize.
+     *
+     * @return string
+     */
+    protected function guessAbility(): string
+    {
+        return debug_backtrace()[2]['function'];
+    }
+
+    /**
+     * Return model name using related builder instance.
+     *
+     * @return string
+     */
+    protected function getModelClassName(): string
+    {
+        return get_class($this->getQueryBuilder()->getModel());
+    }
+
+    /**
+     * Call the closure if it should authorize.
+     *
+     * @throws AuthorizationException
+     */
+    protected function ifShouldAuthorize(callable $callable): void
+    {
+        if ($this->shouldAuthorize()) {
+            $callable();
+        }
+    }
+
+    /**
+     * Determine should authorize or not.
+     *
+     * @return bool
+     */
+    protected function shouldAuthorize(): bool
+    {
+        return $this->authorization;
     }
 }

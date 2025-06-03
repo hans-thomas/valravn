@@ -16,24 +16,13 @@ class OrderActionTest extends TestCase
     private Collection $posts;
     private IncludingService $service;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->posts = PostFactory::new()
-                                     ->count(3)
-                                     ->has(CategoryFactory::new()->count(5))
-                                     ->create();
-        $resource = PostResource::make($this->posts->first());
-        $this->service = app(IncludingService::class, ['resource' => $resource]);
-    }
-
     #[Test]
     public function apply(): void
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories:order(id)')
-                      ->applyRequestedIncludes($model)
-                      ->getIncludedData();
+            ->applyRequestedIncludes($model)
+            ->getIncludedData();
 
         self::assertEquals(
             [
@@ -48,8 +37,8 @@ class OrderActionTest extends TestCase
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories:order(id|desc)')
-                      ->applyRequestedIncludes($model)
-                      ->getIncludedData();
+            ->applyRequestedIncludes($model)
+            ->getIncludedData();
 
         self::assertEquals(
             [
@@ -64,8 +53,8 @@ class OrderActionTest extends TestCase
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories:order')
-                      ->applyRequestedIncludes($model)
-                      ->getIncludedData();
+            ->applyRequestedIncludes($model)
+            ->getIncludedData();
 
         self::assertEquals(
             [
@@ -73,5 +62,16 @@ class OrderActionTest extends TestCase
             ],
             $data
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->posts = PostFactory::new()
+            ->count(3)
+            ->has(CategoryFactory::new()->count(5))
+            ->create();
+        $resource = PostResource::make($this->posts->first());
+        $this->service = app(IncludingService::class, ['resource' => $resource]);
     }
 }

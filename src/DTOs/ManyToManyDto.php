@@ -9,6 +9,34 @@ use Illuminate\Support\Collection;
 class ManyToManyDto extends VDto
 {
     /**
+     * Add given values to the data.
+     *
+     * @param array $values
+     * @param bool  $force
+     *
+     * @return Collection
+     */
+    public function withValues(array $values, bool $force = false): Collection
+    {
+        $output = collect();
+        foreach ($this->data as $key => $value) {
+            if (is_array($value)) {
+                $output->put(
+                    $key,
+                    $force ?
+                        array_merge($this->data[$key], $values) :
+                        array_merge($values, $this->data[$key])
+                );
+            }
+            if (is_int($value)) {
+                $output->put($value, $values);
+            }
+        }
+
+        return $this->data = $output;
+    }
+
+    /**
      * Process the received data.
      *
      * @param array $data
@@ -40,33 +68,5 @@ class ManyToManyDto extends VDto
         }
 
         return collect($output)->reverse();
-    }
-
-    /**
-     * Add given values to the data.
-     *
-     * @param array $values
-     * @param bool  $force
-     *
-     * @return Collection
-     */
-    public function withValues(array $values, bool $force = false): Collection
-    {
-        $output = collect();
-        foreach ($this->data as $key => $value) {
-            if (is_array($value)) {
-                $output->put(
-                    $key,
-                    $force ?
-                        array_merge($this->data[$key], $values) :
-                        array_merge($values, $this->data[$key])
-                );
-            }
-            if (is_int($value)) {
-                $output->put($value, $values);
-            }
-        }
-
-        return $this->data = $output;
     }
 }

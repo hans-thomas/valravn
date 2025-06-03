@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Services\Caching;
 
 use BadMethodCallException;
-use Hans\Valravn\Services\Contracts\Service;
+use Hans\Valravn\Services\Contracts\VService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -21,9 +21,9 @@ class CachingService
     /**
      * Service instance that results should cache.
      *
-     * @var Service
+     * @var VService
      */
-    private Service $service;
+    private VService $service;
 
     /**
      * Default interval.
@@ -136,11 +136,11 @@ class CachingService
     /**
      * Set service instance to cache its result.
      *
-     * @param Service $service
+     * @param VService $service
      *
      * @return $this
      */
-    public function setService(Service $service): self
+    public function setService(VService $service): self
     {
         $this->service = $service;
 

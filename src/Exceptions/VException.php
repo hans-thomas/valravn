@@ -10,18 +10,17 @@ use Throwable;
 class VException extends Exception
 {
     /**
-     * A unique code for each error.
-     *
-     * @var int
-     */
-    private int $errorCode;
-
-    /**
      * A unique string acts as a namespace.
      *
      * @var string
      */
     protected string $errorCodePrefix;
+    /**
+     * A unique code for each error.
+     *
+     * @var int
+     */
+    private int $errorCode;
 
     /**
      * @param string         $message

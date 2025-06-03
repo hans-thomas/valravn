@@ -15,12 +15,6 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
 {
     private Post $post;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
-    }
-
     #[Test]
     public function resolveRelationsUsing(): void
     {
@@ -53,11 +47,11 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
             ],
             $this->resourceToJson(
                 PostResource::make($this->post)
-                            ->resolveRelationsUsing(
-                                [
-                                    'comments' => CategoryCollection::class,
-                                ]
-                            )
+                    ->resolveRelationsUsing(
+                        [
+                            'comments' => CategoryCollection::class,
+                        ]
+                    )
             )
         );
     }
@@ -93,12 +87,18 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
             ],
             $this->resourceToJson(
                 PostResource::make($this->post)
-                            ->skipRelationsForModel(
-                                [
-                                    Post::class => 'comments',
-                                ]
-                            )
+                    ->skipRelationsForModel(
+                        [
+                            Post::class => 'comments',
+                        ]
+                    )
             )
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

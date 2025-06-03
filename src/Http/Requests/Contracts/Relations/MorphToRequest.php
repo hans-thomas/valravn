@@ -8,13 +8,6 @@ use Illuminate\Validation\Rule;
 abstract class MorphToRequest extends RelationsRequest
 {
     /**
-     * Get Allowed entities for MorphTo relationship.
-     *
-     * @return array
-     */
-    abstract protected function entities(): array;
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -26,4 +19,11 @@ abstract class MorphToRequest extends RelationsRequest
             'related.entity' => ['required', 'string', Rule::in($this->entities())],
         ];
     }
+
+    /**
+     * Get Allowed entities for MorphTo relationship.
+     *
+     * @return array
+     */
+    abstract protected function entities(): array;
 }

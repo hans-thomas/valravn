@@ -5,7 +5,7 @@ namespace Hans\Valravn\Services\Contracts\Including;
 use Hans\Valravn\Models\Contracts\Filterable;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-abstract class Actions
+abstract class VActions
 {
     public function __construct(private Builder $builder)
     {

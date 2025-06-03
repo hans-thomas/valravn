@@ -22,18 +22,6 @@ if (!function_exists('user')) {
     }
 }
 
-if (!function_exists('generate_order')) {
-    /**
-     * Generate a random order for factories.
-     *
-     * @return float
-     */
-    function generate_order(): float
-    {
-        return rand(111111, 999999) / 1000;
-    }
-}
-
 if (!function_exists('resolveRelatedIdToModel')) {
     /**
      * Resolve the given id to a related model.
@@ -88,8 +76,10 @@ if (!function_exists('vlog')) {
      *
      * @return void
      */
-    function vlog(Throwable|string $message, array $context = []): void
+    function vlog(Throwable|string $message, mixed $context = []): void
     {
+        $context = is_array($context) ? $context : [$context];
+
         $backtrace = debug_backtrace(limit: 2)[1];
         $location = $backtrace['class'].'::'.$backtrace['function'];
         $message = is_string($message) ? $message : $message->getMessage();

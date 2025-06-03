@@ -29,16 +29,6 @@ abstract class CommandsService
     /**
      * @param string $path
      *
-     * @return string
-     */
-    protected function getStub(string $path): string
-    {
-        return file_get_contents(__DIR__."/../../stubs/$path");
-    }
-
-    /**
-     * @param string $path
-     *
      * @return Filesystem
      */
     protected function createFilesystemFromPath(string $path): Filesystem
@@ -47,25 +37,6 @@ abstract class CommandsService
             'root'       => $path,
             'visibility' => Visibility::PUBLIC,
         ]);
-    }
-
-    /**
-     * @param string $file
-     * @param string $stub
-     *
-     * @throws FilesystemException
-     *
-     * @return bool
-     */
-    protected function writeTo(string $file, string $stub): bool
-    {
-        if ($this->filesystem->exists($file)) {
-            return false;
-        }
-
-        $this->filesystem->write($file, $stub);
-
-        return true;
     }
 
     /**
@@ -90,5 +61,34 @@ abstract class CommandsService
     public function getVersion(): string
     {
         return $this->version;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function getStub(string $path): string
+    {
+        return file_get_contents(__DIR__."/../../stubs/$path");
+    }
+
+    /**
+     * @param string $file
+     * @param string $stub
+     *
+     * @throws FilesystemException
+     *
+     * @return bool
+     */
+    protected function writeTo(string $file, string $stub): bool
+    {
+        if ($this->filesystem->exists($file)) {
+            return false;
+        }
+
+        $this->filesystem->write($file, $stub);
+
+        return true;
     }
 }

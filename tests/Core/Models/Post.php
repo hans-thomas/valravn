@@ -16,7 +16,6 @@ use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -30,15 +29,12 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
         'content',
     ];
 
-    public function comments(): HasMany
+    /**
+     * @inheritDoc
+     */
+    public static function getVCollection(): VResourceCollection
     {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function categories(): BelongsToMany
-    {
-        return $this->belongsToMany(Category::class)
-                    ->withPivot('order');
+        return PostCollection::make(...func_get_args());
     }
 
     /**
@@ -49,6 +45,17 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     protected static function newFactory()
     {
         return PostFactory::new();
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class)
+            ->withPivot('order');
     }
 
     /**
@@ -79,14 +86,6 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     /**
      * @inheritDoc
      */
-    public static function getVResource(): VJsonResource
-    {
-        return PostResource::make(...func_get_args());
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function toVResource(): VJsonResource
     {
         return self::getVResource($this);
@@ -95,8 +94,8 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     /**
      * @inheritDoc
      */
-    public static function getVCollection(): VResourceCollection
+    public static function getVResource(): VJsonResource
     {
-        return PostCollection::make(...func_get_args());
+        return PostResource::make(...func_get_args());
     }
 }

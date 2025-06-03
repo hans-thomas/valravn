@@ -2,7 +2,6 @@
 
 namespace Hans\Valravn\Services\Includes;
 
-use Hans\Valravn\Http\Resources\Contracts\Includes;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -17,6 +16,23 @@ class IncludingService
     {
         $this->resource = $resource;
         $this->registeredActions = valravn_config('actions');
+    }
+
+    /**
+     * If true, then register the includes.
+     *
+     * @param bool              $condition
+     * @param string|array|null $includes
+     *
+     * @return $this
+     */
+    public function registerIncludesUsingQueryStringWhen(bool $condition, string|array|null $includes): self
+    {
+        if ($condition) {
+            $this->registerIncludesUsingQueryString($includes);
+        }
+
+        return $this;
     }
 
     /**
@@ -56,23 +72,6 @@ class IncludingService
     }
 
     /**
-     * If true, then register the includes.
-     *
-     * @param bool              $condition
-     * @param string|array|null $includes
-     *
-     * @return $this
-     */
-    public function registerIncludesUsingQueryStringWhen(bool $condition, string|array|null $includes): self
-    {
-        if ($condition) {
-            $this->registerIncludesUsingQueryString($includes);
-        }
-
-        return $this;
-    }
-
-    /**
      * Parse the given include and make it ready to apply.
      *
      * @param string $include
@@ -93,25 +92,25 @@ class IncludingService
 
         // nested data
         $nested = Str::of($include)
-                               ->substr(Str::of($include)->before('.')->length())
-                               ->after('.')
-                               ->toString();
+            ->substr(Str::of($include)->before('.')->length())
+            ->after('.')
+            ->toString();
         $data['nested'] = $nested;
 
         // actions data
         $filters = Str::of($include)
-                      ->replace("$relation.", '')
-                      ->replace($data['nested'], '')
-                      ->before('.')
-                      ->explode(':');
+            ->replace("$relation.", '')
+            ->replace($data['nested'], '')
+            ->before('.')
+            ->explode(':');
         foreach ($filters as $filter) {
             $action = Str::before($filter, '(');
             $params = Str::of($filter)
-                         ->substr(strlen($action))
-                         ->before('.')
-                         ->trim('()')
-                         ->explode('|')
-                         ->toArray();
+                ->substr(strlen($action))
+                ->before('.')
+                ->trim('()')
+                ->explode('|')
+                ->toArray();
 
             if (!key_exists($action, $this->registeredActions)) {
                 continue;
@@ -121,6 +120,16 @@ class IncludingService
         }
 
         return $data;
+    }
+
+    /**
+     * Get the available includes list from resource instance.
+     *
+     * @return array
+     */
+    protected function getAvailableIncludes(): array
+    {
+        return $this->resource->getAvailableVIncludes();
     }
 
     /**
@@ -134,9 +143,9 @@ class IncludingService
     {
         foreach ($this->resource->getRequestedIncludes() as $include => $actions) {
             $this->data[$this->getInstanceKey($include)] = app($include)->run($model)
-                                                                          ->registerActions($actions)
-                                                                          ->applyActions()
-                                                                          ->toVResource();
+                ->registerActions($actions)
+                ->applyActions()
+                ->toVResource();
             if (key_exists($this->getInstanceKey($include), $this->resource->getNestedEagerLoads())) {
                 $this->data[$this->getInstanceKey($include)]
                     ->applyNestedEagerLoadsOnRelation(
@@ -146,16 +155,6 @@ class IncludingService
         }
 
         return $this;
-    }
-
-    /**
-     * Get the available includes list from resource instance.
-     *
-     * @return array
-     */
-    protected function getAvailableIncludes(): array
-    {
-        return $this->resource->getAvailableIncludes();
     }
 
     /**
@@ -173,16 +172,6 @@ class IncludingService
     }
 
     /**
-     * Return Included data.
-     *
-     * @return array
-     */
-    public function getIncludedData(): array
-    {
-        return $this->data;
-    }
-
-    /**
      * Will merge included data to the given array.
      *
      * @param array $data
@@ -192,6 +181,16 @@ class IncludingService
     public function mergeIncludedDataTo(array &$data): void
     {
         $data = array_merge($data, $this->getIncludedData());
+    }
+
+    /**
+     * Return Included data.
+     *
+     * @return array
+     */
+    public function getIncludedData(): array
+    {
+        return $this->data;
     }
 
     /**

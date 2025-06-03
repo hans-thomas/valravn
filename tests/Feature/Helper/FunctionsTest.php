@@ -4,7 +4,9 @@ namespace Hans\Valravn\Tests\Feature\Helper;
 
 use Hans\Valravn\Exceptions\Package\InvalidEntityException;
 use Hans\Valravn\Exceptions\VException;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Hans\Valravn\InstallCommand;
+use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -22,32 +24,6 @@ class FunctionsTest extends TestCase
     private User $user;
     private Post $post;
     private string $date;
-
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = UserFactory::new()->create();
-        $this->post = PostFactory::new()->create();
-        $this->date = now()->format('Y-m-d');
-        config()->set('logging.channels.valravn', [
-            'driver'               => 'daily',
-            'path'                 => storage_path('logs/valravn.log'),
-            'level'                => 'debug',
-            'days'                 => 1,
-            'replace_placeholders' => true,
-        ]);
-    }
-
-    protected function tearDown(): void
-    {
-        File::delete(storage_path("logs/valravn-$this->date.log"));
-
-        parent::tearDown();
-    }
 
     #[Test]
     public function user(): void
@@ -73,12 +49,6 @@ class FunctionsTest extends TestCase
         );
     }
 
-    #[Test]
-    public function generate_order(): void
-    {
-        self::assertIsFloat(generate_order());
-    }
-
     /**
      * @test
      *
@@ -99,13 +69,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws VException
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
         $this->expectExceptionObject(new InvalidEntityException($entity = InstallCommand::class));
@@ -113,13 +77,7 @@ class FunctionsTest extends TestCase
         resolveRelatedIdToModel(1, $entity);
     }
 
-    /**
-     * @test
-     *
-     * @throws VException
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveRelatedIdToModelWithInvalidId(): void
     {
         $model = resolveRelatedIdToModel(9999, Post::class);
@@ -128,9 +86,20 @@ class FunctionsTest extends TestCase
     }
 
     #[Test]
-    public function resolveMorphableToResource(): void
+    public function resolveMorphableToVResource(): void
     {
         $resource = resolveMorphableToVResource($this->post);
+
+        self::assertInstanceOf(
+            VJsonResource::class,
+            $resource
+        );
+    }
+
+    #[Test]
+    public function resolveMorphableToResource(): void
+    {
+        $resource = resolveMorphableToVResource(CommentFactory::new()->for($this->post)->create());
 
         self::assertInstanceOf(
             JsonResource::class,
@@ -139,7 +108,7 @@ class FunctionsTest extends TestCase
     }
 
     #[Test]
-    public function resolveMorphableToResourceWithResourceCollectionableImplemented(): void
+    public function resolveMorphableToVResourceWithResourceCollectionableImplemented(): void
     {
         $resource = resolveMorphableToVResource($this->user);
 
@@ -216,5 +185,31 @@ class FunctionsTest extends TestCase
             $expected,
             $actual
         );
+    }
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = UserFactory::new()->create();
+        $this->post = PostFactory::new()->create();
+        $this->date = now()->format('Y-m-d');
+        config()->set('logging.channels.valravn', [
+            'driver'               => 'daily',
+            'path'                 => storage_path('logs/valravn.log'),
+            'level'                => 'debug',
+            'days'                 => 1,
+            'replace_placeholders' => true,
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        File::delete(storage_path("logs/valravn-$this->date.log"));
+
+        parent::tearDown();
     }
 }

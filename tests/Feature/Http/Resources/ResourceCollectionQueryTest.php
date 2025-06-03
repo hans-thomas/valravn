@@ -15,24 +15,17 @@ class ResourceCollectionQueryTest extends TestCase
 {
     private Collection $posts;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->posts = PostFactory::new()->count(3)->has(CommentFactory::new()->count(5))->create();
-    }
-
     #[Test]
     public function collection(): void
     {
         $resource = PostCollection::make($this->posts)
-                                  ->skipRelationsForModel([Post::class => 'comments'])
-                                  ->withAllCommentsQuery();
+            ->skipRelationsForModel([Post::class => 'comments'])
+            ->withAllCommentsQuery();
         $comments = $this->posts->map(fn (Post $post) => $post->comments)->flatten();
 
         self::assertEquals(
             [
-                'data'         => $this->posts->map(
+                'data' => $this->posts->map(
                     fn (Post $post) => [
                         'type'    => 'posts',
                         'id'      => $post->id,
@@ -48,7 +41,7 @@ class ResourceCollectionQueryTest extends TestCase
                         'content' => $comment->content,
                     ]
                 )
-                             ->toArray(),
+                    ->toArray(),
             ],
             $this->resourceToJson($resource)
         );
@@ -58,7 +51,7 @@ class ResourceCollectionQueryTest extends TestCase
     public function includesOnCollectionClassThroughApi(): void
     {
         $content = $this->get('/includes/posts?includes=comments')
-                        ->json();
+            ->json();
         self::assertEquals(
             [
                 'data' => $this->posts->map(
@@ -78,7 +71,7 @@ class ResourceCollectionQueryTest extends TestCase
                             ->toArray(),
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $content
@@ -89,7 +82,7 @@ class ResourceCollectionQueryTest extends TestCase
     public function queriesThroughApi(): void
     {
         $content = $this->get('/queries/posts?with_first_comment')
-                        ->json();
+            ->json();
 
         self::assertEquals(
             [
@@ -106,7 +99,7 @@ class ResourceCollectionQueryTest extends TestCase
                         ],
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $content
@@ -133,10 +126,17 @@ class ResourceCollectionQueryTest extends TestCase
                         ],
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $this->resourceToJson($resource)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->posts = PostFactory::new()->count(3)->has(CommentFactory::new()->count(5))->create();
     }
 }

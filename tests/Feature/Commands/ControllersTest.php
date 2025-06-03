@@ -46,26 +46,26 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($actions);
 
         $this->artisan('valravn:controllers blog posts')
-             ->expectsOutput('Controller classes created.')
-             ->doesntExpectOutput('Some controller classes are exists or could not be created.')
-             ->expectsConfirmation('Should create requests?')
-             ->doesntExpectOutput('Request classes created.')
-             ->doesntExpectOutput('Some request classes are exists or could not be created.')
-             ->expectsConfirmation('Should create resources?')
-             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->doesntExpectOutput('Some Resource and ResourceCollection classes are exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Controller classes created.')
+            ->doesntExpectOutput('Some controller classes are exists or could not be created.')
+            ->expectsConfirmation('Should create requests?')
+            ->doesntExpectOutput('Request classes created.')
+            ->doesntExpectOutput('Some request classes are exists or could not be created.')
+            ->expectsConfirmation('Should create resources?')
+            ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+            ->doesntExpectOutput('Some Resource and ResourceCollection classes are exists or could not be created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:controllers blog posts')
-             ->doesntExpectOutput('Controller classes created.')
-             ->expectsOutput('Some controller classes are exists or could not be created.')
-             ->expectsConfirmation('Should create requests?')
-             ->doesntExpectOutput('Request classes created.')
-             ->doesntExpectOutput('Some request classes are exists or could not be created.')
-             ->expectsConfirmation('Should create resources?')
-             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->doesntExpectOutput('Some Resource and ResourceCollection classes are exists or could not be created.')
-             ->assertSuccessful();
+            ->doesntExpectOutput('Controller classes created.')
+            ->expectsOutput('Some controller classes are exists or could not be created.')
+            ->expectsConfirmation('Should create requests?')
+            ->doesntExpectOutput('Request classes created.')
+            ->doesntExpectOutput('Some request classes are exists or could not be created.')
+            ->expectsConfirmation('Should create resources?')
+            ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+            ->doesntExpectOutput('Some Resource and ResourceCollection classes are exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($crud);
         self::assertFileExists($relations);
@@ -143,12 +143,12 @@ class ControllersTest extends TestCase
         self::assertFileDoesNotExist($update);
 
         $this->artisan('valravn:controllers blog posts')
-             ->expectsOutput('Controller classes created.')
-             ->expectsConfirmation('Should create requests?', 'yes')
-             ->expectsOutput('Request classes created.')
-             ->expectsConfirmation('Should create resources?')
-             ->doesntExpectOutput('Resource and ResourceCollection classes created.')
-             ->assertSuccessful();
+            ->expectsOutput('Controller classes created.')
+            ->expectsConfirmation('Should create requests?', 'yes')
+            ->expectsOutput('Request classes created.')
+            ->expectsConfirmation('Should create resources?')
+            ->doesntExpectOutput('Resource and ResourceCollection classes created.')
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);

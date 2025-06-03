@@ -11,8 +11,8 @@ use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
-use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesVIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CommentsVIncludes;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,16 +23,14 @@ class IncludingServiceTest extends TestCase
     private IncludingService $service;
     private VJsonResource $resource;
 
-    protected function setUp(): void
+    #[Test]
+    public function getRequestedIncludesAsNotLoadableRelations(): void
     {
-        parent::setUp();
-        $this->posts = PostFactory::new()
-                                     ->count(3)
-                                     ->has(CommentFactory::new()->count(5))
-                                     ->has(CategoryFactory::new()->count(5))
-                                     ->create();
-        $this->resource = PostResource::make($this->posts->first());
-        $this->service = app(IncludingService::class, ['resource' => $this->resource]);
+        $this->service->registerIncludesUsingQueryString('users');
+        self::assertEquals(
+            [],
+            $this->resource->getRequestedIncludes()
+        );
     }
 
     #[Test]
@@ -41,19 +39,9 @@ class IncludingServiceTest extends TestCase
         $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments');
         self::assertEquals(
             [
-                CategoriesIncludes::class => [],
-                CommentsIncludes::class   => [],
+                CategoriesVIncludes::class => [],
+                CommentsVIncludes::class   => [],
             ],
-            $this->resource->getRequestedIncludes()
-        );
-    }
-
-    #[Test]
-    public function getRequestedIncludesAsNotLoadableRelations(): void
-    {
-        $this->service->registerIncludesUsingQueryString('users');
-        self::assertEquals(
-            [],
             $this->resource->getRequestedIncludes()
         );
     }
@@ -73,7 +61,7 @@ class IncludingServiceTest extends TestCase
     {
         $this->service->registerIncludesUsingQueryStringWhen(true, 'categories');
         self::assertEquals(
-            [CategoriesIncludes::class => []],
+            [CategoriesVIncludes::class => []],
             $this->resource->getRequestedIncludes()
         );
     }
@@ -101,7 +89,7 @@ class IncludingServiceTest extends TestCase
                 'actions'  => [
                     LimitAction::class => [1],
                 ],
-                'nested'   => 'post:select(id).comments',
+                'nested' => 'post:select(id).comments',
             ],
             $parse
         );
@@ -112,8 +100,8 @@ class IncludingServiceTest extends TestCase
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments')
-                                ->applyRequestedIncludes($model)
-                                ->getIncludedData();
+            ->applyRequestedIncludes($model)
+            ->getIncludedData();
         $output = null;
         foreach ($data as $item) {
             $output[] = $item->toResponse(request())->getData(true);
@@ -184,5 +172,17 @@ class IncludingServiceTest extends TestCase
             ],
             $actions
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->posts = PostFactory::new()
+            ->count(3)
+            ->has(CommentFactory::new()->count(5))
+            ->has(CategoryFactory::new()->count(5))
+            ->create();
+        $this->resource = PostResource::make($this->posts->first());
+        $this->service = app(IncludingService::class, ['resource' => $this->resource]);
     }
 }

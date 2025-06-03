@@ -4,7 +4,7 @@ namespace Hans\Valravn\Http\Resources\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class ResourceQuery
+abstract class VResourceQuery
 {
     /**
      * Store processed data.
@@ -16,15 +16,6 @@ abstract class ResourceQuery
     final public function __construct()
     {
     }
-
-    /**
-     * Implement a custom logic.
-     *
-     * @param Model $model
-     *
-     * @return array
-     */
-    abstract public function apply(Model $model): array;
 
     /**
      * Create an instance.
@@ -49,6 +40,15 @@ abstract class ResourceQuery
 
         return $this;
     }
+
+    /**
+     * Implement a custom logic.
+     *
+     * @param Model $model
+     *
+     * @return array
+     */
+    abstract public function apply(Model $model): array;
 
     /**
      * Merge processed data to given array.

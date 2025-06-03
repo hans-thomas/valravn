@@ -6,7 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Str;
 
-abstract class Relations
+abstract class VRelations
 {
     /**
      * Determine the instance is registered or not.
@@ -46,62 +46,6 @@ abstract class Relations
     }
 
     /**
-     * Get needed routes for the relation instance.
-     *
-     * @param string $name
-     * @param string $parameter
-     * @param string $action
-     *
-     * @return void
-     */
-    abstract protected function routes(string $name, string $parameter, string $action): void;
-
-    /**
-     * Register requested routes.
-     *
-     * @return void
-     */
-    protected function register(): void
-    {
-        $this->registered = true;
-
-        $name = Str::of($this->name)->singular()->camel()->snake()->toString();
-        $action = Str::of($this->relation)->camel()->ucfirst();
-        $parameter = Str::lower($this->relation);
-
-        $this->routes($name, $parameter, $action);
-
-        $this->registrar->group(function (Router $registrar) {
-            foreach ($this->routes as $route) {
-                if (in_array($route['name'], array_keys($this->getMethods()))) {
-                    $registrar->{$route['method']}($route['uri'], $route['action'])
-                              ->name($route['name']);
-                }
-            }
-        });
-    }
-
-    /**
-     * Apply options and return the list of methods.
-     *
-     * @return array|string[]
-     */
-    protected function getMethods(): array
-    {
-        $methods = $this->attributes;
-
-        if (isset($this->options['only'])) {
-            $methods = array_intersect_key($methods, array_flip((array) $this->options['only']));
-        }
-
-        if (isset($this->options['except'])) {
-            $methods = array_diff_key($methods, array_flip((array) $this->options['except']));
-        }
-
-        return $methods;
-    }
-
-    /**
      * Except given methods to register.
      *
      * @param $methods
@@ -131,6 +75,69 @@ abstract class Relations
         $this->options['only'] = $methods;
 
         return $this;
+    }
+
+    public function __destruct()
+    {
+        if (!$this->registered) {
+            $this->register();
+        }
+    }
+
+    /**
+     * Register requested routes.
+     *
+     * @return void
+     */
+    protected function register(): void
+    {
+        $this->registered = true;
+
+        $name = Str::of($this->name)->singular()->camel()->snake()->toString();
+        $action = Str::of($this->relation)->camel()->ucfirst();
+        $parameter = Str::lower($this->relation);
+
+        $this->routes($name, $parameter, $action);
+
+        $this->registrar->group(function (Router $registrar) {
+            foreach ($this->routes as $route) {
+                if (in_array($route['name'], array_keys($this->getMethods()))) {
+                    $registrar->{$route['method']}($route['uri'], $route['action'])
+                        ->name($route['name']);
+                }
+            }
+        });
+    }
+
+    /**
+     * Get needed routes for the relation instance.
+     *
+     * @param string $name
+     * @param string $parameter
+     * @param string $action
+     *
+     * @return void
+     */
+    abstract protected function routes(string $name, string $parameter, string $action): void;
+
+    /**
+     * Apply options and return the list of methods.
+     *
+     * @return array|string[]
+     */
+    protected function getMethods(): array
+    {
+        $methods = $this->attributes;
+
+        if (isset($this->options['only'])) {
+            $methods = array_intersect_key($methods, array_flip((array) $this->options['only']));
+        }
+
+        if (isset($this->options['except'])) {
+            $methods = array_diff_key($methods, array_flip((array) $this->options['except']));
+        }
+
+        return $methods;
     }
 
     /**
@@ -203,12 +210,5 @@ abstract class Relations
             'action' => "detach$action",
             'name'   => 'detach',
         ];
-    }
-
-    public function __destruct()
-    {
-        if (!$this->registered) {
-            $this->register();
-        }
     }
 }

@@ -13,18 +13,6 @@ class BaseModelTest extends TestCase
 {
     private Model $model;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $post = PostFactory::new()->create();
-        $this->model = AliasForModelAttributesModel::query()->make([
-            'content' => fake()->paragraph(),
-        ]);
-        $this->model->post()->associate($post);
-        $this->model->save();
-    }
-
     #[Test]
     public function aliasForModelAttributesOnGettingAlias(): void
     {
@@ -64,5 +52,17 @@ class BaseModelTest extends TestCase
             (new Post())->getForeignKey(),
             Post::foreignKey()
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $post = PostFactory::new()->create();
+        $this->model = AliasForModelAttributesModel::query()->make([
+            'content' => fake()->paragraph(),
+        ]);
+        $this->model->post()->associate($post);
+        $this->model->save();
     }
 }

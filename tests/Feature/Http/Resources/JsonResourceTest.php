@@ -15,19 +15,17 @@ class JsonResourceTest extends TestCase
 {
     private Model $model;
 
-    protected function setUp(): void
+    #[Test]
+    public function toArrayAsNull(): void
     {
-        parent::setUp();
-
-        $this->model = new class() extends VModel {
-            protected $fillable = ['name', 'email', 'address'];
-        };
-        $this->model->forceFill([
-            'id'      => rand(1, 999),
-            'name'    => fake()->name(),
-            'email'   => fake()->email(),
-            'address' => fake()->address(),
-        ]);
+        $resource = SampleResource::make(null);
+        self::assertEquals(
+            [
+                'data' => [],
+                'type' => 'samples',
+            ],
+            $this->resourceToJson($resource)
+        );
     }
 
     #[Test]
@@ -50,22 +48,10 @@ class JsonResourceTest extends TestCase
     }
 
     #[Test]
-    public function toArrayAsNull(): void
-    {
-        $resource = SampleResource::make(null);
-        self::assertEquals(
-            [
-                'data' => [],
-                'type' => 'samples',
-            ],
-            $this->resourceToJson($resource)
-        );
-    }
-
-    #[Test]
     public function toArrayAsNullModel(): void
     {
-        $resource = SampleResource::make(new class() extends VModel { });
+        $resource = SampleResource::make(new class() extends VModel {
+        });
         self::assertEquals(
             [
                 'data' => [
@@ -82,40 +68,15 @@ class JsonResourceTest extends TestCase
     }
 
     #[Test]
-    public function addExtra(): void
-    {
-        $resource = SampleResource::make($this->model)
-                                  ->addExtra([
-                                      'all facts' => "love don't cost a thing, this is all facts",
-                                  ]);
-        self::assertEquals(
-            [
-                'data' => [
-                    'type'    => 'samples',
-                    'id'      => $this->model->id,
-                    'name'    => $this->model->name,
-                    'email'   => $this->model->email,
-                    'address' => $this->model->address,
-                    'extra'   => [
-                        'all facts' => "love don't cost a thing, this is all facts",
-                    ],
-                ],
-                'type' => 'samples',
-            ],
-            $this->resourceToJson($resource)
-        );
-    }
-
-    #[Test]
     public function addExtrasInChain(): void
     {
         $resource = SampleResource::make($this->model)
-                                  ->addExtra([
-                                      'all facts' => "love don't cost a thing, this is all facts",
-                                  ])
-                                  ->addExtra([
-                                      'introductions' => 'give no fucks about no status',
-                                  ]);
+            ->addExtra([
+                'all facts' => "love don't cost a thing, this is all facts",
+            ])
+            ->addExtra([
+                'introductions' => 'give no fucks about no status',
+            ]);
         self::assertEquals(
             [
                 'data' => [
@@ -136,23 +97,25 @@ class JsonResourceTest extends TestCase
     }
 
     #[Test]
-    public function addAdditional(): void
+    public function addExtra(): void
     {
         $resource = SampleResource::make($this->model)
-                                  ->addAdditional([
-                                      'sober' => "why do people do things that be bad for 'em?",
-                                  ]);
+            ->addExtra([
+                'all facts' => "love don't cost a thing, this is all facts",
+            ]);
         self::assertEquals(
             [
-                'data'  => [
+                'data' => [
                     'type'    => 'samples',
                     'id'      => $this->model->id,
                     'name'    => $this->model->name,
                     'email'   => $this->model->email,
                     'address' => $this->model->address,
+                    'extra'   => [
+                        'all facts' => "love don't cost a thing, this is all facts",
+                    ],
                 ],
-                'type'  => 'samples',
-                'sober' => "why do people do things that be bad for 'em?",
+                'type' => 'samples',
             ],
             $this->resourceToJson($resource)
         );
@@ -162,15 +125,15 @@ class JsonResourceTest extends TestCase
     public function addAdditionalInChain(): void
     {
         $resource = SampleResource::make($this->model)
-                                  ->addAdditional([
-                                      'sober' => "why do people do things that be bad for 'em?",
-                                  ])
-                                  ->addAdditional([
-                                      'gerald' => "keep dissing, that's just adding fuel to my engin.",
-                                  ]);
+            ->addAdditional([
+                'sober' => "why do people do things that be bad for 'em?",
+            ])
+            ->addAdditional([
+                'gerald' => "keep dissing, that's just adding fuel to my engin.",
+            ]);
         self::assertEquals(
             [
-                'data'   => [
+                'data' => [
                     'type'    => 'samples',
                     'id'      => $this->model->id,
                     'name'    => $this->model->name,
@@ -180,6 +143,29 @@ class JsonResourceTest extends TestCase
                 'type'   => 'samples',
                 'sober'  => "why do people do things that be bad for 'em?",
                 'gerald' => "keep dissing, that's just adding fuel to my engin.",
+            ],
+            $this->resourceToJson($resource)
+        );
+    }
+
+    #[Test]
+    public function addAdditional(): void
+    {
+        $resource = SampleResource::make($this->model)
+            ->addAdditional([
+                'sober' => "why do people do things that be bad for 'em?",
+            ]);
+        self::assertEquals(
+            [
+                'data' => [
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
+                    'address' => $this->model->address,
+                ],
+                'type'  => 'samples',
+                'sober' => "why do people do things that be bad for 'em?",
             ],
             $this->resourceToJson($resource)
         );
@@ -243,14 +229,29 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type'    => 'samples',
-                    'id'      => $this->model->id,
-                    'name'    => $this->model->name,
-                    'email'   => $this->model->email,
+                    'type'  => 'samples',
+                    'id'    => $this->model->id,
+                    'name'  => $this->model->name,
+                    'email' => $this->model->email,
                 ],
                 'type' => 'samples',
             ],
             $this->resourceToJson($resource)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->model = new class() extends VModel {
+            protected $fillable = ['name', 'email', 'address'];
+        };
+        $this->model->forceFill([
+            'id'      => rand(1, 999),
+            'name'    => fake()->name(),
+            'email'   => fake()->email(),
+            'address' => fake()->address(),
+        ]);
     }
 }

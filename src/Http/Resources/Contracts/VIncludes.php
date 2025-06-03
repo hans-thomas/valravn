@@ -5,7 +5,7 @@ namespace Hans\Valravn\Http\Resources\Contracts;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Includes
+abstract class VIncludes
 {
     /**
      * Eloquent builder instance.
@@ -36,15 +36,6 @@ abstract class Includes
     }
 
     /**
-     * Implement a custom logic.
-     *
-     * @param Model $model
-     *
-     * @return Builder
-     */
-    abstract public function apply(Model $model): Builder;
-
-    /**
      * Convert processed builder instance to a resource class.
      *
      * @return VJsonResource
@@ -66,29 +57,13 @@ abstract class Includes
     }
 
     /**
-     * Return builder instance.
+     * Implement a custom logic.
+     *
+     * @param Model $model
      *
      * @return Builder
      */
-    public function getBuilder(): Builder
-    {
-        return $this->builder;
-    }
-
-    /**
-     * Register an action with its parameters.
-     *
-     * @param string $action
-     * @param array  $params
-     *
-     * @return $this
-     */
-    public function registerAction(string $action, array $params = []): self
-    {
-        $this->actions[$action] = $params;
-
-        return $this;
-    }
+    abstract public function apply(Model $model): Builder;
 
     /**
      * Register actions with their parameters.
@@ -107,6 +82,21 @@ abstract class Includes
     }
 
     /**
+     * Register an action with its parameters.
+     *
+     * @param string $action
+     * @param array  $params
+     *
+     * @return $this
+     */
+    public function registerAction(string $action, array $params = []): self
+    {
+        $this->actions[$action] = $params;
+
+        return $this;
+    }
+
+    /**
      * Apply registered actions on the builder instance.
      *
      * @return $this
@@ -118,5 +108,15 @@ abstract class Includes
         }
 
         return $this;
+    }
+
+    /**
+     * Return builder instance.
+     *
+     * @return Builder
+     */
+    public function getBuilder(): Builder
+    {
+        return $this->builder;
     }
 }

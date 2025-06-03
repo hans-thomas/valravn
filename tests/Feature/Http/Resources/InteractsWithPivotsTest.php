@@ -15,17 +15,6 @@ class InteractsWithPivotsTest extends TestCase
 {
     private Post $post;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()
-                                 ->hasAttached(
-                                     CategoryFactory::new()->count(5),
-                                     ['order' => rand(1, 100)]
-                                 )
-                                 ->create();
-    }
-
     #[Test]
     public function alias(): void
     {
@@ -89,5 +78,16 @@ class InteractsWithPivotsTest extends TestCase
             ],
             $this->resourceToJson($resource)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()
+            ->hasAttached(
+                CategoryFactory::new()->count(5),
+                ['order' => rand(1, 100)]
+            )
+            ->create();
     }
 }

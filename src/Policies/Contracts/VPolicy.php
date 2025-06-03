@@ -14,13 +14,6 @@ abstract class VPolicy
     use PolicyHelperTrait;
 
     /**
-     * Set the related model class.
-     *
-     * @return string
-     */
-    abstract protected function getModel(): string;
-
-    /**
      * Determine whether the user can view any models.
      *
      * @param User $user
@@ -121,4 +114,11 @@ abstract class VPolicy
     {
         return $user->can($this->guessAbility());
     }
+
+    /**
+     * Set the related model class.
+     *
+     * @return string
+     */
+    abstract protected function getModel(): string;
 }

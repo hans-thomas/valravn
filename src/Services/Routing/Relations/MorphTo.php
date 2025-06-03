@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Services\Routing\Relations;
 
-use Hans\Valravn\Services\Contracts\Routeing\Relations;
+use Hans\Valravn\Services\Contracts\Routeing\VRelations;
 
-class MorphTo extends Relations
+class MorphTo extends VRelations
 {
     protected function routes(string $name, string $parameter, string $action): void
     {

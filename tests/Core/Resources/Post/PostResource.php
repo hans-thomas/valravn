@@ -3,10 +3,10 @@
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
 use Hans\Valravn\Http\Resources\VJsonResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
-use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
+use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesVIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CommentsVIncludes;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQueryV;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQueryV;
 use Illuminate\Database\Eloquent\Model;
 
 class PostResource extends VJsonResource
@@ -16,11 +16,11 @@ class PostResource extends VJsonResource
      *
      * @return array
      */
-    public function getAvailableQueries(): array
+    public function getAvailableVQueries(): array
     {
         return [
-            'with_first_comment'  => FirstCommentQuery::class,
-            'with_first_category' => FirstCategoryQuery::class,
+            'with_first_comment'  => FirstCommentQueryV::class,
+            'with_first_category' => FirstCategoryQueryV::class,
         ];
     }
 
@@ -29,11 +29,11 @@ class PostResource extends VJsonResource
      *
      * @return array
      */
-    public function getAvailableIncludes(): array
+    public function getAvailableVIncludes(): array
     {
         return [
-            'comments'   => CommentsIncludes::class,
-            'categories' => CategoriesIncludes::class,
+            'comments'   => CommentsVIncludes::class,
+            'categories' => CategoriesVIncludes::class,
         ];
     }
 
@@ -61,14 +61,14 @@ class PostResource extends VJsonResource
 
     public function withFirstCommentQuery(): self
     {
-        $this->registerQuery(FirstCommentQuery::class);
+        $this->registerQuery(FirstCommentQueryV::class);
 
         return $this;
     }
 
     public function withCommentsIncludes(): self
     {
-        $this->registerInclude(CommentsIncludes::class);
+        $this->registerInclude(CommentsVIncludes::class);
 
         return $this;
     }

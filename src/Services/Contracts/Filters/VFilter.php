@@ -9,10 +9,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-abstract class Filter
+abstract class VFilter
 {
     final public function __construct()
     {
+    }
+
+    /**
+     * Create an instance in static way.
+     *
+     * @return static
+     */
+    public static function make(): static
+    {
+        return new static();
     }
 
     /**
@@ -24,16 +34,6 @@ abstract class Filter
      * @return mixed
      */
     abstract public function apply(Builder $builder, $values = null);
-
-    /**
-     * Create an instance in static way.
-     *
-     * @return static
-     */
-    public static function make(): static
-    {
-        return new static();
-    }
 
     /**
      * Return filterable attributes.
@@ -49,6 +49,18 @@ abstract class Filter
         }
 
         return $builder->getModel()->getFilterableAttributes();
+    }
+
+    /**
+     * Return related model instance of the given builder.
+     *
+     * @param Builder $builder
+     *
+     * @return Model
+     */
+    public function getModel(Builder $builder): Model
+    {
+        return $builder->getModel();
     }
 
     /**
@@ -110,17 +122,5 @@ abstract class Filter
     public function getTable(Builder $builder): string
     {
         return $builder->getModel()->getTable();
-    }
-
-    /**
-     * Return related model instance of the given builder.
-     *
-     * @param Builder $builder
-     *
-     * @return Model
-     */
-    public function getModel(Builder $builder): Model
-    {
-        return $builder->getModel();
     }
 }

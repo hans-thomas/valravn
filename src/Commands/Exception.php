@@ -33,8 +33,8 @@ class Exception extends Command
     /**
      * Execute the console command.
      *
-     * @throws Throwable
      * @throws FilesystemException
+     * @throws Throwable
      *
      * @return int
      */

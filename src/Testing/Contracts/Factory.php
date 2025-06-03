@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Testing\Contracts;
 
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -22,26 +22,15 @@ abstract class Factory
     }
 
     /**
-     * Return related factory instance.
+     * Create an instance.
      *
-     * @return EloquentFactory
-     */
-    abstract protected static function getFactory(): EloquentFactory;
-
-    /**
-     * Return related repository instance.
+     * @param array $data
      *
-     * @return Repository
+     * @return static
      */
-    abstract public static function getRepository(): Repository;
-
-    /**
-     * PreCreate hook executes before factory ran.
-     *
-     * @return void
-     */
-    protected static function preCreateHook(): void
+    public static function create(array $data = []): static
     {
+        return new static($data);
     }
 
     /**
@@ -57,16 +46,27 @@ abstract class Factory
     }
 
     /**
-     * Create an instance.
+     * PreCreate hook executes before factory ran.
      *
-     * @param array $data
-     *
-     * @return static
+     * @return void
      */
-    public static function create(array $data = []): static
+    protected static function preCreateHook(): void
     {
-        return new static($data);
     }
+
+    /**
+     * Return related factory instance.
+     *
+     * @return EloquentFactory
+     */
+    abstract protected static function getFactory(): EloquentFactory;
+
+    /**
+     * Return related repository instance.
+     *
+     * @return VRepository
+     */
+    abstract public static function getRepository(): VRepository;
 
     /**
      * Create an instance but don't store.
@@ -92,9 +92,9 @@ abstract class Factory
     public static function createMany(int $count = 10, array $data = []): Collection
     {
         return static::factory()
-                     ->count($count)
-                     ->create($data)
-                     ->map(static fn (Model $model) => $model->fresh());
+            ->count($count)
+            ->create($data)
+            ->map(static fn (Model $model) => $model->fresh());
     }
 
     /**

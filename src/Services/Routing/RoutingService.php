@@ -42,20 +42,6 @@ class RoutingService
     }
 
     /**
-     * If there is no crud controller.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function name(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Register CRUD routes for api.
      *
      * @param string $name
@@ -156,7 +142,21 @@ class RoutingService
     public function withBatchUpdate(): self
     {
         $this->registrar->patch($this->name, [$this->controller, 'batchUpdate'])
-                        ->name("$this->name.batch-update");
+            ->name("$this->name.batch-update");
+
+        return $this;
+    }
+
+    /**
+     * If there is no crud controller.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function name(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

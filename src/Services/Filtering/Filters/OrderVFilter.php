@@ -2,10 +2,10 @@
 
 namespace Hans\Valravn\Services\Filtering\Filters;
 
-use Hans\Valravn\Services\Contracts\Filters\Filter;
+use Hans\Valravn\Services\Contracts\Filters\VFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-class OrderFilter extends Filter
+class OrderVFilter extends VFilter
 {
     public function apply(Builder $builder, $values = null)
     {

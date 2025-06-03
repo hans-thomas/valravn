@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Services\Queries;
 
-use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
-use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -18,6 +18,15 @@ class QueryingService
         $this->resource = $resource;
     }
 
+    public function registerQueriesUsingQueryStringWhen(bool $condition, string|array|null $queries): self
+    {
+        if ($condition) {
+            $this->registerQueriesUsingQueryString($queries);
+        }
+
+        return $this;
+    }
+
     public function registerQueriesUsingQueryString(string|array|null $queries): self
     {
         if (is_null($queries)) {
@@ -29,27 +38,18 @@ class QueryingService
         foreach ($queries as $index => $value) {
             if (Str::startsWith($value, 'with_')) {
                 $queries[$index] = Str::of($value)
-                                        ->replaceLast('=', '')
-                                        ->snake()
-                                        ->toString();
+                    ->replaceLast('=', '')
+                    ->snake()
+                    ->toString();
             } else {
                 unset($queries[$index]);
             }
         }
 
         foreach (array_unique($queries) as $query) {
-            if (key_exists($query, $availableQueries = $this->resource->getAvailableQueries())) {
+            if (key_exists($query, $availableQueries = $this->resource->getAvailableVQueries())) {
                 $this->resource->registerQuery($availableQueries[$query]);
             }
-        }
-
-        return $this;
-    }
-
-    public function registerQueriesUsingQueryStringWhen(bool $condition, string|array|null $queries): self
-    {
-        if ($condition) {
-            $this->registerQueriesUsingQueryString($queries);
         }
 
         return $this;
@@ -58,7 +58,7 @@ class QueryingService
     public function applyRequestedQueries(Model $model): self
     {
         foreach ($this->resource->getRequestedQueries() as $query) {
-            if (!is_a($query, CollectionQuery::class, true)) {
+            if (!is_a($query, VCollectionQuery::class, true)) {
                 $this->executedQueries[] = app($query)->run($model);
             }
         }
@@ -69,7 +69,7 @@ class QueryingService
     public function applyRequestedCollectionQueries(): self
     {
         foreach ($this->resource->getRequestedQueries() as $query) {
-            if (is_a($query, CollectionQuery::class, true)) {
+            if (is_a($query, VCollectionQuery::class, true)) {
                 $this->executedQueries[] = app($query)->run($this->resource);
             }
         }
@@ -80,17 +80,22 @@ class QueryingService
     public function mergeQueriedDataInto(array &$data): void
     {
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, ResourceQuery::class)) {
+            if (is_a($query, VResourceQuery::class)) {
                 $query->mergeDataInto($this->resource, $data);
             }
         }
+    }
+
+    protected function getExecutedQueries(): array
+    {
+        return $this->executedQueries;
     }
 
     public function getQueriedData(): array
     {
         $data = [];
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, ResourceQuery::class)) {
+            if (is_a($query, VResourceQuery::class)) {
                 $data = array_merge($data, $query->getData());
             }
         }
@@ -101,14 +106,9 @@ class QueryingService
     public function mergeCollectionQueriedData(): void
     {
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, CollectionQuery::class)) {
+            if (is_a($query, VCollectionQuery::class)) {
                 $query->mergeDataInto($this->resource);
             }
         }
-    }
-
-    protected function getExecutedQueries(): array
-    {
-        return $this->executedQueries;
     }
 }

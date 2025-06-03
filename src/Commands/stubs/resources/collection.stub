@@ -1,31 +1,31 @@
 <?php
 
-    namespace App\Http\Resources\{{COLLECTION::VERSION}}\{{COLLECTION::NAMESPACE}}\{{COLLECTION::MODEL}};
+namespace App\Http\Resources\{{COLLECTION::VERSION}}\{{COLLECTION::NAMESPACE}}\{{COLLECTION::MODEL}};
 
-    use Illuminate\Database\Eloquent\Model;
-    use Hans\Valravn\Http\Resources\VResourceCollection;
+use Illuminate\Database\Eloquent\Model;
+use Hans\Valravn\Http\Resources\VResourceCollection;
 
-    class {{COLLECTION::MODEL}}Collection extends VResourceCollection {
+class {{COLLECTION::MODEL}}Collection extends VResourceCollection {
 
-        /**
-         * Extract attributes of the given model
-         * if null returned, the parent::toArray method called by default
-         *
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        public function extract( Model $model ): ?array {
-            return null;
-        }
-
-        /**
-         * Specify the type of your resource
-         *
-         * @return string
-         */
-        public function type(): string {
-            return '{{COLLECTION::PLURAL}}';
-        }
-
+    /**
+     * Extract attributes of the given model
+     * if null returned, the parent::toArray method called by default
+     *
+     * @param Model $model
+     *
+     * @return array|null
+     */
+    public function extract( Model $model ): ?array {
+        return null;
     }
+
+    /**
+     * Specify the type of your resource
+     *
+     * @return string
+     */
+    public function type(): string {
+        return '{{COLLECTION::PLURAL}}';
+    }
+
+}

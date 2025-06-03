@@ -7,16 +7,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RequestsTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        $this->cleanUp([
-            app_path('Http/Requests/V3/Blog/Post'),
-            app_path('Http/Requests/V5/Blog/Post'),
-        ]);
-
-        parent::tearDown();
-    }
-
     #[Test]
     public function requests(): void
     {
@@ -27,11 +17,11 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($update);
 
         $this->artisan('valravn:requests blog posts')
-             ->expectsOutput('Store request created.')
-             ->doesntExpectOutput('Store request exists or could not be created.')
-             ->expectsOutput('Update request created.')
-             ->doesntExpectOutput('Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Store request created.')
+            ->doesntExpectOutput('Store request exists or could not be created.')
+            ->expectsOutput('Update request created.')
+            ->doesntExpectOutput('Update request exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -63,18 +53,18 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($update);
 
         $this->artisan('valravn:requests blog posts')
-             ->expectsOutput('Store request created.')
-             ->doesntExpectOutput('Store request exists or could not be created.')
-             ->expectsOutput('Update request created.')
-             ->doesntExpectOutput('Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Store request created.')
+            ->doesntExpectOutput('Store request exists or could not be created.')
+            ->expectsOutput('Update request created.')
+            ->doesntExpectOutput('Update request exists or could not be created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:requests blog posts')
-             ->doesntExpectOutput('Store request created.')
-             ->expectsOutput('Store request exists or could not be created.')
-             ->doesntExpectOutput('Update request created.')
-             ->expectsOutput('Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->doesntExpectOutput('Store request created.')
+            ->expectsOutput('Store request exists or could not be created.')
+            ->doesntExpectOutput('Update request created.')
+            ->expectsOutput('Update request exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -90,7 +80,7 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($update);
 
         $this->artisan('valravn:requests blog posts --v 3')
-             ->assertSuccessful();
+            ->assertSuccessful();
 
         self::assertFileExists($store);
         self::assertFileExists($update);
@@ -120,13 +110,13 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:requests blog posts --batch-update')
-             ->expectsOutput('Store request created.')
-             ->doesntExpectOutput('Store request exists or could not be created.')
-             ->expectsOutput('Update request created.')
-             ->doesntExpectOutput('Update request exists or could not be created.')
-             ->expectsOutput('Batch-Update request created.')
-             ->doesntExpectOutput('Batch-Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Store request created.')
+            ->doesntExpectOutput('Store request exists or could not be created.')
+            ->expectsOutput('Update request created.')
+            ->doesntExpectOutput('Update request exists or could not be created.')
+            ->expectsOutput('Batch-Update request created.')
+            ->doesntExpectOutput('Batch-Update request exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -149,25 +139,25 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:requests blog posts --batch-update')
-             ->expectsOutput('Store request created.')
-             ->doesntExpectOutput('Store request exists or could not be created.')
-             ->expectsOutput('Update request created.')
-             ->doesntExpectOutput('Update request exists or could not be created.')
-             ->expectsOutput('Batch-Update request created.')
-             ->doesntExpectOutput('Batch-Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Store request created.')
+            ->doesntExpectOutput('Store request exists or could not be created.')
+            ->expectsOutput('Update request created.')
+            ->doesntExpectOutput('Update request exists or could not be created.')
+            ->expectsOutput('Batch-Update request created.')
+            ->doesntExpectOutput('Batch-Update request exists or could not be created.')
+            ->assertSuccessful();
 
         unlink($store);
         unlink($update);
 
         $this->artisan('valravn:requests blog posts --batch-update')
-             ->expectsOutput('Store request created.')
-             ->doesntExpectOutput('Store request exists or could not be created.')
-             ->expectsOutput('Update request created.')
-             ->doesntExpectOutput('Update request exists or could not be created.')
-             ->doesntExpectOutput('Batch-Update request created.')
-             ->expectsOutput('Batch-Update request exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Store request created.')
+            ->doesntExpectOutput('Store request exists or could not be created.')
+            ->expectsOutput('Update request created.')
+            ->doesntExpectOutput('Update request exists or could not be created.')
+            ->doesntExpectOutput('Batch-Update request created.')
+            ->expectsOutput('Batch-Update request exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -180,7 +170,7 @@ class RequestsTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:requests blog posts --batch-update --v 5')
-             ->assertSuccessful();
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -190,5 +180,15 @@ class RequestsTest extends TestCase
         $batchUpdateStub = str_replace('{{REQUEST::MODEL}}', 'Post', $batchUpdateStub);
 
         self::assertEquals($batchUpdateStub, file_get_contents($file));
+    }
+
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            app_path('Http/Requests/V3/Blog/Post'),
+            app_path('Http/Requests/V5/Blog/Post'),
+        ]);
+
+        parent::tearDown();
     }
 }

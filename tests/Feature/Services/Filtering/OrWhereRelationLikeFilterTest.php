@@ -11,17 +11,11 @@ class OrWhereRelationLikeFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
-    }
-
     #[Test]
     public function apply(): void
     {
         request()->merge([
-            'where_relation_filter'    => [
+            'where_relation_filter' => [
                 'categories->id' => '1',
             ],
             'or_where_relation_like_filter' => [
@@ -42,5 +36,11 @@ class OrWhereRelationLikeFilterTest extends TestCase
             'and "name" LIKE ?',
             $builder->toSql()
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(FilteringService::class);
     }
 }

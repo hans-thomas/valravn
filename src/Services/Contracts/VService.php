@@ -5,18 +5,8 @@ namespace Hans\Valravn\Services\Contracts;
 use Hans\Valravn\Facades\VCache;
 use Hans\Valravn\Services\Caching\CachingService;
 
-abstract class Service
+abstract class VService
 {
-    /**
-     * Cache method's result called on service instance.
-     *
-     * @return CachingService
-     */
-    public function cache(): CachingService
-    {
-        return VCache::setService($this);
-    }
-
     /**
      * Cache methods when condition is true.
      *
@@ -31,5 +21,15 @@ abstract class Service
         }
 
         return $this;
+    }
+
+    /**
+     * Cache method's result called on service instance.
+     *
+     * @return CachingService
+     */
+    public function cache(): CachingService
+    {
+        return VCache::setService($this);
     }
 }

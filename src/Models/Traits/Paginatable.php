@@ -12,6 +12,16 @@ trait Paginatable
     protected static int $perPageMax = 30;
 
     /**
+     * Set amount of maximum items on a page.
+     *
+     * @param int $perPageMax
+     */
+    public static function setPerPageMax(int $perPageMax): void
+    {
+        static::$perPageMax = $perPageMax;
+    }
+
+    /**
      * Get the number of models to return per page.
      *
      * @return int
@@ -25,15 +35,5 @@ trait Paginatable
         }
 
         return max(1, min(static::$perPageMax, (int) $perPage));
-    }
-
-    /**
-     * Set amount of maximum items on a page.
-     *
-     * @param int $perPageMax
-     */
-    public static function setPerPageMax(int $perPageMax): void
-    {
-        static::$perPageMax = $perPageMax;
     }
 }

@@ -4,10 +4,10 @@ namespace Hans\Valravn\Tests\Feature\Repositories;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
 use Hans\Valravn\Exceptions\VException;
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
-use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
+use Hans\Valravn\Tests\Instances\Repositories\SampleVRepository;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
@@ -15,15 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryAuthorizationTest extends TestCase
 {
-    private Repository $repository;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        PostFactory::new()->count(2)->create();
-        $this->repository = app(SampleRepository::class);
-    }
+    private VRepository $repository;
 
     #[Test]
     public function allAction(): void
@@ -47,8 +39,8 @@ class RepositoryAuthorizationTest extends TestCase
     /**
      * @test
      *
-     * @throws VException
      * @throws AuthorizationException
+     * @throws VException
      *
      * @return void
      */
@@ -103,5 +95,13 @@ class RepositoryAuthorizationTest extends TestCase
             ->with('batchUpdate', [Post::class, $dto->getData()]);
 
         $this->repository->batchUpdate($dto);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        PostFactory::new()->count(2)->create();
+        $this->repository = app(SampleVRepository::class);
     }
 }

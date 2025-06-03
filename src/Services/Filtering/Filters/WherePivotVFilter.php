@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\Services\Filtering\Filters;
 
-use Hans\Valravn\Services\Contracts\Filters\Filter;
+use Hans\Valravn\Services\Contracts\Filters\VFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class WherePivotFilter extends Filter
+class WherePivotVFilter extends VFilter
 {
     public function apply(Builder $builder, $values = null)
     {

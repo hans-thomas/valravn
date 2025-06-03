@@ -12,33 +12,6 @@ class InstallTest extends TestCase
     private string $serviceProviderFile;
     private string $providersFile;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        if (version_compare($this->app->version(), '11', '>=')) {
-            $this->providersFile = base_path('bootstrap/providers.php');
-        } elseif (version_compare($this->app->version(), '10', '>=')) {
-            $this->providersFile = config_path('app.php');
-        }
-    }
-
-    protected function tearDown(): void
-    {
-        file_put_contents($this->providersFile, str_replace(
-            '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
-            '',
-            file_get_contents($this->providersFile)
-        ));
-
-        $this->configFile = config_path('valravn.php');
-        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-
-        $this->cleanUp([$this->configFile, $this->serviceProviderFile]);
-
-        parent::tearDown();
-    }
-
     #[Test]
     public function install(): void
     {
@@ -64,5 +37,32 @@ class InstallTest extends TestCase
             'App\\Providers\\RepositoryServiceProvider::class',
             file_get_contents($this->providersFile)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (version_compare($this->app->version(), '11', '>=')) {
+            $this->providersFile = base_path('bootstrap/providers.php');
+        } elseif (version_compare($this->app->version(), '10', '>=')) {
+            $this->providersFile = config_path('app.php');
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        file_put_contents($this->providersFile, str_replace(
+            '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
+            '',
+            file_get_contents($this->providersFile)
+        ));
+
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+
+        $this->cleanUp([$this->configFile, $this->serviceProviderFile]);
+
+        parent::tearDown();
     }
 }

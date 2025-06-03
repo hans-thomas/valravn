@@ -9,14 +9,14 @@ use PHPUnit\Framework\Attributes\Test;
 class VDtoTest extends TestCase
 {
     #[Test]
-    public function make(): void
+    public function makeWithNoWrapper(): void
     {
         $data = [
             ['id' => 1],
             ['id' => 3],
         ];
 
-        $result = SampleDto::make(['related' => $data]);
+        $result = SampleDto::make($data);
 
         self::assertEquals(
             [
@@ -28,14 +28,14 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
-    public function makeWithNoWrapper(): void
+    public function make(): void
     {
         $data = [
             ['id' => 1],
             ['id' => 3],
         ];
 
-        $result = SampleDto::make($data);
+        $result = SampleDto::make(['related' => $data]);
 
         self::assertEquals(
             [
@@ -64,6 +64,19 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
+    public function makeFromArrayWithEmptyArray(): void
+    {
+        $data = [];
+
+        $result = SampleDto::makeFromArray($data);
+
+        self::assertEquals(
+            [],
+            $result->getData()->toArray()
+        );
+    }
+
+    #[Test]
     public function makeFromArray(): void
     {
         $data = [
@@ -87,19 +100,6 @@ class VDtoTest extends TestCase
                     ],
                 ],
             ],
-            $result->getData()->toArray()
-        );
-    }
-
-    #[Test]
-    public function makeFromArrayWithEmptyArray(): void
-    {
-        $data = [];
-
-        $result = SampleDto::makeFromArray($data);
-
-        self::assertEquals(
-            [],
             $result->getData()->toArray()
         );
     }

@@ -162,18 +162,18 @@ protected function allLoaded( Collection &$response ): void {
 A Query is a class that defines for a resource class and front-end dev can
 trigger that using a specific query string.
 
-### Resource Query
+### VResourceQuery
 
-This contract can be uses in both `ValravnJsonResource` and `ValravnResourceCollection`
+This contract can be uses in both `VJsonResource` and `VResourceCollection`
 classes. first you need to create a class. it's recommended to create the class
 in a sub-folder where the resource classes are exist. in addition, it's better
 that suffix the classes with `Query` to make recognition easier.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class FirstExampleQuery extends ResourceQuery {
+class FirstExampleQuery extends VResourceQuery {
 
   public function apply( Model $model ): array {
     return [
@@ -195,15 +195,15 @@ Make sure there is not any conflict with extracted attributes of the related res
 this data will merge into the `data` key on response.
 {{< /tip >}}
 
-### Collection Query
+### VCollectionQuery
 
-Collection Query just can be registered on `ValravnResourceCollection` instances.
+Collection Query just can be registered on `VResourceCollection` instances.
 
 ```php
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
+use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
 
-class RelatedExamplesCollectionQuery extends CollectionQuery {
+class RelatedExamplesCollectionQuery extends VCollectionQuery {
 
   public function apply( VJsonResource $resource ): array {
     $ids = $resource->resource instanceof Collection ?
@@ -227,11 +227,11 @@ It's recommended that suffix the class with `CollectionQuery` to avoid any confl
 ### Queries registration
 
 After all, you should register your queries on the resource class. to register a
-query, just you need to override the `getAvailableQueries` method and add you
+query, just you need to override the `getAvailableVQueries` method and add you
 queries.
 
 ```php
-public function getAvailableQueries(): array {
+public function getAvailableVQueries(): array {
   return [
     'with_first_example' => FirstExampleQuery::class
   ];
@@ -280,17 +280,17 @@ and then you can call this on a resource instance.
 SampleResource::make($model)->withSampleQuery();
 ```
 
-## Includes
+## VIncludes
 
 Valravn allows you to eager load relationships using query strings and apply
 actions on them. first you need to create a class and
-extends `Hans\Valravn\Http\Resources\Contracts\Includes` class. next, you should
+extends `Hans\Valravn\Http\Resources\Contracts\VIncludes` class. next, you should
 implement the required methods.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\Includes;
+use Hans\Valravn\Http\Resources\Contracts\VIncludes;
 
-class ExampleIncludes extends Includes {
+class ExampleIncludes extends VIncludes {
 
   public function apply( Model $model ): Builder {
     return $model->example();
@@ -307,13 +307,13 @@ class ExampleIncludes extends Includes {
 It's recommended to create includes in a sub folder where the related resource classes are locate.
 {{< /tip >}}
 
-### Includes registration
+### VIncludes registration
 
-To register a include, you just need to override `getAvailableIncludes` method
+To register a include, you just need to override `getAvailableVIncludes` method
 on the resource class and then register your includes.
 
 ```php
-public function getAvailableIncludes(): array {
+public function getAvailableVIncludes(): array {
   return [
     'example'   => ExampleIncludes::class,
   ];

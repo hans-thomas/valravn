@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Http\Resources\Contracts;
 
-abstract class CollectionQuery
+abstract class VCollectionQuery
 {
     /**
      * Store processed data.
@@ -14,15 +14,6 @@ abstract class CollectionQuery
     final public function __construct()
     {
     }
-
-    /**
-     * Implement a custom logic.
-     *
-     * @param VJsonResource $resource
-     *
-     * @return array
-     */
-    abstract public function apply(VJsonResource $resource): array;
 
     /**
      * Create an instance in static way.
@@ -47,6 +38,15 @@ abstract class CollectionQuery
 
         return $this;
     }
+
+    /**
+     * Implement a custom logic.
+     *
+     * @param VJsonResource $resource
+     *
+     * @return array
+     */
+    abstract public function apply(VJsonResource $resource): array;
 
     /**
      * Merge processed data to a resource class.

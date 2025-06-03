@@ -59,42 +59,6 @@ class ManyToManyDtoTest extends TestCase
     }
 
     #[Test]
-    public function withValues(): void
-    {
-        $data = [
-            [
-                'id' => 1,
-            ],
-            [
-                'id' => 8,
-            ],
-            [
-                'id'    => 6,
-                'pivot' => [
-                    'the art'    => 'ever seen a devil with a halo?',
-                    'the artist' => 'g-eazy',
-                ],
-            ],
-        ];
-        $result = ManyToManyDto::make([
-            'related' => $data,
-        ])->withValues(['song' => 'the beautiful and damned']);
-
-        self::assertEquals(
-            [
-                1 => ['song' => 'the beautiful and damned'],
-                8 => ['song' => 'the beautiful and damned'],
-                6 => [
-                    'song'       => 'the beautiful and damned',
-                    'the art'    => 'ever seen a devil with a halo?',
-                    'the artist' => 'g-eazy',
-                ],
-            ],
-            $result->toArray()
-        );
-    }
-
-    #[Test]
     public function withValuesForced(): void
     {
         $data = [
@@ -116,6 +80,42 @@ class ManyToManyDtoTest extends TestCase
         $result = ManyToManyDto::make([
             'related' => $data,
         ])->withValues(['song' => 'the beautiful and damned'], true);
+
+        self::assertEquals(
+            [
+                1 => ['song' => 'the beautiful and damned'],
+                8 => ['song' => 'the beautiful and damned'],
+                6 => [
+                    'song'       => 'the beautiful and damned',
+                    'the art'    => 'ever seen a devil with a halo?',
+                    'the artist' => 'g-eazy',
+                ],
+            ],
+            $result->toArray()
+        );
+    }
+
+    #[Test]
+    public function withValues(): void
+    {
+        $data = [
+            [
+                'id' => 1,
+            ],
+            [
+                'id' => 8,
+            ],
+            [
+                'id'    => 6,
+                'pivot' => [
+                    'the art'    => 'ever seen a devil with a halo?',
+                    'the artist' => 'g-eazy',
+                ],
+            ],
+        ];
+        $result = ManyToManyDto::make([
+            'related' => $data,
+        ])->withValues(['song' => 'the beautiful and damned']);
 
         self::assertEquals(
             [

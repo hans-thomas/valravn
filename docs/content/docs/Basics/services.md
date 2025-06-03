@@ -5,9 +5,9 @@ weight: 2
 
 Valravn has several services that each one has their own functionality.
 
-## Service contract
+## VService contract
 
-Service classes must extend `Hans\Valravn\Services\Contracts\Service` class.
+Service classes must extend `Hans\Valravn\Services\Contracts\VService` class.
 
 #### Available methods
 
@@ -65,7 +65,7 @@ app( PostRelationsService::class )->cache()->setInterval( 20 )->viewCategories()
 This facade let you cache data using same [logic](#caching-logic).
 
 ```php
-use Hans\Valravn\Facades\Cache;
+use Hans\Valravn\Facades\VCache;
 
 VCache::store( 'unique_key', fn() => 10 / 12 );
 ```

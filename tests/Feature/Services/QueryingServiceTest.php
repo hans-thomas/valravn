@@ -14,9 +14,9 @@ use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 use Hans\Valravn\Tests\Core\Resources\Comment\CommentResource;
 use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
-use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
+use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQueryV;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQueryV;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQueryV;
 use Hans\Valravn\Tests\Instances\Services\QueryingServiceProxy;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
@@ -30,32 +30,26 @@ class QueryingServiceTest extends TestCase
     private QueryingServiceProxy $serviceResource;
     private VJsonResource $resource;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->posts = PostFactory::new()
-                                              ->count(3)
-                                              ->has(CommentFactory::new()->count(5))
-                                              ->has(CategoryFactory::new()->count(5))
-                                              ->create();
-        $this->collection = PostCollection::make($this->posts);
-        $this->serviceCollection = app(QueryingServiceProxy::class, ['resource' => $this->collection]);
-        $this->resource = PostResource::make($this->posts->first());
-        $this->serviceResource = app(QueryingServiceProxy::class, ['resource' => $this->resource]);
-    }
-
     #[Test]
-    public function registerQueriesUsingQueryString(): void
+    public function mergeQueriedDataInto(): void
     {
-        $this->serviceCollection->registerQueriesUsingQueryString('with_all_comments=&with_first_comment=&with_first_category=&something_false=');
+        $data = [];
+        $this->serviceResource->registerQueriesUsingQueryString(
+            'with_all_comments=&with_first_comment=&with_first_category='
+        )
+            ->applyRequestedQueries($this->posts->first())
+            ->mergeQueriedDataInto($data);
         self::assertEquals(
             [
-                CommentsQuery::class, // CollectionQuery
-                FirstCommentQuery::class, // ResourceQuery
-                FirstCategoryQuery::class, // ResourceQuery
+                'first_comment'  => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
+                'first_category' => CategoryResource::make(
+                    $this->posts->first()
+                        ->categories()
+                        ->limit(1)
+                        ->first()
+                ),
             ],
-            $this->collection->getRequestedQueries()
+            $data
         );
     }
 
@@ -65,50 +59,28 @@ class QueryingServiceTest extends TestCase
         $this->serviceResource->registerQueriesUsingQueryString(
             'with_all_comments=&with_first_comment=&with_first_category='
         )
-                              ->applyRequestedQueries($this->posts->first());
+            ->applyRequestedQueries($this->posts->first());
         self::assertEquals(
-            FirstCommentQuery::class,
+            FirstCommentQueryV::class,
             get_class($this->serviceResource->_getExecutedQueries()[0])
         );
         self::assertEquals(
-            FirstCategoryQuery::class,
+            FirstCategoryQueryV::class,
             get_class($this->serviceResource->_getExecutedQueries()[1])
         );
     }
 
     #[Test]
-    public function applyRequestedCollectionQueries(): void
+    public function registerQueriesUsingQueryString(): void
     {
-        $this->serviceCollection->registerQueriesUsingQueryString(
-            'with_all_comments=&with_first_comment=&with_first_category='
-        )
-                                ->applyRequestedCollectionQueries();
-        self::assertEquals(
-            CommentsQuery::class,
-            get_class($this->serviceCollection->_getExecutedQueries()[0])
-        );
-    }
-
-    #[Test]
-    public function mergeQueriedDataInto(): void
-    {
-        $data = [];
-        $this->serviceResource->registerQueriesUsingQueryString(
-            'with_all_comments=&with_first_comment=&with_first_category='
-        )
-                              ->applyRequestedQueries($this->posts->first())
-                              ->mergeQueriedDataInto($data);
+        $this->serviceCollection->registerQueriesUsingQueryString('with_all_comments=&with_first_comment=&with_first_category=&something_false=');
         self::assertEquals(
             [
-                'first_comment'  => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
-                'first_category' => CategoryResource::make(
-                    $this->posts->first()
-                                ->categories()
-                                ->limit(1)
-                                ->first()
-                ),
+                CommentsQueryV::class, // CollectionQuery
+                FirstCommentQueryV::class, // ResourceQuery
+                FirstCategoryQueryV::class, // ResourceQuery
             ],
-            $data
+            $this->collection->getRequestedQueries()
         );
     }
 
@@ -118,16 +90,16 @@ class QueryingServiceTest extends TestCase
         $data = $this->serviceResource->registerQueriesUsingQueryString(
             'with_all_comments=&with_first_comment=&with_first_category='
         )
-                                      ->applyRequestedQueries($this->posts->first())
-                                      ->getQueriedData();
+            ->applyRequestedQueries($this->posts->first())
+            ->getQueriedData();
         self::assertEquals(
             [
                 'first_comment'  => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
                 'first_category' => CategoryResource::make(
                     $this->posts->first()
-                                ->categories()
-                                ->limit(1)
-                                ->first()
+                        ->categories()
+                        ->limit(1)
+                        ->first()
                 ),
             ],
             $data
@@ -140,18 +112,46 @@ class QueryingServiceTest extends TestCase
         $this->serviceCollection->registerQueriesUsingQueryString(
             'with_all_comments=&with_first_comment=&with_first_category='
         )
-                                ->applyRequestedCollectionQueries()
-                                ->mergeCollectionQueriedData();
+            ->applyRequestedCollectionQueries()
+            ->mergeCollectionQueriedData();
         $ids = $this->posts->map(fn ($value) => ['id' => $value->id])->flatten();
         self::assertEquals(
             [
                 'all_comments' => CommentCollection::make(
                     Comment::query()
-                           ->whereIn((new Post())->getForeignKey(), $ids)
-                           ->get()
+                        ->whereIn((new Post())->getForeignKey(), $ids)
+                        ->get()
                 ),
             ],
             $this->collection->additional
         );
+    }
+
+    #[Test]
+    public function applyRequestedCollectionQueries(): void
+    {
+        $this->serviceCollection->registerQueriesUsingQueryString(
+            'with_all_comments=&with_first_comment=&with_first_category='
+        )
+            ->applyRequestedCollectionQueries();
+        self::assertEquals(
+            CommentsQueryV::class,
+            get_class($this->serviceCollection->_getExecutedQueries()[0])
+        );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->posts = PostFactory::new()
+            ->count(3)
+            ->has(CommentFactory::new()->count(5))
+            ->has(CategoryFactory::new()->count(5))
+            ->create();
+        $this->collection = PostCollection::make($this->posts);
+        $this->serviceCollection = app(QueryingServiceProxy::class, ['resource' => $this->collection]);
+        $this->resource = PostResource::make($this->posts->first());
+        $this->serviceResource = app(QueryingServiceProxy::class, ['resource' => $this->resource]);
     }
 }

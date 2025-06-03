@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
 use Hans\Valravn\Http\Resources\VJsonResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\PostVIncludes;
 use Illuminate\Database\Eloquent\Model;
 
 class CommentResource extends VJsonResource
@@ -11,10 +11,10 @@ class CommentResource extends VJsonResource
     /**
      * @return array
      */
-    public function getAvailableIncludes(): array
+    public function getAvailableVIncludes(): array
     {
         return [
-            'post' => PostIncludes::class,
+            'post' => PostVIncludes::class,
         ];
     }
 

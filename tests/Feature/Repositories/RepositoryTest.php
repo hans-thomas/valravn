@@ -3,11 +3,11 @@
 namespace Hans\Valravn\Tests\Feature\Repositories;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
-use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
+use Hans\Valravn\Tests\Instances\Repositories\SampleVRepository;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,21 +16,24 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
-    private Repository $repository;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
-        $this->repository = app(SampleRepository::class)->disableAuthorization();
-    }
+    private VRepository $repository;
 
     #[Test]
     public function shouldAuthorizeAsDefault(): void
     {
         Gate::shouldReceive('authorize')
             ->once();
-        app(SampleRepository::class)->all();
+        app(SampleVRepository::class)->all();
+    }
+
+    #[Test]
+    public function all(): void
+    {
+        $models = $this->repository->all()->get();
+        self::assertEquals(
+            Post::all()->toArray(),
+            $models->toArray()
+        );
     }
 
     #[Test]
@@ -47,16 +50,6 @@ class RepositoryTest extends TestCase
         Gate::shouldReceive('authorize')
             ->once();
         $this->repository->all();
-    }
-
-    #[Test]
-    public function all(): void
-    {
-        $models = $this->repository->all()->get();
-        self::assertEquals(
-            Post::all()->toArray(),
-            $models->toArray()
-        );
     }
 
     #[Test]
@@ -86,16 +79,6 @@ class RepositoryTest extends TestCase
     }
 
     #[Test]
-    public function find(): void
-    {
-        $model = $this->repository->find(1);
-        self::assertEquals(
-            Post::query()->first()->toArray(),
-            $model->toArray()
-        );
-    }
-
-    #[Test]
     public function findUsingSelect(): void
     {
         $model = $this->repository->select('id')->find(1);
@@ -103,6 +86,16 @@ class RepositoryTest extends TestCase
             [
                 'id' => 1,
             ],
+            $model->toArray()
+        );
+    }
+
+    #[Test]
+    public function find(): void
+    {
+        $model = $this->repository->find(1);
+        self::assertEquals(
+            Post::query()->first()->toArray(),
             $model->toArray()
         );
     }
@@ -168,5 +161,12 @@ class RepositoryTest extends TestCase
         $this->assertDatabaseHas(Post::table(), $data[0]);
         $this->assertDatabaseHas(Post::table(), $data[1]);
         $this->assertDatabaseHas(Post::table(), $data[2]);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
+        $this->repository = app(SampleVRepository::class)->disableAuthorization();
     }
 }
