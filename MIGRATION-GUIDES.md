@@ -22,3 +22,4 @@ renamed to `getVCollection`.
 - Rename `Hans\Valravn\Http\Resources\Contracts\CollectionQuery` contract to `Hans\Valravn\Http\Resources\Contracts\VCollectionQuery`
 - Rename `getAvailableIncludes` method of Resource classes to `getAvailableVIncludes`
 - Rename `getAvailableQueries` method of Resource classes to `getAvailableVQueries`
+- The `vlog` helper function, now wrap the second parameter
