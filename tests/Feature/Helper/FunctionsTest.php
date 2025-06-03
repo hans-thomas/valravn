@@ -4,7 +4,9 @@ namespace Hans\Valravn\Tests\Feature\Helper;
 
 use Hans\Valravn\Exceptions\Package\InvalidEntityException;
 use Hans\Valravn\Exceptions\VException;
+use Hans\Valravn\Http\Resources\VJsonResource;
 use Hans\Valravn\InstallCommand;
+use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Factories\UserFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
@@ -73,12 +75,6 @@ class FunctionsTest extends TestCase
         );
     }
 
-    #[Test]
-    public function generate_order(): void
-    {
-        self::assertIsFloat(generate_order());
-    }
-
     /**
      * @test
      *
@@ -99,13 +95,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @throws VException
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveRelatedIdToModelWithInvalidModel(): void
     {
         $this->expectExceptionObject(new InvalidEntityException($entity = InstallCommand::class));
@@ -113,13 +103,7 @@ class FunctionsTest extends TestCase
         resolveRelatedIdToModel(1, $entity);
     }
 
-    /**
-     * @test
-     *
-     * @throws VException
-     *
-     * @return void
-     */
+    #[Test]
     public function resolveRelatedIdToModelWithInvalidId(): void
     {
         $model = resolveRelatedIdToModel(9999, Post::class);
@@ -128,9 +112,20 @@ class FunctionsTest extends TestCase
     }
 
     #[Test]
-    public function resolveMorphableToResource(): void
+    public function resolveMorphableToVResource(): void
     {
         $resource = resolveMorphableToVResource($this->post);
+
+        self::assertInstanceOf(
+            VJsonResource::class,
+            $resource
+        );
+    }
+
+    #[Test]
+    public function resolveMorphableToResource(): void
+    {
+        $resource = resolveMorphableToVResource(CommentFactory::new()->for($this->post)->create());
 
         self::assertInstanceOf(
             JsonResource::class,
@@ -139,7 +134,7 @@ class FunctionsTest extends TestCase
     }
 
     #[Test]
-    public function resolveMorphableToResourceWithResourceCollectionableImplemented(): void
+    public function resolveMorphableToVResourceWithResourceCollectionableImplemented(): void
     {
         $resource = resolveMorphableToVResource($this->user);
 
