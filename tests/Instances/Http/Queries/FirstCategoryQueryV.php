@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Queries;
 
-use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Hans\Valravn\Tests\Core\Resources\Category\CategoryResource;
 use Illuminate\Database\Eloquent\Model;
 
-class FirstCategoryQuery extends ResourceQuery
+class FirstCategoryQueryV extends VResourceQuery
 {
     /**
      * @param Model $model

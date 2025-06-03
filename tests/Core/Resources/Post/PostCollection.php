@@ -5,8 +5,8 @@ namespace Hans\Valravn\Tests\Core\Resources\Post;
 use Hans\Valravn\Http\Resources\VResourceCollection;
 use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQueryV;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQueryV;
 use Illuminate\Database\Eloquent\Model;
 
 class PostCollection extends VResourceCollection
@@ -18,8 +18,8 @@ class PostCollection extends VResourceCollection
     {
         return [
             'with_all_comments'   => CommentsQuery::class,
-            'with_first_comment'  => FirstCommentQuery::class,
-            'with_first_category' => FirstCategoryQuery::class,
+            'with_first_comment'  => FirstCommentQueryV::class,
+            'with_first_category' => FirstCategoryQueryV::class,
         ];
     }
 
@@ -62,7 +62,7 @@ class PostCollection extends VResourceCollection
 
     public function withFirstCommentQuery(): self
     {
-        $this->registerQuery(FirstCommentQuery::class);
+        $this->registerQuery(FirstCommentQueryV::class);
 
         return $this;
     }

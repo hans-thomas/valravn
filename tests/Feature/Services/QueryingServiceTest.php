@@ -15,8 +15,8 @@ use Hans\Valravn\Tests\Core\Resources\Comment\CommentResource;
 use Hans\Valravn\Tests\Core\Resources\Post\PostCollection;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
 use Hans\Valravn\Tests\Instances\Http\Queries\CommentsQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQuery;
-use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQuery;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQueryV;
+use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQueryV;
 use Hans\Valravn\Tests\Instances\Services\QueryingServiceProxy;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
@@ -52,8 +52,8 @@ class QueryingServiceTest extends TestCase
         self::assertEquals(
             [
                 CommentsQuery::class, // CollectionQuery
-                FirstCommentQuery::class, // ResourceQuery
-                FirstCategoryQuery::class, // ResourceQuery
+                FirstCommentQueryV::class, // ResourceQuery
+                FirstCategoryQueryV::class, // ResourceQuery
             ],
             $this->collection->getRequestedQueries()
         );
@@ -67,11 +67,11 @@ class QueryingServiceTest extends TestCase
         )
                               ->applyRequestedQueries($this->posts->first());
         self::assertEquals(
-            FirstCommentQuery::class,
+            FirstCommentQueryV::class,
             get_class($this->serviceResource->_getExecutedQueries()[0])
         );
         self::assertEquals(
-            FirstCategoryQuery::class,
+            FirstCategoryQueryV::class,
             get_class($this->serviceResource->_getExecutedQueries()[1])
         );
     }

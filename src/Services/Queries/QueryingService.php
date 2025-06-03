@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Services\Queries;
 
 use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
-use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -80,7 +80,7 @@ class QueryingService
     public function mergeQueriedDataInto(array &$data): void
     {
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, ResourceQuery::class)) {
+            if (is_a($query, VResourceQuery::class)) {
                 $query->mergeDataInto($this->resource, $data);
             }
         }
@@ -90,7 +90,7 @@ class QueryingService
     {
         $data = [];
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, ResourceQuery::class)) {
+            if (is_a($query, VResourceQuery::class)) {
                 $data = array_merge($data, $query->getData());
             }
         }

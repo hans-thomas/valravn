@@ -4,7 +4,7 @@ namespace Hans\Valravn\Http\Resources\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class ResourceQuery
+abstract class VResourceQuery
 {
     /**
      * Store processed data.
