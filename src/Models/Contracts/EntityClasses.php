@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Models\Contracts;
 
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Hans\Valravn\Services\Contracts\VService;
 
 interface EntityClasses
@@ -10,9 +10,9 @@ interface EntityClasses
     /**
      * Return related repository class.
      *
-     * @return Repository
+     * @return VRepository
      */
-    public function getRepository(): Repository;
+    public function getRepository(): VRepository;
 
     /**
      * Return related service class.

@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Testing\Contracts;
 
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Illuminate\Database\Eloquent\Factories\Factory as EloquentFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -31,9 +31,9 @@ abstract class Factory
     /**
      * Return related repository instance.
      *
-     * @return Repository
+     * @return VRepository
      */
-    abstract public static function getRepository(): Repository;
+    abstract public static function getRepository(): VRepository;
 
     /**
      * PreCreate hook executes before factory ran.

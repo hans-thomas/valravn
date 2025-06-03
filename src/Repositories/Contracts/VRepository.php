@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
 
-abstract class Repository
+abstract class VRepository
 {
     /**
      * Authorization flag.

@@ -3,11 +3,11 @@
 namespace Hans\Valravn\Tests\Feature\Repositories;
 
 use Hans\Valravn\DTOs\BatchUpdateDto;
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
-use Hans\Valravn\Tests\Instances\Repositories\SampleRepository;
+use Hans\Valravn\Tests\Instances\Repositories\SampleVRepository;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,13 +16,13 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
-    private Repository $repository;
+    private VRepository $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
         PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
-        $this->repository = app(SampleRepository::class)->disableAuthorization();
+        $this->repository = app(SampleVRepository::class)->disableAuthorization();
     }
 
     #[Test]
@@ -30,7 +30,7 @@ class RepositoryTest extends TestCase
     {
         Gate::shouldReceive('authorize')
             ->once();
-        app(SampleRepository::class)->all();
+        app(SampleVRepository::class)->all();
     }
 
     #[Test]
