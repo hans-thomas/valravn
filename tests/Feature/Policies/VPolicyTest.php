@@ -16,35 +16,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 class VPolicyTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->actingAs(UserFactory::new()->create());
-        Gate::policy(Post::class, PostPolicy::class);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-
-        parent::tearDown();
-    }
-
-    #[Test, dataProvider('provideData')]
-    public function actions(string $action, array $args): void
-    {
-        $response = Gate::inspect($action, $args);
-
-        self::assertInstanceOf(Response::class, $response);
-        self::assertFalse($response->allowed());
-
-        $this->expectException(AuthorizationException::class);
-        $this->expectExceptionMessage('This action is unauthorized.');
-
-        $response->authorize();
-    }
-
     public static function provideData(): array
     {
         $post = new Post(['id' => 1, 'title' => 'the title', 'content' => 'some text.']);
@@ -59,6 +30,20 @@ class VPolicyTest extends TestCase
             ['restore', [$post]],
             ['forceDelete', [$post]],
         ];
+    }
+
+    #[Test, dataProvider('provideData')]
+    public function actions(string $action, array $args): void
+    {
+        $response = Gate::inspect($action, $args);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertFalse($response->allowed());
+
+        $this->expectException(AuthorizationException::class);
+        $this->expectExceptionMessage('This action is unauthorized.');
+
+        $response->authorize();
     }
 
     #[Test]
@@ -98,5 +83,20 @@ class VPolicyTest extends TestCase
         self::assertFalse($mockPolicy->viewAny($spyUser));
 
         $spyUser->shouldHaveReceived()->can('models-post-_mockery_handleMethodCall')->once();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(UserFactory::new()->create());
+        Gate::policy(Post::class, PostPolicy::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
     }
 }

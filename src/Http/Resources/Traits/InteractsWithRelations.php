@@ -25,7 +25,7 @@ trait InteractsWithRelations
     /**
      * Load relationships data if exists.
      *
-     * @param array              $data
+     * @param array $data
      * @param VJsonResource|null $resource
      *
      * @return void
@@ -52,26 +52,12 @@ trait InteractsWithRelations
 
                     if (filled($instance->$loadable)) {
                         $data[$loadable] = $resource::make($instance->$loadable)
-                                                    ->resolveRelationsUsing($this->relationResolvers)
-                                                    ->skipRelationsForModel($this->skipRelationsForModel);
+                            ->resolveRelationsUsing($this->relationResolvers)
+                            ->skipRelationsForModel($this->skipRelationsForModel);
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Accept relations and their custom resource class.
-     *
-     * @param array<string,class-string> $resolvers
-     *
-     * @return static
-     */
-    public function resolveRelationsUsing(array $resolvers): static
-    {
-        $this->relationResolvers = array_merge($this->relationResolvers, $resolvers);
-
-        return $this;
     }
 
     /**
@@ -84,6 +70,20 @@ trait InteractsWithRelations
     public function skipRelationsForModel(array $resolvers): static
     {
         $this->skipRelationsForModel = array_merge($this->skipRelationsForModel, $resolvers);
+
+        return $this;
+    }
+
+    /**
+     * Accept relations and their custom resource class.
+     *
+     * @param array<string,class-string> $resolvers
+     *
+     * @return static
+     */
+    public function resolveRelationsUsing(array $resolvers): static
+    {
+        $this->relationResolvers = array_merge($this->relationResolvers, $resolvers);
 
         return $this;
     }

@@ -17,12 +17,6 @@ class Category extends VModel implements Filterable
         'name',
     ];
 
-    public function posts(): BelongsToMany
-    {
-        return $this->belongsToMany(Post::class)
-                    ->withPivot('order');
-    }
-
     /**
      * Create a new factory instance for the model.
      *
@@ -31,6 +25,12 @@ class Category extends VModel implements Filterable
     protected static function newFactory()
     {
         return CategoryFactory::new();
+    }
+
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class)
+            ->withPivot('order');
     }
 
     /**

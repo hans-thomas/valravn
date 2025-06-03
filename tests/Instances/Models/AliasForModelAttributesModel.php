@@ -14,23 +14,23 @@ class AliasForModelAttributesModel extends Comment
         'its_post_id',
     ];
 
-    public function itsPostId(): Attribute
-    {
-        return new Attribute(get: fn () => $this->{Post::foreignKey()});
-    }
-
     /**
      * @return void
      */
     protected static function booted()
     {
         self::saving(
-            fn (self $model) => self::aliasForModelAttributes(
+            fn(self $model) => self::aliasForModelAttributes(
                 $model,
                 [
                     Post::foreignKey() => 'its_post_id',
                 ]
             )
         );
+    }
+
+    public function itsPostId(): Attribute
+    {
+        return new Attribute(get: fn() => $this->{Post::foreignKey()});
     }
 }

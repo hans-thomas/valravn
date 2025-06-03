@@ -22,26 +22,15 @@ abstract class Factory
     }
 
     /**
-     * Return related factory instance.
+     * Create an instance.
      *
-     * @return EloquentFactory
-     */
-    abstract protected static function getFactory(): EloquentFactory;
-
-    /**
-     * Return related repository instance.
+     * @param array $data
      *
-     * @return VRepository
+     * @return static
      */
-    abstract public static function getRepository(): VRepository;
-
-    /**
-     * PreCreate hook executes before factory ran.
-     *
-     * @return void
-     */
-    protected static function preCreateHook(): void
+    public static function create(array $data = []): static
     {
+        return new static($data);
     }
 
     /**
@@ -57,22 +46,33 @@ abstract class Factory
     }
 
     /**
-     * Create an instance.
+     * PreCreate hook executes before factory ran.
      *
-     * @param array $data
-     *
-     * @return static
+     * @return void
      */
-    public static function create(array $data = []): static
+    protected static function preCreateHook(): void
     {
-        return new static($data);
     }
+
+    /**
+     * Return related factory instance.
+     *
+     * @return EloquentFactory
+     */
+    abstract protected static function getFactory(): EloquentFactory;
+
+    /**
+     * Return related repository instance.
+     *
+     * @return VRepository
+     */
+    abstract public static function getRepository(): VRepository;
 
     /**
      * Create an instance but don't store.
      *
      * @param int|null $count
-     * @param array    $data
+     * @param array $data
      *
      * @return Collection|Model
      */
@@ -84,7 +84,7 @@ abstract class Factory
     /**
      * Create many fake data at once.
      *
-     * @param int   $count
+     * @param int $count
      * @param array $data
      *
      * @return Collection
@@ -92,9 +92,9 @@ abstract class Factory
     public static function createMany(int $count = 10, array $data = []): Collection
     {
         return static::factory()
-                     ->count($count)
-                     ->create($data)
-                     ->map(static fn (Model $model) => $model->fresh());
+            ->count($count)
+            ->create($data)
+            ->map(static fn(Model $model) => $model->fresh());
     }
 
     /**

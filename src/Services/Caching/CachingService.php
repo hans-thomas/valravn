@@ -34,14 +34,15 @@ class CachingService
 
     public function __construct(
         private readonly Request $request
-    ) {
+    )
+    {
     }
 
     /**
      * Cache the given data.
      *
      * @param string $key
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return mixed
      */
@@ -53,8 +54,8 @@ class CachingService
     /**
      * Cache the returned data from callback.
      *
-     * @param string   $method
-     * @param array    $params
+     * @param string $method
+     * @param array $params
      * @param callable $callback
      *
      * @return mixed
@@ -72,7 +73,7 @@ class CachingService
      * Create a key for caching data.
      *
      * @param string $method
-     * @param array  $params
+     * @param array $params
      *
      * @return string
      */
@@ -81,7 +82,7 @@ class CachingService
         $keys = null;
         foreach ($params as $param) {
             if ($param instanceof Model) {
-                $keys[] = get_class($param)."($param->id)";
+                $keys[] = get_class($param) . "($param->id)";
             } elseif (is_object($param)) {
                 $keys[] = get_class($param);
             } elseif (is_bool($param)) {
@@ -91,7 +92,7 @@ class CachingService
             }
         }
         $key = implode(',', Arr::wrap($keys));
-        $service_class = isset($this->service) ? get_class($this->service) : 'given-data:'.md5($key);
+        $service_class = isset($this->service) ? get_class($this->service) : 'given-data:' . md5($key);
 
         return "$service_class:$method:($key)[{$this->request->getQueryString()}]";
     }
@@ -153,7 +154,7 @@ class CachingService
             return $this->remember(
                 $method,
                 $params,
-                fn () => $this->service->{$method}(...$params)
+                fn() => $this->service->{$method}(...$params)
             );
         }
 

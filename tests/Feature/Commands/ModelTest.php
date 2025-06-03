@@ -22,7 +22,7 @@ class ModelTest extends TestCase
             ->doesntExpectOutput('Seeder class created.')
             ->expectsQuestion('Should create migration?', false)
             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -50,17 +50,17 @@ class ModelTest extends TestCase
             ->doesntExpectOutput('Seeder class created.')
             ->expectsQuestion('Should create migration?', false)
             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts')
-             ->expectsOutput('Model class exists or could not be created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class exists or could not be created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -81,13 +81,13 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts -f')
-             ->expectsOutput('Model class created.')
-             ->expectsOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -100,22 +100,22 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts -f')
-             ->expectsOutput('Model class created.')
-             ->expectsOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts -f')
-             ->expectsOutput('Model class exists or could not be created.')
-             ->expectsOutput('Factory class exists or could not be created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class exists or could not be created.')
+            ->expectsOutput('Factory class exists or could not be created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -128,14 +128,14 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', true)
-             ->expectsOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', true)
+            ->expectsOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -148,13 +148,13 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts -s')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -167,22 +167,22 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts -s')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:model blog posts -s')
-             ->expectsOutput('Model class exists or could not be created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsOutput('Seeder class exists or could not be created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class exists or could not be created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsOutput('Seeder class exists or could not be created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -195,14 +195,14 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', true)
-             ->expectsOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', false)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', true)
+            ->expectsOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', false)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -218,13 +218,13 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts -m')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsOutput('Migration file created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsOutput('Migration file created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -240,14 +240,14 @@ class ModelTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:model blog posts')
-             ->expectsOutput('Model class created.')
-             ->expectsQuestion('Should create factory?', false)
-             ->doesntExpectOutput('Factory class created.')
-             ->expectsQuestion('Should create seeder?', false)
-             ->doesntExpectOutput('Seeder class created.')
-             ->expectsQuestion('Should create migration?', true)
-             ->doesntExpectOutput('Migration class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Model class created.')
+            ->expectsQuestion('Should create factory?', false)
+            ->doesntExpectOutput('Factory class created.')
+            ->expectsQuestion('Should create seeder?', false)
+            ->doesntExpectOutput('Seeder class created.')
+            ->expectsQuestion('Should create migration?', true)
+            ->doesntExpectOutput('Migration class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }

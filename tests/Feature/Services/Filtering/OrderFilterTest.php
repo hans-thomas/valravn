@@ -11,12 +11,6 @@ class OrderFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
-    }
-
     #[Test]
     public function applyAsc(): void
     {
@@ -47,5 +41,11 @@ class OrderFilterTest extends TestCase
             'order by "title" desc',
             $builder->toSql()
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(FilteringService::class);
     }
 }

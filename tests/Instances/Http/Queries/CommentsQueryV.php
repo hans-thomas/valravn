@@ -19,14 +19,14 @@ class CommentsQueryV extends VCollectionQuery
     public function apply(VJsonResource $resource): array
     {
         $ids = $resource->resource instanceof Collection ?
-            $resource->resource->map(fn ($value) => ['id' => $value->id])->flatten() :
+            $resource->resource->map(fn($value) => ['id' => $value->id])->flatten() :
             [$resource->resource->id];
 
         return [
             'all_comments' => CommentCollection::make(
                 Comment::query()
-                       ->whereIn((new Post())->getForeignKey(), $ids)
-                       ->get()
+                    ->whereIn((new Post())->getForeignKey(), $ids)
+                    ->get()
             ),
         ];
     }

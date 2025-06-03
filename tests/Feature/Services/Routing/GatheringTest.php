@@ -12,12 +12,6 @@ class GatheringTest extends TestCase
 {
     private RoutingService $service;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(RoutingService::class);
-    }
-
     #[Test]
     public function addRoute(): void
     {
@@ -58,5 +52,11 @@ class GatheringTest extends TestCase
             url('samples/-gathering/v1/something'),
             route('samples.gathering.something-v1')
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(RoutingService::class);
     }
 }

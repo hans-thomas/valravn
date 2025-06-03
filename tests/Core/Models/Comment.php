@@ -16,11 +16,6 @@ class Comment extends VModel
         'content',
     ];
 
-    public function post(): BelongsTo
-    {
-        return $this->belongsTo(Post::class);
-    }
-
     /**
      * Create a new factory instance for the model.
      *
@@ -29,5 +24,10 @@ class Comment extends VModel
     protected static function newFactory()
     {
         return CommentFactory::new();
+    }
+
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
     }
 }

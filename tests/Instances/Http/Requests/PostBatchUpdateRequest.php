@@ -25,7 +25,7 @@ class PostBatchUpdateRequest extends BatchUpdateRequest
     protected function fields(): array
     {
         return [
-            'title'   => ['string', 'max:255'],
+            'title' => ['string', 'max:255'],
             'content' => ['string'],
         ];
     }

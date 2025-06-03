@@ -6,7 +6,6 @@ use Hans\Valravn\Tests\Instances\Http\Requests\LikeLikableRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Validation\Rule;
 use PHPUnit\Framework\Attributes\Test;
-
 use function PHPUnit\Framework\assertEquals;
 
 class MorphToRequestTest extends TestCase
@@ -18,7 +17,7 @@ class MorphToRequestTest extends TestCase
 
         assertEquals(
             [
-                'related'        => ['array:entity'],
+                'related' => ['array:entity'],
                 'related.entity' => ['required', 'string', Rule::in(['posts', 'comments'])],
             ],
             $rules

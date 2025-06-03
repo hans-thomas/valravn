@@ -8,16 +8,6 @@ use Hans\Valravn\Services\Caching\CachingService;
 abstract class VService
 {
     /**
-     * Cache method's result called on service instance.
-     *
-     * @return CachingService
-     */
-    public function cache(): CachingService
-    {
-        return VCache::setService($this);
-    }
-
-    /**
      * Cache methods when condition is true.
      *
      * @param bool $condition
@@ -31,5 +21,15 @@ abstract class VService
         }
 
         return $this;
+    }
+
+    /**
+     * Cache method's result called on service instance.
+     *
+     * @return CachingService
+     */
+    public function cache(): CachingService
+    {
+        return VCache::setService($this);
     }
 }

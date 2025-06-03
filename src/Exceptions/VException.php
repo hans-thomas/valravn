@@ -10,6 +10,12 @@ use Throwable;
 class VException extends Exception
 {
     /**
+     * A unique string acts as a namespace.
+     *
+     * @var string
+     */
+    protected string $errorCodePrefix;
+    /**
      * A unique code for each error.
      *
      * @var int
@@ -17,28 +23,22 @@ class VException extends Exception
     private int $errorCode;
 
     /**
-     * A unique string acts as a namespace.
-     *
-     * @var string
-     */
-    protected string $errorCodePrefix;
-
-    /**
-     * @param string         $message
-     * @param int            $errorCode
-     * @param int            $responseCode
-     * @param string         $errorCodePrefix
+     * @param string $message
+     * @param int $errorCode
+     * @param int $responseCode
+     * @param string $errorCodePrefix
      * @param Throwable|null $previous
      *
      * @throws Exception
      */
     public function __construct(
-        string $message,
-        int $errorCode,
-        int $responseCode = 500,
-        string $errorCodePrefix = '',
+        string     $message,
+        int        $errorCode,
+        int        $responseCode = 500,
+        string     $errorCodePrefix = '',
         ?Throwable $previous = null,
-    ) {
+    )
+    {
         parent::__construct($message, $responseCode, $previous);
         $this->errorCode = $errorCode;
 
@@ -59,9 +59,9 @@ class VException extends Exception
         vlog($this);
 
         return new JsonResponse([
-            'title'  => 'Unexpected error!',
+            'title' => 'Unexpected error!',
             'detail' => $this->getMessage(),
-            'code'   => $this->getErrorCode(),
+            'code' => $this->getErrorCode(),
         ], $this->getCode());
     }
 
@@ -72,6 +72,6 @@ class VException extends Exception
      */
     public function getErrorCode(): string
     {
-        return $this->errorCodePrefix.$this->errorCode;
+        return $this->errorCodePrefix . $this->errorCode;
     }
 }

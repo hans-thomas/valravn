@@ -17,20 +17,6 @@ class VHandlerTest extends TestCase
 {
     private Handler $handler;
 
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->handler = $this->app->make(Handler::class);
-        $this->handler->renderable(VHandler::convertUsing());
-
-        request()->headers->set('Accept', 'application/json');
-        Env::getRepository()->set('RAW_ERROR', false);
-    }
-
     #[Test]
     public function rawErrorEnv(): void
     {
@@ -108,5 +94,19 @@ class VHandlerTest extends TestCase
             'LEcx4050',
             $this->handler->render(request(), $e)->getOriginalContent()['code']
         );
+    }
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->handler = $this->app->make(Handler::class);
+        $this->handler->renderable(VHandler::convertUsing());
+
+        request()->headers->set('Accept', 'application/json');
+        Env::getRepository()->set('RAW_ERROR', false);
     }
 }

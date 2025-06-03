@@ -8,7 +8,7 @@ class HasMany extends VRelations
 {
     protected function routes(string $name, string $parameter, string $action): void
     {
-        $this->get('{'.$name."}/$parameter", $action);
-        $this->post('{'.$name."}/$parameter", $action);
+        $this->get('{' . $name . "}/$parameter", $action);
+        $this->post('{' . $name . "}/$parameter", $action);
     }
 }

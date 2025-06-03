@@ -12,40 +12,35 @@ trait VJsonResourceExtender
     use InteractsWithPivots;
 
     /**
-     * Store extra data for resource.
-     *
-     * @var array
-     */
-    private array $extra = [];
-
-    /**
      * Determine should execute includes.
      *
      * @var bool
      */
     protected bool $includes = false;
-
     /**
      * Keep requested includes to execute in the future.
      *
      * @var array
      */
     protected array $requested_includes = [];
-
     /**
      * Determine should execute queries.
      *
      * @var bool
      */
     protected bool $queries = false;
-
     /**
      * Keep requested queries to execute in the future.
      *
      * @var array
      */
     protected array $requested_queries = [];
-
+    /**
+     * Store extra data for resource.
+     *
+     * @var array
+     */
+    private array $extra = [];
     /**
      * Keep requested eager loads to execute in the future.
      *
@@ -71,49 +66,6 @@ trait VJsonResourceExtender
     abstract public function extract(Model $model): ?array;
 
     /**
-     * Specify the type of your resource.
-     *
-     * @return string
-     */
-    abstract public function type(): string;
-
-    /**
-     * List of available queries of this resource.
-     *
-     * @return array
-     */
-    public function getAvailableVQueries(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    /**
-     * List of available includes of this resource.
-     *
-     * @return array
-     */
-    public function getAvailableVIncludes(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    /**
-     * Executes when data loaded.
-     *
-     * @param $data
-     *
-     * @return void
-     */
-    protected function loaded(&$data): void
-    {
-        // ...
-    }
-
-    /**
      * Get any additional data that should be returned with the resource array.
      *
      * @param Request $request
@@ -126,6 +78,13 @@ trait VJsonResourceExtender
             'type' => $this->type(),
         ];
     }
+
+    /**
+     * Specify the type of your resource.
+     *
+     * @return string
+     */
+    abstract public function type(): string;
 
     /**
      * Merge data to the additional.
@@ -166,18 +125,6 @@ trait VJsonResourceExtender
     }
 
     /**
-     * Parse includes on this resource instance.
-     *
-     * @return $this
-     */
-    public function parseIncludes(): static
-    {
-        $this->includes = true;
-
-        return $this;
-    }
-
-    /**
      * Parse includes on this resource instance when condition is true.
      *
      * @param bool $condition
@@ -194,6 +141,18 @@ trait VJsonResourceExtender
     }
 
     /**
+     * Parse includes on this resource instance.
+     *
+     * @return $this
+     */
+    public function parseIncludes(): static
+    {
+        $this->includes = true;
+
+        return $this;
+    }
+
+    /**
      * Determine that resource should parse the includes or not.
      *
      * @return bool
@@ -201,72 +160,6 @@ trait VJsonResourceExtender
     public function shouldParseIncludes(): bool
     {
         return $this->includes;
-    }
-
-    /**
-     * Manually register an include class.
-     *
-     * @param string|object $include
-     * @param array         $actions
-     *
-     * @return $this
-     */
-    public function registerInclude(string|object $include, array $actions = []): static
-    {
-        $include = is_object($include) ? get_class($include) : $include;
-        if (in_array($include, $this->getAvailableVIncludes())) {
-            $this->addRequestedIncludes($include, $actions);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Register the given include to requested includes list.
-     *
-     * @param string $include
-     * @param array  $actions
-     *
-     * @return $this
-     */
-    protected function addRequestedIncludes(string $include, array $actions): static
-    {
-        if (key_exists($include, $this->getRequestedIncludes())) {
-            $this->requested_includes[$include] = array_merge(
-                $this->requested_includes[$include],
-                $actions
-            );
-        }
-        if (!key_exists($include, $this->getRequestedIncludes())) {
-            $this->requested_includes[$include] = $actions;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return the requested includes list.
-     *
-     * @return array
-     */
-    public function getRequestedIncludes(): array
-    {
-        return $this->requested_includes;
-    }
-
-    /**
-     * Set a nested eager load for current instance.
-     *
-     * @param string $include
-     * @param string $eagerLoads
-     *
-     * @return $this
-     */
-    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): static
-    {
-        $this->requested_eager_loads[$include] = $eagerLoads;
-
-        return $this;
     }
 
     /**
@@ -318,15 +211,81 @@ trait VJsonResourceExtender
     }
 
     /**
-     * Parse queries on this resource instance.
+     * Set a nested eager load for current instance.
+     *
+     * @param string $include
+     * @param string $eagerLoads
      *
      * @return $this
      */
-    public function parseQueries(): static
+    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): static
     {
-        $this->queries = true;
+        $this->requested_eager_loads[$include] = $eagerLoads;
 
         return $this;
+    }
+
+    /**
+     * List of available includes of this resource.
+     *
+     * @return array
+     */
+    public function getAvailableVIncludes(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Manually register an include class.
+     *
+     * @param string|object $include
+     * @param array $actions
+     *
+     * @return $this
+     */
+    public function registerInclude(string|object $include, array $actions = []): static
+    {
+        $include = is_object($include) ? get_class($include) : $include;
+        if (in_array($include, $this->getAvailableVIncludes())) {
+            $this->addRequestedIncludes($include, $actions);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register the given include to requested includes list.
+     *
+     * @param string $include
+     * @param array $actions
+     *
+     * @return $this
+     */
+    protected function addRequestedIncludes(string $include, array $actions): static
+    {
+        if (key_exists($include, $this->getRequestedIncludes())) {
+            $this->requested_includes[$include] = array_merge(
+                $this->requested_includes[$include],
+                $actions
+            );
+        }
+        if (!key_exists($include, $this->getRequestedIncludes())) {
+            $this->requested_includes[$include] = $actions;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return the requested includes list.
+     *
+     * @return array
+     */
+    public function getRequestedIncludes(): array
+    {
+        return $this->requested_includes;
     }
 
     /**
@@ -346,6 +305,18 @@ trait VJsonResourceExtender
     }
 
     /**
+     * Parse queries on this resource instance.
+     *
+     * @return $this
+     */
+    public function parseQueries(): static
+    {
+        $this->queries = true;
+
+        return $this;
+    }
+
+    /**
      * Determine that resource should parse the queries or not.
      *
      * @return bool
@@ -353,6 +324,22 @@ trait VJsonResourceExtender
     public function shouldParseQueries(): bool
     {
         return $this->queries;
+    }
+
+    /**
+     * Manually register several query classes.
+     *
+     * @param array $queries
+     *
+     * @return $this
+     */
+    public function registerQueries(array $queries): static
+    {
+        foreach ($queries as $query) {
+            $this->registerQuery($query);
+        }
+
+        return $this;
     }
 
     /**
@@ -373,29 +360,15 @@ trait VJsonResourceExtender
     }
 
     /**
-     * Manually register several query classes.
-     *
-     * @param array $queries
-     *
-     * @return $this
-     */
-    public function registerQueries(array $queries): static
-    {
-        foreach ($queries as $query) {
-            $this->registerQuery($query);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return the requested queries list.
+     * List of available queries of this resource.
      *
      * @return array
      */
-    public function getRequestedQueries(): array
+    public function getAvailableVQueries(): array
     {
-        return $this->requested_queries;
+        return [
+            //
+        ];
     }
 
     /**
@@ -412,6 +385,16 @@ trait VJsonResourceExtender
         }
 
         return $this;
+    }
+
+    /**
+     * Return the requested queries list.
+     *
+     * @return array
+     */
+    public function getRequestedQueries(): array
+    {
+        return $this->requested_queries;
     }
 
     /**
@@ -436,6 +419,18 @@ trait VJsonResourceExtender
         $this->only = is_array($fields) ? $fields : func_get_args();
 
         return $this;
+    }
+
+    /**
+     * Executes when data loaded.
+     *
+     * @param $data
+     *
+     * @return void
+     */
+    protected function loaded(&$data): void
+    {
+        // ...
     }
 
     /**

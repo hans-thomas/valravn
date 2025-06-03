@@ -7,6 +7,20 @@ use Illuminate\Support\Collection;
 
 class BatchUpdateDto extends VDto
 {
+    /** @inheritDoc */
+    public static function makeFromArray(array|Collection $data): static
+    {
+        $data = $data instanceof Collection ? $data->toArray() : $data;
+
+        return new self($data);
+    }
+
+    /** @inheritDoc */
+    public static function getKeyName(): string
+    {
+        return 'batch';
+    }
+
     /**
      * Process the received data.
      *
@@ -21,19 +35,5 @@ class BatchUpdateDto extends VDto
         }
 
         return collect($data['batch'])->reverse()->unique('id')->reverse();
-    }
-
-    /** @inheritDoc */
-    public static function makeFromArray(array|Collection $data): static
-    {
-        $data = $data instanceof Collection ? $data->toArray() : $data;
-
-        return new self($data);
-    }
-
-    /** @inheritDoc */
-    public static function getKeyName(): string
-    {
-        return 'batch';
     }
 }

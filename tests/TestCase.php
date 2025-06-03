@@ -56,6 +56,25 @@ class TestCase extends BaseTestCase
         parent::tearDown();
     }
 
+    protected function cleanUp(array $paths, array $ignoreFiles = []): void
+    {
+        $fs = new Filesystem();
+
+        foreach ($paths as $path) {
+            if ($fs->isFile($path)) {
+                $fs->delete($path);
+            }
+
+            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path, true)) {
+                foreach ($fs->allFiles($path) as $file) {
+                    if (!in_array($file, $ignoreFiles)) {
+                        $fs->delete($file);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Get application timezone.
      *
@@ -94,9 +113,9 @@ class TestCase extends BaseTestCase
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 
@@ -111,19 +130,19 @@ class TestCase extends BaseTestCase
     {
         $router->get(
             '/includes/posts/{post}',
-            fn ($post) => PostResource::make(Post::findOrFail($post))->parseIncludes()
+            fn($post) => PostResource::make(Post::findOrFail($post))->parseIncludes()
         );
         $router->get(
             '/includes/posts',
-            fn () => PostCollection::make(Post::all())->parseIncludes()
+            fn() => PostCollection::make(Post::all())->parseIncludes()
         );
         $router->get(
             '/queries/posts/{post}',
-            fn ($post) => PostResource::make(Post::findOrFail($post))->parseQueries()
+            fn($post) => PostResource::make(Post::findOrFail($post))->parseQueries()
         );
         $router->get(
             '/queries/posts',
-            fn () => PostCollection::make(Post::all())->parseQueries()
+            fn() => PostCollection::make(Post::all())->parseQueries()
         );
     }
 
@@ -135,7 +154,7 @@ class TestCase extends BaseTestCase
     protected function defineDatabaseMigrations(): void
     {
         $this->loadMigrationsFrom(
-            __DIR__.'/Core/migrations'
+            __DIR__ . '/Core/migrations'
         );
     }
 
@@ -147,27 +166,8 @@ class TestCase extends BaseTestCase
         );
     }
 
-    protected function cleanUp(array $paths, array $ignoreFiles = []): void
-    {
-        $fs = new Filesystem();
-
-        foreach ($paths as $path) {
-            if ($fs->isFile($path)) {
-                $fs->delete($path);
-            }
-
-            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path, true)) {
-                foreach ($fs->allFiles($path) as $file) {
-                    if (!in_array($file, $ignoreFiles)) {
-                        $fs->delete($file);
-                    }
-                }
-            }
-        }
-    }
-
     protected function getStub(string $stub): string
     {
-        return file_get_contents(__DIR__."/../src/Commands/stubs/$stub");
+        return file_get_contents(__DIR__ . "/../src/Commands/stubs/$stub");
     }
 }

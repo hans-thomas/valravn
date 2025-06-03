@@ -17,11 +17,11 @@ class ResourcesTest extends TestCase
         self::assertFileDoesNotExist($collection);
 
         $this->artisan('valravn:resources blog posts')
-             ->expectsOutput('Resource class created.')
-             ->doesntExpectOutput('Resource class exists or could not be created.')
-             ->expectsOutput('ResourceCollection class created.')
-             ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Resource class created.')
+            ->doesntExpectOutput('Resource class exists or could not be created.')
+            ->expectsOutput('ResourceCollection class created.')
+            ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($resource);
 
@@ -54,18 +54,18 @@ class ResourcesTest extends TestCase
         self::assertFileDoesNotExist($collection);
 
         $this->artisan('valravn:resources blog posts')
-             ->expectsOutput('Resource class created.')
-             ->doesntExpectOutput('Resource class exists or could not be created.')
-             ->expectsOutput('ResourceCollection class created.')
-             ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Resource class created.')
+            ->doesntExpectOutput('Resource class exists or could not be created.')
+            ->expectsOutput('ResourceCollection class created.')
+            ->doesntExpectOutput('ResourceCollection class exists or could not be created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:resources blog posts')
-             ->doesntExpectOutput('Resource class created.')
-             ->expectsOutput('Resource class exists or could not be created.')
-             ->doesntExpectOutput('ResourceCollection class created.')
-             ->expectsOutput('ResourceCollection class exists or could not be created.')
-             ->assertSuccessful();
+            ->doesntExpectOutput('Resource class created.')
+            ->expectsOutput('Resource class exists or could not be created.')
+            ->doesntExpectOutput('ResourceCollection class created.')
+            ->expectsOutput('ResourceCollection class exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);
@@ -81,7 +81,7 @@ class ResourcesTest extends TestCase
         self::assertFileDoesNotExist($collection);
 
         $this->artisan('valravn:resources blog posts --v 2')
-             ->assertSuccessful();
+            ->assertSuccessful();
 
         self::assertFileExists($resource);
         self::assertFileExists($collection);

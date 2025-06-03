@@ -8,63 +8,49 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RelationTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        $this->cleanUp([
-            app_path('Http/Requests/V3/Blog/Post'),
-            app_path('Http/Requests/V4/Blog/Post'),
-            app_path('Http/Requests/V6/Blog/Post'),
-            app_path('Http/Requests/V8/Blog/Post'),
-            app_path('Http/Requests/V1/Blog/Like'),
-            app_path('Http/Requests/V9/Blog/Like'),
-        ]);
-
-        parent::tearDown();
-    }
-
     #[Test]
     public function relationWithChoiceBelongsToMany(): void
     {
         $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', 'BelongsToManyRequest')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What relation type should create?', 'BelongsToManyRequest')
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->assertSuccessful();
     }
 
     #[Test]
     public function relationWithChoiceMorphedByMany(): void
     {
         $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', 'MorphedByManyRequest')
-             ->expectsOutput('Relation MorphedByMany request class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What relation type should create?', 'MorphedByManyRequest')
+            ->expectsOutput('Relation MorphedByMany request class created.')
+            ->assertSuccessful();
     }
 
     #[Test]
     public function relationWithChoiceMorphToMany(): void
     {
         $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', 'MorphToManyRequest')
-             ->expectsOutput('Relation MorphToMany request class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What relation type should create?', 'MorphToManyRequest')
+            ->expectsOutput('Relation MorphToMany request class created.')
+            ->assertSuccessful();
     }
 
     #[Test]
     public function relationWithChoiceHasMany(): void
     {
         $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', 'HasManyRequest')
-             ->expectsOutput('Relation HasMany request class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What relation type should create?', 'HasManyRequest')
+            ->expectsOutput('Relation HasMany request class created.')
+            ->assertSuccessful();
     }
 
     #[Test]
     public function relationWithChoiceMorphTo(): void
     {
         $this->artisan('valravn:relation blog Post core category')
-             ->expectsQuestion('What relation type should create?', 'MorphToRequest')
-             ->expectsOutput('Relation MorphTo request class created.')
-             ->assertSuccessful();
+            ->expectsQuestion('What relation type should create?', 'MorphToRequest')
+            ->expectsOutput('Relation MorphTo request class created.')
+            ->assertSuccessful();
     }
 
     #[Test]
@@ -75,8 +61,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -100,12 +86,12 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many')
-             ->expectsOutput('Relation BelongsToMany request class exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -124,9 +110,9 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($pivot);
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many --with-pivot')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->expectsOutput('Pivot migration file created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->expectsOutput('Pivot migration file created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
         self::assertFileExists($pivot);
@@ -146,14 +132,14 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($pivot);
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many --with-pivot')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->expectsOutput('Pivot migration file created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->expectsOutput('Pivot migration file created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many --with-pivot')
-             ->expectsOutput('Relation BelongsToMany request class exists or could not be created.')
-             ->expectsOutput('Pivot migration file exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class exists or could not be created.')
+            ->expectsOutput('Pivot migration file exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
         self::assertFileExists($pivot);
@@ -167,8 +153,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core category --belongs-to-many --v 3')
-             ->expectsOutput('Relation BelongsToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation BelongsToMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -194,7 +180,7 @@ class RelationTest extends TestCase
         $this->expectExceptionMessage('The {related-name} parameter should not be empty when going to create a many-to-many relationship.');
 
         $this->artisan('valravn:relation blog Post core --belongs-to-many')
-             ->assertFailed();
+            ->assertFailed();
 
         self::assertFileDoesNotExist($file);
     }
@@ -208,8 +194,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core category --has-many')
-             ->expectsOutput('Relation HasMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation HasMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -233,8 +219,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog Post core category --has-many --v 4')
-             ->expectsOutput('Relation HasMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation HasMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -258,8 +244,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog post core category --morphed-by-many')
-             ->expectsOutput('Relation MorphedByMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphedByMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -289,9 +275,9 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($pivot);
 
         $this->artisan('valravn:relation blog post core category --morphed-by-many --with-pivot')
-             ->expectsOutput('Relation MorphedByMany request class created.')
-             ->expectsOutput('Pivot migration file created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphedByMany request class created.')
+            ->expectsOutput('Pivot migration file created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
         self::assertFileExists($pivot);
@@ -305,8 +291,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog post core category --morphed-by-many --v 6')
-             ->expectsOutput('Relation MorphedByMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphedByMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -330,8 +316,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog post core category --morph-to-many')
-             ->expectsOutput('Relation MorphToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphToMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -361,8 +347,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($pivot);
 
         $this->artisan('valravn:relation blog post core category --morph-to-many --with-pivot')
-             ->expectsOutput('Relation MorphToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphToMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
         self::assertFileExists($pivot);
@@ -376,8 +362,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog post core category --morph-to-many --v 8')
-             ->expectsOutput('Relation MorphToMany request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphToMany request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -401,8 +387,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog like likable --morph-to')
-             ->expectsOutput('Relation MorphTo request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphTo request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -423,12 +409,12 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog like likable --morph-to')
-             ->expectsOutput('Relation MorphTo request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphTo request class created.')
+            ->assertSuccessful();
 
         $this->artisan('valravn:relation blog like likable --morph-to')
-             ->expectsOutput('Relation MorphTo request class exists or could not be created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphTo request class exists or could not be created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
     }
@@ -441,8 +427,8 @@ class RelationTest extends TestCase
         self::assertFileDoesNotExist($file);
 
         $this->artisan('valravn:relation blog like likable --morph-to --v 9')
-             ->expectsOutput('Relation MorphTo request class created.')
-             ->assertSuccessful();
+            ->expectsOutput('Relation MorphTo request class created.')
+            ->assertSuccessful();
 
         self::assertFileExists($file);
 
@@ -453,5 +439,19 @@ class RelationTest extends TestCase
         $relationStub = str_replace('{{RELATION::RELATION}}', 'Likable', $relationStub);
 
         self::assertEquals($relationStub, file_get_contents($file));
+    }
+
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            app_path('Http/Requests/V3/Blog/Post'),
+            app_path('Http/Requests/V4/Blog/Post'),
+            app_path('Http/Requests/V6/Blog/Post'),
+            app_path('Http/Requests/V8/Blog/Post'),
+            app_path('Http/Requests/V1/Blog/Like'),
+            app_path('Http/Requests/V9/Blog/Like'),
+        ]);
+
+        parent::tearDown();
     }
 }

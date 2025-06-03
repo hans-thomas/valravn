@@ -86,18 +86,6 @@ abstract class VResourceCollection extends ResourceCollection implements VJsonRe
     }
 
     /**
-     * Executes when all items loaded.
-     *
-     * @param Collection $response
-     *
-     * @return void
-     */
-    protected function allLoaded(Collection &$response): void
-    {
-        // ...
-    }
-
-    /**
      * Executes when data loaded.
      *
      * @param                    $data
@@ -106,6 +94,18 @@ abstract class VResourceCollection extends ResourceCollection implements VJsonRe
      * @return void
      */
     protected function loaded(&$data, ?VJsonResource $resource = null): void
+    {
+        // ...
+    }
+
+    /**
+     * Executes when all items loaded.
+     *
+     * @param Collection $response
+     *
+     * @return void
+     */
+    protected function allLoaded(Collection &$response): void
     {
         // ...
     }

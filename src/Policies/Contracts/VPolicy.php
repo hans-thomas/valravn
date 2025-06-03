@@ -14,13 +14,6 @@ abstract class VPolicy
     use PolicyHelperTrait;
 
     /**
-     * Set the related model class.
-     *
-     * @return string
-     */
-    abstract protected function getModel(): string;
-
-    /**
      * Determine whether the user can view any models.
      *
      * @param User $user
@@ -35,7 +28,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -60,7 +53,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -73,7 +66,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can batch update the model.
      *
-     * @param User       $user
+     * @param User $user
      * @param Collection $data
      *
      * @return bool
@@ -86,7 +79,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -99,7 +92,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -112,7 +105,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -121,4 +114,11 @@ abstract class VPolicy
     {
         return $user->can($this->guessAbility());
     }
+
+    /**
+     * Set the related model class.
+     *
+     * @return string
+     */
+    abstract protected function getModel(): string;
 }

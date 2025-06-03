@@ -17,7 +17,7 @@ class FilteringService
 
     /**
      * @param Builder $builder
-     * @param array   $options
+     * @param array $options
      *
      * @return Builder
      */
@@ -55,13 +55,12 @@ class FilteringService
         return $actions;
     }
 
-    public function withFilter(string $filter, array $args): self
+    /**
+     * @return array
+     */
+    public function getRequested(): array
     {
-        if (in_array($filter, $this->registered_filters)) {
-            $this->requested_filters[$filter] = $args;
-        }
-
-        return $this;
+        return $this->requested_filters ?? [];
     }
 
     public function withFilters(array $filters): self
@@ -73,19 +72,20 @@ class FilteringService
         return $this;
     }
 
+    public function withFilter(string $filter, array $args): self
+    {
+        if (in_array($filter, $this->registered_filters)) {
+            $this->requested_filters[$filter] = $args;
+        }
+
+        return $this;
+    }
+
     /**
      * @return array
      */
     public function getRegistered(): array
     {
         return $this->registered_filters;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRequested(): array
-    {
-        return $this->requested_filters ?? [];
     }
 }

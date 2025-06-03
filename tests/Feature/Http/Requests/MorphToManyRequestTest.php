@@ -18,7 +18,7 @@ class MorphToManyRequestTest extends TestCase
 
         self::assertEquals(
             [
-                'related'      => ['array'],
+                'related' => ['array'],
                 'related.*.id' => ['required', 'numeric', Rule::exists(Post::class, 'id')],
             ],
             $rules
@@ -32,11 +32,11 @@ class MorphToManyRequestTest extends TestCase
 
         self::assertEquals(
             [
-                'related'               => ['array'],
-                'related.*.id'          => ['required', 'numeric', Rule::exists(Post::class, 'id')],
-                'related.*.pivot'       => ['array:order,info'],
+                'related' => ['array'],
+                'related.*.id' => ['required', 'numeric', Rule::exists(Post::class, 'id')],
+                'related.*.pivot' => ['array:order,info'],
                 'related.*.pivot.order' => ['numeric', 'min:1', 'max:99'],
-                'related.*.pivot.info'  => ['string', 'max:128'],
+                'related.*.pivot.info' => ['string', 'max:128'],
             ],
             $rules
         );

@@ -9,44 +9,10 @@ use Illuminate\Support\Collection;
 class ManyToManyDto extends VDto
 {
     /**
-     * Process the received data.
-     *
-     * @param array $data
-     *
-     * @return Collection
-     */
-    protected function parse(array $data): Collection
-    {
-        $output = [];
-        if (!isset($data['related'])) {
-            return collect();
-        }
-        $data['related'] = $data['related'] instanceof Collection ? $data['related']->toArray() : $data['related'];
-        foreach (array_reverse($data['related']) as $item) {
-            if (
-                in_array($item['id'], $output) or
-                in_array(
-                    $item['id'],
-                    array_keys(Arr::where($output, static fn ($value, $key) => is_array($value)))
-                )
-            ) {
-                continue;
-            }
-            if (isset($item['pivot'])) {
-                $output[$item['id']] = $item['pivot'];
-            } else {
-                $output[] = $item['id'];
-            }
-        }
-
-        return collect($output)->reverse();
-    }
-
-    /**
      * Add given values to the data.
      *
      * @param array $values
-     * @param bool  $force
+     * @param bool $force
      *
      * @return Collection
      */
@@ -68,5 +34,39 @@ class ManyToManyDto extends VDto
         }
 
         return $this->data = $output;
+    }
+
+    /**
+     * Process the received data.
+     *
+     * @param array $data
+     *
+     * @return Collection
+     */
+    protected function parse(array $data): Collection
+    {
+        $output = [];
+        if (!isset($data['related'])) {
+            return collect();
+        }
+        $data['related'] = $data['related'] instanceof Collection ? $data['related']->toArray() : $data['related'];
+        foreach (array_reverse($data['related']) as $item) {
+            if (
+                in_array($item['id'], $output) or
+                in_array(
+                    $item['id'],
+                    array_keys(Arr::where($output, static fn($value, $key) => is_array($value)))
+                )
+            ) {
+                continue;
+            }
+            if (isset($item['pivot'])) {
+                $output[$item['id']] = $item['pivot'];
+            } else {
+                $output[] = $item['id'];
+            }
+        }
+
+        return collect($output)->reverse();
     }
 }

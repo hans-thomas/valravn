@@ -46,13 +46,13 @@ class ValravnServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function boot()
     {
-        $configFile = __DIR__.'/../config/config.php';
+        $configFile = __DIR__ . '/../config/config.php';
         $config = require $configFile;
         if ($publishedConfigVersion = config('valravn.config_version', false)) {
             throw_if(
@@ -72,52 +72,6 @@ class ValravnServiceProvider extends ServiceProvider
         if (env('REGISTER_ROUTES', true)) {
             $this->registerRoutes();
         }
-    }
-
-    /**
-     * Register created commands.
-     *
-     * @return void
-     */
-    private function registerCommands(): void
-    {
-        $this->commands([
-            InstallCommand::class,
-            Entity::class,
-            Controller::class,
-            Controllers::class,
-            Exception::class,
-            Migration::class,
-            Model::class,
-            Policy::class,
-            Repository::class,
-            Requests::class,
-            Resources::class,
-            Service::class,
-            RelationCommand::class,
-            Pivot::class,
-        ]);
-    }
-
-    /**
-     * Register publishable files.
-     *
-     * @return void
-     */
-    private function registerPublishes(): void
-    {
-        $this->publishes(
-            [
-                __DIR__.'/../config/config.php' => config_path('valravn.php'),
-            ],
-            'valravn-config'
-        );
-        $this->publishes(
-            [
-                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
-            ],
-            'valravn-provider'
-        );
     }
 
     /**
@@ -177,6 +131,52 @@ class ValravnServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register created commands.
+     *
+     * @return void
+     */
+    private function registerCommands(): void
+    {
+        $this->commands([
+            InstallCommand::class,
+            Entity::class,
+            Controller::class,
+            Controllers::class,
+            Exception::class,
+            Migration::class,
+            Model::class,
+            Policy::class,
+            Repository::class,
+            Requests::class,
+            Resources::class,
+            Service::class,
+            RelationCommand::class,
+            Pivot::class,
+        ]);
+    }
+
+    /**
+     * Register publishable files.
+     *
+     * @return void
+     */
+    private function registerPublishes(): void
+    {
+        $this->publishes(
+            [
+                __DIR__ . '/../config/config.php' => config_path('valravn.php'),
+            ],
+            'valravn-config'
+        );
+        $this->publishes(
+            [
+                __DIR__ . '/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
+            ],
+            'valravn-provider'
+        );
+    }
+
+    /**
      * Register created migrations files by migration command in sub folders.
      *
      * @return void
@@ -189,12 +189,12 @@ class ValravnServiceProvider extends ServiceProvider
                 $directories,
                 array_filter(
                     scandir($migrationPath),
-                    static fn ($item) => !in_array($item, ['.', '..'])
+                    static fn($item) => !in_array($item, ['.', '..'])
                 )
             );
         }
         $paths = array_map(
-            static fn ($item) => database_path("migrations/$item"),
+            static fn($item) => database_path("migrations/$item"),
             $directories
         );
 
@@ -216,9 +216,9 @@ class ValravnServiceProvider extends ServiceProvider
                 $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
 
                 Route::prefix("api/$name")
-                     ->name("$name.")
-                     ->middleware(valravn_config('middlewares'))
-                     ->group($file->getRealPath());
+                    ->name("$name.")
+                    ->middleware(valravn_config('middlewares'))
+                    ->group($file->getRealPath());
             }
         }
 

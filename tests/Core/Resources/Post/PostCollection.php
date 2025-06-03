@@ -17,8 +17,8 @@ class PostCollection extends VResourceCollection
     public function getAvailableVQueries(): array
     {
         return [
-            'with_all_comments'   => CommentsQueryV::class,
-            'with_first_comment'  => FirstCommentQueryV::class,
+            'with_all_comments' => CommentsQueryV::class,
+            'with_first_comment' => FirstCommentQueryV::class,
             'with_first_category' => FirstCategoryQueryV::class,
         ];
     }

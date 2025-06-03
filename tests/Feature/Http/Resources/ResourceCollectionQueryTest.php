@@ -15,40 +15,33 @@ class ResourceCollectionQueryTest extends TestCase
 {
     private Collection $posts;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->posts = PostFactory::new()->count(3)->has(CommentFactory::new()->count(5))->create();
-    }
-
     #[Test]
     public function collection(): void
     {
         $resource = PostCollection::make($this->posts)
-                                  ->skipRelationsForModel([Post::class => 'comments'])
-                                  ->withAllCommentsQuery();
-        $comments = $this->posts->map(fn (Post $post) => $post->comments)->flatten();
+            ->skipRelationsForModel([Post::class => 'comments'])
+            ->withAllCommentsQuery();
+        $comments = $this->posts->map(fn(Post $post) => $post->comments)->flatten();
 
         self::assertEquals(
             [
-                'data'         => $this->posts->map(
-                    fn (Post $post) => [
-                        'type'    => 'posts',
-                        'id'      => $post->id,
-                        'title'   => $post->title,
+                'data' => $this->posts->map(
+                    fn(Post $post) => [
+                        'type' => 'posts',
+                        'id' => $post->id,
+                        'title' => $post->title,
                         'content' => $post->content,
                     ]
                 )->toArray(),
-                'type'         => 'posts',
+                'type' => 'posts',
                 'all_comments' => $comments->map(
-                    fn (Comment $comment) => [
-                        'type'    => 'comments',
-                        'id'      => $comment->id,
+                    fn(Comment $comment) => [
+                        'type' => 'comments',
+                        'id' => $comment->id,
                         'content' => $comment->content,
                     ]
                 )
-                             ->toArray(),
+                    ->toArray(),
             ],
             $this->resourceToJson($resource)
         );
@@ -58,27 +51,27 @@ class ResourceCollectionQueryTest extends TestCase
     public function includesOnCollectionClassThroughApi(): void
     {
         $content = $this->get('/includes/posts?includes=comments')
-                        ->json();
+            ->json();
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn (Post $post) => [
-                        'type'     => 'posts',
-                        'id'       => $post->id,
-                        'title'    => $post->title,
-                        'content'  => $post->content,
+                    fn(Post $post) => [
+                        'type' => 'posts',
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'content' => $post->content,
                         'comments' => $post->comments
                             ->map(
-                                fn (Comment $value) => [
-                                    'type'    => 'comments',
-                                    'id'      => $value->id,
+                                fn(Comment $value) => [
+                                    'type' => 'comments',
+                                    'id' => $value->id,
                                     'content' => $value->content,
                                 ]
                             )
                             ->toArray(),
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $content
@@ -89,24 +82,24 @@ class ResourceCollectionQueryTest extends TestCase
     public function queriesThroughApi(): void
     {
         $content = $this->get('/queries/posts?with_first_comment')
-                        ->json();
+            ->json();
 
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn (Post $post) => [
-                        'type'          => 'posts',
-                        'id'            => $post->id,
-                        'title'         => $post->title,
-                        'content'       => $post->content,
+                    fn(Post $post) => [
+                        'type' => 'posts',
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'content' => $post->content,
                         'first_comment' => [
-                            'type'    => 'comments',
-                            'id'      => ($comment = $post->comments()->limit(1)->first())->id,
+                            'type' => 'comments',
+                            'id' => ($comment = $post->comments()->limit(1)->first())->id,
                             'content' => $comment->content,
                         ],
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $content
@@ -121,22 +114,29 @@ class ResourceCollectionQueryTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn (Post $post) => [
-                        'type'          => 'posts',
-                        'id'            => $post->id,
-                        'title'         => $post->title,
-                        'content'       => $post->content,
+                    fn(Post $post) => [
+                        'type' => 'posts',
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'content' => $post->content,
                         'first_comment' => [
-                            'type'    => 'comments',
-                            'id'      => ($comment = $post->comments()->limit(1)->first())->id,
+                            'type' => 'comments',
+                            'id' => ($comment = $post->comments()->limit(1)->first())->id,
                             'content' => $comment->content,
                         ],
                     ]
                 )
-                                      ->toArray(),
+                    ->toArray(),
                 'type' => 'posts',
             ],
             $this->resourceToJson($resource)
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->posts = PostFactory::new()->count(3)->has(CommentFactory::new()->count(5))->create();
     }
 }

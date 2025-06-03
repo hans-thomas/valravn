@@ -13,12 +13,6 @@ class JsonResourceQueriesTest extends TestCase
 {
     private Post $post;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
-    }
-
     #[Test]
     public function queries(): void
     {
@@ -26,13 +20,13 @@ class JsonResourceQueriesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type'          => 'posts',
-                    'id'            => $this->post->id,
-                    'title'         => $this->post->title,
-                    'content'       => $this->post->content,
+                    'type' => 'posts',
+                    'id' => $this->post->id,
+                    'title' => $this->post->title,
+                    'content' => $this->post->content,
                     'first_comment' => [
-                        'type'    => 'comments',
-                        'id'      => ($comment = $this->post->comments()->limit(1)->first())->id,
+                        'type' => 'comments',
+                        'id' => ($comment = $this->post->comments()->limit(1)->first())->id,
                         'content' => $comment->content,
                     ],
                 ],
@@ -46,17 +40,17 @@ class JsonResourceQueriesTest extends TestCase
     public function queriesThroughApi(): void
     {
         $content = $this->get("/queries/posts/{$this->post->id}?with_first_comment")
-                        ->json();
+            ->json();
         self::assertEquals(
             [
                 'data' => [
-                    'type'          => 'posts',
-                    'id'            => $this->post->id,
-                    'title'         => $this->post->title,
-                    'content'       => $this->post->content,
+                    'type' => 'posts',
+                    'id' => $this->post->id,
+                    'title' => $this->post->title,
+                    'content' => $this->post->content,
                     'first_comment' => [
-                        'type'    => 'comments',
-                        'id'      => ($comment = $this->post->comments()->limit(1)->first())->id,
+                        'type' => 'comments',
+                        'id' => ($comment = $this->post->comments()->limit(1)->first())->id,
                         'content' => $comment->content,
                     ],
                 ],
@@ -64,5 +58,11 @@ class JsonResourceQueriesTest extends TestCase
             ],
             $content
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

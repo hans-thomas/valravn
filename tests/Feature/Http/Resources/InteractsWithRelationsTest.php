@@ -12,18 +12,6 @@ class InteractsWithRelationsTest extends TestCase
 {
     private Post $post;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->post = PostFactory::new()
-                                 ->hasAttached(
-                                     CategoryFactory::new()->count(5),
-                                     ['order' => rand(1, 100)]
-                                 )
-                                 ->create();
-    }
-
     #[Test]
     public function loadRelation(): void
     {
@@ -45,5 +33,17 @@ class InteractsWithRelationsTest extends TestCase
             'categories',
             $this->post->toVResource()->toResponse(request())->getData(true)['data']
         );
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->post = PostFactory::new()
+            ->hasAttached(
+                CategoryFactory::new()->count(5),
+                ['order' => rand(1, 100)]
+            )
+            ->create();
     }
 }

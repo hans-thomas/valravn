@@ -18,19 +18,22 @@ class RepositoryTest extends TestCase
 {
     private VRepository $repository;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
-        $this->repository = app(SampleVRepository::class)->disableAuthorization();
-    }
-
     #[Test]
     public function shouldAuthorizeAsDefault(): void
     {
         Gate::shouldReceive('authorize')
             ->once();
         app(SampleVRepository::class)->all();
+    }
+
+    #[Test]
+    public function all(): void
+    {
+        $models = $this->repository->all()->get();
+        self::assertEquals(
+            Post::all()->toArray(),
+            $models->toArray()
+        );
     }
 
     #[Test]
@@ -50,22 +53,12 @@ class RepositoryTest extends TestCase
     }
 
     #[Test]
-    public function all(): void
-    {
-        $models = $this->repository->all()->get();
-        self::assertEquals(
-            Post::all()->toArray(),
-            $models->toArray()
-        );
-    }
-
-    #[Test]
     public function allUsingSelect(): void
     {
         $models = $this->repository->select('id')->all()->get();
         self::assertEquals(
             Post::all()->map(
-                fn ($value) => ['id' => $value->id]
+                fn($value) => ['id' => $value->id]
             )
                 ->toArray(),
             $models->toArray()
@@ -78,20 +71,10 @@ class RepositoryTest extends TestCase
         $models = $this->repository->with('categories')->all()->get();
         self::assertEquals(
             Post::all()->map(
-                fn ($value) => array_merge($value->toArray(), ['categories' => $value->categories->toArray()])
+                fn($value) => array_merge($value->toArray(), ['categories' => $value->categories->toArray()])
             )
                 ->toArray(),
             $models->toArray()
-        );
-    }
-
-    #[Test]
-    public function find(): void
-    {
-        $model = $this->repository->find(1);
-        self::assertEquals(
-            Post::query()->first()->toArray(),
-            $model->toArray()
         );
     }
 
@@ -103,6 +86,16 @@ class RepositoryTest extends TestCase
             [
                 'id' => 1,
             ],
+            $model->toArray()
+        );
+    }
+
+    #[Test]
+    public function find(): void
+    {
+        $model = $this->repository->find(1);
+        self::assertEquals(
+            Post::query()->first()->toArray(),
             $model->toArray()
         );
     }
@@ -148,16 +141,16 @@ class RepositoryTest extends TestCase
     {
         $data = [
             [
-                'id'    => 1,
+                'id' => 1,
                 'title' => fake()->sentence(),
             ],
             [
-                'id'      => 2,
+                'id' => 2,
                 'content' => fake()->sentence(),
             ],
             [
-                'id'      => 3,
-                'title'   => fake()->sentence(),
+                'id' => 3,
+                'title' => fake()->sentence(),
                 'content' => fake()->sentence(),
             ],
         ];
@@ -168,5 +161,12 @@ class RepositoryTest extends TestCase
         $this->assertDatabaseHas(Post::table(), $data[0]);
         $this->assertDatabaseHas(Post::table(), $data[1]);
         $this->assertDatabaseHas(Post::table(), $data[2]);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
+        $this->repository = app(SampleVRepository::class)->disableAuthorization();
     }
 }

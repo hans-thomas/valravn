@@ -11,10 +11,20 @@ class WhereFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    protected function setUp(): void
+    #[Test]
+    public function applyWithMultipleValues(): void
     {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
+        request()->merge([
+            'where_filter' => [
+                'id' => '1,2,5',
+            ],
+        ]);
+        $builder = $this->service->apply(Post::query());
+
+        self::assertStringContainsString(
+            'where "posts"."id" in (?, ?, ?)',
+            $builder->toSql()
+        );
     }
 
     #[Test]
@@ -33,19 +43,9 @@ class WhereFilterTest extends TestCase
         );
     }
 
-    #[Test]
-    public function applyWithMultipleValues(): void
+    protected function setUp(): void
     {
-        request()->merge([
-            'where_filter' => [
-                'id' => '1,2,5',
-            ],
-        ]);
-        $builder = $this->service->apply(Post::query());
-
-        self::assertStringContainsString(
-            'where "posts"."id" in (?, ?, ?)',
-            $builder->toSql()
-        );
+        parent::setUp();
+        $this->service = app(FilteringService::class);
     }
 }
