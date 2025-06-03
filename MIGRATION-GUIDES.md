@@ -11,3 +11,4 @@ renamed to `getVCollection`.
 - The `toResource` method renamed to `toVResource` in `Hans\Valravn\Http\Resources\Contracts\Includes` contract.
 - The `resolveMorphableToResource` helper function renamed to `resolveMorphableToVResource`.
 - Rename the `parameters` method of `actionsregisterer` class to `withParameters` to matches with other methods of its class.
+- Rename `Hans\Valravn\Services\Contracts\Service` contract to `Hans\Valravn\Services\Contracts\VService`
