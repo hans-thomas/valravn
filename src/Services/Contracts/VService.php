@@ -5,7 +5,7 @@ namespace Hans\Valravn\Services\Contracts;
 use Hans\Valravn\Facades\VCache;
 use Hans\Valravn\Services\Caching\CachingService;
 
-abstract class Service
+abstract class VService
 {
     /**
      * Cache method's result called on service instance.

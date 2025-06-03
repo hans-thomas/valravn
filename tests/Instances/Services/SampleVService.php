@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Tests\Instances\Services;
 
-use Hans\Valravn\Services\Contracts\Service;
+use Hans\Valravn\Services\Contracts\VService;
 
-class SampleService extends Service
+class SampleVService extends VService
 {
     public function addition(int $first, int $second): int
     {
