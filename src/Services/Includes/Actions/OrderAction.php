@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Services\Includes\Actions;
 
-use Hans\Valravn\Services\Contracts\Including\Actions;
+use Hans\Valravn\Services\Contracts\Including\VActions;
 
-class OrderAction extends Actions
+class OrderAction extends VActions
 {
     public function apply(array $params): void
     {

@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Services\Includes\Actions;
 
-use Hans\Valravn\Services\Contracts\Including\Actions;
+use Hans\Valravn\Services\Contracts\Including\VActions;
 
-class LimitAction extends Actions
+class LimitAction extends VActions
 {
     public function apply(array $params): void
     {
