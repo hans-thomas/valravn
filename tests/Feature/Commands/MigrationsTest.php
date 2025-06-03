@@ -4,6 +4,8 @@ namespace Hans\Valravn\Tests\Feature\Commands;
 
 use Hans\Valravn\Commands\Services\MigrationService;
 use Hans\Valravn\Commands\Services\ModelService;
+use Hans\Valravn\Commands\Services\RelationService;
+use Hans\Valravn\Http\Requests\Contracts\Relations\BelongsToManyRequest;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
@@ -126,6 +128,7 @@ class MigrationsTest extends TestCase
             ->expectsOutput('Pivot migration file created.')
             ->doesntExpectOutput('Pivot migration file exists or could not be created.')
             ->expectsQuestion('Should create request for relationship?', true)
+            ->expectsOutput('Relation belongsToMany request class created.')
             ->assertSuccessful();
 
         self::assertFileExists($file);
@@ -140,5 +143,30 @@ class MigrationsTest extends TestCase
         $relationStub = str_replace('{{RELATION::EXTENDS}}', 'BelongsToManyRequest', $relationStub);
 
         self::assertEquals($relationStub, file_get_contents($file));
+    }
+    #[Test]
+    public function pivotWithRequestExist(): void
+    {
+        $file = app_path('Http/Requests/V1/Blog/Post/PostCategoriesRequest.php');
+
+        self::assertFileDoesNotExist($file);
+
+        $relationService = new RelationService(
+            'blog',
+            'post',
+            '1',
+            'core',
+            'category'
+        );
+        $relationService->creatOneToMany(BelongsToManyRequest::class);
+
+        self::assertFileExists($file);
+
+        $this->artisan('valravn:pivot blog posts core category')
+            ->expectsOutput('Pivot migration file created.')
+            ->doesntExpectOutput('Pivot migration file exists or could not be created.')
+            ->expectsQuestion('Should create request for relationship?', true)
+            ->expectsOutput('Relation belongsToMany request class exists or could not be created.')
+            ->assertSuccessful();
     }
 }
