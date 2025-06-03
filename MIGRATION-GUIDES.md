@@ -14,3 +14,4 @@ renamed to `getVCollection`.
 - Rename `Hans\Valravn\Services\Contracts\Service` contract to `Hans\Valravn\Services\Contracts\VService`
 - Rename `Hans\Valravn\Services\Contracts\Filters\Filter` contract to `Hans\Valravn\Services\Contracts\Filters\VFilter`
 - Rename `Hans\Valravn\Services\Contracts\Including\Action` contract to `Hans\Valravn\Services\Contracts\Including\VAction`
+- Rename `Hans\Valravn\Services\Contracts\Notification\Notifiable` contract to `Hans\Valravn\Services\Contracts\Notification\VNotifiable`
