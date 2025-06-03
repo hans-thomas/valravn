@@ -155,7 +155,7 @@ class IncludingService
      */
     protected function getAvailableIncludes(): array
     {
-        return $this->resource->getAvailableIncludes();
+        return $this->resource->getAvailableVIncludes();
     }
 
     /**

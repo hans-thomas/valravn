@@ -94,7 +94,7 @@ trait VJsonResourceExtender
      *
      * @return array
      */
-    public function getAvailableIncludes(): array
+    public function getAvailableVIncludes(): array
     {
         return [
             //
@@ -214,7 +214,7 @@ trait VJsonResourceExtender
     public function registerInclude(string|object $include, array $actions = []): static
     {
         $include = is_object($include) ? get_class($include) : $include;
-        if (in_array($include, $this->getAvailableIncludes())) {
+        if (in_array($include, $this->getAvailableVIncludes())) {
             $this->addRequestedIncludes($include, $actions);
         }
 
@@ -310,8 +310,8 @@ trait VJsonResourceExtender
             $this->setNestedEagerLoadsFor($data['relation'], $data['nested']);
         }
 
-        if (key_exists($data['relation'], $this->getAvailableIncludes())) {
-            $this->registerInclude($this->getAvailableIncludes()[$data['relation']], $data['actions']);
+        if (key_exists($data['relation'], $this->getAvailableVIncludes())) {
+            $this->registerInclude($this->getAvailableVIncludes()[$data['relation']], $data['actions']);
         }
 
         return $this;

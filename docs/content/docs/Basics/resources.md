@@ -313,7 +313,7 @@ To register a include, you just need to override `getAvailableVIncludes` method
 on the resource class and then register your includes.
 
 ```php
-public function getAvailableIncludes(): array {
+public function getAvailableVIncludes(): array {
   return [
     'example'   => ExampleIncludes::class,
   ];

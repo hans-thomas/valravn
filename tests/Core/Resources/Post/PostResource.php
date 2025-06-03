@@ -29,7 +29,7 @@ class PostResource extends VJsonResource
      *
      * @return array
      */
-    public function getAvailableIncludes(): array
+    public function getAvailableVIncludes(): array
     {
         return [
             'comments'   => CommentsVIncludes::class,

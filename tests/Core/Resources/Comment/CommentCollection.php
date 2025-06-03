@@ -11,7 +11,7 @@ class CommentCollection extends VResourceCollection
     /**
      * @return array
      */
-    public function getAvailableIncludes(): array
+    public function getAvailableVIncludes(): array
     {
         return [
             'post' => PostVIncludes::class,
