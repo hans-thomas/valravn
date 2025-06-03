@@ -2,11 +2,11 @@
 
 namespace Hans\Valravn\Services\Filtering\Filters;
 
-use Hans\Valravn\Services\Contracts\Filters\Filter;
+use Hans\Valravn\Services\Contracts\Filters\VFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-class WhereRelationFilter extends Filter
+class WhereRelationLikeVFilter extends VFilter
 {
     public function apply(Builder $builder, $values = null)
     {
@@ -20,7 +20,7 @@ class WhereRelationFilter extends Filter
         foreach ($items as $attribute => $value) {
             $relation = Str::before($attribute, '->');
             $column = Str::after($attribute, '->');
-            $builder->whereHas($relation, static fn (Builder $whereHas) => $whereHas->where($column, $value));
+            $builder->whereHas($relation, static fn (Builder $whereHas) => $whereHas->whereLike($column, $value));
         }
     }
 }

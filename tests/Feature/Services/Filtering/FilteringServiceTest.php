@@ -3,8 +3,8 @@
 namespace Hans\Valravn\Tests\Feature\Services\Filtering;
 
 use Hans\Valravn\Services\Filtering\FilteringService;
-use Hans\Valravn\Services\Filtering\Filters\LikeFilter;
-use Hans\Valravn\Services\Filtering\Filters\OrderFilter;
+use Hans\Valravn\Services\Filtering\Filters\LikeVFilter;
+use Hans\Valravn\Services\Filtering\Filters\OrderVFilter;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\TestCase;
@@ -48,7 +48,7 @@ class FilteringServiceTest extends TestCase
                 'title' => 'desc',
             ],
         ]);
-        $builder = $this->service->apply(Post::query(), ['only' => LikeFilter::class]);
+        $builder = $this->service->apply(Post::query(), ['only' => LikeVFilter::class]);
 
         self::assertStringContainsString(
             '"title" LIKE ?',
@@ -71,7 +71,7 @@ class FilteringServiceTest extends TestCase
                 'title' => 'One life to live, I would die for you',
             ],
         ]);
-        $builder = $this->service->apply(Post::query(), ['except' => LikeFilter::class]);
+        $builder = $this->service->apply(Post::query(), ['except' => LikeVFilter::class]);
 
         self::assertStringContainsString(
             'order by "title" desc',
@@ -101,7 +101,7 @@ class FilteringServiceTest extends TestCase
             ],
         ]);
 
-        $builder = $this->service->withFilter(LikeFilter::class, ['title' => 'value'])->apply(Post::query());
+        $builder = $this->service->withFilter(LikeVFilter::class, ['title' => 'value'])->apply(Post::query());
 
         self::assertStringContainsString(
             'order by "title" desc',
@@ -117,8 +117,8 @@ class FilteringServiceTest extends TestCase
     public function withFilters(): void
     {
         $builder = $this->service->withFilters([
-            OrderFilter::class => ['title' => 'desc'],
-            LikeFilter::class  => ['title' => 'value'],
+            OrderVFilter::class => ['title' => 'desc'],
+            LikeVFilter::class  => ['title' => 'value'],
         ])->apply(Post::query());
 
         self::assertStringContainsString(
@@ -135,7 +135,7 @@ class FilteringServiceTest extends TestCase
     public function withFiltersWithNotRegisteredFilter(): void
     {
         $builder = $this->service->withFilters([
-            OrderFilter::class => ['title' => 'desc'],
+            OrderVFilter::class => ['title' => 'desc'],
             Post::class        => ['title' => 'value'],
         ])->apply(Post::query());
 
