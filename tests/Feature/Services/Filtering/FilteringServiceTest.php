@@ -136,7 +136,7 @@ class FilteringServiceTest extends TestCase
     {
         $builder = $this->service->withFilters([
             OrderVFilter::class => ['title' => 'desc'],
-            Post::class        => ['title' => 'value'],
+            Post::class         => ['title' => 'value'],
         ])->apply(Post::query());
 
         self::assertStringContainsString(
