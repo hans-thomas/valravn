@@ -144,6 +144,7 @@ class MigrationsTest extends TestCase
 
         self::assertEquals($relationStub, file_get_contents($file));
     }
+
     #[Test]
     public function pivotWithRequestExist(): void
     {
