@@ -3,8 +3,8 @@
 namespace Hans\Valravn\Services\Queries;
 
 use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
-use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
