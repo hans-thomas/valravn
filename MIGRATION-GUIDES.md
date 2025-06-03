@@ -12,3 +12,4 @@ renamed to `getVCollection`.
 - The `resolveMorphableToResource` helper function renamed to `resolveMorphableToVResource`.
 - Rename the `parameters` method of `actionsregisterer` class to `withParameters` to matches with other methods of its class.
 - Rename `Hans\Valravn\Services\Contracts\Service` contract to `Hans\Valravn\Services\Contracts\VService`
+- Rename `Hans\Valravn\Services\Contracts\Filters\Filter` contract to `Hans\Valravn\Services\Contracts\Filters\VFilter`
