@@ -18,6 +18,12 @@ class RelationsTest extends TestCase
 {
     private RoutingService $service;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(RoutingService::class);
+    }
+
     #[Test]
     public function relationsBelongsTo(): void
     {
@@ -129,11 +135,5 @@ class RelationsTest extends TestCase
         $this->postJson(route('samples.relations.update', [1]), [])->assertOk();
         $this->patchJson(route('samples.relations.attach', [1]), [])->assertOk();
         $this->deleteJson(route('samples.relations.detach', [1]))->assertOk();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(RoutingService::class);
     }
 }

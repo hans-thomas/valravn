@@ -56,25 +56,6 @@ class TestCase extends BaseTestCase
         parent::tearDown();
     }
 
-    protected function cleanUp(array $paths, array $ignoreFiles = []): void
-    {
-        $fs = new Filesystem();
-
-        foreach ($paths as $path) {
-            if ($fs->isFile($path)) {
-                $fs->delete($path);
-            }
-
-            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path, true)) {
-                foreach ($fs->allFiles($path) as $file) {
-                    if (!in_array($file, $ignoreFiles)) {
-                        $fs->delete($file);
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * Get application timezone.
      *
@@ -164,6 +145,25 @@ class TestCase extends BaseTestCase
             $resource->toResponse(request())->content(),
             true
         );
+    }
+
+    protected function cleanUp(array $paths, array $ignoreFiles = []): void
+    {
+        $fs = new Filesystem();
+
+        foreach ($paths as $path) {
+            if ($fs->isFile($path)) {
+                $fs->delete($path);
+            }
+
+            if ($fs->isDirectory($path) && !$fs->isEmptyDirectory($path, true)) {
+                foreach ($fs->allFiles($path) as $file) {
+                    if (!in_array($file, $ignoreFiles)) {
+                        $fs->delete($file);
+                    }
+                }
+            }
+        }
     }
 
     protected function getStub(string $stub): string

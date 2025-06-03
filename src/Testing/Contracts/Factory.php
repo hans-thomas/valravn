@@ -22,15 +22,26 @@ abstract class Factory
     }
 
     /**
-     * Create an instance.
+     * Return related factory instance.
      *
-     * @param array $data
-     *
-     * @return static
+     * @return EloquentFactory
      */
-    public static function create(array $data = []): static
+    abstract protected static function getFactory(): EloquentFactory;
+
+    /**
+     * Return related repository instance.
+     *
+     * @return VRepository
+     */
+    abstract public static function getRepository(): VRepository;
+
+    /**
+     * PreCreate hook executes before factory ran.
+     *
+     * @return void
+     */
+    protected static function preCreateHook(): void
     {
-        return new static($data);
     }
 
     /**
@@ -46,27 +57,16 @@ abstract class Factory
     }
 
     /**
-     * PreCreate hook executes before factory ran.
+     * Create an instance.
      *
-     * @return void
+     * @param array $data
+     *
+     * @return static
      */
-    protected static function preCreateHook(): void
+    public static function create(array $data = []): static
     {
+        return new static($data);
     }
-
-    /**
-     * Return related factory instance.
-     *
-     * @return EloquentFactory
-     */
-    abstract protected static function getFactory(): EloquentFactory;
-
-    /**
-     * Return related repository instance.
-     *
-     * @return VRepository
-     */
-    abstract public static function getRepository(): VRepository;
 
     /**
      * Create an instance but don't store.
@@ -92,9 +92,9 @@ abstract class Factory
     public static function createMany(int $count = 10, array $data = []): Collection
     {
         return static::factory()
-            ->count($count)
-            ->create($data)
-            ->map(static fn (Model $model) => $model->fresh());
+                     ->count($count)
+                     ->create($data)
+                     ->map(static fn (Model $model) => $model->fresh());
     }
 
     /**

@@ -9,6 +9,13 @@ use Illuminate\Validation\Rules\Exists;
 abstract class BelongsToManyRequest extends RelationsRequest
 {
     /**
+     * Get related model class.
+     *
+     * @return string
+     */
+    abstract protected function model(): string;
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -43,13 +50,6 @@ abstract class BelongsToManyRequest extends RelationsRequest
     {
         return Rule::exists($this->model(), 'id');
     }
-
-    /**
-     * Get related model class.
-     *
-     * @return string
-     */
-    abstract protected function model(): string;
 
     /**
      * Get pivot columns and their validation rules.

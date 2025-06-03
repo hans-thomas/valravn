@@ -31,8 +31,8 @@ trait InteractsWithPivots
             $data['pivot'] = collect($instance->resource->pivot->getAttributes())
                 ->filter(
                     static fn ($value, $key) => !in_array($key, $excludes) and
-                        (!Str::contains($key, ['_id', '_type']) or
-                            in_array($key, $includes))
+                                          (!Str::contains($key, ['_id', '_type']) or
+                                            in_array($key, $includes))
                 )
                 ->mapWithKeys(
                     static fn ($value, $key) => ($index = array_search($key, array_keys($alias))) !== false ?

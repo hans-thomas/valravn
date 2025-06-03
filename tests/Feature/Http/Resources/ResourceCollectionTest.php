@@ -15,17 +15,26 @@ class ResourceCollectionTest extends TestCase
 {
     private Collection $models;
 
-    #[Test]
-    public function toArrayAsNull(): void
+    protected function setUp(): void
     {
-        $collection = SampleCollection::make(null);
-        self::assertEquals(
-            [
-                'data' => [],
-                'type' => 'samples',
-            ],
-            $this->resourceToJson($collection)
-        );
+        parent::setUp();
+
+        $this->models = collect();
+        $object = new class() extends VModel {
+            protected $fillable = ['name', 'email', 'address'];
+        };
+        foreach (range(1, 5) as $counter) {
+            $this->models->push(
+                clone $object->forceFill([
+                    [
+                        'id'      => rand(1, 999),
+                        'name'    => fake()->name(),
+                        'email'   => fake()->email(),
+                        'address' => fake()->address(),
+                    ],
+                ])
+            );
+        }
     }
 
     #[Test]
@@ -42,7 +51,20 @@ class ResourceCollectionTest extends TestCase
                         'email' => $model->email,
                     ]
                 )
-                    ->toArray(),
+                                       ->toArray(),
+                'type' => 'samples',
+            ],
+            $this->resourceToJson($collection)
+        );
+    }
+
+    #[Test]
+    public function toArrayAsNull(): void
+    {
+        $collection = SampleCollection::make(null);
+        self::assertEquals(
+            [
+                'data' => [],
                 'type' => 'samples',
             ],
             $this->resourceToJson($collection)
@@ -52,8 +74,7 @@ class ResourceCollectionTest extends TestCase
     #[Test]
     public function toArrayAsNullModel(): void
     {
-        $resource = SampleCollection::make(collect([new class() extends VModel {
-        }]));
+        $resource = SampleCollection::make(collect([new class() extends VModel { }]));
         self::assertEquals(
             [
                 'data' => [
@@ -82,7 +103,7 @@ class ResourceCollectionTest extends TestCase
                         ...$model->toArray(),
                     ]
                 )
-                    ->toArray(),
+                                       ->toArray(),
                 'type' => 'samples',
             ],
             $this->resourceToJson($resource)
@@ -103,7 +124,7 @@ class ResourceCollectionTest extends TestCase
                         'extract' => 'not default on resource',
                     ]
                 )
-                    ->toArray(),
+                                       ->toArray(),
                 'type' => 'samples',
             ],
             $this->resourceToJson($resource)
@@ -116,13 +137,13 @@ class ResourceCollectionTest extends TestCase
         $resource = SampleWithHookCollection::make($this->models);
         self::assertEquals(
             [
-                'data' => $this->models->map(
+                'data'       => $this->models->map(
                     fn ($model) => [
                         'type' => 'samples',
                         'id'   => $model->id,
                     ]
                 )
-                    ->toArray(),
+                                             ->toArray(),
                 'type'       => 'samples',
                 'all-loaded' => 'will you still love me when i no longer young and beautiful?',
             ],
@@ -144,32 +165,10 @@ class ResourceCollectionTest extends TestCase
                         'email' => $model->email,
                     ]
                 )
-                    ->toArray(),
+                                       ->toArray(),
                 'type' => 'samples',
             ],
             $this->resourceToJson($collection)
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->models = collect();
-        $object = new class() extends VModel {
-            protected $fillable = ['name', 'email', 'address'];
-        };
-        foreach (range(1, 5) as $counter) {
-            $this->models->push(
-                clone $object->forceFill([
-                    [
-                        'id'      => rand(1, 999),
-                        'name'    => fake()->name(),
-                        'email'   => fake()->email(),
-                        'address' => fake()->address(),
-                    ],
-                ])
-            );
-        }
     }
 }

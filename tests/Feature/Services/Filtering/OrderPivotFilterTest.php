@@ -14,6 +14,16 @@ class OrderPivotFilterTest extends TestCase
 {
     private FilteringService $service;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(FilteringService::class);
+        PostFactory::new()->create();
+        CategoryFactory::new()->count(5)->create()->each(
+            fn (Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
+        );
+    }
+
     #[Test]
     public function applyAsc(): void
     {
@@ -43,16 +53,6 @@ class OrderPivotFilterTest extends TestCase
         self::assertStringContainsString(
             'order by "category_post"."order" desc',
             $builder->toSql()
-        );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
-        PostFactory::new()->create();
-        CategoryFactory::new()->count(5)->create()->each(
-            fn (Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
         );
     }
 }

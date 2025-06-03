@@ -7,6 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class VFormRequest extends FormRequest
 {
     /**
+     * Get fields and their validation rules.
+     *
+     * @return array
+     */
+    abstract protected function fields(): array;
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -25,11 +32,4 @@ abstract class VFormRequest extends FormRequest
     {
         return $this->fields();
     }
-
-    /**
-     * Get fields and their validation rules.
-     *
-     * @return array
-     */
-    abstract protected function fields(): array;
 }

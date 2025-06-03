@@ -11,6 +11,12 @@ class LikeFilterTest extends TestCase
 {
     private FilteringService $service;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(FilteringService::class);
+    }
+
     #[Test]
     public function apply(): void
     {
@@ -25,11 +31,5 @@ class LikeFilterTest extends TestCase
             '"title" LIKE ?',
             $builder->toSql()
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
     }
 }

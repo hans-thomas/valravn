@@ -7,6 +7,16 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            config_path('valravn.php'),
+            app_path('Providers/RepositoryServiceProvider.php'),
+        ]);
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function repository(): void
     {
@@ -17,9 +27,9 @@ class RepositoryTest extends TestCase
         self::assertFileDoesNotExist($repository);
 
         $this->artisan('valravn:repository blog posts')
-            ->expectsOutput('Contract class created.')
-            ->expectsOutput('Repository class created.')
-            ->assertSuccessful();
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->assertSuccessful();
 
         self::assertFileExists($contract);
 
@@ -48,14 +58,14 @@ class RepositoryTest extends TestCase
         self::assertFileDoesNotExist($repository);
 
         $this->artisan('valravn:repository blog posts')
-            ->expectsOutput('Contract class created.')
-            ->expectsOutput('Repository class created.')
-            ->assertSuccessful();
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->assertSuccessful();
 
         $this->artisan('valravn:repository blog posts')
-            ->expectsOutput('Contract class exists or could not be created.')
-            ->expectsOutput('Repository class exists or could not be created.')
-            ->assertSuccessful();
+             ->expectsOutput('Contract class exists or could not be created.')
+             ->expectsOutput('Repository class exists or could not be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($contract);
 
@@ -74,7 +84,7 @@ class RepositoryTest extends TestCase
         self::assertFileDoesNotExist($provider);
 
         $this->artisan('valravn:install')
-            ->assertSuccessful();
+        ->assertSuccessful();
 
         self::assertFileExists($provider);
 
@@ -87,9 +97,9 @@ class RepositoryTest extends TestCase
         );
 
         $this->artisan('valravn:repository blog posts')
-            ->expectsOutput('Contract class created.')
-            ->expectsOutput('Repository class created.')
-            ->assertSuccessful();
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->assertSuccessful();
 
         self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
         self::assertStringContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
@@ -115,7 +125,7 @@ class RepositoryTest extends TestCase
         self::assertFileDoesNotExist($provider);
 
         $this->artisan('valravn:install')
-            ->assertSuccessful();
+        ->assertSuccessful();
 
         self::assertFileExists($provider);
 
@@ -134,9 +144,9 @@ class RepositoryTest extends TestCase
         );
 
         $this->artisan('valravn:repository blog posts')
-            ->expectsOutput('Contract class created.')
-            ->expectsOutput('Repository class created.')
-            ->assertSuccessful();
+             ->expectsOutput('Contract class created.')
+             ->expectsOutput('Repository class created.')
+             ->assertSuccessful();
 
         self::assertStringContainsString('use App\Repositories\Contracts\Blog\IPostRepository;', file_get_contents($provider));
         self::assertStringContainsString('use App\Repositories\Blog\PostRepository;', file_get_contents($provider));
@@ -148,15 +158,5 @@ class RepositoryTest extends TestCase
         self::assertFileExists($contract);
 
         self::assertFileExists($repository);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->cleanUp([
-            config_path('valravn.php'),
-            app_path('Providers/RepositoryServiceProvider.php'),
-        ]);
-
-        parent::tearDown();
     }
 }

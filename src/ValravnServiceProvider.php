@@ -75,6 +75,52 @@ class ValravnServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register created commands.
+     *
+     * @return void
+     */
+    private function registerCommands(): void
+    {
+        $this->commands([
+            InstallCommand::class,
+            Entity::class,
+            Controller::class,
+            Controllers::class,
+            Exception::class,
+            Migration::class,
+            Model::class,
+            Policy::class,
+            Repository::class,
+            Requests::class,
+            Resources::class,
+            Service::class,
+            RelationCommand::class,
+            Pivot::class,
+        ]);
+    }
+
+    /**
+     * Register publishable files.
+     *
+     * @return void
+     */
+    private function registerPublishes(): void
+    {
+        $this->publishes(
+            [
+                __DIR__.'/../config/config.php' => config_path('valravn.php'),
+            ],
+            'valravn-config'
+        );
+        $this->publishes(
+            [
+                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
+            ],
+            'valravn-provider'
+        );
+    }
+
+    /**
      * Register common macros.
      *
      * @return void
@@ -131,52 +177,6 @@ class ValravnServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register created commands.
-     *
-     * @return void
-     */
-    private function registerCommands(): void
-    {
-        $this->commands([
-            InstallCommand::class,
-            Entity::class,
-            Controller::class,
-            Controllers::class,
-            Exception::class,
-            Migration::class,
-            Model::class,
-            Policy::class,
-            Repository::class,
-            Requests::class,
-            Resources::class,
-            Service::class,
-            RelationCommand::class,
-            Pivot::class,
-        ]);
-    }
-
-    /**
-     * Register publishable files.
-     *
-     * @return void
-     */
-    private function registerPublishes(): void
-    {
-        $this->publishes(
-            [
-                __DIR__.'/../config/config.php' => config_path('valravn.php'),
-            ],
-            'valravn-config'
-        );
-        $this->publishes(
-            [
-                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
-            ],
-            'valravn-provider'
-        );
-    }
-
-    /**
      * Register created migrations files by migration command in sub folders.
      *
      * @return void
@@ -216,9 +216,9 @@ class ValravnServiceProvider extends ServiceProvider
                 $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
 
                 Route::prefix("api/$name")
-                    ->name("$name.")
-                    ->middleware(valravn_config('middlewares'))
-                    ->group($file->getRealPath());
+                     ->name("$name.")
+                     ->middleware(valravn_config('middlewares'))
+                     ->group($file->getRealPath());
             }
         }
 

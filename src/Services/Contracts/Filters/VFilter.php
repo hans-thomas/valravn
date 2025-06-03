@@ -16,16 +16,6 @@ abstract class VFilter
     }
 
     /**
-     * Create an instance in static way.
-     *
-     * @return static
-     */
-    public static function make(): static
-    {
-        return new static();
-    }
-
-    /**
      * Implement a custom logic.
      *
      * @param Builder $builder
@@ -34,6 +24,16 @@ abstract class VFilter
      * @return mixed
      */
     abstract public function apply(Builder $builder, $values = null);
+
+    /**
+     * Create an instance in static way.
+     *
+     * @return static
+     */
+    public static function make(): static
+    {
+        return new static();
+    }
 
     /**
      * Return filterable attributes.
@@ -49,18 +49,6 @@ abstract class VFilter
         }
 
         return $builder->getModel()->getFilterableAttributes();
-    }
-
-    /**
-     * Return related model instance of the given builder.
-     *
-     * @param Builder $builder
-     *
-     * @return Model
-     */
-    public function getModel(Builder $builder): Model
-    {
-        return $builder->getModel();
     }
 
     /**
@@ -122,5 +110,17 @@ abstract class VFilter
     public function getTable(Builder $builder): string
     {
         return $builder->getModel()->getTable();
+    }
+
+    /**
+     * Return related model instance of the given builder.
+     *
+     * @param Builder $builder
+     *
+     * @return Model
+     */
+    public function getModel(Builder $builder): Model
+    {
+        return $builder->getModel();
     }
 }

@@ -25,8 +25,8 @@ class CommentsQueryV extends VCollectionQuery
         return [
             'all_comments' => CommentCollection::make(
                 Comment::query()
-                    ->whereIn((new Post())->getForeignKey(), $ids)
-                    ->get()
+                       ->whereIn((new Post())->getForeignKey(), $ids)
+                       ->get()
             ),
         ];
     }

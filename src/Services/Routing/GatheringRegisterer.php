@@ -8,13 +8,6 @@ class GatheringRegisterer extends ActionsRegisterer
 {
     protected int $version = 1;
 
-    public function version(int $version): self
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
     protected function resetStates(): void
     {
         parent::resetStates();
@@ -38,5 +31,12 @@ class GatheringRegisterer extends ActionsRegisterer
             Str::of($method)->upper(),
             Str::camel($action.'V'.$this->version)
         );
+    }
+
+    public function version(int $version): self
+    {
+        $this->version = $version;
+
+        return $this;
     }
 }

@@ -14,27 +14,11 @@ class FilteringServiceTest extends TestCase
 {
     private FilteringService $service;
 
-    #[Test]
-    public function applyWithOnly(): void
+    protected function setUp(): void
     {
-        request()->merge([
-            'like_filter' => [
-                'title' => 'One life to live, I would die for you',
-            ],
-            'order_filter' => [
-                'title' => 'desc',
-            ],
-        ]);
-        $builder = $this->service->apply(Post::query(), ['only' => LikeVFilter::class]);
-
-        self::assertStringContainsString(
-            '"title" LIKE ?',
-            $builder->toSql()
-        );
-        self::assertStringNotContainsString(
-            'order by "title" desc',
-            $builder->toSql()
-        );
+        parent::setUp();
+        $this->service = app(FilteringService::class);
+        PostFactory::new()->count(5)->create();
     }
 
     #[Test]
@@ -54,13 +38,36 @@ class FilteringServiceTest extends TestCase
     }
 
     #[Test]
+    public function applyWithOnly(): void
+    {
+        request()->merge([
+            'like_filter'  => [
+                'title' => 'One life to live, I would die for you',
+            ],
+            'order_filter' => [
+                'title' => 'desc',
+            ],
+        ]);
+        $builder = $this->service->apply(Post::query(), ['only' => LikeVFilter::class]);
+
+        self::assertStringContainsString(
+            '"title" LIKE ?',
+            $builder->toSql()
+        );
+        self::assertStringNotContainsString(
+            'order by "title" desc',
+            $builder->toSql()
+        );
+    }
+
+    #[Test]
     public function applyWithExcept(): void
     {
         request()->merge([
             'order_filter' => [
                 'title' => 'desc',
             ],
-            'like_filter' => [
+            'like_filter'  => [
                 'title' => 'One life to live, I would die for you',
             ],
         ]);
@@ -107,20 +114,6 @@ class FilteringServiceTest extends TestCase
     }
 
     #[Test]
-    public function withFiltersWithNotRegisteredFilter(): void
-    {
-        $builder = $this->service->withFilters([
-            OrderVFilter::class => ['title' => 'desc'],
-            Post::class         => ['title' => 'value'],
-        ])->apply(Post::query());
-
-        self::assertStringContainsString(
-            'order by "title" desc',
-            $builder->toSql()
-        );
-    }
-
-    #[Test]
     public function withFilters(): void
     {
         $builder = $this->service->withFilters([
@@ -139,6 +132,20 @@ class FilteringServiceTest extends TestCase
     }
 
     #[Test]
+    public function withFiltersWithNotRegisteredFilter(): void
+    {
+        $builder = $this->service->withFilters([
+            OrderVFilter::class => ['title' => 'desc'],
+            Post::class         => ['title' => 'value'],
+        ])->apply(Post::query());
+
+        self::assertStringContainsString(
+            'order by "title" desc',
+            $builder->toSql()
+        );
+    }
+
+    #[Test]
     public function withNoFilterAndNoRequest(): void
     {
         $builder = $this->service->apply(Post::query());
@@ -147,12 +154,5 @@ class FilteringServiceTest extends TestCase
             'select * from "posts"',
             $builder->toSql()
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
-        PostFactory::new()->count(5)->create();
     }
 }

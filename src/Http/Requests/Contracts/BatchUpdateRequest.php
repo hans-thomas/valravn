@@ -8,6 +8,13 @@ use Illuminate\Validation\Rules\Exists;
 abstract class BatchUpdateRequest extends VFormRequest
 {
     /**
+     * Get related model class.
+     *
+     * @return string
+     */
+    abstract protected function model(): string;
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -35,11 +42,4 @@ abstract class BatchUpdateRequest extends VFormRequest
     {
         return Rule::exists($this->model(), 'id');
     }
-
-    /**
-     * Get related model class.
-     *
-     * @return string
-     */
-    abstract protected function model(): string;
 }

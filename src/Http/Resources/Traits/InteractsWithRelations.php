@@ -52,26 +52,12 @@ trait InteractsWithRelations
 
                     if (filled($instance->$loadable)) {
                         $data[$loadable] = $resource::make($instance->$loadable)
-                            ->resolveRelationsUsing($this->relationResolvers)
-                            ->skipRelationsForModel($this->skipRelationsForModel);
+                                                    ->resolveRelationsUsing($this->relationResolvers)
+                                                    ->skipRelationsForModel($this->skipRelationsForModel);
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Accept models and their models that should be skipped.
-     *
-     * @param array<class-string,string|array> $resolvers
-     *
-     * @return static
-     */
-    public function skipRelationsForModel(array $resolvers): static
-    {
-        $this->skipRelationsForModel = array_merge($this->skipRelationsForModel, $resolvers);
-
-        return $this;
     }
 
     /**
@@ -84,6 +70,20 @@ trait InteractsWithRelations
     public function resolveRelationsUsing(array $resolvers): static
     {
         $this->relationResolvers = array_merge($this->relationResolvers, $resolvers);
+
+        return $this;
+    }
+
+    /**
+     * Accept models and their models that should be skipped.
+     *
+     * @param array<class-string,string|array> $resolvers
+     *
+     * @return static
+     */
+    public function skipRelationsForModel(array $resolvers): static
+    {
+        $this->skipRelationsForModel = array_merge($this->skipRelationsForModel, $resolvers);
 
         return $this;
     }

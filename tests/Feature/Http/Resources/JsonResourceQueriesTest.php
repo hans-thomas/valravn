@@ -13,6 +13,12 @@ class JsonResourceQueriesTest extends TestCase
 {
     private Post $post;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
+    }
+
     #[Test]
     public function queries(): void
     {
@@ -40,7 +46,7 @@ class JsonResourceQueriesTest extends TestCase
     public function queriesThroughApi(): void
     {
         $content = $this->get("/queries/posts/{$this->post->id}?with_first_comment")
-            ->json();
+                        ->json();
         self::assertEquals(
             [
                 'data' => [
@@ -58,11 +64,5 @@ class JsonResourceQueriesTest extends TestCase
             ],
             $content
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

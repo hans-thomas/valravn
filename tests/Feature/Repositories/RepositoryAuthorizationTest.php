@@ -17,6 +17,14 @@ class RepositoryAuthorizationTest extends TestCase
 {
     private VRepository $repository;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        PostFactory::new()->count(2)->create();
+        $this->repository = app(SampleVRepository::class);
+    }
+
     #[Test]
     public function allAction(): void
     {
@@ -39,8 +47,8 @@ class RepositoryAuthorizationTest extends TestCase
     /**
      * @test
      *
-     * @throws AuthorizationException
      * @throws VException
+     * @throws AuthorizationException
      *
      * @return void
      */
@@ -95,13 +103,5 @@ class RepositoryAuthorizationTest extends TestCase
             ->with('batchUpdate', [Post::class, $dto->getData()]);
 
         $this->repository->batchUpdate($dto);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        PostFactory::new()->count(2)->create();
-        $this->repository = app(SampleVRepository::class);
     }
 }

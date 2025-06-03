@@ -18,22 +18,19 @@ class RepositoryTest extends TestCase
 {
     private VRepository $repository;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
+        $this->repository = app(SampleVRepository::class)->disableAuthorization();
+    }
+
     #[Test]
     public function shouldAuthorizeAsDefault(): void
     {
         Gate::shouldReceive('authorize')
             ->once();
         app(SampleVRepository::class)->all();
-    }
-
-    #[Test]
-    public function all(): void
-    {
-        $models = $this->repository->all()->get();
-        self::assertEquals(
-            Post::all()->toArray(),
-            $models->toArray()
-        );
     }
 
     #[Test]
@@ -50,6 +47,16 @@ class RepositoryTest extends TestCase
         Gate::shouldReceive('authorize')
             ->once();
         $this->repository->all();
+    }
+
+    #[Test]
+    public function all(): void
+    {
+        $models = $this->repository->all()->get();
+        self::assertEquals(
+            Post::all()->toArray(),
+            $models->toArray()
+        );
     }
 
     #[Test]
@@ -79,6 +86,16 @@ class RepositoryTest extends TestCase
     }
 
     #[Test]
+    public function find(): void
+    {
+        $model = $this->repository->find(1);
+        self::assertEquals(
+            Post::query()->first()->toArray(),
+            $model->toArray()
+        );
+    }
+
+    #[Test]
     public function findUsingSelect(): void
     {
         $model = $this->repository->select('id')->find(1);
@@ -86,16 +103,6 @@ class RepositoryTest extends TestCase
             [
                 'id' => 1,
             ],
-            $model->toArray()
-        );
-    }
-
-    #[Test]
-    public function find(): void
-    {
-        $model = $this->repository->find(1);
-        self::assertEquals(
-            Post::query()->first()->toArray(),
             $model->toArray()
         );
     }
@@ -161,12 +168,5 @@ class RepositoryTest extends TestCase
         $this->assertDatabaseHas(Post::table(), $data[0]);
         $this->assertDatabaseHas(Post::table(), $data[1]);
         $this->assertDatabaseHas(Post::table(), $data[2]);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        PostFactory::new()->count(5)->has(CategoryFactory::new())->create();
-        $this->repository = app(SampleVRepository::class)->disableAuthorization();
     }
 }

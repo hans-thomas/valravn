@@ -14,6 +14,12 @@ class JsonResourceIncludesTest extends TestCase
 {
     private Post $post;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
+    }
+
     #[Test]
     public function includes(): void
     {
@@ -46,7 +52,7 @@ class JsonResourceIncludesTest extends TestCase
     public function includesThroughApi(): void
     {
         $content = $this->get("/includes/posts/{$this->post->id}?includes=comments")
-            ->json();
+                        ->json();
         self::assertEquals(
             [
                 'data' => [
@@ -69,11 +75,5 @@ class JsonResourceIncludesTest extends TestCase
             ],
             $content
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

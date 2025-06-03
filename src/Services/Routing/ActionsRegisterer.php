@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 
 class ActionsRegisterer
 {
+    private Router $router;
     protected bool $withId = false;
     protected array $parameters = [];
     protected array $middleware = [];
-    private Router $router;
     private array $methods = ['GET', 'POST', 'PATCH', 'DELETE'];
 
     public function __construct(protected string $name, protected string $controller)
@@ -32,9 +32,31 @@ class ActionsRegisterer
         return $this;
     }
 
+    public function middleware(...$parameters): self
+    {
+        $this->middleware = $parameters;
+
+        return $this;
+    }
+
     public function get(string $action): void
     {
         $this->addRoute('get', $action);
+    }
+
+    public function post(string $action): void
+    {
+        $this->addRoute('post', $action);
+    }
+
+    public function patch(string $action): void
+    {
+        $this->addRoute('patch', $action);
+    }
+
+    public function delete(string $action): void
+    {
+        $this->addRoute('delete', $action);
     }
 
     protected function addRoute(string $method, string $action)
@@ -52,23 +74,25 @@ class ActionsRegisterer
         $this->resetStates();
     }
 
-    public function middleware(...$parameters): self
-    {
-        $this->middleware = $parameters;
-
-        return $this;
-    }
-
-    protected function getRouteNamePrefix(): string
-    {
-        return 'actions';
-    }
-
     protected function resetStates(): void
     {
         $this->withId = false;
         $this->parameters = [];
         $this->middleware = [];
+    }
+
+    protected function addIdParameter(string $uri): string
+    {
+        return trim($uri, '/').'/{'.Str::of($this->name)->singular()->replace('-', '_').'}';
+    }
+
+    protected function addIdParameterWhen(bool $condition, string $uri): string
+    {
+        if ($condition) {
+            $uri = $this->addIdParameter($uri);
+        }
+
+        return $uri;
     }
 
     protected function makeUri(string $action): string
@@ -86,37 +110,13 @@ class ActionsRegisterer
         return $uri;
     }
 
+    protected function getRouteNamePrefix(): string
+    {
+        return 'actions';
+    }
+
     protected function getPrefix(): string
     {
         return '-actions';
-    }
-
-    protected function addIdParameterWhen(bool $condition, string $uri): string
-    {
-        if ($condition) {
-            $uri = $this->addIdParameter($uri);
-        }
-
-        return $uri;
-    }
-
-    protected function addIdParameter(string $uri): string
-    {
-        return trim($uri, '/').'/{'.Str::of($this->name)->singular()->replace('-', '_').'}';
-    }
-
-    public function post(string $action): void
-    {
-        $this->addRoute('post', $action);
-    }
-
-    public function patch(string $action): void
-    {
-        $this->addRoute('patch', $action);
-    }
-
-    public function delete(string $action): void
-    {
-        $this->addRoute('delete', $action);
     }
 }

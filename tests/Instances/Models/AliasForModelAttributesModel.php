@@ -14,6 +14,11 @@ class AliasForModelAttributesModel extends Comment
         'its_post_id',
     ];
 
+    public function itsPostId(): Attribute
+    {
+        return new Attribute(get: fn () => $this->{Post::foreignKey()});
+    }
+
     /**
      * @return void
      */
@@ -27,10 +32,5 @@ class AliasForModelAttributesModel extends Comment
                 ]
             )
         );
-    }
-
-    public function itsPostId(): Attribute
-    {
-        return new Attribute(get: fn () => $this->{Post::foreignKey()});
     }
 }

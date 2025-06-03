@@ -23,16 +23,6 @@ class User extends Authenticatable implements ResourceCollectionable
     ];
 
     /**
-     * Return related resource collection class.
-     *
-     * @return VResourceCollection
-     */
-    public static function getVCollection(): VResourceCollection
-    {
-        return UserCollection::make(...func_get_args());
-    }
-
-    /**
      * Create a new factory instance for the model.
      *
      * @return Factory<static>
@@ -40,6 +30,16 @@ class User extends Authenticatable implements ResourceCollectionable
     protected static function newFactory()
     {
         return UserFactory::new();
+    }
+
+    /**
+     * Return related resource class.
+     *
+     * @return VJsonResource
+     */
+    public static function getVResource(): VJsonResource
+    {
+        return UserResource::make(...func_get_args());
     }
 
     /**
@@ -53,12 +53,12 @@ class User extends Authenticatable implements ResourceCollectionable
     }
 
     /**
-     * Return related resource class.
+     * Return related resource collection class.
      *
-     * @return VJsonResource
+     * @return VResourceCollection
      */
-    public static function getVResource(): VJsonResource
+    public static function getVCollection(): VResourceCollection
     {
-        return UserResource::make(...func_get_args());
+        return UserCollection::make(...func_get_args());
     }
 }

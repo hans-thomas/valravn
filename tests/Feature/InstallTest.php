@@ -12,33 +12,6 @@ class InstallTest extends TestCase
     private string $serviceProviderFile;
     private string $providersFile;
 
-    #[Test]
-    public function install(): void
-    {
-        $this->configFile = config_path('valravn.php');
-        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
-
-        self::assertFileDoesNotExist($this->configFile);
-        self::assertFileDoesNotExist($this->serviceProviderFile);
-
-        Artisan::call('valravn:install');
-
-        self::assertFileExists($this->configFile);
-        self::assertFileExists($this->serviceProviderFile);
-
-        $serviceProviderContent = file_get_contents(__DIR__.'/../../src/stubs/RepositoryServiceProvider.stub');
-
-        self::assertEquals(
-            $serviceProviderContent,
-            file_get_contents($this->serviceProviderFile)
-        );
-
-        self::assertStringContainsString(
-            'App\\Providers\\RepositoryServiceProvider::class',
-            file_get_contents($this->providersFile)
-        );
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -64,5 +37,32 @@ class InstallTest extends TestCase
         $this->cleanUp([$this->configFile, $this->serviceProviderFile]);
 
         parent::tearDown();
+    }
+
+    #[Test]
+    public function install(): void
+    {
+        $this->configFile = config_path('valravn.php');
+        $this->serviceProviderFile = app_path('Providers/RepositoryServiceProvider.php');
+
+        self::assertFileDoesNotExist($this->configFile);
+        self::assertFileDoesNotExist($this->serviceProviderFile);
+
+        Artisan::call('valravn:install');
+
+        self::assertFileExists($this->configFile);
+        self::assertFileExists($this->serviceProviderFile);
+
+        $serviceProviderContent = file_get_contents(__DIR__.'/../../src/stubs/RepositoryServiceProvider.stub');
+
+        self::assertEquals(
+            $serviceProviderContent,
+            file_get_contents($this->serviceProviderFile)
+        );
+
+        self::assertStringContainsString(
+            'App\\Providers\\RepositoryServiceProvider::class',
+            file_get_contents($this->providersFile)
+        );
     }
 }

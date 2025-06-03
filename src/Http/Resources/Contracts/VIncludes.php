@@ -36,6 +36,15 @@ abstract class VIncludes
     }
 
     /**
+     * Implement a custom logic.
+     *
+     * @param Model $model
+     *
+     * @return Builder
+     */
+    abstract public function apply(Model $model): Builder;
+
+    /**
      * Convert processed builder instance to a resource class.
      *
      * @return VJsonResource
@@ -57,28 +66,13 @@ abstract class VIncludes
     }
 
     /**
-     * Implement a custom logic.
-     *
-     * @param Model $model
+     * Return builder instance.
      *
      * @return Builder
      */
-    abstract public function apply(Model $model): Builder;
-
-    /**
-     * Register actions with their parameters.
-     *
-     * @param array $actions
-     *
-     * @return $this
-     */
-    public function registerActions(array $actions): self
+    public function getBuilder(): Builder
     {
-        foreach ($actions as $action => $params) {
-            $this->registerAction($action, $params);
-        }
-
-        return $this;
+        return $this->builder;
     }
 
     /**
@@ -97,6 +91,22 @@ abstract class VIncludes
     }
 
     /**
+     * Register actions with their parameters.
+     *
+     * @param array $actions
+     *
+     * @return $this
+     */
+    public function registerActions(array $actions): self
+    {
+        foreach ($actions as $action => $params) {
+            $this->registerAction($action, $params);
+        }
+
+        return $this;
+    }
+
+    /**
      * Apply registered actions on the builder instance.
      *
      * @return $this
@@ -108,15 +118,5 @@ abstract class VIncludes
         }
 
         return $this;
-    }
-
-    /**
-     * Return builder instance.
-     *
-     * @return Builder
-     */
-    public function getBuilder(): Builder
-    {
-        return $this->builder;
     }
 }

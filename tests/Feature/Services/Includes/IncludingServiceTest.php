@@ -23,14 +23,16 @@ class IncludingServiceTest extends TestCase
     private IncludingService $service;
     private VJsonResource $resource;
 
-    #[Test]
-    public function getRequestedIncludesAsNotLoadableRelations(): void
+    protected function setUp(): void
     {
-        $this->service->registerIncludesUsingQueryString('users');
-        self::assertEquals(
-            [],
-            $this->resource->getRequestedIncludes()
-        );
+        parent::setUp();
+        $this->posts = PostFactory::new()
+                                     ->count(3)
+                                     ->has(CommentFactory::new()->count(5))
+                                     ->has(CategoryFactory::new()->count(5))
+                                     ->create();
+        $this->resource = PostResource::make($this->posts->first());
+        $this->service = app(IncludingService::class, ['resource' => $this->resource]);
     }
 
     #[Test]
@@ -42,6 +44,16 @@ class IncludingServiceTest extends TestCase
                 CategoriesVIncludes::class => [],
                 CommentsVIncludes::class   => [],
             ],
+            $this->resource->getRequestedIncludes()
+        );
+    }
+
+    #[Test]
+    public function getRequestedIncludesAsNotLoadableRelations(): void
+    {
+        $this->service->registerIncludesUsingQueryString('users');
+        self::assertEquals(
+            [],
             $this->resource->getRequestedIncludes()
         );
     }
@@ -89,7 +101,7 @@ class IncludingServiceTest extends TestCase
                 'actions'  => [
                     LimitAction::class => [1],
                 ],
-                'nested' => 'post:select(id).comments',
+                'nested'   => 'post:select(id).comments',
             ],
             $parse
         );
@@ -100,8 +112,8 @@ class IncludingServiceTest extends TestCase
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments')
-            ->applyRequestedIncludes($model)
-            ->getIncludedData();
+                                ->applyRequestedIncludes($model)
+                                ->getIncludedData();
         $output = null;
         foreach ($data as $item) {
             $output[] = $item->toResponse(request())->getData(true);
@@ -172,17 +184,5 @@ class IncludingServiceTest extends TestCase
             ],
             $actions
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->posts = PostFactory::new()
-            ->count(3)
-            ->has(CommentFactory::new()->count(5))
-            ->has(CategoryFactory::new()->count(5))
-            ->create();
-        $this->resource = PostResource::make($this->posts->first());
-        $this->service = app(IncludingService::class, ['resource' => $this->resource]);
     }
 }

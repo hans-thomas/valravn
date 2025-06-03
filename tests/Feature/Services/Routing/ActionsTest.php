@@ -14,33 +14,10 @@ class ActionsTest extends TestCase
 {
     private RoutingService $service;
 
-    #[Test]
-    public function parameters(): void
+    protected function setUp(): void
     {
-        $this->service
-            ->name('samples')
-            ->actions(
-                SampleActionsController::class,
-                function (ActionsRegisterer $actions) {
-                    $actions->withId()->withParameters('related', ['something' => 'some_thing'])->get('action-with-params');
-                    $actions->post('action-with-no-param');
-                }
-            );
-        $this->getJson(
-            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
-        )
-            ->assertOk();
-
-        $this->postJson(route('samples.actions.action-with-no-param'))->assertOk();
-
-        self::assertEquals(
-            url('samples/-actions/1/action-with-params/2/something/3'),
-            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
-        );
-        self::assertEquals(
-            url('samples/-actions/action-with-no-param'),
-            route('samples.actions.action-with-no-param')
-        );
+        parent::setUp();
+        $this->service = app(RoutingService::class);
     }
 
     #[Test]
@@ -62,6 +39,35 @@ class ActionsTest extends TestCase
     }
 
     #[Test]
+    public function parameters(): void
+    {
+        $this->service
+            ->name('samples')
+            ->actions(
+                SampleActionsController::class,
+                function (ActionsRegisterer $actions) {
+                    $actions->withId()->withParameters('related', ['something'=>'some_thing'])->get('action-with-params');
+                    $actions->post('action-with-no-param');
+                }
+            );
+        $this->getJson(
+            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
+        )
+             ->assertOk();
+
+        $this->postJson(route('samples.actions.action-with-no-param'))->assertOk();
+
+        self::assertEquals(
+            url('samples/-actions/1/action-with-params/2/something/3'),
+            route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
+        );
+        self::assertEquals(
+            url('samples/-actions/action-with-no-param'),
+            route('samples.actions.action-with-no-param')
+        );
+    }
+
+    #[Test]
     public function middleware(): void
     {
         $this->service
@@ -75,7 +81,7 @@ class ActionsTest extends TestCase
         $this->getJson(
             route('samples.actions.action-with-middleware')
         )
-            ->assertOk();
+             ->assertOk();
 
         self::assertEquals(
             [
@@ -139,11 +145,5 @@ class ActionsTest extends TestCase
                 }
             );
         $this->deleteJson(route('samples.actions.action-with-no-param'))->assertOk();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(RoutingService::class);
     }
 }

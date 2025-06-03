@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Facade;
 use RuntimeException;
 
 /**
- * @method static mixed          store(string $key, callable $data)
+ * @method static mixed          store( string $key, callable $data )
  * @method static int            getInterval()
- * @method static CachingService setInterval(int $minutes)
- * @method static CachingService setService(VService $service)
+ * @method static CachingService setInterval( int $minutes )
+ * @method static CachingService setService(VService $service )
  *
  * @see CachingService
  */

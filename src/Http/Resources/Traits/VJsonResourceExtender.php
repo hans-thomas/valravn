@@ -12,35 +12,40 @@ trait VJsonResourceExtender
     use InteractsWithPivots;
 
     /**
+     * Store extra data for resource.
+     *
+     * @var array
+     */
+    private array $extra = [];
+
+    /**
      * Determine should execute includes.
      *
      * @var bool
      */
     protected bool $includes = false;
+
     /**
      * Keep requested includes to execute in the future.
      *
      * @var array
      */
     protected array $requested_includes = [];
+
     /**
      * Determine should execute queries.
      *
      * @var bool
      */
     protected bool $queries = false;
+
     /**
      * Keep requested queries to execute in the future.
      *
      * @var array
      */
     protected array $requested_queries = [];
-    /**
-     * Store extra data for resource.
-     *
-     * @var array
-     */
-    private array $extra = [];
+
     /**
      * Keep requested eager loads to execute in the future.
      *
@@ -66,6 +71,49 @@ trait VJsonResourceExtender
     abstract public function extract(Model $model): ?array;
 
     /**
+     * Specify the type of your resource.
+     *
+     * @return string
+     */
+    abstract public function type(): string;
+
+    /**
+     * List of available queries of this resource.
+     *
+     * @return array
+     */
+    public function getAvailableVQueries(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * List of available includes of this resource.
+     *
+     * @return array
+     */
+    public function getAvailableVIncludes(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Executes when data loaded.
+     *
+     * @param $data
+     *
+     * @return void
+     */
+    protected function loaded(&$data): void
+    {
+        // ...
+    }
+
+    /**
      * Get any additional data that should be returned with the resource array.
      *
      * @param Request $request
@@ -78,13 +126,6 @@ trait VJsonResourceExtender
             'type' => $this->type(),
         ];
     }
-
-    /**
-     * Specify the type of your resource.
-     *
-     * @return string
-     */
-    abstract public function type(): string;
 
     /**
      * Merge data to the additional.
@@ -125,6 +166,18 @@ trait VJsonResourceExtender
     }
 
     /**
+     * Parse includes on this resource instance.
+     *
+     * @return $this
+     */
+    public function parseIncludes(): static
+    {
+        $this->includes = true;
+
+        return $this;
+    }
+
+    /**
      * Parse includes on this resource instance when condition is true.
      *
      * @param bool $condition
@@ -141,18 +194,6 @@ trait VJsonResourceExtender
     }
 
     /**
-     * Parse includes on this resource instance.
-     *
-     * @return $this
-     */
-    public function parseIncludes(): static
-    {
-        $this->includes = true;
-
-        return $this;
-    }
-
-    /**
      * Determine that resource should parse the includes or not.
      *
      * @return bool
@@ -160,81 +201,6 @@ trait VJsonResourceExtender
     public function shouldParseIncludes(): bool
     {
         return $this->includes;
-    }
-
-    /**
-     * Return requested nested eager load for a specific relationship.
-     *
-     * @param string $relation
-     *
-     * @return string|null
-     */
-    public function getNestedEagerLoadsFor(string $relation): ?string
-    {
-        if (!key_exists($relation, $this->getNestedEagerLoads())) {
-            return null;
-        }
-
-        return $this->requested_eager_loads[$relation];
-    }
-
-    /**
-     * Return the requested nested eager loads list.
-     *
-     * @return array
-     */
-    public function getNestedEagerLoads(): array
-    {
-        return $this->requested_eager_loads;
-    }
-
-    /**
-     * Apply a nested eager load on the current instance.
-     *
-     * @param string $nested
-     *
-     * @return $this
-     */
-    public function applyNestedEagerLoadsOnRelation(string $nested): static
-    {
-        $data = app(IncludingService::class, ['resource' => $this])->parseInclude($nested);
-
-        if (!empty($data['nested'])) {
-            $this->setNestedEagerLoadsFor($data['relation'], $data['nested']);
-        }
-
-        if (key_exists($data['relation'], $this->getAvailableVIncludes())) {
-            $this->registerInclude($this->getAvailableVIncludes()[$data['relation']], $data['actions']);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set a nested eager load for current instance.
-     *
-     * @param string $include
-     * @param string $eagerLoads
-     *
-     * @return $this
-     */
-    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): static
-    {
-        $this->requested_eager_loads[$include] = $eagerLoads;
-
-        return $this;
-    }
-
-    /**
-     * List of available includes of this resource.
-     *
-     * @return array
-     */
-    public function getAvailableVIncludes(): array
-    {
-        return [
-            //
-        ];
     }
 
     /**
@@ -289,16 +255,63 @@ trait VJsonResourceExtender
     }
 
     /**
-     * Parse queries on this resource instance when condition is true.
+     * Set a nested eager load for current instance.
      *
-     * @param bool $condition
+     * @param string $include
+     * @param string $eagerLoads
      *
      * @return $this
      */
-    public function parseQueriesWhen(bool $condition): static
+    public function setNestedEagerLoadsFor(string $include, string $eagerLoads): static
     {
-        if ($condition) {
-            $this->parseQueries();
+        $this->requested_eager_loads[$include] = $eagerLoads;
+
+        return $this;
+    }
+
+    /**
+     * Return requested nested eager load for a specific relationship.
+     *
+     * @param string $relation
+     *
+     * @return string|null
+     */
+    public function getNestedEagerLoadsFor(string $relation): ?string
+    {
+        if (!key_exists($relation, $this->getNestedEagerLoads())) {
+            return null;
+        }
+
+        return $this->requested_eager_loads[$relation];
+    }
+
+    /**
+     * Return the requested nested eager loads list.
+     *
+     * @return array
+     */
+    public function getNestedEagerLoads(): array
+    {
+        return $this->requested_eager_loads;
+    }
+
+    /**
+     * Apply a nested eager load on the current instance.
+     *
+     * @param string $nested
+     *
+     * @return $this
+     */
+    public function applyNestedEagerLoadsOnRelation(string $nested): static
+    {
+        $data = app(IncludingService::class, ['resource' => $this])->parseInclude($nested);
+
+        if (!empty($data['nested'])) {
+            $this->setNestedEagerLoadsFor($data['relation'], $data['nested']);
+        }
+
+        if (key_exists($data['relation'], $this->getAvailableVIncludes())) {
+            $this->registerInclude($this->getAvailableVIncludes()[$data['relation']], $data['actions']);
         }
 
         return $this;
@@ -317,6 +330,22 @@ trait VJsonResourceExtender
     }
 
     /**
+     * Parse queries on this resource instance when condition is true.
+     *
+     * @param bool $condition
+     *
+     * @return $this
+     */
+    public function parseQueriesWhen(bool $condition): static
+    {
+        if ($condition) {
+            $this->parseQueries();
+        }
+
+        return $this;
+    }
+
+    /**
      * Determine that resource should parse the queries or not.
      *
      * @return bool
@@ -324,22 +353,6 @@ trait VJsonResourceExtender
     public function shouldParseQueries(): bool
     {
         return $this->queries;
-    }
-
-    /**
-     * Manually register several query classes.
-     *
-     * @param array $queries
-     *
-     * @return $this
-     */
-    public function registerQueries(array $queries): static
-    {
-        foreach ($queries as $query) {
-            $this->registerQuery($query);
-        }
-
-        return $this;
     }
 
     /**
@@ -360,15 +373,29 @@ trait VJsonResourceExtender
     }
 
     /**
-     * List of available queries of this resource.
+     * Manually register several query classes.
+     *
+     * @param array $queries
+     *
+     * @return $this
+     */
+    public function registerQueries(array $queries): static
+    {
+        foreach ($queries as $query) {
+            $this->registerQuery($query);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return the requested queries list.
      *
      * @return array
      */
-    public function getAvailableVQueries(): array
+    public function getRequestedQueries(): array
     {
-        return [
-            //
-        ];
+        return $this->requested_queries;
     }
 
     /**
@@ -385,16 +412,6 @@ trait VJsonResourceExtender
         }
 
         return $this;
-    }
-
-    /**
-     * Return the requested queries list.
-     *
-     * @return array
-     */
-    public function getRequestedQueries(): array
-    {
-        return $this->requested_queries;
     }
 
     /**
@@ -419,18 +436,6 @@ trait VJsonResourceExtender
         $this->only = is_array($fields) ? $fields : func_get_args();
 
         return $this;
-    }
-
-    /**
-     * Executes when data loaded.
-     *
-     * @param $data
-     *
-     * @return void
-     */
-    protected function loaded(&$data): void
-    {
-        // ...
     }
 
     /**
