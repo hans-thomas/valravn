@@ -82,7 +82,7 @@ trait VJsonResourceExtender
      *
      * @return array
      */
-    public function getAvailableQueries(): array
+    public function getAvailableVQueries(): array
     {
         return [
             //
@@ -365,7 +365,7 @@ trait VJsonResourceExtender
     public function registerQuery(string|object $query): static
     {
         $query = is_object($query) ? get_class($query) : $query;
-        if (in_array($query, $this->getAvailableQueries())) {
+        if (in_array($query, $this->getAvailableVQueries())) {
             $this->addRequestedQueries($query);
         }
 

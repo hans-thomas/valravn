@@ -227,11 +227,11 @@ It's recommended that suffix the class with `CollectionQuery` to avoid any confl
 ### Queries registration
 
 After all, you should register your queries on the resource class. to register a
-query, just you need to override the `getAvailableQueries` method and add you
+query, just you need to override the `getAvailableVQueries` method and add you
 queries.
 
 ```php
-public function getAvailableQueries(): array {
+public function getAvailableVQueries(): array {
   return [
     'with_first_example' => FirstExampleQuery::class
   ];

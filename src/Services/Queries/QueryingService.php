@@ -38,7 +38,7 @@ class QueryingService
         }
 
         foreach (array_unique($queries) as $query) {
-            if (key_exists($query, $availableQueries = $this->resource->getAvailableQueries())) {
+            if (key_exists($query, $availableQueries = $this->resource->getAvailableVQueries())) {
                 $this->resource->registerQuery($availableQueries[$query]);
             }
         }

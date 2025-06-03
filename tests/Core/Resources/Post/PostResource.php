@@ -16,7 +16,7 @@ class PostResource extends VJsonResource
      *
      * @return array
      */
-    public function getAvailableQueries(): array
+    public function getAvailableVQueries(): array
     {
         return [
             'with_first_comment'  => FirstCommentQueryV::class,
