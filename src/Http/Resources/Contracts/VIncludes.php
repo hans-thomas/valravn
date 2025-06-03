@@ -5,7 +5,7 @@ namespace Hans\Valravn\Http\Resources\Contracts;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Includes
+abstract class VIncludes
 {
     /**
      * Eloquent builder instance.

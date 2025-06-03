@@ -3,8 +3,8 @@
 namespace Hans\Valravn\Tests\Core\Resources\Post;
 
 use Hans\Valravn\Http\Resources\VJsonResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
-use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesVIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CommentsVIncludes;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCategoryQueryV;
 use Hans\Valravn\Tests\Instances\Http\Queries\FirstCommentQueryV;
 use Illuminate\Database\Eloquent\Model;
@@ -32,8 +32,8 @@ class PostResource extends VJsonResource
     public function getAvailableIncludes(): array
     {
         return [
-            'comments'   => CommentsIncludes::class,
-            'categories' => CategoriesIncludes::class,
+            'comments'   => CommentsVIncludes::class,
+            'categories' => CategoriesVIncludes::class,
         ];
     }
 
@@ -68,7 +68,7 @@ class PostResource extends VJsonResource
 
     public function withCommentsIncludes(): self
     {
-        $this->registerInclude(CommentsIncludes::class);
+        $this->registerInclude(CommentsVIncludes::class);
 
         return $this;
     }

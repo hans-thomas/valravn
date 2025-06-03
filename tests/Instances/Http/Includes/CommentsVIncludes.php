@@ -2,13 +2,13 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Includes;
 
-use Hans\Valravn\Http\Resources\Contracts\Includes;
+use Hans\Valravn\Http\Resources\Contracts\VIncludes;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-use Hans\Valravn\Tests\Core\Resources\Category\CategoryCollection;
+use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoriesIncludes extends Includes
+class CommentsVIncludes extends VIncludes
 {
     /**
      * @param Model $model
@@ -17,7 +17,7 @@ class CategoriesIncludes extends Includes
      */
     public function apply(Model $model): Builder
     {
-        return $model->categories();
+        return $model->comments();
     }
 
     /**
@@ -25,6 +25,6 @@ class CategoriesIncludes extends Includes
      */
     public function toVResource(): VJsonResource
     {
-        return CategoryCollection::make($this->getBuilder()->get());
+        return CommentCollection::make($this->getBuilder()->get());
     }
 }

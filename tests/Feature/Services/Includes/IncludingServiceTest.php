@@ -11,8 +11,8 @@ use Hans\Valravn\Tests\Core\Factories\CategoryFactory;
 use Hans\Valravn\Tests\Core\Factories\CommentFactory;
 use Hans\Valravn\Tests\Core\Factories\PostFactory;
 use Hans\Valravn\Tests\Core\Resources\Post\PostResource;
-use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesIncludes;
-use Hans\Valravn\Tests\Instances\Http\Includes\CommentsIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CategoriesVIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\CommentsVIncludes;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
@@ -41,8 +41,8 @@ class IncludingServiceTest extends TestCase
         $this->service->registerIncludesUsingQueryString('categories.posts,comments.post.comments');
         self::assertEquals(
             [
-                CategoriesIncludes::class => [],
-                CommentsIncludes::class   => [],
+                CategoriesVIncludes::class => [],
+                CommentsVIncludes::class   => [],
             ],
             $this->resource->getRequestedIncludes()
         );
@@ -73,7 +73,7 @@ class IncludingServiceTest extends TestCase
     {
         $this->service->registerIncludesUsingQueryStringWhen(true, 'categories');
         self::assertEquals(
-            [CategoriesIncludes::class => []],
+            [CategoriesVIncludes::class => []],
             $this->resource->getRequestedIncludes()
         );
     }

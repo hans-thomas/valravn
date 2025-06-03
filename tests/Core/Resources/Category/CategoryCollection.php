@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Core\Resources\Category;
 
 use Hans\Valravn\Http\Resources\VResourceCollection;
-use Hans\Valravn\Tests\Instances\Http\Includes\PostsIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\PostsVIncludes;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryCollection extends VResourceCollection
@@ -14,7 +14,7 @@ class CategoryCollection extends VResourceCollection
     public function getAvailableIncludes(): array
     {
         return [
-            'posts' => PostsIncludes::class,
+            'posts' => PostsVIncludes::class,
         ];
     }
 

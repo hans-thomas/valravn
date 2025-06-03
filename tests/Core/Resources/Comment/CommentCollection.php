@@ -3,7 +3,7 @@
 namespace Hans\Valravn\Tests\Core\Resources\Comment;
 
 use Hans\Valravn\Http\Resources\VResourceCollection;
-use Hans\Valravn\Tests\Instances\Http\Includes\PostIncludes;
+use Hans\Valravn\Tests\Instances\Http\Includes\PostVIncludes;
 use Illuminate\Database\Eloquent\Model;
 
 class CommentCollection extends VResourceCollection
@@ -14,7 +14,7 @@ class CommentCollection extends VResourceCollection
     public function getAvailableIncludes(): array
     {
         return [
-            'post' => PostIncludes::class,
+            'post' => PostVIncludes::class,
         ];
     }
 
