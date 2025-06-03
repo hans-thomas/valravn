@@ -53,6 +53,6 @@ To start testing run below commands step by step:
 Support
 -------
 
-- [Documentation](https://valravn.vercel.app/)
+- [Documentation](https://v2-valravn.vercel.app/)
 - [Report bugs](https://github.com/hans-thomas/valravn/issues)
 
