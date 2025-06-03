@@ -20,3 +20,5 @@ renamed to `getVCollection`.
 - Rename `Hans\Valravn\Http\Resources\Contracts\ResourceQuery` contract to `Hans\Valravn\Http\Resources\Contracts\VResourceQuery`
 - Rename `Hans\Valravn\Http\Resources\Contracts\Includes` contract to `Hans\Valravn\Http\Resources\Contracts\VIncludes`
 - Rename `Hans\Valravn\Http\Resources\Contracts\CollectionQuery` contract to `Hans\Valravn\Http\Resources\Contracts\VCollectionQuery`
+- Rename `getAvailableIncludes` method of Resource classes to `getAvailableVIncludes`
+- Rename `getAvailableQueries` method of Resource classes to `getAvailableVQueries`
