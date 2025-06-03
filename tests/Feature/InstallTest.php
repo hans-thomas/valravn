@@ -26,7 +26,7 @@ class InstallTest extends TestCase
         self::assertFileExists($this->configFile);
         self::assertFileExists($this->serviceProviderFile);
 
-        $serviceProviderContent = file_get_contents(__DIR__ . '/../../src/stubs/RepositoryServiceProvider.stub');
+        $serviceProviderContent = file_get_contents(__DIR__.'/../../src/stubs/RepositoryServiceProvider.stub');
 
         self::assertEquals(
             $serviceProviderContent,
@@ -53,7 +53,7 @@ class InstallTest extends TestCase
     protected function tearDown(): void
     {
         file_put_contents($this->providersFile, str_replace(
-            '    App\\Providers\\RepositoryServiceProvider::class,' . PHP_EOL,
+            '    App\\Providers\\RepositoryServiceProvider::class,'.PHP_EOL,
             '',
             file_get_contents($this->providersFile)
         ));

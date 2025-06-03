@@ -21,23 +21,23 @@ class ResourceCollectionQueryTest extends TestCase
         $resource = PostCollection::make($this->posts)
             ->skipRelationsForModel([Post::class => 'comments'])
             ->withAllCommentsQuery();
-        $comments = $this->posts->map(fn(Post $post) => $post->comments)->flatten();
+        $comments = $this->posts->map(fn (Post $post) => $post->comments)->flatten();
 
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn(Post $post) => [
-                        'type' => 'posts',
-                        'id' => $post->id,
-                        'title' => $post->title,
+                    fn (Post $post) => [
+                        'type'    => 'posts',
+                        'id'      => $post->id,
+                        'title'   => $post->title,
                         'content' => $post->content,
                     ]
                 )->toArray(),
-                'type' => 'posts',
+                'type'         => 'posts',
                 'all_comments' => $comments->map(
-                    fn(Comment $comment) => [
-                        'type' => 'comments',
-                        'id' => $comment->id,
+                    fn (Comment $comment) => [
+                        'type'    => 'comments',
+                        'id'      => $comment->id,
                         'content' => $comment->content,
                     ]
                 )
@@ -55,16 +55,16 @@ class ResourceCollectionQueryTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn(Post $post) => [
-                        'type' => 'posts',
-                        'id' => $post->id,
-                        'title' => $post->title,
-                        'content' => $post->content,
+                    fn (Post $post) => [
+                        'type'     => 'posts',
+                        'id'       => $post->id,
+                        'title'    => $post->title,
+                        'content'  => $post->content,
                         'comments' => $post->comments
                             ->map(
-                                fn(Comment $value) => [
-                                    'type' => 'comments',
-                                    'id' => $value->id,
+                                fn (Comment $value) => [
+                                    'type'    => 'comments',
+                                    'id'      => $value->id,
                                     'content' => $value->content,
                                 ]
                             )
@@ -87,14 +87,14 @@ class ResourceCollectionQueryTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn(Post $post) => [
-                        'type' => 'posts',
-                        'id' => $post->id,
-                        'title' => $post->title,
-                        'content' => $post->content,
+                    fn (Post $post) => [
+                        'type'          => 'posts',
+                        'id'            => $post->id,
+                        'title'         => $post->title,
+                        'content'       => $post->content,
                         'first_comment' => [
-                            'type' => 'comments',
-                            'id' => ($comment = $post->comments()->limit(1)->first())->id,
+                            'type'    => 'comments',
+                            'id'      => ($comment = $post->comments()->limit(1)->first())->id,
                             'content' => $comment->content,
                         ],
                     ]
@@ -114,14 +114,14 @@ class ResourceCollectionQueryTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->posts->map(
-                    fn(Post $post) => [
-                        'type' => 'posts',
-                        'id' => $post->id,
-                        'title' => $post->title,
-                        'content' => $post->content,
+                    fn (Post $post) => [
+                        'type'          => 'posts',
+                        'id'            => $post->id,
+                        'title'         => $post->title,
+                        'content'       => $post->content,
                         'first_comment' => [
-                            'type' => 'comments',
-                            'id' => ($comment = $post->comments()->limit(1)->first())->id,
+                            'type'    => 'comments',
+                            'id'      => ($comment = $post->comments()->limit(1)->first())->id,
                             'content' => $comment->content,
                         ],
                     ]

@@ -15,7 +15,7 @@ abstract class BatchUpdateRequest extends VFormRequest
     public function rules()
     {
         $rules = [
-            'batch' => ['array'],
+            'batch'      => ['array'],
             'batch.*.id' => ['required', 'numeric', $this->existence()],
         ];
 

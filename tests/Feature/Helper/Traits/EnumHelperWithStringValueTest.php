@@ -13,9 +13,9 @@ class EnumHelperWithStringValueTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => 'first value',
+                'FIRST'  => 'first value',
                 'SECOND' => 'second value',
-                'THIRD' => 'third value',
+                'THIRD'  => 'third value',
             ],
             SampleWithStringValueEnum::toArray()
         );
@@ -39,7 +39,7 @@ class EnumHelperWithStringValueTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => 'first value',
+                'FIRST'  => 'first value',
                 'SECOND' => 'second value',
             ],
             SampleWithStringValueEnum::toArrayExcept(['third value'])
@@ -85,9 +85,9 @@ class EnumHelperWithStringValueTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => SampleWithStringValueEnum::FIRST,
+                'FIRST'  => SampleWithStringValueEnum::FIRST,
                 'SECOND' => SampleWithStringValueEnum::SECOND,
-                'THIRD' => SampleWithStringValueEnum::THIRD,
+                'THIRD'  => SampleWithStringValueEnum::THIRD,
             ],
             SampleWithStringValueEnum::all()
         );

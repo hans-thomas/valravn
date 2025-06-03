@@ -28,9 +28,9 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function handle(): void
     {
@@ -65,13 +65,13 @@ class InstallCommand extends Command
 
         $providersConfig = file_get_contents($providersFile);
 
-        if (Str::contains($providersConfig, $namespace . '\\Providers\\RepositoryServiceProvider::class')) {
+        if (Str::contains($providersConfig, $namespace.'\\Providers\\RepositoryServiceProvider::class')) {
             return;
         }
 
         file_put_contents($providersFile, str_replace(
             '];',
-            "    {$namespace}\Providers\RepositoryServiceProvider::class," . PHP_EOL . '];',
+            "    {$namespace}\Providers\RepositoryServiceProvider::class,".PHP_EOL.'];',
             $providersConfig
         ));
 

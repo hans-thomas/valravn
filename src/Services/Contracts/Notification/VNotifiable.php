@@ -31,8 +31,8 @@ abstract class VNotifiable
     final public function getMessage(): array
     {
         return [
-            'title' => $this->title(),
-            'body' => $this->body(),
+            'title'   => $this->title(),
+            'body'    => $this->body(),
             'related' => $this->getRelatedEntity(),
         ];
     }

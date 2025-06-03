@@ -12,7 +12,7 @@ class ManyToManyDto extends VDto
      * Add given values to the data.
      *
      * @param array $values
-     * @param bool $force
+     * @param bool  $force
      *
      * @return Collection
      */
@@ -55,7 +55,7 @@ class ManyToManyDto extends VDto
                 in_array($item['id'], $output) or
                 in_array(
                     $item['id'],
-                    array_keys(Arr::where($output, static fn($value, $key) => is_array($value)))
+                    array_keys(Arr::where($output, static fn ($value, $key) => is_array($value)))
                 )
             ) {
                 continue;

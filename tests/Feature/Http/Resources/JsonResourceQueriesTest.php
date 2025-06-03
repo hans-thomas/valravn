@@ -20,13 +20,13 @@ class JsonResourceQueriesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'          => 'posts',
+                    'id'            => $this->post->id,
+                    'title'         => $this->post->title,
+                    'content'       => $this->post->content,
                     'first_comment' => [
-                        'type' => 'comments',
-                        'id' => ($comment = $this->post->comments()->limit(1)->first())->id,
+                        'type'    => 'comments',
+                        'id'      => ($comment = $this->post->comments()->limit(1)->first())->id,
                         'content' => $comment->content,
                     ],
                 ],
@@ -44,13 +44,13 @@ class JsonResourceQueriesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'          => 'posts',
+                    'id'            => $this->post->id,
+                    'title'         => $this->post->title,
+                    'content'       => $this->post->content,
                     'first_comment' => [
-                        'type' => 'comments',
-                        'id' => ($comment = $this->post->comments()->limit(1)->first())->id,
+                        'type'    => 'comments',
+                        'id'      => ($comment = $this->post->comments()->limit(1)->first())->id,
                         'content' => $comment->content,
                     ],
                 ],

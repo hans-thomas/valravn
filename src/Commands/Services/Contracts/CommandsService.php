@@ -21,7 +21,7 @@ abstract class CommandsService
     {
         $this->namespace = ucfirst($namespace);
         $this->name = Str::of($name)->singular()->ucfirst()->toString();
-        $this->version = 'V' . filter_var($version, FILTER_SANITIZE_NUMBER_INT);
+        $this->version = 'V'.filter_var($version, FILTER_SANITIZE_NUMBER_INT);
 
         $this->filesystem = $this->createFilesystemFromPath(app_path());
     }
@@ -34,7 +34,7 @@ abstract class CommandsService
     protected function createFilesystemFromPath(string $path): Filesystem
     {
         return Storage::createLocalDriver([
-            'root' => $path,
+            'root'       => $path,
             'visibility' => Visibility::PUBLIC,
         ]);
     }
@@ -70,16 +70,16 @@ abstract class CommandsService
      */
     protected function getStub(string $path): string
     {
-        return file_get_contents(__DIR__ . "/../../stubs/$path");
+        return file_get_contents(__DIR__."/../../stubs/$path");
     }
 
     /**
      * @param string $file
      * @param string $stub
      *
-     * @return bool
      * @throws FilesystemException
      *
+     * @return bool
      */
     protected function writeTo(string $file, string $stub): bool
     {

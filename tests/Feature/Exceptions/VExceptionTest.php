@@ -21,9 +21,9 @@ class VExceptionTest extends TestCase
 
         self::assertEquals(
             [
-                'title' => 'Unexpected error!',
+                'title'  => 'Unexpected error!',
                 'detail' => 'Runtime exception',
-                'code' => 'RTEcx1',
+                'code'   => 'RTEcx1',
             ],
             $exception->render()->getData(true)
         );
@@ -41,9 +41,9 @@ class VExceptionTest extends TestCase
 
         self::assertEquals(
             [
-                'title' => 'Unexpected error!',
+                'title'  => 'Unexpected error!',
                 'detail' => 'Failed with new prefix',
-                'code' => 'FFEcx3',
+                'code'   => 'FFEcx3',
             ],
             $exception->render()->getData(true)
         );
@@ -62,9 +62,9 @@ class VExceptionTest extends TestCase
 
         self::assertEquals(
             [
-                'title' => 'Unexpected error!',
+                'title'  => 'Unexpected error!',
                 'detail' => 'Failed to remove name',
-                'code' => 'FFEcx1',
+                'code'   => 'FFEcx1',
             ],
             $exception->render()->getData(true)
         );
@@ -82,9 +82,9 @@ class VExceptionTest extends TestCase
 
         self::assertEquals(
             [
-                'title' => 'Unexpected error!',
+                'title'  => 'Unexpected error!',
                 'detail' => 'Failed to find your data',
-                'code' => 'FFEcx2',
+                'code'   => 'FFEcx2',
             ],
             $exception->render()->getData(true)
         );
@@ -122,9 +122,9 @@ class VExceptionTest extends TestCase
 
         self::assertEquals(
             [
-                'title' => 'Unexpected error!',
+                'title'  => 'Unexpected error!',
                 'detail' => "Class 'Hans\Valravn\Tests\Feature\Exceptions\VExceptionTest' does not exist",
-                'code' => 'CFEcx1',
+                'code'   => 'CFEcx1',
             ],
             $exception->render()->getData(true)
         );

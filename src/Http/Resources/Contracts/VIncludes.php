@@ -85,7 +85,7 @@ abstract class VIncludes
      * Register an action with its parameters.
      *
      * @param string $action
-     * @param array $params
+     * @param array  $params
      *
      * @return $this
      */

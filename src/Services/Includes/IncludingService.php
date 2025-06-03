@@ -21,7 +21,7 @@ class IncludingService
     /**
      * If true, then register the includes.
      *
-     * @param bool $condition
+     * @param bool              $condition
      * @param string|array|null $includes
      *
      * @return $this

@@ -34,6 +34,6 @@ trait Paginatable
             $perPage = $this->count('id');
         }
 
-        return max(1, min(static::$perPageMax, (int)$perPage));
+        return max(1, min(static::$perPageMax, (int) $perPage));
     }
 }

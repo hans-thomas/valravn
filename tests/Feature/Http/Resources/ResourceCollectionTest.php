@@ -35,10 +35,10 @@ class ResourceCollectionTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->models->map(
-                    fn($model) => [
-                        'type' => 'samples',
-                        'id' => $model->id,
-                        'name' => $model->name,
+                    fn ($model) => [
+                        'type'  => 'samples',
+                        'id'    => $model->id,
+                        'name'  => $model->name,
                         'email' => $model->email,
                     ]
                 )
@@ -58,9 +58,9 @@ class ResourceCollectionTest extends TestCase
             [
                 'data' => [
                     [
-                        'type' => 'samples',
-                        'id' => null,
-                        'name' => null,
+                        'type'  => 'samples',
+                        'id'    => null,
+                        'name'  => null,
                         'email' => null,
                     ],
                 ],
@@ -77,7 +77,7 @@ class ResourceCollectionTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->models->map(
-                    fn($model) => [
+                    fn ($model) => [
                         'type' => 'samples',
                         ...$model->toArray(),
                     ]
@@ -96,10 +96,10 @@ class ResourceCollectionTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->models->map(
-                    fn($model) => [
-                        'type' => 'samples',
-                        'id' => $model->id,
-                        'name' => $model->name,
+                    fn ($model) => [
+                        'type'    => 'samples',
+                        'id'      => $model->id,
+                        'name'    => $model->name,
                         'extract' => 'not default on resource',
                     ]
                 )
@@ -117,13 +117,13 @@ class ResourceCollectionTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->models->map(
-                    fn($model) => [
+                    fn ($model) => [
                         'type' => 'samples',
-                        'id' => $model->id,
+                        'id'   => $model->id,
                     ]
                 )
                     ->toArray(),
-                'type' => 'samples',
+                'type'       => 'samples',
                 'all-loaded' => 'will you still love me when i no longer young and beautiful?',
             ],
             $this->resourceToJson($resource)
@@ -138,9 +138,9 @@ class ResourceCollectionTest extends TestCase
         self::assertEquals(
             [
                 'data' => $this->models->map(
-                    fn($model) => [
-                        'type' => 'samples',
-                        'id' => $model->id,
+                    fn ($model) => [
+                        'type'  => 'samples',
+                        'id'    => $model->id,
                         'email' => $model->email,
                     ]
                 )
@@ -163,9 +163,9 @@ class ResourceCollectionTest extends TestCase
             $this->models->push(
                 clone $object->forceFill([
                     [
-                        'id' => rand(1, 999),
-                        'name' => fake()->name(),
-                        'email' => fake()->email(),
+                        'id'      => rand(1, 999),
+                        'name'    => fake()->name(),
+                        'email'   => fake()->email(),
                         'address' => fake()->address(),
                     ],
                 ])

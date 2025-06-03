@@ -39,10 +39,10 @@ class RepositoryAuthorizationTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws AuthorizationException
-     *
      * @throws VException
+     *
+     * @return void
      */
     public function deleteAction(): void
     {
@@ -79,12 +79,12 @@ class RepositoryAuthorizationTest extends TestCase
     {
         $data = [
             [
-                'id' => 1,
+                'id'      => 1,
                 'content' => fake()->sentence(),
             ],
             [
-                'id' => 2,
-                'title' => fake()->sentence(),
+                'id'      => 2,
+                'title'   => fake()->sentence(),
                 'content' => fake()->sentence(),
             ],
         ];

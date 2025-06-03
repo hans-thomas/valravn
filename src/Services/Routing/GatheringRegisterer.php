@@ -28,7 +28,7 @@ class GatheringRegisterer extends ActionsRegisterer
 
     protected function getPrefix(): string
     {
-        return '-gathering/v' . $this->version;
+        return '-gathering/v'.$this->version;
     }
 
     protected function addRoute(string $method, string $action)
@@ -36,7 +36,7 @@ class GatheringRegisterer extends ActionsRegisterer
         $this->registerRoute(
             $this->makeUri($action),
             Str::of($method)->upper(),
-            Str::camel($action . 'V' . $this->version)
+            Str::camel($action.'V'.$this->version)
         );
     }
 }

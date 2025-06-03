@@ -35,10 +35,10 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
-                    'email' => $this->model->email,
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
                     'address' => $this->model->address,
                 ],
                 'type' => 'samples',
@@ -55,10 +55,10 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => null,
-                    'name' => null,
-                    'email' => null,
+                    'type'    => 'samples',
+                    'id'      => null,
+                    'name'    => null,
+                    'email'   => null,
                     'address' => null,
                 ],
                 'type' => 'samples',
@@ -80,13 +80,13 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
-                    'email' => $this->model->email,
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
                     'address' => $this->model->address,
-                    'extra' => [
-                        'all facts' => "love don't cost a thing, this is all facts",
+                    'extra'   => [
+                        'all facts'     => "love don't cost a thing, this is all facts",
                         'introductions' => 'give no fucks about no status',
                     ],
                 ],
@@ -106,12 +106,12 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
-                    'email' => $this->model->email,
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
                     'address' => $this->model->address,
-                    'extra' => [
+                    'extra'   => [
                         'all facts' => "love don't cost a thing, this is all facts",
                     ],
                 ],
@@ -134,14 +134,14 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
-                    'email' => $this->model->email,
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
                     'address' => $this->model->address,
                 ],
-                'type' => 'samples',
-                'sober' => "why do people do things that be bad for 'em?",
+                'type'   => 'samples',
+                'sober'  => "why do people do things that be bad for 'em?",
                 'gerald' => "keep dissing, that's just adding fuel to my engin.",
             ],
             $this->resourceToJson($resource)
@@ -158,13 +158,13 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
-                    'email' => $this->model->email,
+                    'type'    => 'samples',
+                    'id'      => $this->model->id,
+                    'name'    => $this->model->name,
+                    'email'   => $this->model->email,
                     'address' => $this->model->address,
                 ],
-                'type' => 'samples',
+                'type'  => 'samples',
                 'sober' => "why do people do things that be bad for 'em?",
             ],
             $this->resourceToJson($resource)
@@ -195,7 +195,7 @@ class JsonResourceTest extends TestCase
             [
                 'data' => [
                     'type' => 'leaving heaven',
-                    'id' => $this->model->id,
+                    'id'   => $this->model->id,
                     'name' => $this->model->name,
                 ],
                 'type' => 'samples',
@@ -211,9 +211,9 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
+                    'type'  => 'samples',
+                    'id'    => $this->model->id,
+                    'name'  => $this->model->name,
                     'sober' => 'i might regret this when tomorrow comes',
                 ],
                 'type' => 'samples',
@@ -229,9 +229,9 @@ class JsonResourceTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $this->model->id,
-                    'name' => $this->model->name,
+                    'type'  => 'samples',
+                    'id'    => $this->model->id,
+                    'name'  => $this->model->name,
                     'email' => $this->model->email,
                 ],
                 'type' => 'samples',
@@ -248,9 +248,9 @@ class JsonResourceTest extends TestCase
             protected $fillable = ['name', 'email', 'address'];
         };
         $this->model->forceFill([
-            'id' => rand(1, 999),
-            'name' => fake()->name(),
-            'email' => fake()->email(),
+            'id'      => rand(1, 999),
+            'name'    => fake()->name(),
+            'email'   => fake()->email(),
             'address' => fake()->address(),
         ]);
     }

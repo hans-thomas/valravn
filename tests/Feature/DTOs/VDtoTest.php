@@ -82,7 +82,7 @@ class VDtoTest extends TestCase
         $data = [
             1,
             3 => [
-                'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                 'the artist' => 'post malone',
             ],
         ];
@@ -93,9 +93,9 @@ class VDtoTest extends TestCase
             [
                 ['id' => 1],
                 [
-                    'id' => 3,
+                    'id'    => 3,
                     'pivot' => [
-                        'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                        'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                         'the artist' => 'post malone',
                     ],
                 ],
@@ -110,9 +110,9 @@ class VDtoTest extends TestCase
         $data = [
             ['id' => 1],
             [
-                'id' => 3,
+                'id'    => 3,
                 'pivot' => [
-                    'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                    'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                     'the artist' => 'post malone',
                 ],
             ],
@@ -122,9 +122,9 @@ class VDtoTest extends TestCase
             [
                 ['id' => 1],
                 [
-                    'id' => 3,
+                    'id'    => 3,
                     'pivot' => [
-                        'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                        'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                         'the artist' => 'post malone',
                     ],
                 ],

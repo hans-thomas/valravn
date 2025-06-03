@@ -26,8 +26,8 @@ return [
     */
     'actions' => [
         'select' => SelectAction::class,
-        'order' => OrderAction::class,
-        'limit' => LimitAction::class,
+        'order'  => OrderAction::class,
+        'limit'  => LimitAction::class,
     ],
 
     /*
@@ -40,14 +40,14 @@ return [
     |
     */
     'filters' => [
-        'like_filter' => LikeVFilter::class,
-        'order_filter' => OrderVFilter::class,
-        'order_pivot_filter' => OrderPivotVFilter::class,
-        'where_filter' => WhereVFilter::class,
-        'where_pivot_filter' => WherePivotVFilter::class,
-        'where_relation_filter' => WhereRelationVFilter::class,
-        'where_relation_like_filter' => WhereRelationLikeVFilter::class,
-        'or_where_relation_filter' => OrWhereRelationVFilter::class,
+        'like_filter'                   => LikeVFilter::class,
+        'order_filter'                  => OrderVFilter::class,
+        'order_pivot_filter'            => OrderPivotVFilter::class,
+        'where_filter'                  => WhereVFilter::class,
+        'where_pivot_filter'            => WherePivotVFilter::class,
+        'where_relation_filter'         => WhereRelationVFilter::class,
+        'where_relation_like_filter'    => WhereRelationLikeVFilter::class,
+        'or_where_relation_filter'      => OrWhereRelationVFilter::class,
         'or_where_relation_like_filter' => OrWhereRelationLikeVFilter::class,
     ],
 

@@ -20,7 +20,7 @@ class AliasForModelAttributesModel extends Comment
     protected static function booted()
     {
         self::saving(
-            fn(self $model) => self::aliasForModelAttributes(
+            fn (self $model) => self::aliasForModelAttributes(
                 $model,
                 [
                     Post::foreignKey() => 'its_post_id',
@@ -31,6 +31,6 @@ class AliasForModelAttributesModel extends Comment
 
     public function itsPostId(): Attribute
     {
-        return new Attribute(get: fn() => $this->{Post::foreignKey()});
+        return new Attribute(get: fn () => $this->{Post::foreignKey()});
     }
 }

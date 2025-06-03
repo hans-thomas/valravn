@@ -13,7 +13,7 @@ class MorphToDtoTest extends TestCase
     public function parse(): void
     {
         $data = [
-            'entity' => 'posts',
+            'entity'    => 'posts',
             'namespace' => 'blog',
         ];
 

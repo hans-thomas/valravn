@@ -37,9 +37,9 @@ class Controller extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws Throwable
      *
+     * @return int
      */
     public function handle(): int
     {
@@ -90,7 +90,7 @@ class Controller extends Command
                     $requestService->createStoreRequest(),
                     $requestService->createUpdateRequest(),
                     $requestService->createBatchUpdateRequest(),
-                ])->every(fn($item) => $item === true)) {
+                ])->every(fn ($item) => $item === true)) {
                     $this->info('Request classes created.');
                 } else {
                     $this->error('Some request classes are exist or could not be created.');
@@ -104,7 +104,7 @@ class Controller extends Command
                 if (collect([
                     $resourceService->createResource(),
                     $resourceService->createCollection(),
-                ])->every(fn($item) => $item === true)) {
+                ])->every(fn ($item) => $item === true)) {
                     $this->info('Resource classes created.');
                 } else {
                     $this->error('Some resource classes are exist or could not be created.');

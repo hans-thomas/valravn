@@ -8,8 +8,8 @@ class SelectAction extends VActions
 {
     public function apply(array $params): void
     {
-        $attributes = collect($params)->map(fn($value) => $this->getFilterableColumn($value))
-            ->filter(static fn($value) => !is_null($value) && $value !== '');
+        $attributes = collect($params)->map(fn ($value) => $this->getFilterableColumn($value))
+            ->filter(static fn ($value) => !is_null($value) && $value !== '');
 
         if ($attributes->isNotEmpty()) {
             $attributes[] = 'id';

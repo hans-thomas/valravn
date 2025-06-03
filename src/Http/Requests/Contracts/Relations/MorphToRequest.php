@@ -15,7 +15,7 @@ abstract class MorphToRequest extends RelationsRequest
     public function rules(): array
     {
         return [
-            'related' => ['array:entity'],
+            'related'        => ['array:entity'],
             'related.entity' => ['required', 'string', Rule::in($this->entities())],
         ];
     }

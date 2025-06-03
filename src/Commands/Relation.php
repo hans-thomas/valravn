@@ -46,10 +46,10 @@ class Relation extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws Throwable
-     *
      * @throws FilesystemException
+     *
+     * @return int
      */
     public function handle(): int
     {
@@ -64,10 +64,10 @@ class Relation extends Command
         $option = match (true) {
             $this->option('belongs-to-many') => BelongsToManyRequest::class,
             $this->option('morphed-by-many') => MorphedByManyRequest::class,
-            $this->option('morph-to-many') => MorphToManyRequest::class,
-            $this->option('has-many') => HasManyRequest::class,
-            $this->option('morph-to') => MorphToRequest::class,
-            default => null
+            $this->option('morph-to-many')   => MorphToManyRequest::class,
+            $this->option('has-many')        => HasManyRequest::class,
+            $this->option('morph-to')        => MorphToRequest::class,
+            default                          => null
         };
 
         $this->withProgressBar(3, function (ProgressBar $progress) use ($service, $option) {
@@ -89,7 +89,7 @@ class Relation extends Command
 
             if (!class_exists($option)) {
                 $namespace = substr(BelongsToManyRequest::class, 0, strrpos(BelongsToManyRequest::class, '\\'));
-                $option = $namespace . '\\' . $option;
+                $option = $namespace.'\\'.$option;
                 assert(class_exists($option), 'Request class is not exists.');
             }
 

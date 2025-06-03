@@ -10,9 +10,9 @@ class SampleResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id' => $model->id,
-            'name' => $model->name,
-            'email' => $model->email,
+            'id'      => $model->id,
+            'name'    => $model->name,
+            'email'   => $model->email,
             'address' => $model->address,
         ];
     }

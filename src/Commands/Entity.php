@@ -40,9 +40,9 @@ class Entity extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
      *
+     * @return int
      */
     public function handle(): int
     {
@@ -84,7 +84,7 @@ class Entity extends Command
             if (collect([
                 $modelService->createModel(), $migrationService->createSeeder(), $migrationService->createFactory(),
                 $migrationService->createMigration(),
-            ])->every(fn($item) => $item == true)) {
+            ])->every(fn ($item) => $item == true)) {
                 $this->info('Model and database classes created.');
             } else {
                 $this->error('Some of model or database classes are exist or could not be created.');
@@ -97,7 +97,7 @@ class Entity extends Command
                 $controllerService->CreateRelations(), $requestService->createStoreRequest(),
                 $requestService->createUpdateRequest(), $requestService->createBatchUpdateRequest(),
                 $resourceService->createResource(), $resourceService->createCollection(),
-            ])->every(fn($item) => $item == true)) {
+            ])->every(fn ($item) => $item == true)) {
                 $this->info('Controllers, requests and resources classes created.');
             } else {
                 $this->error('Some of controllers or requests or resources classes are exist or could not be created.');
@@ -114,7 +114,7 @@ class Entity extends Command
 
             $this->newLine();
             if (collect([$repositoryService->createContract(), $repositoryService->createClass()])
-                ->every(fn($item) => $item == true)) {
+                ->every(fn ($item) => $item == true)) {
                 $this->info('Repository classes created.');
             } else {
                 $this->error('Repository classes are exist or could not be created.');
@@ -124,7 +124,7 @@ class Entity extends Command
             $this->newLine();
             if (collect([
                 $servicesService->createCrud(), $servicesService->CreateActions(), $servicesService->createRelations(),
-            ])->every(fn($item) => $item == true)) {
+            ])->every(fn ($item) => $item == true)) {
                 $this->info('Service classes created.');
             } else {
                 $this->error('Service classes are exist or could not be created.');

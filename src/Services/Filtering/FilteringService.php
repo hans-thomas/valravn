@@ -17,7 +17,7 @@ class FilteringService
 
     /**
      * @param Builder $builder
-     * @param array $options
+     * @param array   $options
      *
      * @return Builder
      */
