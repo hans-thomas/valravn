@@ -15,6 +15,17 @@ class InteractsWithPivotsTest extends TestCase
 {
     private Post $post;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()
+                                 ->hasAttached(
+                                     CategoryFactory::new()->count(5),
+                                     ['order' => rand(1, 100)]
+                                 )
+                                 ->create();
+    }
+
     #[Test]
     public function alias(): void
     {
@@ -22,9 +33,9 @@ class InteractsWithPivotsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $category->id,
-                    'name' => $category->name,
+                    'type'  => 'samples',
+                    'id'    => $category->id,
+                    'name'  => $category->name,
                     'pivot' => [
                         'lineup' => $category->pivot->order,
                     ],
@@ -43,12 +54,12 @@ class InteractsWithPivotsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $category->id,
-                    'name' => $category->name,
+                    'type'  => 'samples',
+                    'id'    => $category->id,
+                    'name'  => $category->name,
                     'pivot' => [
-                        'order' => $category->pivot->order,
-                        'post_id' => $category->pivot->post_id,
+                        'order'               => $category->pivot->order,
+                        'post_id'             => $category->pivot->post_id,
                         'category_identifier' => $category->pivot->category_id,
                     ],
                 ],
@@ -66,11 +77,11 @@ class InteractsWithPivotsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'samples',
-                    'id' => $category->id,
-                    'name' => $category->name,
+                    'type'  => 'samples',
+                    'id'    => $category->id,
+                    'name'  => $category->name,
                     'pivot' => [
-                        'post_id' => $category->pivot->post_id,
+                        'post_id'             => $category->pivot->post_id,
                         'category_identifier' => $category->pivot->category_id,
                     ],
                 ],
@@ -78,16 +89,5 @@ class InteractsWithPivotsTest extends TestCase
             ],
             $this->resourceToJson($resource)
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()
-            ->hasAttached(
-                CategoryFactory::new()->count(5),
-                ['order' => rand(1, 100)]
-            )
-            ->create();
     }
 }

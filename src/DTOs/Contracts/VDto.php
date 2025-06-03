@@ -18,16 +18,6 @@ abstract class VDto
     }
 
     /**
-     * Return keyName of DTO object.
-     *
-     * @return string
-     */
-    public static function getKeyName(): string
-    {
-        return 'related';
-    }
-
-    /**
      * Process the received data.
      *
      * @param array $data
@@ -91,5 +81,15 @@ abstract class VDto
     public function getData(): Collection
     {
         return $this->data;
+    }
+
+    /**
+     * Return keyName of DTO object.
+     *
+     * @return string
+     */
+    public static function getKeyName(): string
+    {
+        return 'related';
     }
 }

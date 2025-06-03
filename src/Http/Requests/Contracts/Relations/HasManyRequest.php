@@ -9,6 +9,13 @@ use Illuminate\Validation\Rules\Exists;
 abstract class HasManyRequest extends RelationsRequest
 {
     /**
+     * Get related model class.
+     *
+     * @return string
+     */
+    abstract protected function model(): string;
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -16,7 +23,7 @@ abstract class HasManyRequest extends RelationsRequest
     public function rules(): array
     {
         return [
-            'related' => ['array'],
+            'related'      => ['array'],
             'related.*.id' => [
                 'required',
                 'numeric',
@@ -34,11 +41,4 @@ abstract class HasManyRequest extends RelationsRequest
     {
         return Rule::exists($this->model(), 'id');
     }
-
-    /**
-     * Get related model class.
-     *
-     * @return string
-     */
-    abstract protected function model(): string;
 }

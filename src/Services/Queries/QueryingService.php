@@ -18,15 +18,6 @@ class QueryingService
         $this->resource = $resource;
     }
 
-    public function registerQueriesUsingQueryStringWhen(bool $condition, string|array|null $queries): self
-    {
-        if ($condition) {
-            $this->registerQueriesUsingQueryString($queries);
-        }
-
-        return $this;
-    }
-
     public function registerQueriesUsingQueryString(string|array|null $queries): self
     {
         if (is_null($queries)) {
@@ -38,9 +29,9 @@ class QueryingService
         foreach ($queries as $index => $value) {
             if (Str::startsWith($value, 'with_')) {
                 $queries[$index] = Str::of($value)
-                    ->replaceLast('=', '')
-                    ->snake()
-                    ->toString();
+                                        ->replaceLast('=', '')
+                                        ->snake()
+                                        ->toString();
             } else {
                 unset($queries[$index]);
             }
@@ -50,6 +41,15 @@ class QueryingService
             if (key_exists($query, $availableQueries = $this->resource->getAvailableVQueries())) {
                 $this->resource->registerQuery($availableQueries[$query]);
             }
+        }
+
+        return $this;
+    }
+
+    public function registerQueriesUsingQueryStringWhen(bool $condition, string|array|null $queries): self
+    {
+        if ($condition) {
+            $this->registerQueriesUsingQueryString($queries);
         }
 
         return $this;
@@ -86,11 +86,6 @@ class QueryingService
         }
     }
 
-    protected function getExecutedQueries(): array
-    {
-        return $this->executedQueries;
-    }
-
     public function getQueriedData(): array
     {
         $data = [];
@@ -110,5 +105,10 @@ class QueryingService
                 $query->mergeDataInto($this->resource);
             }
         }
+    }
+
+    protected function getExecutedQueries(): array
+    {
+        return $this->executedQueries;
     }
 }

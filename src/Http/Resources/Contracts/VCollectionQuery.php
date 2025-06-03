@@ -16,6 +16,15 @@ abstract class VCollectionQuery
     }
 
     /**
+     * Implement a custom logic.
+     *
+     * @param VJsonResource $resource
+     *
+     * @return array
+     */
+    abstract public function apply(VJsonResource $resource): array;
+
+    /**
      * Create an instance in static way.
      *
      * @return static
@@ -38,15 +47,6 @@ abstract class VCollectionQuery
 
         return $this;
     }
-
-    /**
-     * Implement a custom logic.
-     *
-     * @param VJsonResource $resource
-     *
-     * @return array
-     */
-    abstract public function apply(VJsonResource $resource): array;
 
     /**
      * Merge processed data to a resource class.

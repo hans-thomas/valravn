@@ -10,7 +10,7 @@ class SampleWithHookResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id' => $model->id,
+            'id'   => $model->id,
             'name' => $model->name,
         ];
     }

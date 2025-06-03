@@ -8,13 +8,6 @@ class GatheringRegisterer extends ActionsRegisterer
 {
     protected int $version = 1;
 
-    public function version(int $version): self
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
     protected function resetStates(): void
     {
         parent::resetStates();
@@ -28,7 +21,7 @@ class GatheringRegisterer extends ActionsRegisterer
 
     protected function getPrefix(): string
     {
-        return '-gathering/v' . $this->version;
+        return '-gathering/v'.$this->version;
     }
 
     protected function addRoute(string $method, string $action)
@@ -36,7 +29,14 @@ class GatheringRegisterer extends ActionsRegisterer
         $this->registerRoute(
             $this->makeUri($action),
             Str::of($method)->upper(),
-            Str::camel($action . 'V' . $this->version)
+            Str::camel($action.'V'.$this->version)
         );
+    }
+
+    public function version(int $version): self
+    {
+        $this->version = $version;
+
+        return $this;
     }
 }

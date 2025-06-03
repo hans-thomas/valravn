@@ -14,19 +14,13 @@ class WherePivotFilterTest extends TestCase
 {
     private FilteringService $service;
 
-    #[Test]
-    public function applyWithMultipleValues(): void
+    protected function setUp(): void
     {
-        request()->merge([
-            'where_pivot_filter' => [
-                'order' => '30,50',
-            ],
-        ]);
-        $builder = $this->service->apply(Post::query()->find(1)->categories());
-
-        self::assertStringContainsString(
-            '"category_post"."order" in (?, ?)',
-            $builder->toSql()
+        parent::setUp();
+        $this->service = app(FilteringService::class);
+        PostFactory::new()->create();
+        CategoryFactory::new()->count(5)->create()->each(
+            fn (Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
         );
     }
 
@@ -46,13 +40,19 @@ class WherePivotFilterTest extends TestCase
         );
     }
 
-    protected function setUp(): void
+    #[Test]
+    public function applyWithMultipleValues(): void
     {
-        parent::setUp();
-        $this->service = app(FilteringService::class);
-        PostFactory::new()->create();
-        CategoryFactory::new()->count(5)->create()->each(
-            fn(Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
+        request()->merge([
+            'where_pivot_filter' => [
+                'order' => '30,50',
+            ],
+        ]);
+        $builder = $this->service->apply(Post::query()->find(1)->categories());
+
+        self::assertStringContainsString(
+            '"category_post"."order" in (?, ?)',
+            $builder->toSql()
         );
     }
 }

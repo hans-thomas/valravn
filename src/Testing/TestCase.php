@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
      * Make a get json request and set the token.
      *
      * @param             $uri
-     * @param array $headers
+     * @param array       $headers
      * @param string|null $token
      *
      * @return TestResponse
@@ -31,8 +31,8 @@ abstract class TestCase extends BaseTestCase
      * Make a post json request and set the token.
      *
      * @param             $uri
-     * @param array $data
-     * @param array $headers
+     * @param array       $data
+     * @param array       $headers
      * @param string|null $token
      *
      * @return TestResponse
@@ -46,8 +46,8 @@ abstract class TestCase extends BaseTestCase
      * Make a patch json request and set the token.
      *
      * @param             $uri
-     * @param array $data
-     * @param array $headers
+     * @param array       $data
+     * @param array       $headers
      * @param string|null $token
      *
      * @return TestResponse
@@ -61,8 +61,8 @@ abstract class TestCase extends BaseTestCase
      * Make a delete json request and set the token.
      *
      * @param             $uri
-     * @param array $data
-     * @param array $headers
+     * @param array       $data
+     * @param array       $headers
      * @param string|null $token
      *
      * @return TestResponse

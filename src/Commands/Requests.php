@@ -32,9 +32,9 @@ class Requests extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
      *
+     * @return int
      */
     public function handle(): int
     {

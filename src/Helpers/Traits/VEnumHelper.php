@@ -7,6 +7,36 @@ use ReflectionClass;
 trait VEnumHelper
 {
     /**
+     * Convert values of enum class to an array.
+     *
+     * @return array
+     */
+    public static function toArray(): array
+    {
+        $vars = collect();
+        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
+            $vars->put($name, $value->value ?? $value->name);
+        }
+
+        return $vars->toArray();
+    }
+
+    /**
+     * Convert keys of enum class to an array.
+     *
+     * @return array
+     */
+    public static function toArrayKeys(): array
+    {
+        $vars = collect();
+        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
+            $vars->push($name);
+        }
+
+        return $vars->toArray();
+    }
+
+    /**
      * Convert values of enum class to an array except the given values.
      *
      * @param array $values
@@ -26,21 +56,6 @@ trait VEnumHelper
     }
 
     /**
-     * Convert values of enum class to an array.
-     *
-     * @return array
-     */
-    public static function toArray(): array
-    {
-        $vars = collect();
-        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
-            $vars->put($name, $value->value ?? $value->name);
-        }
-
-        return $vars->toArray();
-    }
-
-    /**
      * Convert keys of enum class to an array except the given keys.
      *
      * @param array $keys
@@ -57,21 +72,6 @@ trait VEnumHelper
         }
 
         return $vars;
-    }
-
-    /**
-     * Convert keys of enum class to an array.
-     *
-     * @return array
-     */
-    public static function toArrayKeys(): array
-    {
-        $vars = collect();
-        foreach ((new ReflectionClass(static::class))->getConstants() as $name => $value) {
-            $vars->push($name);
-        }
-
-        return $vars->toArray();
     }
 
     /**
@@ -128,6 +128,21 @@ trait VEnumHelper
     }
 
     /**
+     * Create an array using values of all enum members.
+     *
+     * @return array
+     */
+    public static function IndexedAll(): array
+    {
+        $vars = collect();
+        foreach ((new ReflectionClass(static::class))->getConstants() as $value) {
+            $vars->push($value);
+        }
+
+        return $vars->toArray();
+    }
+
+    /**
      * Find a value using the given key, otherwise return the default value.
      *
      * @param string $key
@@ -144,20 +159,5 @@ trait VEnumHelper
         }
 
         return $default;
-    }
-
-    /**
-     * Create an array using values of all enum members.
-     *
-     * @return array
-     */
-    public static function IndexedAll(): array
-    {
-        $vars = collect();
-        foreach ((new ReflectionClass(static::class))->getConstants() as $value) {
-            $vars->push($value);
-        }
-
-        return $vars->toArray();
     }
 }

@@ -15,13 +15,13 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($crud);
 
         $this->artisan('valravn:service blog posts')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($crud);
 
@@ -40,22 +40,22 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($crud);
 
         $this->artisan('valravn:service blog posts')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         $this->artisan('valravn:service blog posts')
-            ->doesntExpectOutput('CRUD service created.')
-            ->expectsOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->doesntExpectOutput('CRUD service created.')
+             ->expectsOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($crud);
     }
@@ -68,13 +68,13 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($relations);
 
         $this->artisan('valravn:service blog posts -r')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->expectsOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->expectsOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($relations);
 
@@ -94,22 +94,22 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($relations);
 
         $this->artisan('valravn:service blog posts -r')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->expectsOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->expectsOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         $this->artisan('valravn:service blog posts -r')
-            ->doesntExpectOutput('CRUD service created.')
-            ->expectsOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->expectsOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->doesntExpectOutput('CRUD service created.')
+             ->expectsOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->expectsOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($relations);
     }
@@ -122,13 +122,13 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($actions);
 
         $this->artisan('valravn:service blog posts -a')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->expectsOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->expectsOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($actions);
 
@@ -148,22 +148,22 @@ class ServiceTests extends TestCase
         self::assertFileDoesNotExist($actions);
 
         $this->artisan('valravn:service blog posts -a')
-            ->expectsOutput('CRUD service created.')
-            ->doesntExpectOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->expectsOutput('Actions service created.')
-            ->doesntExpectOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->expectsOutput('CRUD service created.')
+             ->doesntExpectOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->expectsOutput('Actions service created.')
+             ->doesntExpectOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         $this->artisan('valravn:service blog posts -a')
-            ->doesntExpectOutput('CRUD service created.')
-            ->expectsOutput('CRUD service exists or could be created.')
-            ->doesntExpectOutput('Relations service created.')
-            ->doesntExpectOutput('Relations service exists or could be created.')
-            ->doesntExpectOutput('Actions service created.')
-            ->expectsOutput('Actions service exists or could be created.')
-            ->assertSuccessful();
+             ->doesntExpectOutput('CRUD service created.')
+             ->expectsOutput('CRUD service exists or could be created.')
+             ->doesntExpectOutput('Relations service created.')
+             ->doesntExpectOutput('Relations service exists or could be created.')
+             ->doesntExpectOutput('Actions service created.')
+             ->expectsOutput('Actions service exists or could be created.')
+             ->assertSuccessful();
 
         self::assertFileExists($actions);
     }

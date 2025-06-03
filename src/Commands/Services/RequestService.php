@@ -21,18 +21,6 @@ final class RequestService extends CommandsService
     }
 
     /**
-     * @return string
-     */
-    private function requestStub(): string
-    {
-        $store = $this->getStub('requests/crud.stub');
-        $store = Str::replace('{{REQUEST::NAMESPACE}}', $this->namespace, $store);
-        $store = Str::replace('{{REQUEST::MODEL}}', $this->name, $store);
-
-        return Str::replace('{{REQUEST::VERSION}}', $this->version, $store);
-    }
-
-    /**
      * @throws FilesystemException
      */
     public function createUpdateRequest(): bool
@@ -56,5 +44,17 @@ final class RequestService extends CommandsService
         $stub = Str::replace('{{REQUEST::VERSION}}', $this->version, $stub);
 
         return $this->writeTo($file, $stub);
+    }
+
+    /**
+     * @return string
+     */
+    private function requestStub(): string
+    {
+        $store = $this->getStub('requests/crud.stub');
+        $store = Str::replace('{{REQUEST::NAMESPACE}}', $this->namespace, $store);
+        $store = Str::replace('{{REQUEST::MODEL}}', $this->name, $store);
+
+        return Str::replace('{{REQUEST::VERSION}}', $this->version, $store);
     }
 }

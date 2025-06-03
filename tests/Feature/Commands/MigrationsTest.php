@@ -10,6 +10,24 @@ use PHPUnit\Framework\Attributes\Test;
 
 class MigrationsTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->freezeTime();
+        (new ModelService('blog', 'post'))->createModel();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->cleanUp([
+            base_path('database/migrations/Blog/'),
+            app_path('Http/Requests/V1/Blog/Post/'),
+        ]);
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function migration(): void
     {
@@ -122,23 +140,5 @@ class MigrationsTest extends TestCase
         $relationStub = str_replace('{{RELATION::EXTENDS}}', 'BelongsToManyRequest', $relationStub);
 
         self::assertEquals($relationStub, file_get_contents($file));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->freezeTime();
-        (new ModelService('blog', 'post'))->createModel();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->cleanUp([
-            base_path('database/migrations/Blog/'),
-            app_path('Http/Requests/V1/Blog/Post/'),
-        ]);
-
-        parent::tearDown();
     }
 }

@@ -11,11 +11,31 @@ use PHPUnit\Framework\Attributes\Test;
 
 class ValravnServiceProviderTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        $configFile = __DIR__.'/../../config/config.php';
+        $publishedVersion = config('valravn.config_version');
+        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
+
+        // revert 'config_version' key
+        $configContent = file_get_contents($configFile);
+        $configContent = str_replace($newVersion, $publishedVersion, $configContent);
+        file_put_contents($configFile, $configContent);
+
+        $this->cleanUp([
+            base_path('config/valravn.php'),
+            base_path('routes/app/blog.php'),
+            base_path('routes/web.php'),
+        ]);
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function publishedConfigFileVersion()
     {
         $publishedVersion = config('valravn.config_version');
-        $configVersion = require __DIR__ . '/../../config/config.php';
+        $configVersion = require __DIR__.'/../../config/config.php';
         $configVersion = $configVersion['config_version'];
 
         self::assertGreaterThanOrEqual($configVersion, $publishedVersion);
@@ -27,10 +47,10 @@ class ValravnServiceProviderTest extends TestCase
         $this->artisan('vendor:publish', ['--tag' => 'valravn-config']);
         self::assertFileExists(base_path('config/valravn.php'));
 
-        $configFile = __DIR__ . '/../../config/config.php';
+        $configFile = __DIR__.'/../../config/config.php';
         $publishedVersion = config('valravn.config_version');
 
-        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0] . '.999';
+        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
         // change 'config_version' key
         $newConfigContent = file_get_contents($configFile);
         $newConfigContent = str_replace($publishedVersion, $newVersion, $newConfigContent);
@@ -49,8 +69,8 @@ class ValravnServiceProviderTest extends TestCase
 
         $fs = new Filesystem();
         $fs->ensureDirectoryExists(base_path('routes/app'));
-        $fs->put(base_path('routes/app/blog.php'), file_get_contents(__DIR__ . '/../Instances/routes/blog.stub'));
-        $fs->put(base_path('routes/web.php'), file_get_contents(__DIR__ . '/../Instances/routes/blog.stub'));
+        $fs->put(base_path('routes/app/blog.php'), file_get_contents(__DIR__.'/../Instances/routes/blog.stub'));
+        $fs->put(base_path('routes/web.php'), file_get_contents(__DIR__.'/../Instances/routes/blog.stub'));
 
         self::assertFileExists(base_path('routes/app/blog.php'));
 
@@ -59,25 +79,5 @@ class ValravnServiceProviderTest extends TestCase
 
         self::assertTrue(Route::has('blog.posts.index'));
         self::assertFalse(Route::has('web.posts.index'));
-    }
-
-    protected function tearDown(): void
-    {
-        $configFile = __DIR__ . '/../../config/config.php';
-        $publishedVersion = config('valravn.config_version');
-        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0] . '.999';
-
-        // revert 'config_version' key
-        $configContent = file_get_contents($configFile);
-        $configContent = str_replace($newVersion, $publishedVersion, $configContent);
-        file_put_contents($configFile, $configContent);
-
-        $this->cleanUp([
-            base_path('config/valravn.php'),
-            base_path('routes/app/blog.php'),
-            base_path('routes/web.php'),
-        ]);
-
-        parent::tearDown();
     }
 }

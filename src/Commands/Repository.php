@@ -30,9 +30,9 @@ class Repository extends Command
     /**
      * Execute the console command.
      *
-     * @return int
      * @throws FilesystemException
      *
+     * @return int
      */
     public function handle(): int
     {
@@ -75,7 +75,7 @@ class Repository extends Command
             $lastBind = array_pop($matches[0]);
             $newBind = $lastBind;
             $newBind .= PHP_EOL;
-            $newBind .= '$this->app->bind(I' . $service->getName() . 'Repository::class, ' . $service->getName() . 'Repository::class);';
+            $newBind .= '$this->app->bind(I'.$service->getName().'Repository::class, '.$service->getName().'Repository::class);';
             $newBind .= PHP_EOL;
 
             $repositoryProviderContent = str_replace($lastBind, $newBind, $repositoryProviderContent);
@@ -90,8 +90,8 @@ class Repository extends Command
             $lastImport = array_pop($matches[0]);
             $newImports = $lastImport;
             $newImports .= PHP_EOL;
-            $newImports .= 'use App\Repositories\Contracts\\' . $service->getNamespace() . '\I' . $service->getName() . 'Repository;' . PHP_EOL;
-            $newImports .= 'use App\Repositories\\' . $service->getNamespace() . '\\' . $service->getName() . 'Repository;';
+            $newImports .= 'use App\Repositories\Contracts\\'.$service->getNamespace().'\I'.$service->getName().'Repository;'.PHP_EOL;
+            $newImports .= 'use App\Repositories\\'.$service->getNamespace().'\\'.$service->getName().'Repository;';
 
             $repositoryProviderContent = str_replace($lastImport, $newImports, $repositoryProviderContent);
             if (file_put_contents($repositoryProvider, $repositoryProviderContent)) {

@@ -13,9 +13,9 @@ class EnumHelperTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => 'FIRST',
+                'FIRST'  => 'FIRST',
                 'SECOND' => 'SECOND',
-                'THIRD' => 'THIRD',
+                'THIRD'  => 'THIRD',
             ],
             SampleEnum::toArray()
         );
@@ -39,7 +39,7 @@ class EnumHelperTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => 'FIRST',
+                'FIRST'  => 'FIRST',
                 'SECOND' => 'SECOND',
             ],
             SampleEnum::toArrayExcept(['THIRD'])
@@ -85,9 +85,9 @@ class EnumHelperTest extends TestCase
     {
         self::assertEquals(
             [
-                'FIRST' => SampleEnum::FIRST,
+                'FIRST'  => SampleEnum::FIRST,
                 'SECOND' => SampleEnum::SECOND,
-                'THIRD' => SampleEnum::THIRD,
+                'THIRD'  => SampleEnum::THIRD,
             ],
             SampleEnum::all()
         );

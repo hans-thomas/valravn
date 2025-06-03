@@ -14,6 +14,12 @@ class JsonResourceIncludesTest extends TestCase
 {
     private Post $post;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
+    }
+
     #[Test]
     public function includes(): void
     {
@@ -21,16 +27,16 @@ class JsonResourceIncludesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'     => 'posts',
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn(Comment $value) => [
-                                'type' => 'comments',
-                                'id' => $value->id,
+                            fn (Comment $value) => [
+                                'type'    => 'comments',
+                                'id'      => $value->id,
                                 'content' => $value->content,
                             ]
                         )
@@ -46,20 +52,20 @@ class JsonResourceIncludesTest extends TestCase
     public function includesThroughApi(): void
     {
         $content = $this->get("/includes/posts/{$this->post->id}?includes=comments")
-            ->json();
+                        ->json();
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'     => 'posts',
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn(Comment $value) => [
-                                'type' => 'comments',
-                                'id' => $value->id,
+                            fn (Comment $value) => [
+                                'type'    => 'comments',
+                                'id'      => $value->id,
                                 'content' => $value->content,
                             ]
                         )
@@ -69,11 +75,5 @@ class JsonResourceIncludesTest extends TestCase
             ],
             $content
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

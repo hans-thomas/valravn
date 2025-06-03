@@ -15,6 +15,12 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
 {
     private Post $post;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
+    }
+
     #[Test]
     public function resolveRelationsUsing(): void
     {
@@ -23,11 +29,11 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => CommentCollection::make($this->post->comments)->toArray(request()),
-                    'type' => 'posts',
+                    'type'     => 'posts',
                 ],
                 'type' => 'posts',
             ],
@@ -37,21 +43,21 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => CategoryCollection::make($this->post->comments)->toArray(request()),
-                    'type' => 'posts',
+                    'type'     => 'posts',
                 ],
                 'type' => 'posts',
             ],
             $this->resourceToJson(
                 PostResource::make($this->post)
-                    ->resolveRelationsUsing(
-                        [
-                            'comments' => CategoryCollection::class,
-                        ]
-                    )
+                            ->resolveRelationsUsing(
+                                [
+                                    'comments' => CategoryCollection::class,
+                                ]
+                            )
             )
         );
     }
@@ -64,11 +70,11 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => CommentCollection::make($this->post->comments)->toArray(request()),
-                    'type' => 'posts',
+                    'type'     => 'posts',
                 ],
                 'type' => 'posts',
             ],
@@ -78,27 +84,21 @@ class JsonResourceInteractsWithRelationsTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
+                    'id'      => $this->post->id,
+                    'title'   => $this->post->title,
                     'content' => $this->post->content,
-                    'type' => 'posts',
+                    'type'    => 'posts',
                 ],
                 'type' => 'posts',
             ],
             $this->resourceToJson(
                 PostResource::make($this->post)
-                    ->skipRelationsForModel(
-                        [
-                            Post::class => 'comments',
-                        ]
-                    )
+                            ->skipRelationsForModel(
+                                [
+                                    Post::class => 'comments',
+                                ]
+                            )
             )
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->post = PostFactory::new()->has(CommentFactory::new()->count(5))->create();
     }
 }

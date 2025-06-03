@@ -11,7 +11,7 @@ trait PolicyHelperTrait
      */
     protected function guessAbility(): string
     {
-        return $this->normalizeModelName($this->getModel()) . '-' . debug_backtrace()[1]['function'];
+        return $this->normalizeModelName($this->getModel()).'-'.debug_backtrace()[1]['function'];
     }
 
     /**
@@ -29,7 +29,7 @@ trait PolicyHelperTrait
         if (count($namespace) <= 2) {
             $name = end($class);
         } else {
-            $name = end($namespace) . '-' . end($class);
+            $name = end($namespace).'-'.end($class);
         }
 
         return $name;

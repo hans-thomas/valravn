@@ -18,6 +18,15 @@ abstract class VResourceQuery
     }
 
     /**
+     * Implement a custom logic.
+     *
+     * @param Model $model
+     *
+     * @return array
+     */
+    abstract public function apply(Model $model): array;
+
+    /**
      * Create an instance.
      *
      * @return static
@@ -42,19 +51,10 @@ abstract class VResourceQuery
     }
 
     /**
-     * Implement a custom logic.
-     *
-     * @param Model $model
-     *
-     * @return array
-     */
-    abstract public function apply(Model $model): array;
-
-    /**
      * Merge processed data to given array.
      *
      * @param VJsonResource $resource
-     * @param array $data
+     * @param array         $data
      *
      * @return void
      */

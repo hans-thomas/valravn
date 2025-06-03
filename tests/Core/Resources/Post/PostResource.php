@@ -19,7 +19,7 @@ class PostResource extends VJsonResource
     public function getAvailableVQueries(): array
     {
         return [
-            'with_first_comment' => FirstCommentQueryV::class,
+            'with_first_comment'  => FirstCommentQueryV::class,
             'with_first_category' => FirstCategoryQueryV::class,
         ];
     }
@@ -32,7 +32,7 @@ class PostResource extends VJsonResource
     public function getAvailableVIncludes(): array
     {
         return [
-            'comments' => CommentsVIncludes::class,
+            'comments'   => CommentsVIncludes::class,
             'categories' => CategoriesVIncludes::class,
         ];
     }
@@ -45,8 +45,8 @@ class PostResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id' => $model->id,
-            'title' => $model->title,
+            'id'      => $model->id,
+            'title'   => $model->title,
             'content' => $model->content,
         ];
     }

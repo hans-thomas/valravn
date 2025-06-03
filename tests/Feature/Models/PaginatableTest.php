@@ -10,6 +10,25 @@ use PHPUnit\Framework\Attributes\Test;
 class PaginatableTest extends TestCase
 {
     #[Test]
+    public function getPerPage(): void
+    {
+        $model = new Post();
+
+        self::assertEquals(
+            15,
+            $model->getPerPage()
+        );
+
+        request()->merge([
+            'per_page' => 17,
+        ]);
+        self::assertEquals(
+            17,
+            $model->getPerPage()
+        );
+    }
+
+    #[Test]
     public function perPageMax(): void
     {
         $model = new Post();
@@ -33,25 +52,6 @@ class PaginatableTest extends TestCase
         );
 
         Post::setPerPageMax(30);
-    }
-
-    #[Test]
-    public function getPerPage(): void
-    {
-        $model = new Post();
-
-        self::assertEquals(
-            15,
-            $model->getPerPage()
-        );
-
-        request()->merge([
-            'per_page' => 17,
-        ]);
-        self::assertEquals(
-            17,
-            $model->getPerPage()
-        );
     }
 
     #[Test]

@@ -9,14 +9,14 @@ use PHPUnit\Framework\Attributes\Test;
 class VDtoTest extends TestCase
 {
     #[Test]
-    public function makeWithNoWrapper(): void
+    public function make(): void
     {
         $data = [
             ['id' => 1],
             ['id' => 3],
         ];
 
-        $result = SampleDto::make($data);
+        $result = SampleDto::make(['related' => $data]);
 
         self::assertEquals(
             [
@@ -28,14 +28,14 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
-    public function make(): void
+    public function makeWithNoWrapper(): void
     {
         $data = [
             ['id' => 1],
             ['id' => 3],
         ];
 
-        $result = SampleDto::make(['related' => $data]);
+        $result = SampleDto::make($data);
 
         self::assertEquals(
             [
@@ -64,6 +64,34 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
+    public function makeFromArray(): void
+    {
+        $data = [
+            1,
+            3 => [
+                'the art'    => "i ain't even see the face, but she got beautiful boobies.",
+                'the artist' => 'post malone',
+            ],
+        ];
+
+        $result = SampleDto::makeFromArray($data);
+
+        self::assertEquals(
+            [
+                ['id' => 1],
+                [
+                    'id'    => 3,
+                    'pivot' => [
+                        'the art'    => "i ain't even see the face, but she got beautiful boobies.",
+                        'the artist' => 'post malone',
+                    ],
+                ],
+            ],
+            $result->getData()->toArray()
+        );
+    }
+
+    #[Test]
     public function makeFromArrayWithEmptyArray(): void
     {
         $data = [];
@@ -77,42 +105,14 @@ class VDtoTest extends TestCase
     }
 
     #[Test]
-    public function makeFromArray(): void
-    {
-        $data = [
-            1,
-            3 => [
-                'the art' => "i ain't even see the face, but she got beautiful boobies.",
-                'the artist' => 'post malone',
-            ],
-        ];
-
-        $result = SampleDto::makeFromArray($data);
-
-        self::assertEquals(
-            [
-                ['id' => 1],
-                [
-                    'id' => 3,
-                    'pivot' => [
-                        'the art' => "i ain't even see the face, but she got beautiful boobies.",
-                        'the artist' => 'post malone',
-                    ],
-                ],
-            ],
-            $result->getData()->toArray()
-        );
-    }
-
-    #[Test]
     public function export(): void
     {
         $data = [
             ['id' => 1],
             [
-                'id' => 3,
+                'id'    => 3,
                 'pivot' => [
-                    'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                    'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                     'the artist' => 'post malone',
                 ],
             ],
@@ -122,9 +122,9 @@ class VDtoTest extends TestCase
             [
                 ['id' => 1],
                 [
-                    'id' => 3,
+                    'id'    => 3,
                     'pivot' => [
-                        'the art' => "i ain't even see the face, but she got beautiful boobies.",
+                        'the art'    => "i ain't even see the face, but she got beautiful boobies.",
                         'the artist' => 'post malone',
                     ],
                 ],

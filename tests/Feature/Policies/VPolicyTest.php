@@ -16,20 +16,19 @@ use PHPUnit\Framework\Attributes\Test;
 
 class VPolicyTest extends TestCase
 {
-    public static function provideData(): array
+    protected function setUp(): void
     {
-        $post = new Post(['id' => 1, 'title' => 'the title', 'content' => 'some text.']);
+        parent::setUp();
 
-        return [
-            ['viewAny', [Post::class]],
-            ['view', [$post]],
-            ['create', [Post::class]],
-            ['update', [$post]],
-            ['batchUpdate', [Post::class, collect([$post->id => ['name' => 'new name']])]],
-            ['delete', [$post]],
-            ['restore', [$post]],
-            ['forceDelete', [$post]],
-        ];
+        $this->actingAs(UserFactory::new()->create());
+        Gate::policy(Post::class, PostPolicy::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
     }
 
     #[Test, dataProvider('provideData')]
@@ -44,6 +43,22 @@ class VPolicyTest extends TestCase
         $this->expectExceptionMessage('This action is unauthorized.');
 
         $response->authorize();
+    }
+
+    public static function provideData(): array
+    {
+        $post = new Post(['id' => 1, 'title' => 'the title', 'content' => 'some text.']);
+
+        return [
+            ['viewAny', [Post::class]],
+            ['view', [$post]],
+            ['create', [Post::class]],
+            ['update', [$post]],
+            ['batchUpdate', [Post::class, collect([$post->id => ['name' => 'new name']])]],
+            ['delete', [$post]],
+            ['restore', [$post]],
+            ['forceDelete', [$post]],
+        ];
     }
 
     #[Test]
@@ -83,20 +98,5 @@ class VPolicyTest extends TestCase
         self::assertFalse($mockPolicy->viewAny($spyUser));
 
         $spyUser->shouldHaveReceived()->can('models-post-_mockery_handleMethodCall')->once();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->actingAs(UserFactory::new()->create());
-        Gate::policy(Post::class, PostPolicy::class);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-
-        parent::tearDown();
     }
 }

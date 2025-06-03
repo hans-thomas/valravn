@@ -16,13 +16,24 @@ class LimitActionTest extends TestCase
     private Collection $posts;
     private IncludingService $service;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->posts = PostFactory::new()
+                                     ->count(3)
+                                     ->has(CategoryFactory::new()->count(5))
+                                     ->create();
+        $resource = PostResource::make($this->posts->first());
+        $this->service = app(IncludingService::class, ['resource' => $resource]);
+    }
+
     #[Test]
     public function apply(): void
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories:limit(2)')
-            ->applyRequestedIncludes($model)
-            ->getIncludedData();
+                      ->applyRequestedIncludes($model)
+                      ->getIncludedData();
 
         self::assertEquals(
             [
@@ -37,8 +48,8 @@ class LimitActionTest extends TestCase
     {
         $model = $this->posts->first();
         $data = $this->service->registerIncludesUsingQueryString('categories:limit()')
-            ->applyRequestedIncludes($model)
-            ->getIncludedData();
+                      ->applyRequestedIncludes($model)
+                      ->getIncludedData();
 
         self::assertEquals(
             [
@@ -46,16 +57,5 @@ class LimitActionTest extends TestCase
             ],
             $data
         );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->posts = PostFactory::new()
-            ->count(3)
-            ->has(CategoryFactory::new()->count(5))
-            ->create();
-        $resource = PostResource::make($this->posts->first());
-        $this->service = app(IncludingService::class, ['resource' => $resource]);
     }
 }

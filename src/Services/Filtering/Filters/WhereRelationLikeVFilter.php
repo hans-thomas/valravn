@@ -11,16 +11,16 @@ class WhereRelationLikeVFilter extends VFilter
     public function apply(Builder $builder, $values = null)
     {
         $items = collect($values ?? [])
-            ->map(static fn($value) => (string)$value)
-            ->map(static fn($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
-            ->filter(fn($value, $index) => strlen($value) > 0 and in_array(
-                    Str::before($index, '->'),
-                    $this->getLoadableRelations($builder)
-                ));
+            ->map(static fn ($value) => (string) $value)
+            ->map(static fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
+            ->filter(fn ($value, $index) => strlen($value) > 0 and in_array(
+                Str::before($index, '->'),
+                $this->getLoadableRelations($builder)
+            ));
         foreach ($items as $attribute => $value) {
             $relation = Str::before($attribute, '->');
             $column = Str::after($attribute, '->');
-            $builder->whereHas($relation, static fn(Builder $whereHas) => $whereHas->whereLike($column, $value));
+            $builder->whereHas($relation, static fn (Builder $whereHas) => $whereHas->whereLike($column, $value));
         }
     }
 }

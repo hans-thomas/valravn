@@ -13,11 +13,17 @@ class CachingServiceTest extends TestCase
 {
     private VService $service;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = app(SampleVService::class);
+    }
+
     #[Test]
     public function remember(): void
     {
         Cache::shouldReceive('remember')
-            ->once();
+             ->once();
 
         $this->service->cache()->addition(1, 2);
     }
@@ -26,14 +32,8 @@ class CachingServiceTest extends TestCase
     public function cache(): void
     {
         Cache::shouldReceive('remember')
-            ->once();
+             ->once();
 
-        ValravnCacheFacade::store('unique_key', fn() => 10 / 12);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->service = app(SampleVService::class);
+        ValravnCacheFacade::store('unique_key', fn () => 10 / 12);
     }
 }

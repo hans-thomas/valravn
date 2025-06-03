@@ -11,6 +11,6 @@ class FailedToDeleteException extends VException
 
     public function __construct(Model $model)
     {
-        parent::__construct('Failed to delete [' . get_class($model) . "] $model->id", 1);
+        parent::__construct('Failed to delete ['.get_class($model)."] $model->id", 1);
     }
 }

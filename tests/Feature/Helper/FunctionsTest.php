@@ -25,6 +25,32 @@ class FunctionsTest extends TestCase
     private Post $post;
     private string $date;
 
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = UserFactory::new()->create();
+        $this->post = PostFactory::new()->create();
+        $this->date = now()->format('Y-m-d');
+        config()->set('logging.channels.valravn', [
+            'driver'               => 'daily',
+            'path'                 => storage_path('logs/valravn.log'),
+            'level'                => 'debug',
+            'days'                 => 1,
+            'replace_placeholders' => true,
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        File::delete(storage_path("logs/valravn-$this->date.log"));
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function user(): void
     {
@@ -52,9 +78,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
-     * @return void
      * @throws VException
      *
+     * @return void
      */
     public function resolveRelatedIdToModel(): void
     {
@@ -185,31 +211,5 @@ class FunctionsTest extends TestCase
             $expected,
             $actual
         );
-    }
-
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = UserFactory::new()->create();
-        $this->post = PostFactory::new()->create();
-        $this->date = now()->format('Y-m-d');
-        config()->set('logging.channels.valravn', [
-            'driver' => 'daily',
-            'path' => storage_path('logs/valravn.log'),
-            'level' => 'debug',
-            'days' => 1,
-            'replace_placeholders' => true,
-        ]);
-    }
-
-    protected function tearDown(): void
-    {
-        File::delete(storage_path("logs/valravn-$this->date.log"));
-
-        parent::tearDown();
     }
 }

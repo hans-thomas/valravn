@@ -11,32 +11,31 @@ trait InteractsWithPivots
     /**
      * Load pivots if exists.
      *
-     * @param array $data
+     * @param array              $data
      * @param VJsonResource|null $resource
-     * @param array $includes
-     * @param array $excludes
-     * @param array $alias
+     * @param array              $includes
+     * @param array              $excludes
+     * @param array              $alias
      *
      * @return void
      */
     protected function loadedPivots(
-        array          &$data,
+        array &$data,
         ?VJsonResource $resource = null,
-        array          $includes = [],
-        array          $excludes = [],
-        array          $alias = []
-    ): void
-    {
+        array $includes = [],
+        array $excludes = [],
+        array $alias = []
+    ): void {
         $instance = $resource ?? $this;
         if (isset($instance->resource->pivot)) {
             $data['pivot'] = collect($instance->resource->pivot->getAttributes())
                 ->filter(
-                    static fn($value, $key) => !in_array($key, $excludes) and
-                        (!Str::contains($key, ['_id', '_type']) or
-                            in_array($key, $includes))
+                    static fn ($value, $key) => !in_array($key, $excludes) and
+                                          (!Str::contains($key, ['_id', '_type']) or
+                                            in_array($key, $includes))
                 )
                 ->mapWithKeys(
-                    static fn($value, $key) => ($index = array_search($key, array_keys($alias))) !== false ?
+                    static fn ($value, $key) => ($index = array_search($key, array_keys($alias))) !== false ?
                         [
                             Arr::get(array_values($alias), $index) => $value,
                         ] :

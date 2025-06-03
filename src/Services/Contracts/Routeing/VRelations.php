@@ -21,7 +21,7 @@ abstract class VRelations
      * @var array|string[]
      */
     protected array $attributes = [
-        'view' => 'GET',
+        'view'   => 'GET',
         'update' => 'POST',
         'attach' => 'PATCH',
         'detach' => 'DELETE',
@@ -43,6 +43,62 @@ abstract class VRelations
 
     public function __construct(protected string $name, protected string $relation, protected RouteRegistrar $registrar)
     {
+    }
+
+    /**
+     * Get needed routes for the relation instance.
+     *
+     * @param string $name
+     * @param string $parameter
+     * @param string $action
+     *
+     * @return void
+     */
+    abstract protected function routes(string $name, string $parameter, string $action): void;
+
+    /**
+     * Register requested routes.
+     *
+     * @return void
+     */
+    protected function register(): void
+    {
+        $this->registered = true;
+
+        $name = Str::of($this->name)->singular()->camel()->snake()->toString();
+        $action = Str::of($this->relation)->camel()->ucfirst();
+        $parameter = Str::lower($this->relation);
+
+        $this->routes($name, $parameter, $action);
+
+        $this->registrar->group(function (Router $registrar) {
+            foreach ($this->routes as $route) {
+                if (in_array($route['name'], array_keys($this->getMethods()))) {
+                    $registrar->{$route['method']}($route['uri'], $route['action'])
+                              ->name($route['name']);
+                }
+            }
+        });
+    }
+
+    /**
+     * Apply options and return the list of methods.
+     *
+     * @return array|string[]
+     */
+    protected function getMethods(): array
+    {
+        $methods = $this->attributes;
+
+        if (isset($this->options['only'])) {
+            $methods = array_intersect_key($methods, array_flip((array) $this->options['only']));
+        }
+
+        if (isset($this->options['except'])) {
+            $methods = array_diff_key($methods, array_flip((array) $this->options['except']));
+        }
+
+        return $methods;
     }
 
     /**
@@ -77,69 +133,6 @@ abstract class VRelations
         return $this;
     }
 
-    public function __destruct()
-    {
-        if (!$this->registered) {
-            $this->register();
-        }
-    }
-
-    /**
-     * Register requested routes.
-     *
-     * @return void
-     */
-    protected function register(): void
-    {
-        $this->registered = true;
-
-        $name = Str::of($this->name)->singular()->camel()->snake()->toString();
-        $action = Str::of($this->relation)->camel()->ucfirst();
-        $parameter = Str::lower($this->relation);
-
-        $this->routes($name, $parameter, $action);
-
-        $this->registrar->group(function (Router $registrar) {
-            foreach ($this->routes as $route) {
-                if (in_array($route['name'], array_keys($this->getMethods()))) {
-                    $registrar->{$route['method']}($route['uri'], $route['action'])
-                        ->name($route['name']);
-                }
-            }
-        });
-    }
-
-    /**
-     * Get needed routes for the relation instance.
-     *
-     * @param string $name
-     * @param string $parameter
-     * @param string $action
-     *
-     * @return void
-     */
-    abstract protected function routes(string $name, string $parameter, string $action): void;
-
-    /**
-     * Apply options and return the list of methods.
-     *
-     * @return array|string[]
-     */
-    protected function getMethods(): array
-    {
-        $methods = $this->attributes;
-
-        if (isset($this->options['only'])) {
-            $methods = array_intersect_key($methods, array_flip((array)$this->options['only']));
-        }
-
-        if (isset($this->options['except'])) {
-            $methods = array_diff_key($methods, array_flip((array)$this->options['except']));
-        }
-
-        return $methods;
-    }
-
     /**
      * Define a get route.
      *
@@ -151,10 +144,10 @@ abstract class VRelations
     protected function get(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'get',
             'action' => "view$action",
-            'name' => 'view',
+            'name'   => 'view',
         ];
     }
 
@@ -169,10 +162,10 @@ abstract class VRelations
     protected function post(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'post',
             'action' => "update$action",
-            'name' => 'update',
+            'name'   => 'update',
         ];
     }
 
@@ -187,10 +180,10 @@ abstract class VRelations
     protected function attach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'patch',
             'action' => "attach$action",
-            'name' => 'attach',
+            'name'   => 'attach',
         ];
     }
 
@@ -205,10 +198,17 @@ abstract class VRelations
     protected function detach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'delete',
             'action' => "detach$action",
-            'name' => 'detach',
+            'name'   => 'detach',
         ];
+    }
+
+    public function __destruct()
+    {
+        if (!$this->registered) {
+            $this->register();
+        }
     }
 }
