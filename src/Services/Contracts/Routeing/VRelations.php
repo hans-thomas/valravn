@@ -6,7 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Str;
 
-abstract class Relations
+abstract class VRelations
 {
     /**
      * Determine the instance is registered or not.

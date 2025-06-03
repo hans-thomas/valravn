@@ -2,9 +2,9 @@
 
 namespace Hans\Valravn\Services\Routing\Relations;
 
-use Hans\Valravn\Services\Contracts\Routeing\Relations;
+use Hans\Valravn\Services\Contracts\Routeing\VRelations;
 
-class HasMany extends Relations
+class HasMany extends VRelations
 {
     protected function routes(string $name, string $parameter, string $action): void
     {
