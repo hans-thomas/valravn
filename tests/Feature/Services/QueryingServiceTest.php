@@ -41,7 +41,7 @@ class QueryingServiceTest extends TestCase
             ->mergeQueriedDataInto($data);
         self::assertEquals(
             [
-                'first_comment'  => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
+                'first_comment' => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
                 'first_category' => CategoryResource::make(
                     $this->posts->first()
                         ->categories()
@@ -94,7 +94,7 @@ class QueryingServiceTest extends TestCase
             ->getQueriedData();
         self::assertEquals(
             [
-                'first_comment'  => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
+                'first_comment' => CommentResource::make($this->posts->first()->comments()->limit(1)->first()),
                 'first_category' => CategoryResource::make(
                     $this->posts->first()
                         ->categories()
@@ -114,7 +114,7 @@ class QueryingServiceTest extends TestCase
         )
             ->applyRequestedCollectionQueries()
             ->mergeCollectionQueriedData();
-        $ids = $this->posts->map(fn ($value) => ['id' => $value->id])->flatten();
+        $ids = $this->posts->map(fn($value) => ['id' => $value->id])->flatten();
         self::assertEquals(
             [
                 'all_comments' => CommentCollection::make(

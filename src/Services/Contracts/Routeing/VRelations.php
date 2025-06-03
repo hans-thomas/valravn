@@ -21,7 +21,7 @@ abstract class VRelations
      * @var array|string[]
      */
     protected array $attributes = [
-        'view'   => 'GET',
+        'view' => 'GET',
         'update' => 'POST',
         'attach' => 'PATCH',
         'detach' => 'DELETE',
@@ -130,11 +130,11 @@ abstract class VRelations
         $methods = $this->attributes;
 
         if (isset($this->options['only'])) {
-            $methods = array_intersect_key($methods, array_flip((array) $this->options['only']));
+            $methods = array_intersect_key($methods, array_flip((array)$this->options['only']));
         }
 
         if (isset($this->options['except'])) {
-            $methods = array_diff_key($methods, array_flip((array) $this->options['except']));
+            $methods = array_diff_key($methods, array_flip((array)$this->options['except']));
         }
 
         return $methods;
@@ -151,10 +151,10 @@ abstract class VRelations
     protected function get(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'get',
             'action' => "view$action",
-            'name'   => 'view',
+            'name' => 'view',
         ];
     }
 
@@ -169,10 +169,10 @@ abstract class VRelations
     protected function post(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'post',
             'action' => "update$action",
-            'name'   => 'update',
+            'name' => 'update',
         ];
     }
 
@@ -187,10 +187,10 @@ abstract class VRelations
     protected function attach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'patch',
             'action' => "attach$action",
-            'name'   => 'attach',
+            'name' => 'attach',
         ];
     }
 
@@ -205,10 +205,10 @@ abstract class VRelations
     protected function detach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'delete',
             'action' => "detach$action",
-            'name'   => 'detach',
+            'name' => 'detach',
         ];
     }
 }

@@ -28,7 +28,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -53,7 +53,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -66,7 +66,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can batch update the model.
      *
-     * @param User       $user
+     * @param User $user
      * @param Collection $data
      *
      * @return bool
@@ -79,7 +79,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -92,7 +92,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool
@@ -105,7 +105,7 @@ abstract class VPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      *
      * @return bool

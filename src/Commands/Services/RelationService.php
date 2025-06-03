@@ -14,12 +14,13 @@ final class RelationService extends CommandsService
     private readonly ?string $relatedName;
 
     public function __construct(
-        string $namespace,
-        string $name,
-        string $version,
-        string $relatedNamespace,
+        string  $namespace,
+        string  $name,
+        string  $version,
+        string  $relatedNamespace,
         ?string $relatedName
-    ) {
+    )
+    {
         parent::__construct($namespace, $name, $version);
 
         $this->relatedNamespace = ucfirst($relatedNamespace);

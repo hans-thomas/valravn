@@ -82,7 +82,7 @@ class RoutingService
     /**
      * Register relations routes.
      *
-     * @param string   $controller
+     * @param string $controller
      * @param callable $func
      *
      * @return $this
@@ -97,7 +97,7 @@ class RoutingService
     /**
      * Register custom actions routes.
      *
-     * @param string   $controller
+     * @param string $controller
      * @param callable $func
      *
      * @return $this
@@ -117,7 +117,7 @@ class RoutingService
     /**
      * Register gathering routes.
      *
-     * @param string   $controller
+     * @param string $controller
      * @param callable $func
      *
      * @return $this

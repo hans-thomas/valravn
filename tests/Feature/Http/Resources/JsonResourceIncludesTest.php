@@ -21,16 +21,16 @@ class JsonResourceIncludesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type'     => 'posts',
-                    'id'       => $this->post->id,
-                    'title'    => $this->post->title,
-                    'content'  => $this->post->content,
+                    'type' => 'posts',
+                    'id' => $this->post->id,
+                    'title' => $this->post->title,
+                    'content' => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn (Comment $value) => [
-                                'type'    => 'comments',
-                                'id'      => $value->id,
+                            fn(Comment $value) => [
+                                'type' => 'comments',
+                                'id' => $value->id,
                                 'content' => $value->content,
                             ]
                         )
@@ -50,16 +50,16 @@ class JsonResourceIncludesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type'     => 'posts',
-                    'id'       => $this->post->id,
-                    'title'    => $this->post->title,
-                    'content'  => $this->post->content,
+                    'type' => 'posts',
+                    'id' => $this->post->id,
+                    'title' => $this->post->title,
+                    'content' => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn (Comment $value) => [
-                                'type'    => 'comments',
-                                'id'      => $value->id,
+                            fn(Comment $value) => [
+                                'type' => 'comments',
+                                'id' => $value->id,
                                 'content' => $value->content,
                             ]
                         )

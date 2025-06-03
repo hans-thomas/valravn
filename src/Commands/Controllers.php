@@ -35,9 +35,9 @@ class Controllers extends Command
     /**
      * Execute the console command.
      *
+     * @return int
      * @throws Throwable
      *
-     * @return int
      */
     public function handle(): int
     {
@@ -52,7 +52,7 @@ class Controllers extends Command
                 $service->createCrud(),
                 $service->CreateActions(),
                 $service->CreateRelations(),
-            ])->every(fn ($item) => $item === true)) {
+            ])->every(fn($item) => $item === true)) {
                 $this->info('Controller classes created.');
             } else {
                 $this->error('Some controller classes are exists or could not be created.');
@@ -66,7 +66,7 @@ class Controllers extends Command
                     $requestService->createStoreRequest(),
                     $requestService->createUpdateRequest(),
                     $requestService->createBatchUpdateRequest(),
-                ])->every(fn ($item) => $item === true)) {
+                ])->every(fn($item) => $item === true)) {
                     $this->info('Request classes created.');
                 } else {
                     $this->error('Some request classes are exists or could not be created.');
@@ -80,7 +80,7 @@ class Controllers extends Command
                 if (collect([
                     $resourceService->createResource(),
                     $resourceService->createCollection(),
-                ])->every(fn ($item) => $item === true)) {
+                ])->every(fn($item) => $item === true)) {
                     $this->info('Resource and ResourceCollection classes created.');
                 } else {
                     $this->error('Some Resource and ResourceCollection classes are exists or could not be created.');

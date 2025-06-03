@@ -15,8 +15,8 @@ class UserResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id'    => $model->id,
-            'name'  => $model->name,
+            'id' => $model->id,
+            'name' => $model->name,
             'email' => $model->email,
         ];
     }

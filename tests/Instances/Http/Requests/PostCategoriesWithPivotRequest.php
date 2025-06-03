@@ -26,7 +26,7 @@ class PostCategoriesWithPivotRequest extends BelongsToManyRequest
     {
         return [
             'order' => ['numeric', 'min:1', 'max:99'],
-            'info'  => ['string', 'max:128'],
+            'info' => ['string', 'max:128'],
         ];
     }
 }

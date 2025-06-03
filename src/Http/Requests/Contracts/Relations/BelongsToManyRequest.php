@@ -16,7 +16,7 @@ abstract class BelongsToManyRequest extends RelationsRequest
     public function rules(): array
     {
         $rules = [
-            'related'      => ['array'],
+            'related' => ['array'],
             'related.*.id' => [
                 'required',
                 'numeric',
@@ -25,7 +25,7 @@ abstract class BelongsToManyRequest extends RelationsRequest
         ];
 
         if (!empty($this->pivots())) {
-            $rules['related.*.pivot'] = ['array:'.implode(',', array_keys($this->pivots()))];
+            $rules['related.*.pivot'] = ['array:' . implode(',', array_keys($this->pivots()))];
         }
         foreach ($this->pivots() as $pivot => $validation) {
             $rules["related.*.pivot.$pivot"] = $validation;

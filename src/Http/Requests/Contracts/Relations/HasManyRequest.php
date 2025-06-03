@@ -16,7 +16,7 @@ abstract class HasManyRequest extends RelationsRequest
     public function rules(): array
     {
         return [
-            'related'      => ['array'],
+            'related' => ['array'],
             'related.*.id' => [
                 'required',
                 'numeric',

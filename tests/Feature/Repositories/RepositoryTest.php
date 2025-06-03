@@ -58,7 +58,7 @@ class RepositoryTest extends TestCase
         $models = $this->repository->select('id')->all()->get();
         self::assertEquals(
             Post::all()->map(
-                fn ($value) => ['id' => $value->id]
+                fn($value) => ['id' => $value->id]
             )
                 ->toArray(),
             $models->toArray()
@@ -71,7 +71,7 @@ class RepositoryTest extends TestCase
         $models = $this->repository->with('categories')->all()->get();
         self::assertEquals(
             Post::all()->map(
-                fn ($value) => array_merge($value->toArray(), ['categories' => $value->categories->toArray()])
+                fn($value) => array_merge($value->toArray(), ['categories' => $value->categories->toArray()])
             )
                 ->toArray(),
             $models->toArray()
@@ -141,16 +141,16 @@ class RepositoryTest extends TestCase
     {
         $data = [
             [
-                'id'    => 1,
+                'id' => 1,
                 'title' => fake()->sentence(),
             ],
             [
-                'id'      => 2,
+                'id' => 2,
                 'content' => fake()->sentence(),
             ],
             [
-                'id'      => 3,
-                'title'   => fake()->sentence(),
+                'id' => 3,
+                'title' => fake()->sentence(),
                 'content' => fake()->sentence(),
             ],
         ];

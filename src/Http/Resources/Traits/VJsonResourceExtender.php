@@ -241,7 +241,7 @@ trait VJsonResourceExtender
      * Manually register an include class.
      *
      * @param string|object $include
-     * @param array         $actions
+     * @param array $actions
      *
      * @return $this
      */
@@ -259,7 +259,7 @@ trait VJsonResourceExtender
      * Register the given include to requested includes list.
      *
      * @param string $include
-     * @param array  $actions
+     * @param array $actions
      *
      * @return $this
      */

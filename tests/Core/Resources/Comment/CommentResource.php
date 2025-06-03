@@ -26,7 +26,7 @@ class CommentResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id'      => $model->id,
+            'id' => $model->id,
             'content' => $model->content,
         ];
     }

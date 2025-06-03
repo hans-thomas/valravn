@@ -104,9 +104,9 @@ abstract class VRepository
     /**
      * Return all resource.
      *
+     * @return Builder
      * @throws AuthorizationException
      *
-     * @return Builder
      */
     public function all(): Builder
     {
@@ -119,11 +119,11 @@ abstract class VRepository
      * Find a specific resource.
      *
      * @param int|string $id
-     * @param string     $column
-     *
-     * @throws AuthorizationException
+     * @param string $column
      *
      * @return Model
+     * @throws AuthorizationException
+     *
      */
     public function find(int|string $id, string $column = 'id'): Model
     {
@@ -138,9 +138,9 @@ abstract class VRepository
      *
      * @param array $data
      *
+     * @return Model
      * @throws AuthorizationException
      *
-     * @return Model
      */
     public function create(array $data): Model
     {
@@ -154,9 +154,9 @@ abstract class VRepository
      *
      * @param BatchUpdateDto $dto
      *
+     * @return bool
      * @throws AuthorizationException
      *
-     * @return bool
      */
     public function batchUpdate(BatchUpdateDto $dto): bool
     {
@@ -173,11 +173,11 @@ abstract class VRepository
      * Update Model using given data.
      *
      * @param Model|int $model
-     * @param array     $data
-     *
-     * @throws AuthorizationException
+     * @param array $data
      *
      * @return bool
+     * @throws AuthorizationException
+     *
      */
     public function update(Model|int $model, array $data): bool
     {
@@ -204,10 +204,10 @@ abstract class VRepository
      *
      * @param Model|int $model
      *
-     * @throws AuthorizationException
-     * @throws VException
-     *
      * @return bool
+     * @throws AuthorizationException
+     *
+     * @throws VException
      */
     public function delete(Model|int $model): bool
     {
@@ -263,7 +263,7 @@ abstract class VRepository
     /**
      * Authorize an action.
      *
-     * @param null  $ability
+     * @param null $ability
      * @param mixed ...$params
      *
      * @throws AuthorizationException
@@ -281,7 +281,7 @@ abstract class VRepository
             $ability = $this->guessAbility();
         }
 
-        $this->ifShouldAuthorize(static fn () => Gate::authorize($ability, $params));
+        $this->ifShouldAuthorize(static fn() => Gate::authorize($ability, $params));
     }
 
     /**

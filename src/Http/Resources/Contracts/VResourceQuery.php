@@ -54,7 +54,7 @@ abstract class VResourceQuery
      * Merge processed data to given array.
      *
      * @param VJsonResource $resource
-     * @param array         $data
+     * @param array $data
      *
      * @return void
      */

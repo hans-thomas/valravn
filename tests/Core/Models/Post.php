@@ -78,7 +78,7 @@ class Post extends VModel implements Filterable, Loadable, ResourceCollectionabl
     public function getLoadableRelations(): array
     {
         return [
-            'comments'   => CommentCollection::class,
+            'comments' => CommentCollection::class,
             'categories' => CategoryCollection::class,
         ];
     }

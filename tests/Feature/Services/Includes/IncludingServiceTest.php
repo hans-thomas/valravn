@@ -40,7 +40,7 @@ class IncludingServiceTest extends TestCase
         self::assertEquals(
             [
                 CategoriesVIncludes::class => [],
-                CommentsVIncludes::class   => [],
+                CommentsVIncludes::class => [],
             ],
             $this->resource->getRequestedIncludes()
         );
@@ -73,7 +73,7 @@ class IncludingServiceTest extends TestCase
         self::assertEquals(
             [
                 'categories' => 'posts',
-                'comments'   => 'post.comments',
+                'comments' => 'post.comments',
             ],
             $this->resource->getNestedEagerLoads()
         );
@@ -86,7 +86,7 @@ class IncludingServiceTest extends TestCase
         self::assertEquals(
             [
                 'relation' => 'comments',
-                'actions'  => [
+                'actions' => [
                     LimitAction::class => [1],
                 ],
                 'nested' => 'post:select(id).comments',
@@ -110,17 +110,17 @@ class IncludingServiceTest extends TestCase
             [
                 [
                     'data' => $model->categories->map(
-                        fn ($category) => [
-                            'type'  => 'categories',
-                            'id'    => $category->id,
-                            'name'  => $category->name,
+                        fn($category) => [
+                            'type' => 'categories',
+                            'id' => $category->id,
+                            'name' => $category->name,
                             'posts' => $category->posts->map(
-                                fn ($post) => [
-                                    'type'    => 'posts',
-                                    'id'      => $post->id,
-                                    'title'   => $post->title,
+                                fn($post) => [
+                                    'type' => 'posts',
+                                    'id' => $post->id,
+                                    'title' => $post->title,
                                     'content' => $post->content,
-                                    'pivot'   => [
+                                    'pivot' => [
                                         'order' => $post->pivot->order,
                                     ],
                                 ]
@@ -134,19 +134,19 @@ class IncludingServiceTest extends TestCase
                 ],
                 [
                     'data' => $model->comments->map(
-                        fn ($comment) => [
-                            'type'    => 'comments',
-                            'id'      => $comment->id,
+                        fn($comment) => [
+                            'type' => 'comments',
+                            'id' => $comment->id,
                             'content' => $comment->content,
-                            'post'    => [
-                                'type'     => 'posts',
-                                'id'       => ($post = $comment->post)->id,
-                                'title'    => $post->title,
-                                'content'  => $post->content,
+                            'post' => [
+                                'type' => 'posts',
+                                'id' => ($post = $comment->post)->id,
+                                'title' => $post->title,
+                                'content' => $post->content,
                                 'comments' => $post->comments->map(
-                                    fn ($comment) => [
-                                        'type'    => 'comments',
-                                        'id'      => $comment->id,
+                                    fn($comment) => [
+                                        'type' => 'comments',
+                                        'id' => $comment->id,
                                         'content' => $comment->content,
                                     ]
                                 )->toArray(),
@@ -167,8 +167,8 @@ class IncludingServiceTest extends TestCase
         self::assertEquals(
             [
                 'select' => SelectAction::class,
-                'order'  => OrderAction::class,
-                'limit'  => LimitAction::class,
+                'order' => OrderAction::class,
+                'limit' => LimitAction::class,
             ],
             $actions
         );

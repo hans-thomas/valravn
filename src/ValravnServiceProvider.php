@@ -46,13 +46,13 @@ class ValravnServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @return void
      * @throws Throwable
      *
-     * @return void
      */
     public function boot()
     {
-        $configFile = __DIR__.'/../config/config.php';
+        $configFile = __DIR__ . '/../config/config.php';
         $config = require $configFile;
         if ($publishedConfigVersion = config('valravn.config_version', false)) {
             throw_if(
@@ -164,13 +164,13 @@ class ValravnServiceProvider extends ServiceProvider
     {
         $this->publishes(
             [
-                __DIR__.'/../config/config.php' => config_path('valravn.php'),
+                __DIR__ . '/../config/config.php' => config_path('valravn.php'),
             ],
             'valravn-config'
         );
         $this->publishes(
             [
-                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
+                __DIR__ . '/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
             ],
             'valravn-provider'
         );
@@ -189,12 +189,12 @@ class ValravnServiceProvider extends ServiceProvider
                 $directories,
                 array_filter(
                     scandir($migrationPath),
-                    static fn ($item) => !in_array($item, ['.', '..'])
+                    static fn($item) => !in_array($item, ['.', '..'])
                 )
             );
         }
         $paths = array_map(
-            static fn ($item) => database_path("migrations/$item"),
+            static fn($item) => database_path("migrations/$item"),
             $directories
         );
 

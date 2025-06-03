@@ -72,7 +72,7 @@ abstract class Factory
      * Create an instance but don't store.
      *
      * @param int|null $count
-     * @param array    $data
+     * @param array $data
      *
      * @return Collection|Model
      */
@@ -84,7 +84,7 @@ abstract class Factory
     /**
      * Create many fake data at once.
      *
-     * @param int   $count
+     * @param int $count
      * @param array $data
      *
      * @return Collection
@@ -94,7 +94,7 @@ abstract class Factory
         return static::factory()
             ->count($count)
             ->create($data)
-            ->map(static fn (Model $model) => $model->fresh());
+            ->map(static fn(Model $model) => $model->fresh());
     }
 
     /**

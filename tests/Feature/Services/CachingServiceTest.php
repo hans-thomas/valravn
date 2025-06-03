@@ -28,7 +28,7 @@ class CachingServiceTest extends TestCase
         Cache::shouldReceive('remember')
             ->once();
 
-        ValravnCacheFacade::store('unique_key', fn () => 10 / 12);
+        ValravnCacheFacade::store('unique_key', fn() => 10 / 12);
     }
 
     protected function setUp(): void

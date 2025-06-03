@@ -14,27 +14,27 @@ class ManyToManyDtoTest extends TestCase
     {
         $data = [
             [
-                'id'         => 1,
-                'the art'    => "for the what it's worth, you were a slut at birth, if the world had a dick, you would fuck the earth",
+                'id' => 1,
+                'the art' => "for the what it's worth, you were a slut at birth, if the world had a dick, you would fuck the earth",
                 'the artist' => 'eminem',
-                'pivot'      => [
+                'pivot' => [
                     'extra' => "same as it ever was, say it'll change but it never does ain't gonna ever 'cause you're the cause of my pain and the medicine",
-                    'song'  => 'farewell',
+                    'song' => 'farewell',
                 ],
             ],
             [
-                'id'         => 6,
-                'the art'    => 'dark magic, night walker, she hunts me like no other, nobody told me love is pain.',
+                'id' => 6,
+                'the art' => 'dark magic, night walker, she hunts me like no other, nobody told me love is pain.',
                 'the artist' => 'eminem',
-                'song'       => 'black magic',
+                'song' => 'black magic',
             ],
             [
                 'id' => 8,
             ],
             [
-                'id'    => 6,
+                'id' => 6,
                 'pivot' => [
-                    'the art'    => 'sex plus drugs plus rock and roll added, that equation mixed with success and raw talent',
+                    'the art' => 'sex plus drugs plus rock and roll added, that equation mixed with success and raw talent',
                     'the artist' => 'g-eazy',
                 ],
             ],
@@ -46,11 +46,11 @@ class ManyToManyDtoTest extends TestCase
             [
                 1 => [
                     'extra' => "same as it ever was, say it'll change but it never does ain't gonna ever 'cause you're the cause of my pain and the medicine",
-                    'song'  => 'farewell',
+                    'song' => 'farewell',
                 ],
                 7 => 8,
                 6 => [
-                    'the art'    => 'sex plus drugs plus rock and roll added, that equation mixed with success and raw talent',
+                    'the art' => 'sex plus drugs plus rock and roll added, that equation mixed with success and raw talent',
                     'the artist' => 'g-eazy',
                 ],
             ],
@@ -69,11 +69,11 @@ class ManyToManyDtoTest extends TestCase
                 'id' => 8,
             ],
             [
-                'id'    => 6,
+                'id' => 6,
                 'pivot' => [
-                    'the art'    => 'ever seen a devil with a halo?',
+                    'the art' => 'ever seen a devil with a halo?',
                     'the artist' => 'g-eazy',
-                    'song'       => 'hate the way i always miss you',
+                    'song' => 'hate the way i always miss you',
                 ],
             ],
         ];
@@ -86,8 +86,8 @@ class ManyToManyDtoTest extends TestCase
                 1 => ['song' => 'the beautiful and damned'],
                 8 => ['song' => 'the beautiful and damned'],
                 6 => [
-                    'song'       => 'the beautiful and damned',
-                    'the art'    => 'ever seen a devil with a halo?',
+                    'song' => 'the beautiful and damned',
+                    'the art' => 'ever seen a devil with a halo?',
                     'the artist' => 'g-eazy',
                 ],
             ],
@@ -106,9 +106,9 @@ class ManyToManyDtoTest extends TestCase
                 'id' => 8,
             ],
             [
-                'id'    => 6,
+                'id' => 6,
                 'pivot' => [
-                    'the art'    => 'ever seen a devil with a halo?',
+                    'the art' => 'ever seen a devil with a halo?',
                     'the artist' => 'g-eazy',
                 ],
             ],
@@ -122,8 +122,8 @@ class ManyToManyDtoTest extends TestCase
                 1 => ['song' => 'the beautiful and damned'],
                 8 => ['song' => 'the beautiful and damned'],
                 6 => [
-                    'song'       => 'the beautiful and damned',
-                    'the art'    => 'ever seen a devil with a halo?',
+                    'song' => 'the beautiful and damned',
+                    'the art' => 'ever seen a devil with a halo?',
                     'the artist' => 'g-eazy',
                 ],
             ],

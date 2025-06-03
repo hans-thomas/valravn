@@ -47,7 +47,7 @@ class ActionsRegisterer
         if (in_array($method, $this->methods)) {
             $this->router->addRoute($method, $uri, [$this->controller, $action])
                 ->middleware($this->middleware)
-                ->name("$this->name.{$this->getRouteNamePrefix()}.".Str::snake($action, '-'));
+                ->name("$this->name.{$this->getRouteNamePrefix()}." . Str::snake($action, '-'));
         }
         $this->resetStates();
     }
@@ -73,14 +73,14 @@ class ActionsRegisterer
 
     protected function makeUri(string $action): string
     {
-        $uri = "/$this->name/".$this->getPrefix();
+        $uri = "/$this->name/" . $this->getPrefix();
         $uri = $this->addIdParameterWhen($this->withId, $uri);
-        $uri .= '/'.Str::of($action)->snake()->replace('_', '-')->toString();
+        $uri .= '/' . Str::of($action)->snake()->replace('_', '-')->toString();
 
         foreach ($this->parameters as $parameter) {
             $uri .= is_array($parameter) ?
-                '/'.key($parameter).'/{'.current($parameter).'}' :
-                '/{'.$parameter.'}';
+                '/' . key($parameter) . '/{' . current($parameter) . '}' :
+                '/{' . $parameter . '}';
         }
 
         return $uri;
@@ -102,7 +102,7 @@ class ActionsRegisterer
 
     protected function addIdParameter(string $uri): string
     {
-        return trim($uri, '/').'/{'.Str::of($this->name)->singular()->replace('-', '_').'}';
+        return trim($uri, '/') . '/{' . Str::of($this->name)->singular()->replace('-', '_') . '}';
     }
 
     public function post(string $action): void

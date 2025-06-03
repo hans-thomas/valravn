@@ -52,9 +52,9 @@ class FunctionsTest extends TestCase
     /**
      * @test
      *
+     * @return void
      * @throws VException
      *
-     * @return void
      */
     public function resolveRelatedIdToModel(): void
     {
@@ -198,10 +198,10 @@ class FunctionsTest extends TestCase
         $this->post = PostFactory::new()->create();
         $this->date = now()->format('Y-m-d');
         config()->set('logging.channels.valravn', [
-            'driver'               => 'daily',
-            'path'                 => storage_path('logs/valravn.log'),
-            'level'                => 'debug',
-            'days'                 => 1,
+            'driver' => 'daily',
+            'path' => storage_path('logs/valravn.log'),
+            'level' => 'debug',
+            'days' => 1,
             'replace_placeholders' => true,
         ]);
     }

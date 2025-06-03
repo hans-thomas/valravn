@@ -11,16 +11,16 @@ class WhereVFilter extends VFilter
     {
         foreach ($values ?? [] as $attribute => $where) {
             $items = collect(explode(',', $where))
-                ->map(static fn ($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
-                ->filter(static fn ($value) => !empty($value));
+                ->map(static fn($value) => filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS))
+                ->filter(static fn($value) => !empty($value));
             if (in_array(
-                $attribute,
-                $filterables = $this->getFilterables($builder)
-            ) and $items->isNotEmpty()) {
-                $builder->whereIn($this->getTable($builder).'.'.$this->resolveAttribute(
-                    $filterables,
-                    $attribute
-                ), $items);
+                    $attribute,
+                    $filterables = $this->getFilterables($builder)
+                ) and $items->isNotEmpty()) {
+                $builder->whereIn($this->getTable($builder) . '.' . $this->resolveAttribute(
+                        $filterables,
+                        $attribute
+                    ), $items);
             }
         }
     }

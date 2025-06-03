@@ -15,8 +15,8 @@ class SampleWithCollectionDefaultExtractResource extends VJsonResource
     public function extract(Model $model): ?array
     {
         return [
-            'id'      => $model->id,
-            'name'    => $model->name,
+            'id' => $model->id,
+            'name' => $model->name,
             'extract' => 'not default on resource',
         ];
     }

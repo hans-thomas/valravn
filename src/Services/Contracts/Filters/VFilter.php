@@ -66,7 +66,7 @@ abstract class VFilter
     /**
      * Return attribute's alias if exists, otherwise return attribute.
      *
-     * @param array  $filterables
+     * @param array $filterables
      * @param string $attribute
      *
      * @return string

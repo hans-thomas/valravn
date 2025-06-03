@@ -15,13 +15,13 @@ class HasManyDtoTest extends TestCase
         $data = [
             ['id' => 1],
             [
-                'id'      => 1,
+                'id' => 1,
                 'the art' => "my haters feel like i'm better dead, but i'm quite alive and getting bread instead",
             ],
             [
-                'id'         => 5,
+                'id' => 5,
                 'the artist' => 'g-eazy',
-                'song'       => 'I Mean It',
+                'song' => 'I Mean It',
             ],
         ];
         $result = HasManyDto::make([

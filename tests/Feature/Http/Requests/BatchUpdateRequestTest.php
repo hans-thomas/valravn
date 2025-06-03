@@ -17,9 +17,9 @@ class BatchUpdateRequestTest extends TestCase
 
         self::assertEquals(
             [
-                'batch'           => ['array'],
-                'batch.*.id'      => ['required', 'numeric', Rule::exists(Post::class, 'id')],
-                'batch.*.title'   => ['string', 'max:255'],
+                'batch' => ['array'],
+                'batch.*.id' => ['required', 'numeric', Rule::exists(Post::class, 'id')],
+                'batch.*.title' => ['string', 'max:255'],
                 'batch.*.content' => ['string'],
             ],
             $rules

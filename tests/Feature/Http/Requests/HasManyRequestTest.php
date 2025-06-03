@@ -17,7 +17,7 @@ class HasManyRequestTest extends TestCase
 
         self::assertEquals(
             [
-                'related'      => ['array'],
+                'related' => ['array'],
                 'related.*.id' => ['required', 'numeric', Rule::exists(Post::class, 'id')],
             ],
             $rules

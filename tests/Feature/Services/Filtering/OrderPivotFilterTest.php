@@ -52,7 +52,7 @@ class OrderPivotFilterTest extends TestCase
         $this->service = app(FilteringService::class);
         PostFactory::new()->create();
         CategoryFactory::new()->count(5)->create()->each(
-            fn (Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
+            fn(Category $category) => $category->posts()->attach([1 => ['order' => rand(1, 100)]])
         );
     }
 }

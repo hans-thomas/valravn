@@ -33,10 +33,10 @@ class Exception extends Command
     /**
      * Execute the console command.
      *
-     * @throws FilesystemException
-     * @throws Throwable
-     *
      * @return int
+     * @throws FilesystemException
+     *
+     * @throws Throwable
      */
     public function handle(): int
     {
