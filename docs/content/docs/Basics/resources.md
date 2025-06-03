@@ -170,10 +170,10 @@ in a sub-folder where the resource classes are exist. in addition, it's better
 that suffix the classes with `Query` to make recognition easier.
 
 ```php
-use Hans\Valravn\Http\Resources\Contracts\ResourceQuery;
+use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Illuminate\Database\Eloquent\Model;
 
-class FirstExampleQuery extends ResourceQuery {
+class FirstExampleQuery extends VResourceQuery {
 
   public function apply( Model $model ): array {
     return [
