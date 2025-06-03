@@ -5,7 +5,7 @@ namespace Hans\Valravn\Services\Contracts\Notification;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Notifiable
+abstract class VNotifiable
 {
     final public function __construct(protected Model $model)
     {
