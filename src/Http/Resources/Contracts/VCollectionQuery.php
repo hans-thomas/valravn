@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Http\Resources\Contracts;
 
-abstract class CollectionQuery
+abstract class VCollectionQuery
 {
     /**
      * Store processed data.

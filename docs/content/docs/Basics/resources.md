@@ -195,15 +195,15 @@ Make sure there is not any conflict with extracted attributes of the related res
 this data will merge into the `data` key on response.
 {{< /tip >}}
 
-### Collection Query
+### VCollectionQuery
 
-Collection Query just can be registered on `ValravnResourceCollection` instances.
+Collection Query just can be registered on `VResourceCollection` instances.
 
 ```php
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
-use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
+use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
 
-class RelatedExamplesCollectionQuery extends CollectionQuery {
+class RelatedExamplesCollectionQuery extends VCollectionQuery {
 
   public function apply( VJsonResource $resource ): array {
     $ids = $resource->resource instanceof Collection ?

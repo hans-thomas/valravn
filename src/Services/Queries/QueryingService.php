@@ -2,7 +2,7 @@
 
 namespace Hans\Valravn\Services\Queries;
 
-use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
+use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
 use Hans\Valravn\Http\Resources\Contracts\VResourceQuery;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Illuminate\Database\Eloquent\Model;
@@ -58,7 +58,7 @@ class QueryingService
     public function applyRequestedQueries(Model $model): self
     {
         foreach ($this->resource->getRequestedQueries() as $query) {
-            if (!is_a($query, CollectionQuery::class, true)) {
+            if (!is_a($query, VCollectionQuery::class, true)) {
                 $this->executedQueries[] = app($query)->run($model);
             }
         }
@@ -69,7 +69,7 @@ class QueryingService
     public function applyRequestedCollectionQueries(): self
     {
         foreach ($this->resource->getRequestedQueries() as $query) {
-            if (is_a($query, CollectionQuery::class, true)) {
+            if (is_a($query, VCollectionQuery::class, true)) {
                 $this->executedQueries[] = app($query)->run($this->resource);
             }
         }
@@ -101,7 +101,7 @@ class QueryingService
     public function mergeCollectionQueriedData(): void
     {
         foreach ($this->getExecutedQueries() as $query) {
-            if (is_a($query, CollectionQuery::class)) {
+            if (is_a($query, VCollectionQuery::class)) {
                 $query->mergeDataInto($this->resource);
             }
         }

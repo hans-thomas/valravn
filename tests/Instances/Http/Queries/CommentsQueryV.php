@@ -2,14 +2,14 @@
 
 namespace Hans\Valravn\Tests\Instances\Http\Queries;
 
-use Hans\Valravn\Http\Resources\Contracts\CollectionQuery;
+use Hans\Valravn\Http\Resources\Contracts\VCollectionQuery;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Tests\Core\Models\Comment;
 use Hans\Valravn\Tests\Core\Models\Post;
 use Hans\Valravn\Tests\Core\Resources\Comment\CommentCollection;
 use Illuminate\Support\Collection;
 
-class CommentsQuery extends CollectionQuery
+class CommentsQueryV extends VCollectionQuery
 {
     /**
      * @param VJsonResource $resource
