@@ -1,20 +1,20 @@
 <?php
 
-    namespace App\Http\Requests\{{REQUEST::VERSION}}\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
+namespace App\Http\Requests\{{REQUEST::VERSION}}\{{REQUEST::NAMESPACE}}\{{REQUEST::MODEL}};
 
-    use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
+use Hans\Valravn\Http\Requests\Contracts\VFormRequest;
 
-    class {{REQUEST::MODEL}}{{REQUEST::ACTION}}Request extends VFormRequest {
+class {{REQUEST::MODEL}}{{REQUEST::ACTION}}Request extends VFormRequest {
 
-		/**
-		 * Get fields and their validation rules
-		 *
-		 * @return array
-		 */
-        protected function fields(): array {
-            return [
-                // fields definition go here
-            ];
-        }
-
+    /**
+     * Get fields and their validation rules
+     *
+     * @return array
+     */
+    protected function fields(): array {
+        return [
+            // Fields define here
+        ];
     }
+
+}

@@ -1,34 +1,34 @@
 <?php
 
-    namespace App\Http\Resources\{{RESOURCE::VERSION}}\{{RESOURCE::NAMESPACE}}\{{RESOURCE::MODEL}};
+namespace App\Http\Resources\{{RESOURCE::VERSION}}\{{RESOURCE::NAMESPACE}}\{{RESOURCE::MODEL}};
 
-    use Illuminate\Database\Eloquent\Model;
-    use Hans\Valravn\Http\Resources\VJsonResource;
+use Illuminate\Database\Eloquent\Model;
+use Hans\Valravn\Http\Resources\VJsonResource;
 
-    class {{RESOURCE::MODEL}}Resource extends VJsonResource {
+class {{RESOURCE::MODEL}}Resource extends VJsonResource {
 
-        /**
-         * Extract attributes of the given model
-         * if null returned, the parent::toArray method called by default
-         *
-         * @param Model $model
-         *
-         * @return array|null
-         */
-        public function extract( Model $model ): ?array {
-            return [
-                'id' => $model->id,
-                //
-            ];
-        }
-
-        /**
-         * Specify the type of your resource
-         *
-         * @return string
-         */
-        public function type(): string {
-            return '{{RESOURCE::PLURAL}}';
-        }
-
+    /**
+     * Extract attributes of the given model
+     * if null returned, the parent::toArray method called by default
+     *
+     * @param Model $model
+     *
+     * @return array|null
+     */
+    public function extract( Model $model ): ?array {
+        return [
+            'id' => $model->id,
+            //
+        ];
     }
+
+    /**
+     * Specify the type of your resource
+     *
+     * @return string
+     */
+    public function type(): string {
+        return '{{RESOURCE::PLURAL}}';
+    }
+
+}

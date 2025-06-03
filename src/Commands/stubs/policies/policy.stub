@@ -1,21 +1,21 @@
 <?php
 
-    namespace App\Policies\{{POLICY::NAMESPACE}};
+namespace App\Policies\{{POLICY::NAMESPACE}};
 
-    use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
-    use Hans\Valravn\Policies\Contracts\VPolicy;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Support\Collection;
+use App\Models\{{POLICY::NAMESPACE}}\{{POLICY::MODEL}};
+use Hans\Valravn\Policies\Contracts\VPolicy;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
-    class {{POLICY::MODEL}}Policy extends VPolicy {
+class {{POLICY::MODEL}}Policy extends VPolicy {
 
-        /**
-         * Set the related model class
-         *
-         * @return string
-         */
-        protected function getModel(): string {
-            return {{POLICY::MODEL}}::class;
-        }
-
+    /**
+     * Set the related model class
+     *
+     * @return string
+     */
+    protected function getModel(): string {
+        return {{POLICY::MODEL}}::class;
     }
+
+}
