@@ -52,11 +52,11 @@ class CompactFormException extends VException
 
 ## Convert exceptions
 
-To convert all exceptions to Valravn style exceptions, use the `using` method like below in
+To convert all exceptions to Valravn style exceptions, use the `convertUsing` method like below in
 `bootstrap/app.php` file:
 
 ```php
 ->withExceptions(function (Exceptions $exceptions) {
-    $exceptions->render(\Hans\Valravn\Exceptions\VHandler::using());
+    $exceptions->render(\Hans\Valravn\Exceptions\VHandler::convertUsing());
 });
 ```
