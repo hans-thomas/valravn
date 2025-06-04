@@ -68,7 +68,7 @@ class VHandler
 
         $e = new VException(
             $message ?: $e->getMessage(),
-            $errorCode,
+            intval($errorCode),
             $responseCode,
             'LEcx',
         );
