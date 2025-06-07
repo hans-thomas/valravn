@@ -12,19 +12,19 @@ interface EntityClasses
      *
      * @return VRepository
      */
-    public function getRepository(): VRepository;
+    public function getVRepository(): VRepository;
 
     /**
      * Return related service class.
      *
      * @return VService
      */
-    public function getService(): VService;
+    public function getVService(): VService;
 
     /**
      * Return related relations service class.
      *
      * @return VService
      */
-    public function getRelationsService(): VService;
+    public function getVRelationsService(): VService;
 }

@@ -23,3 +23,5 @@ renamed to `getVCollection`.
 - Rename `getAvailableIncludes` method of Resource classes to `getAvailableVIncludes`
 - Rename `getAvailableQueries` method of Resource classes to `getAvailableVQueries`
 - The `vlog` helper function, now wrap the second parameter
+- In `EntityClasses` interface: the `getRepository` renamed to `getVRepository`, `getService` renamed to `getVService`
+and `getRelationsService` renamed to `getVRelationsService`
