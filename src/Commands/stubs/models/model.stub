@@ -13,10 +13,10 @@ use Hans\Valravn\Models\Contracts\Loadable;
 use Hans\Valravn\Models\Contracts\ResourceCollectionable;
 use Hans\Valravn\Models\Traits\Paginatable;
 use Hans\Valravn\Models\VModel;
-use Hans\Valravn\Repositories\Contracts\Repository;
+use Hans\Valravn\Repositories\Contracts\VRepository;
 use Hans\Valravn\Http\Resources\Contracts\VJsonResource;
 use Hans\Valravn\Http\Resources\Contracts\VResourceCollection;
-use Hans\Valravn\Services\Contracts\Service;
+use Hans\Valravn\Services\Contracts\VService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class {{MODEL::CLASS}} extends VModel implements Filterable, Loadable, ResourceCollectionable, EntityClasses {
@@ -30,15 +30,15 @@ class {{MODEL::CLASS}} extends VModel implements Filterable, Loadable, ResourceC
         return '{{MODEL::FOREIGN_KEY}}';
     }
 
-    public function getRepository(): Repository {
+    public function getVRepository(): VRepository {
         return app(I{{MODEL::CLASS}}Repository::class);
     }
 
-    public function getService(): Service {
+    public function getVService(): VService {
         return app({{MODEL::CLASS}}Service::class);
     }
 
-    public function getRelationsService(): Service {
+    public function getVRelationsService(): VService {
         return app({{MODEL::CLASS}}RelationsService::class);
     }
 

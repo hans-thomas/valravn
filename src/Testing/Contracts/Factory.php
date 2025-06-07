@@ -33,7 +33,7 @@ abstract class Factory
      *
      * @return VRepository
      */
-    abstract public static function getRepository(): VRepository;
+    abstract public static function getVRepository(): VRepository;
 
     /**
      * PreCreate hook executes before factory ran.
