@@ -12,5 +12,6 @@
 codecov.yml export-ignore
 docker-compose.yml export-ignore
 Dockerfile export-ignore
+MIGRATION-GUIDES.md export-ignore
 phpunit.xml export-ignore
 README.md export-ignore
