@@ -8,6 +8,7 @@ use Hans\Valravn\Exceptions\VException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
@@ -217,7 +218,12 @@ abstract class VRepository
      */
     public function find(int|string $id, string $column = 'id'): Model
     {
-        $model = $this->query()->applyFilters()->where($column, $id)->limit(1)->firstOrFail();
+        $query = $this->query()->applyFilters();
+
+        $this->finding($query, $id, $column);
+        $model = $query->where($column, $id)->limit(1)->firstOrFail();
+        $this->found($model);
+
         $this->authorize('view', $model);
 
         return $model;
@@ -228,7 +234,7 @@ abstract class VRepository
      *
      * @param array $data
      *
-     * @throws AuthorizationException
+     * @throws AuthorizationException|Throwable
      *
      * @return Model
      */
@@ -236,7 +242,20 @@ abstract class VRepository
     {
         $this->authorize();
 
-        return $this->query()->create($data);
+        DB::beginTransaction();
+
+        try {
+            $this->creating($data);
+            $model = $this->query()->create($data);
+            $this->created($model);
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+        DB::commit();
+
+        return $model;
     }
 
     /**
@@ -245,7 +264,7 @@ abstract class VRepository
      * @param Model|int $model
      * @param array     $data
      *
-     * @throws AuthorizationException
+     * @throws AuthorizationException|Throwable
      *
      * @return bool
      */
@@ -254,7 +273,20 @@ abstract class VRepository
         $model = $this->resolveModel($model);
         $this->authorize($model);
 
-        return $model->update($data);
+        DB::beginTransaction();
+
+        try {
+            $this->updating($model, $data);
+            $result = $model->update($data);
+            $this->updated($model);
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+        DB::commit();
+
+        return $result;
     }
 
     /**
@@ -262,7 +294,7 @@ abstract class VRepository
      *
      * @param BatchUpdateDto $dto
      *
-     * @throws AuthorizationException
+     * @throws AuthorizationException|Throwable
      *
      * @return bool
      */
@@ -270,11 +302,24 @@ abstract class VRepository
     {
         $this->authorize('batchUpdate', $this->getModelClassName(), $dto->getData());
 
-        return batch()->update(
-            $this->query()->getModel(),
-            $dto->getData()->toArray(),
-            $this->query()->getModel()->getKeyName()
-        );
+        DB::beginTransaction();
+
+        try {
+            $this->batchUpdating($dto->getData());
+            $result = batch()->update(
+                $this->query()->getModel(),
+                $dto->getData()->toArray(),
+                $this->query()->getModel()->getKeyName()
+            );
+            $this->batchUpdated($dto->getData());
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+        DB::commit();
+
+        return $result;
     }
 
     /**
@@ -282,8 +327,8 @@ abstract class VRepository
      *
      * @param Model|int $model
      *
-     * @throws VException
      * @throws AuthorizationException
+     * @throws VException
      *
      * @return bool
      */
@@ -307,13 +352,103 @@ abstract class VRepository
     }
 
     /**
-     * Deleting Hook executes before the resource deleted.
+     * Finding Hook executes before querying the resource.
+     *
+     * @param Builder    $query
+     * @param int|string $id
+     * @param string     $column
+     *
+     * @return void
+     */
+    protected function finding(Builder $query, int|string $id, string $column): void
+    {
+    }
+
+    /**
+     * Found Hook executes after querying the resource.
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    protected function found(Model $model): void
+    {
+    }
+
+    /**
+     * Creating Hook executes before creating the resource.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    protected function creating(array &$data): void
+    {
+    }
+
+    /**
+     * Created Hook executes after the resource created.
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    protected function created(Model $model): void
+    {
+    }
+
+    /**
+     * Updating Hook executes before updating the resource using given data.
+     *
+     * @param Model $model
+     * @param array $data
+     *
+     * @return void
+     */
+    protected function updating(Model $model, array &$data): void
+    {
+    }
+
+    /**
+     * Updated Hook executes after the resource updated.
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    protected function updated(Model $model): void
+    {
+    }
+
+    /**
+     * BatchUpdating Hook executes before the resource updates in batch mode.
+     *
+     * @param Collection $data
+     *
+     * @return void
+     */
+    protected function batchUpdating(Collection $data): void
+    {
+    }
+
+    /**
+     * BatchUpdated Hook executes after the resource updates in batch mode.
+     *
+     * @param Collection $data
+     *
+     * @return void
+     */
+    protected function batchUpdated(Collection $data): void
+    {
+    }
+
+    /**
+     * Deleting Hook executes before deleting the resource.
      *
      * @param Model $model
      */
-    protected function deleting(Model $model)
+    protected function deleting(Model $model): void
     {
-            //
     }
 
     /**
@@ -321,8 +456,7 @@ abstract class VRepository
      *
      * @param Model $model
      */
-    protected function deleted(Model $model)
+    protected function deleted(Model $model): void
     {
-            //
     }
 }

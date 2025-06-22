@@ -66,6 +66,10 @@ which you can use to avoid redundancy.
 [delete](#delete)
 {{< /column >}}
 
+{{< column "method" >}}
+[Hooks](#hooks)
+{{< /column >}}
+
 
 {{< /column >}}
 
@@ -189,7 +193,7 @@ app( SampleRepository::class )->select('id')->find(1);
 
 ##### with
 
-The `with` method is same as the `select` method. To apply an eagerload before fetching the result, 
+The `with` method is same as the `select` method. To apply an eager load before fetching the result, 
 call the `with` method right before the `find` or `all` methods.
 
 ```php
@@ -212,4 +216,30 @@ result.
 ##### delete
 
 Delete a specific resource and return `true`. otherwise throw an
-exception. `delete` method contains two `deleting` and `deleted` hook.
+exception.
+
+##### Hooks
+
+Hooks allow us to run some codes before or after a main action.
+
+###### find
+
+The `find` method contains two `finding` and `found` hooks.
+
+###### create
+
+The `create` method contains two `creating` and `created` hooks.
+
+###### update
+
+The `update` method contains two `updating` and `updated` hooks.
+
+###### batchUpdate
+
+The `batchUpdate` method contains two `batchUpdating` and `batchUpdated` hooks.
+
+###### delete
+
+The `delete` method contains two `deleting` and `deleted` hooks.
+
+
