@@ -73,18 +73,20 @@ if (!function_exists('vlog')) {
      *
      * @param Throwable|string $message
      * @param array            $context
+     * @param string           $channel
      *
      * @return void
      */
-    function vlog(Throwable|string $message, mixed $context = []): void
+    function vlog(Throwable|string $message, mixed $context = [], string $channel = 'valravn'): void
     {
         $context = is_array($context) ? $context : [$context];
 
-        $backtrace = debug_backtrace(limit: 2)[1];
-        $location = $backtrace['class'].'::'.$backtrace['function'];
+        $FileBacktrace = debug_backtrace(limit: 2)[0];
+        $ClassBacktrace = debug_backtrace(limit: 2)[1];
+        $location = $ClassBacktrace['class'].'::'.$ClassBacktrace['function'].' at '.$FileBacktrace['line'];
         $message = is_string($message) ? $message : $message->getMessage();
 
-        Log::channel('valravn')->debug("At: [$location] => \"$message\"", $context);
+        Log::channel($channel)->debug("At: [$location] => \"$message\"", $context);
     }
 }
 

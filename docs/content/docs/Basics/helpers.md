@@ -160,7 +160,7 @@ class someClass {
 The logged content should be like this:
 
 ```text
-[2025-01-06 07:57:54] testing.DEBUG: At: [Namespace\someClass::someMethod] => "The reason"
+[2025-01-06 07:57:54] testing.DEBUG: At: [Namespace\someClass::someMethod at 7] => "The reason"
 ```
 
 Also, You can pass the exception to track the issue.
@@ -176,6 +176,18 @@ And if you just want to log the error, you need to pass the exception only.
 ```php
 catch (Exception $e){
     vlog($e);
+}
+```
+
+The `vlog` helper function accepts a custom channel as its third parameter.
+
+```php
+try{
+    // do something
+}catch (Exception $e){
+    vlog('The reason');
+}finally {
+    vlog('Done.', 'internals');
 }
 ```
 
