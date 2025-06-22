@@ -159,7 +159,7 @@ abstract class VRepository
     /**
      * Authorize an action.
      *
-     * @param null $ability
+     * @param null  $ability
      * @param mixed ...$params
      *
      * @throws AuthorizationException
@@ -177,7 +177,7 @@ abstract class VRepository
             $ability = $this->guessAbility();
         }
 
-        $this->ifShouldAuthorize(static fn() => Gate::authorize($ability, $params));
+        $this->ifShouldAuthorize(static fn () => Gate::authorize($ability, $params));
     }
 
     /**
@@ -195,9 +195,9 @@ abstract class VRepository
     /**
      * Return all resource.
      *
-     * @return Builder
      * @throws AuthorizationException
      *
+     * @return Builder
      */
     public function all(): Builder
     {
@@ -210,11 +210,11 @@ abstract class VRepository
      * Find a specific resource.
      *
      * @param int|string $id
-     * @param string $column
+     * @param string     $column
      *
-     * @return Model
      * @throws AuthorizationException
      *
+     * @return Model
      */
     public function find(int|string $id, string $column = 'id'): Model
     {
@@ -234,21 +234,23 @@ abstract class VRepository
      *
      * @param array $data
      *
-     * @return Model
      * @throws AuthorizationException|Throwable
      *
+     * @return Model
      */
     public function create(array $data): Model
     {
         $this->authorize();
 
         DB::beginTransaction();
+
         try {
             $this->creating($data);
             $model = $this->query()->create($data);
             $this->created($model);
         } catch (Throwable $e) {
             DB::rollBack();
+
             throw $e;
         }
         DB::commit();
@@ -260,11 +262,11 @@ abstract class VRepository
      * Update Model using given data.
      *
      * @param Model|int $model
-     * @param array $data
+     * @param array     $data
      *
-     * @return bool
      * @throws AuthorizationException|Throwable
      *
+     * @return bool
      */
     public function update(Model|int $model, array $data): bool
     {
@@ -272,12 +274,14 @@ abstract class VRepository
         $this->authorize($model);
 
         DB::beginTransaction();
+
         try {
             $this->updating($model, $data);
             $result = $model->update($data);
             $this->updated($model);
         } catch (Throwable $e) {
             DB::rollBack();
+
             throw $e;
         }
         DB::commit();
@@ -290,15 +294,16 @@ abstract class VRepository
      *
      * @param BatchUpdateDto $dto
      *
-     * @return bool
      * @throws AuthorizationException|Throwable
      *
+     * @return bool
      */
     public function batchUpdate(BatchUpdateDto $dto): bool
     {
         $this->authorize('batchUpdate', $this->getModelClassName(), $dto->getData());
 
         DB::beginTransaction();
+
         try {
             $this->batchUpdating($dto->getData());
             $result = batch()->update(
@@ -309,6 +314,7 @@ abstract class VRepository
             $this->batchUpdated($dto->getData());
         } catch (Throwable $e) {
             DB::rollBack();
+
             throw $e;
         }
         DB::commit();
@@ -321,10 +327,10 @@ abstract class VRepository
      *
      * @param Model|int $model
      *
-     * @return bool
      * @throws AuthorizationException
-     *
      * @throws VException
+     *
+     * @return bool
      */
     public function delete(Model|int $model): bool
     {
@@ -332,6 +338,7 @@ abstract class VRepository
         $this->authorize($model);
 
         DB::beginTransaction();
+
         try {
             $this->deleting($model);
             $model->delete();
@@ -347,81 +354,109 @@ abstract class VRepository
     /**
      * Finding Hook executes before querying the resource.
      *
-     * @param Builder $query
+     * @param Builder    $query
      * @param int|string $id
-     * @param string $column
+     * @param string     $column
+     *
      * @return void
      */
-    protected function finding(Builder $query, int|string $id, string $column): void { }
+    protected function finding(Builder $query, int|string $id, string $column): void
+    {
+    }
 
     /**
      * Found Hook executes after querying the resource.
      *
      * @param Model $model
+     *
      * @return void
      */
-    protected function found(Model $model): void { }
+    protected function found(Model $model): void
+    {
+    }
 
     /**
      * Creating Hook executes before creating the resource.
      *
      * @param array $data
+     *
      * @return void
      */
-    protected function creating(array &$data): void { }
+    protected function creating(array &$data): void
+    {
+    }
 
     /**
      * Created Hook executes after the resource created.
      *
      * @param Model $model
+     *
      * @return void
      */
-    protected function created(Model $model): void { }
+    protected function created(Model $model): void
+    {
+    }
 
     /**
      * Updating Hook executes before updating the resource using given data.
      *
      * @param Model $model
      * @param array $data
+     *
      * @return void
      */
-    protected function updating(Model $model, array &$data): void { }
+    protected function updating(Model $model, array &$data): void
+    {
+    }
 
     /**
      * Updated Hook executes after the resource updated.
      *
      * @param Model $model
+     *
      * @return void
      */
-    protected function updated(Model $model): void { }
+    protected function updated(Model $model): void
+    {
+    }
 
     /**
      * BatchUpdating Hook executes before the resource updates in batch mode.
      *
      * @param Collection $data
+     *
      * @return void
      */
-    protected function batchUpdating(Collection $data): void { }
+    protected function batchUpdating(Collection $data): void
+    {
+    }
 
     /**
      * BatchUpdated Hook executes after the resource updates in batch mode.
      *
      * @param Collection $data
+     *
      * @return void
      */
-    protected function batchUpdated(Collection $data): void { }
+    protected function batchUpdated(Collection $data): void
+    {
+    }
 
     /**
      * Deleting Hook executes before deleting the resource.
      *
      * @param Model $model
      */
-    protected function deleting(Model $model): void { }
+    protected function deleting(Model $model): void
+    {
+    }
 
     /**
      * Deleted Hook executes after the resource deleted.
      *
      * @param Model $model
      */
-    protected function deleted(Model $model): void { }
+    protected function deleted(Model $model): void
+    {
+    }
 }
