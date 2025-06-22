@@ -177,7 +177,7 @@ class FunctionsTest extends TestCase
 
         $actual = file_get_contents($file);
         $expected = <<<EOT
-        At: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogContent] => "The reason: something"
+        At: [Hans\Valravn\Tests\Feature\Helper\FunctionsTest::vlogContent at 176] => "The reason: something"
         EOT;
 
         self::assertStringContainsString(
