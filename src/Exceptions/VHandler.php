@@ -29,7 +29,7 @@ class VHandler
                 $e instanceof NotFoundHttpException     => self::throw($e, 9997),
                 $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
                 $e instanceof BadRequestHttpException   => self::throw($e, 9995),
-                $e instanceof ValidationException       => self::throw($e, 9994),
+                $e instanceof ValidationException       => null,
                 $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
