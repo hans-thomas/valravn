@@ -2,7 +2,6 @@
 
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
-use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -74,10 +73,10 @@ class VHandlerTest extends TestCase
     #[Test]
     public function getErrorCodeFromErrorInstance(): void
     {
-        $e = new class(85,'test exception.') extends \Exception {
+        $e = new class(85, 'test exception.') extends \Exception {
             private int $errorCode;
 
-            public function __construct(int $errorCode, string $message = "", int $code = 0, ?Throwable $previous = null)
+            public function __construct(int $errorCode, string $message = '', int $code = 0, ?Throwable $previous = null)
             {
                 parent::__construct($message, $code, $previous);
                 $this->errorCode = $errorCode;
