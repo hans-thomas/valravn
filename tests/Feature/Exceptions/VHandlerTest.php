@@ -125,6 +125,21 @@ class VHandlerTest extends TestCase
     }
 
     #[Test]
+    public function skipValidationErrorInstance(): void
+    {
+        $e = ValidationException::withMessages(
+            [
+                'name' => 'The name is required',
+            ]
+        );
+
+        self::assertEquals(
+            '{"message":"The name is required","errors":{"name":["The name is required"]}}',
+            $this->handler->render(request(), $e)->getContent()
+        );
+    }
+
+    #[Test]
     public function handlingBindingResolutionException(): void
     {
         $e = new BindingResolutionException('Class IA in not instantiable.', code: 4050);
