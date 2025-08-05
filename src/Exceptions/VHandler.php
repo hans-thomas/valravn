@@ -25,29 +25,30 @@ class VHandler
         return static fn (Throwable $e) => env('RAW_ERROR', false) ?
             null :
             match (true) {
-                $e instanceof QueryException => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
-                $e instanceof NotFoundHttpException => self::throw($e, 9997),
+                $e instanceof QueryException            => self::throw($e, 9998, $e->getPrevious()->getMessage(), 500),
+                $e instanceof NotFoundHttpException     => self::throw($e, 9997),
                 $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
-                $e instanceof BadRequestHttpException => self::throw($e, 9995),
-                $e instanceof ValidationException => self::throw($e, 9994),
-                $e instanceof HttpException => request()->wantsJson() ?
+                $e instanceof BadRequestHttpException   => self::throw($e, 9995),
+                $e instanceof ValidationException       => self::throw($e, 9994),
+                $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
                 $e instanceof AuthenticationException => redirect($e->redirectTo(request())),
-                default => self::throw($e)
+                default                               => self::throw($e)
             };
     }
 
     /**
      * Convert the given exception to the ValravnException class.
      *
-     * @param Throwable $e
-     * @param int $defaultErrorCode
+     * @param Throwable   $e
+     * @param int         $defaultErrorCode
      * @param string|null $message
-     * @param int|null $responseCode
+     * @param int|null    $responseCode
+     *
+     * @throws Exception
      *
      * @return JsonResponse
-     * @throws Exception
      */
     private static function throw(Throwable $e, int $defaultErrorCode = 9999, ?string $message = null, ?int $responseCode = null): JsonResponse
     {
