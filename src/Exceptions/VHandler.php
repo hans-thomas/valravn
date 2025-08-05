@@ -3,8 +3,10 @@
 namespace Hans\Valravn\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -27,10 +29,12 @@ class VHandler
                 $e instanceof NotFoundHttpException     => self::throw($e, 9997),
                 $e instanceof AccessDeniedHttpException => self::throw($e, 9996),
                 $e instanceof BadRequestHttpException   => self::throw($e, 9995),
+                $e instanceof ValidationException       => self::throw($e, 9994),
                 $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
-                default => self::throw($e)
+                $e instanceof AuthenticationException => redirect($e->redirectTo(request())),
+                default                               => self::throw($e)
             };
     }
 
@@ -46,12 +50,8 @@ class VHandler
      *
      * @return JsonResponse
      */
-    private static function throw(
-        Throwable $e,
-        int $defaultErrorCode = 9999,
-        ?string $message = null,
-        ?int $responseCode = null
-    ): JsonResponse {
+    private static function throw(Throwable $e, int $defaultErrorCode = 9999, ?string $message = null, ?int $responseCode = null): JsonResponse
+    {
         if (method_exists($e, $method = 'getErrorCode')) {
             $errorCode = $e->{$method}();
         } elseif ($e->getCode() > 0) {
@@ -60,8 +60,10 @@ class VHandler
             $errorCode = $defaultErrorCode;
         }
 
-        if ($responseCode == null && method_exists($e, 'getStatusCode')) {
+        if ($responseCode === null && method_exists($e, 'getStatusCode')) {
             $responseCode = $e->getStatusCode();
+        } elseif ($responseCode === null && property_exists($e, 'status')) {
+            $responseCode = $e->status;
         } else {
             $responseCode = 500;
         }

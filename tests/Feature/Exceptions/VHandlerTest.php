@@ -2,16 +2,17 @@
 
 namespace Hans\Valravn\Tests\Feature\Exceptions;
 
-use Hans\Valravn\Exceptions\VException;
 use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Env;
+use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class VHandlerTest extends TestCase
 {
@@ -72,10 +73,23 @@ class VHandlerTest extends TestCase
     #[Test]
     public function getErrorCodeFromErrorInstance(): void
     {
-        $e = new VException('test exception.', 27, errorCodePrefix: 'TLEcx');
+        $e = new class(85, 'test exception.') extends \Exception {
+            private int $errorCode;
+
+            public function __construct(int $errorCode, string $message = '', int $code = 0, ?Throwable $previous = null)
+            {
+                parent::__construct($message, $code, $previous);
+                $this->errorCode = $errorCode;
+            }
+
+            public function getErrorCode(): int
+            {
+                return $this->errorCode;
+            }
+        };
 
         self::assertJsonStringEqualsJsonString(
-            '{"title":"Unexpected error!","detail":"test exception.","code":"TLEcx27"}',
+            '{"title":"Unexpected error!","detail":"test exception.","code":"LEcx85"}',
             $this->handler->render(request(), $e)->getContent()
         );
     }
@@ -92,6 +106,21 @@ class VHandlerTest extends TestCase
         self::assertEquals(
             'LEcx4040',
             $this->handler->render(request(), $e)->getOriginalContent()['code']
+        );
+    }
+
+    #[Test]
+    public function getStatusCodeFromValidationErrorInstance(): void
+    {
+        $e = ValidationException::withMessages(
+            [
+                'name' => 'The name is required',
+            ]
+        );
+
+        self::assertEquals(
+            422,
+            $this->handler->render(request(), $e)->getStatusCode()
         );
     }
 
