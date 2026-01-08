@@ -21,7 +21,7 @@
         "mavinoo/laravel-batch": "^2.3"
     },
     "require-dev": {
-        "orchestra/testbench": "^8|^9",
+        "orchestra/testbench": "^8|^9|^10",
         "nunomaduro/collision": "^7|^8",
         "phpstan/phpstan": "^2.1"
     },
