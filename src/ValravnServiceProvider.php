@@ -47,9 +47,9 @@ class ValravnServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @return void
      * @throws Throwable
      *
+     * @return void
      */
     public function boot()
     {
@@ -83,6 +83,7 @@ class ValravnServiceProvider extends ServiceProvider
 
         $version = $version[0];
         $version = str_replace('\'', '', $version);
+
         return str_replace('config_version => ', '', $version);
     }
 
@@ -155,7 +156,7 @@ class ValravnServiceProvider extends ServiceProvider
             );
         }
 
-        if (! Builder::hasGlobalMacro('applyFilters')) {
+        if (!Builder::hasGlobalMacro('applyFilters')) {
             Builder::macro(
                 'applyFilters',
                 function (array $options = []) {
@@ -165,7 +166,7 @@ class ValravnServiceProvider extends ServiceProvider
             );
         }
 
-        if (! Relation::hasMacro('applyFilters')) {
+        if (!Relation::hasMacro('applyFilters')) {
             Relation::macro(
                 'applyFilters',
                 function (array $options = []) {
@@ -175,7 +176,7 @@ class ValravnServiceProvider extends ServiceProvider
             );
         }
 
-        if (! Builder::hasGlobalMacro('whereLike')) {
+        if (!Builder::hasGlobalMacro('whereLike')) {
             Builder::macro(
                 'whereLike',
                 function ($column, $value = null, $boolean = 'and') {
@@ -185,7 +186,7 @@ class ValravnServiceProvider extends ServiceProvider
             );
         }
 
-        if (! Builder::hasGlobalMacro('orWhereLike')) {
+        if (!Builder::hasGlobalMacro('orWhereLike')) {
             Builder::macro(
                 'orWhereLike',
                 function ($column, $value = null, $boolean = 'and') {
@@ -195,7 +196,7 @@ class ValravnServiceProvider extends ServiceProvider
             );
         }
 
-        if (! Application::hasMacro('runningInDev')) {
+        if (!Application::hasMacro('runningInDev')) {
             Application::macro(
                 'runningInDev',
                 static function () {
@@ -222,12 +223,12 @@ class ValravnServiceProvider extends ServiceProvider
                 $directories,
                 array_filter(
                     scandir($migrationPath),
-                    static fn($item) => ! in_array($item, ['.', '..'])
+                    static fn ($item) => !in_array($item, ['.', '..'])
                 )
             );
         }
         $paths = array_map(
-            static fn($item) => database_path("migrations/$item"),
+            static fn ($item) => database_path("migrations/$item"),
             $directories
         );
 
@@ -245,7 +246,7 @@ class ValravnServiceProvider extends ServiceProvider
         $fs = new Filesystem();
 
         foreach ($fs->allFiles($path) as $file) {
-            if (! in_array($file->getBasename(), ['console.php', 'web.php', 'api.php'])) {
+            if (!in_array($file->getBasename(), ['console.php', 'web.php', 'api.php'])) {
                 $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
 
                 Route::prefix("api/$name")

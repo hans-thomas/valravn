@@ -6,7 +6,6 @@ use Hans\Valravn\Exceptions\Package\PublishedVersionOutDatedException;
 use Hans\Valravn\Tests\TestCase;
 use Hans\Valravn\ValravnServiceProvider;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -51,7 +50,6 @@ class ValravnServiceProviderTest extends TestCase
 
         $configFilePath = __DIR__.'/../../config/config.php';
         self::assertFileExists($configFilePath);
-
 
         if (ValravnServiceProvider::getConfigVersion() !== '1.0.1') {
             $newConfigContent = str_replace(ValravnServiceProvider::getConfigVersion(), '1.0.1', file_get_contents($configFilePath));

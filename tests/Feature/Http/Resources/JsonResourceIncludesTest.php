@@ -28,16 +28,16 @@ class JsonResourceIncludesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'     => 'posts',
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn(Comment $value) => [
-                                'type' => 'comments',
-                                'id' => $value->id,
+                            fn (Comment $value) => [
+                                'type'    => 'comments',
+                                'id'      => $value->id,
                                 'content' => $value->content,
                             ]
                         )
@@ -60,17 +60,17 @@ class JsonResourceIncludesTest extends TestCase
                 'data' => Post::query()
                     ->get()
                     ->map(
-                        fn(Post $post) => [
-                            'type' => 'posts',
-                            'id' => $post->id,
-                            'title' => $post->title,
-                            'content' => $post->content,
+                        fn (Post $post) => [
+                            'type'          => 'posts',
+                            'id'            => $post->id,
+                            'title'         => $post->title,
+                            'content'       => $post->content,
                             'first_comment' => $post
                                 ->comments
                                 ->map(
-                                    fn(Comment $value) => [
-                                        'type' => 'comments',
-                                        'id' => $value->id,
+                                    fn (Comment $value) => [
+                                        'type'    => 'comments',
+                                        'id'      => $value->id,
                                         'content' => $value->content,
                                     ]
                                 )
@@ -80,7 +80,7 @@ class JsonResourceIncludesTest extends TestCase
                 ->toArray(),
             ],
             [
-                'data' => $this->resourceToJson($collection)['data']
+                'data' => $this->resourceToJson($collection)['data'],
             ]
         );
     }
@@ -93,16 +93,16 @@ class JsonResourceIncludesTest extends TestCase
         self::assertEquals(
             [
                 'data' => [
-                    'type' => 'posts',
-                    'id' => $this->post->id,
-                    'title' => $this->post->title,
-                    'content' => $this->post->content,
+                    'type'     => 'posts',
+                    'id'       => $this->post->id,
+                    'title'    => $this->post->title,
+                    'content'  => $this->post->content,
                     'comments' => $this->post
                         ->comments
                         ->map(
-                            fn(Comment $value) => [
-                                'type' => 'comments',
-                                'id' => $value->id,
+                            fn (Comment $value) => [
+                                'type'    => 'comments',
+                                'id'      => $value->id,
                                 'content' => $value->content,
                             ]
                         )
