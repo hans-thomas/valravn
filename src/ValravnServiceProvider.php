@@ -25,6 +25,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -52,16 +53,14 @@ class ValravnServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configFile = __DIR__.'/../config/config.php';
-        $config = require $configFile;
         if ($publishedConfigVersion = config('valravn.config_version', false)) {
             throw_if(
-                version_compare($config['config_version'], $publishedConfigVersion, '>'),
+                version_compare(self::getConfigVersion(), $publishedConfigVersion, '>'),
                 new PublishedVersionOutDatedException()
             );
         }
 
-        $this->mergeConfigFrom($configFile, 'valravn');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'valravn');
 
         $this->registerMacros();
         if ($this->app->runningInConsole()) {
@@ -74,6 +73,20 @@ class ValravnServiceProvider extends ServiceProvider
         }
     }
 
+    public static function getConfigVersion(): string
+    {
+        $configFilePath = __DIR__.'/../config/config.php';
+        $config = File::get($configFilePath);
+
+        $version = null;
+        preg_match("/'config_version' => '[0-9.]+'/", $config, $version);
+
+        $version = $version[0];
+        $version = str_replace('\'', '', $version);
+
+        return str_replace('config_version => ', '', $version);
+    }
+
     /**
      * Register created commands.
      *
@@ -81,22 +94,24 @@ class ValravnServiceProvider extends ServiceProvider
      */
     private function registerCommands(): void
     {
-        $this->commands([
-            InstallCommand::class,
-            Entity::class,
-            Controller::class,
-            Controllers::class,
-            Exception::class,
-            Migration::class,
-            Model::class,
-            Policy::class,
-            Repository::class,
-            Requests::class,
-            Resources::class,
-            Service::class,
-            RelationCommand::class,
-            Pivot::class,
-        ]);
+        $this->commands(
+            [
+                InstallCommand::class,
+                Entity::class,
+                Controller::class,
+                Controllers::class,
+                Exception::class,
+                Migration::class,
+                Model::class,
+                Policy::class,
+                Repository::class,
+                Requests::class,
+                Resources::class,
+                Service::class,
+                RelationCommand::class,
+                Pivot::class,
+            ]
+        );
     }
 
     /**
@@ -114,7 +129,9 @@ class ValravnServiceProvider extends ServiceProvider
         );
         $this->publishes(
             [
-                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path('Providers/RepositoryServiceProvider.php'),
+                __DIR__.'/../src/stubs/RepositoryServiceProvider.stub' => app_path(
+                    'Providers/RepositoryServiceProvider.php'
+                ),
             ],
             'valravn-provider'
         );
@@ -128,51 +145,68 @@ class ValravnServiceProvider extends ServiceProvider
     private function registerMacros(): void
     {
         if (env('ENABLE_DB_LOG', false)) {
-            DB::listen(static function (QueryExecuted $query) {
-                $bindings = implode(',', $query->bindings);
-                Log::info(
-                    $query->sql,
-                    ["binding: [ $bindings ] execute time: $query->time"]
-                );
-            });
+            DB::listen(
+                static function (QueryExecuted $query) {
+                    $bindings = implode(',', $query->bindings);
+                    Log::info(
+                        $query->sql,
+                        ["binding: [ $bindings ] execute time: $query->time"]
+                    );
+                }
+            );
         }
 
         if (!Builder::hasGlobalMacro('applyFilters')) {
-            Builder::macro('applyFilters', function (array $options = []) {
-                /** @var Builder $this */
-                return app(FilteringService::class)->apply($this, $options);
-            });
+            Builder::macro(
+                'applyFilters',
+                function (array $options = []) {
+                    /** @var Builder $this */
+                    return app(FilteringService::class)->apply($this, $options);
+                }
+            );
         }
 
         if (!Relation::hasMacro('applyFilters')) {
-            Relation::macro('applyFilters', function (array $options = []) {
-                /** @var \Illuminate\Contracts\Database\Eloquent\Builder $this */
-                return app(FilteringService::class)->apply($this, $options);
-            });
+            Relation::macro(
+                'applyFilters',
+                function (array $options = []) {
+                    /** @var \Illuminate\Contracts\Database\Eloquent\Builder $this */
+                    return app(FilteringService::class)->apply($this, $options);
+                }
+            );
         }
 
         if (!Builder::hasGlobalMacro('whereLike')) {
-            Builder::macro('whereLike', function ($column, $value = null, $boolean = 'and') {
-                /** @var Builder $this */
-                $this->where($column, 'LIKE', "%{$value}%", $boolean);
-            });
+            Builder::macro(
+                'whereLike',
+                function ($column, $value = null, $boolean = 'and') {
+                    /** @var Builder $this */
+                    $this->where($column, 'LIKE', "%{$value}%", $boolean);
+                }
+            );
         }
 
         if (!Builder::hasGlobalMacro('orWhereLike')) {
-            Builder::macro('orWhereLike', function ($column, $value = null, $boolean = 'and') {
-                /** @var Builder $this */
-                $this->orWhere($column, 'LIKE', "%{$value}%", $boolean);
-            });
+            Builder::macro(
+                'orWhereLike',
+                function ($column, $value = null, $boolean = 'and') {
+                    /** @var Builder $this */
+                    $this->orWhere($column, 'LIKE', "%{$value}%", $boolean);
+                }
+            );
         }
 
         if (!Application::hasMacro('runningInDev')) {
-            Application::macro('runningInDev', static function () {
-                if (env('APP_ENV', 'local') != 'production') {
-                    return true;
-                }
+            Application::macro(
+                'runningInDev',
+                static function () {
+                    if (env('APP_ENV', 'local') != 'production') {
+                        return true;
+                    }
 
-                return false;
-            });
+                    return false;
+                }
+            );
         }
     }
 
@@ -216,9 +250,9 @@ class ValravnServiceProvider extends ServiceProvider
                 $name = substr($file->getBasename(), 0, strpos($file->getBasename(), '.'));
 
                 Route::prefix("api/$name")
-                     ->name("$name.")
-                     ->middleware(valravn_config('middlewares'))
-                     ->group($file->getRealPath());
+                    ->name("$name.")
+                    ->middleware(valravn_config('middlewares'))
+                    ->group($file->getRealPath());
             }
         }
 

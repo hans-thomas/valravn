@@ -15,7 +15,7 @@ class ValravnServiceProviderTest extends TestCase
     {
         $configFile = __DIR__.'/../../config/config.php';
         $publishedVersion = config('valravn.config_version');
-        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
+        $newVersion = str_split($publishedVersion, strpos($publishedVersion, '.'))[0].'.999';
 
         // revert 'config_version' key
         $configContent = file_get_contents($configFile);
@@ -45,21 +45,30 @@ class ValravnServiceProviderTest extends TestCase
     public function publishedConfigFileVersionIsOutdated()
     {
         $this->artisan('vendor:publish', ['--tag' => 'valravn-config']);
+
         self::assertFileExists(base_path('config/valravn.php'));
 
-        $configFile = __DIR__.'/../../config/config.php';
+        $configFilePath = __DIR__.'/../../config/config.php';
+        self::assertFileExists($configFilePath);
+
+        if (ValravnServiceProvider::getConfigVersion() !== '1.0.1') {
+            $newConfigContent = str_replace(ValravnServiceProvider::getConfigVersion(), '1.0.1', file_get_contents($configFilePath));
+            file_put_contents($configFilePath, $newConfigContent);
+        }
+        self::assertEquals('1.0.1', ValravnServiceProvider::getConfigVersion());
+
         $publishedVersion = config('valravn.config_version');
 
-        $newVersion = str_split($publishedVersion, strrpos($publishedVersion, '.'))[0].'.999';
-        // change 'config_version' key
-        $newConfigContent = file_get_contents($configFile);
+        $newVersion = str_split($publishedVersion, strpos($publishedVersion, '.'))[0].'.999';
+        $newConfigContent = file_get_contents($configFilePath);
         $newConfigContent = str_replace($publishedVersion, $newVersion, $newConfigContent);
-        file_put_contents($configFile, $newConfigContent);
+        file_put_contents($configFilePath, $newConfigContent);
+
+        self::assertEquals($newVersion, ValravnServiceProvider::getConfigVersion());
 
         $this->expectException(PublishedVersionOutDatedException::class);
 
-        $provider = new ValravnServiceProvider($this->app);
-        $provider->boot();
+        app(ValravnServiceProvider::class, ['app' => $this->app])->boot();
     }
 
     #[Test]
@@ -74,8 +83,7 @@ class ValravnServiceProviderTest extends TestCase
 
         self::assertFileExists(base_path('routes/app/blog.php'));
 
-        $sp = new ValravnServiceProvider($this->app);
-        $sp->boot();
+        app(ValravnServiceProvider::class, ['app' => $this->app])->boot();
 
         self::assertTrue(Route::has('blog.posts.index'));
         self::assertFalse(Route::has('web.posts.index'));
