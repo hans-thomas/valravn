@@ -11,6 +11,7 @@ class ActionsRegisterer
     protected bool $withId = false;
     protected array $parameters = [];
     protected array $middleware = [];
+    protected array $withoutMiddleware = [];
     private array $methods = ['GET', 'POST', 'PATCH', 'DELETE'];
 
     public function __construct(protected string $name, protected string $controller)
@@ -35,6 +36,12 @@ class ActionsRegisterer
     public function middleware(...$parameters): self
     {
         $this->middleware = $parameters;
+
+        return $this;
+    }
+    public function withoutMiddleware(...$parameters): self
+    {
+        $this->withoutMiddleware = $parameters;
 
         return $this;
     }
@@ -69,6 +76,7 @@ class ActionsRegisterer
         if (in_array($method, $this->methods)) {
             $this->router->addRoute($method, $uri, [$this->controller, $action])
                 ->middleware($this->middleware)
+                ->withoutMiddleware($this->withoutMiddleware)
                 ->name("$this->name.{$this->getRouteNamePrefix()}.".Str::snake($action, '-'));
         }
         $this->resetStates();
