@@ -39,6 +39,7 @@ class ActionsRegisterer
 
         return $this;
     }
+
     public function withoutMiddleware(...$parameters): self
     {
         $this->withoutMiddleware = $parameters;
