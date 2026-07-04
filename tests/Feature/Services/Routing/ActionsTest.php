@@ -5,6 +5,7 @@ namespace Hans\Valravn\Tests\Feature\Services\Routing;
 use Hans\Valravn\Services\Routing\ActionsRegisterer;
 use Hans\Valravn\Services\Routing\RoutingService;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleActionsController;
+use Hans\Valravn\Tests\Instances\Middlewares\SampleBMiddleware;
 use Hans\Valravn\Tests\Instances\Middlewares\SampleMiddleware;
 use Hans\Valravn\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
@@ -46,14 +47,16 @@ class ActionsTest extends TestCase
             ->actions(
                 SampleActionsController::class,
                 function (ActionsRegisterer $actions) {
-                    $actions->withId()->withParameters('related', ['something'=>'some_thing'])->get('action-with-params');
+                    $actions->withId()->withParameters('related', ['something' => 'some_thing'])->get(
+                        'action-with-params'
+                    );
                     $actions->post('action-with-no-param');
                 }
             );
         $this->getJson(
             route('samples.actions.action-with-params', ['sample' => 1, 'related' => 2, 'some_thing' => 3])
         )
-             ->assertOk();
+            ->assertOk();
 
         $this->postJson(route('samples.actions.action-with-no-param'))->assertOk();
 
@@ -75,19 +78,33 @@ class ActionsTest extends TestCase
             ->actions(
                 SampleActionsController::class,
                 function (ActionsRegisterer $actions) {
-                    $actions->middleware(SampleMiddleware::class)->get('action-with-middleware');
+                    $actions
+                        ->middleware(SampleMiddleware::class)
+                        ->withoutMiddleware(SampleBMiddleware::class)
+                        ->get('action-with-middleware');
                 }
             );
         $this->getJson(
             route('samples.actions.action-with-middleware')
         )
-             ->assertOk();
+            ->assertOk();
 
-        self::assertEquals(
-            [
-                SampleMiddleware::class,
-            ],
+        self::assertContains(
+            SampleMiddleware::class,
             Route::getCurrentRoute()->middleware()
+        );
+        self::assertNotContains(
+            SampleMiddleware::class,
+            Route::getCurrentRoute()->excludedMiddleware(),
+        );
+
+        self::assertContains(
+            SampleBMiddleware::class,
+            Route::getCurrentRoute()->excludedMiddleware(),
+        );
+        self::assertNotContains(
+            SampleBMiddleware::class,
+            Route::getCurrentRoute()->middleware(),
         );
     }
 
