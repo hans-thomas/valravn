@@ -81,9 +81,18 @@ class ActionsTest extends TestCase
                     $actions
                         ->middleware(SampleMiddleware::class)
                         ->withoutMiddleware(SampleBMiddleware::class)
+                        ->get('action-without-middleware');
+
+                    $actions
+                        ->middleware(SampleMiddleware::class)
                         ->get('action-with-middleware');
                 }
             );
+        $this->getJson(
+            route('samples.actions.action-without-middleware')
+        )
+            ->assertOk();
+
         $this->getJson(
             route('samples.actions.action-with-middleware')
         )
@@ -91,20 +100,24 @@ class ActionsTest extends TestCase
 
         self::assertContains(
             SampleMiddleware::class,
-            Route::getCurrentRoute()->middleware()
+            Route::getRoutes()->getByName('samples.actions.action-with-middleware')->middleware()
         );
         self::assertNotContains(
             SampleMiddleware::class,
-            Route::getCurrentRoute()->excludedMiddleware(),
+            Route::getRoutes()->getByName('samples.actions.action-with-middleware')->excludedMiddleware(),
+        );
+        self::assertNotContains(
+            SampleBMiddleware::class,
+            Route::getRoutes()->getByName('samples.actions.action-with-middleware')->excludedMiddleware(),
         );
 
         self::assertContains(
             SampleBMiddleware::class,
-            Route::getCurrentRoute()->excludedMiddleware(),
+            Route::getRoutes()->getByName('samples.actions.action-without-middleware')->excludedMiddleware(),
         );
         self::assertNotContains(
             SampleBMiddleware::class,
-            Route::getCurrentRoute()->middleware(),
+            Route::getRoutes()->getByName('samples.actions.action-without-middleware')->middleware(),
         );
     }
 

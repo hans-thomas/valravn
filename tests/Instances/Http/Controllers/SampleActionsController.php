@@ -21,4 +21,8 @@ class SampleActionsController extends Controller
     public function actionWithMiddleware(): void
     {
     }
+
+    public function actionWithoutMiddleware(): void
+    {
+    }
 }
