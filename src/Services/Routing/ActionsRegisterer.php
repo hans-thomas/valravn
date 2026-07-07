@@ -88,6 +88,7 @@ class ActionsRegisterer
         $this->withId = false;
         $this->parameters = [];
         $this->middleware = [];
+        $this->withoutMiddleware = [];
     }
 
     protected function addIdParameter(string $uri): string
