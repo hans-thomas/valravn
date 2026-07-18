@@ -33,7 +33,9 @@ class VHandler
                 $e instanceof HttpException             => request()->wantsJson() ?
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
-                $e instanceof AuthenticationException => redirect($e->redirectTo(request())),
+                $e instanceof AuthenticationException => request()->wantsJson() ?
+                    self::throw($e, 9994) :
+                    redirect($e->redirectTo(request())),
                 default                               => self::throw($e)
             };
     }
