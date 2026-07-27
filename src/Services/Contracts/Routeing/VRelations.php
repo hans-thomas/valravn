@@ -21,7 +21,7 @@ abstract class VRelations
      * @var array|string[]
      */
     protected array $attributes = [
-        'view'   => 'GET',
+        'view' => 'GET',
         'update' => 'POST',
         'attach' => 'PATCH',
         'detach' => 'DELETE',
@@ -35,22 +35,27 @@ abstract class VRelations
     protected array $options;
 
     /**
-     * List of requested routes to be register.
+     * List of requested routes to be registered.
      *
      * @var array
      */
     protected array $routes;
 
-    public function __construct(protected string $name, protected string $relation, protected RouteRegistrar $registrar)
-    {
+    public function __construct(
+        protected string $name,
+        protected string $relation,
+        protected RouteRegistrar $registrar,
+        array $options = []
+    ) {
+        $this->options = $options;
     }
 
     /**
      * Get needed routes for the relation instance.
      *
-     * @param string $name
-     * @param string $parameter
-     * @param string $action
+     * @param  string  $name
+     * @param  string  $parameter
+     * @param  string  $action
      *
      * @return void
      */
@@ -71,14 +76,18 @@ abstract class VRelations
 
         $this->routes($name, $parameter, $action);
 
-        $this->registrar->group(function (Router $registrar) {
-            foreach ($this->routes as $route) {
-                if (in_array($route['name'], array_keys($this->getMethods()))) {
-                    $registrar->{$route['method']}($route['uri'], $route['action'])
-                              ->name($route['name']);
+        $this->registrar->group(
+            function (Router $registrar) {
+                foreach ($this->routes as $route) {
+                    if (in_array($route['name'], array_keys($this->getMethods()))) {
+                        $registrar->{$route['method']}($route['uri'], $route['action'])
+                            ->middleware($this->options['middleware'] ?? [])
+                            ->withoutMiddleware($this->options['excluded_middleware'] ?? [])
+                            ->name($route['name']);
+                    }
                 }
             }
-        });
+        );
     }
 
     /**
@@ -136,78 +145,78 @@ abstract class VRelations
     /**
      * Define a get route.
      *
-     * @param string $uri
-     * @param string $action
+     * @param  string  $uri
+     * @param  string  $action
      *
      * @return void
      */
     protected function get(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'get',
             'action' => "view$action",
-            'name'   => 'view',
+            'name' => 'view',
         ];
     }
 
     /**
      * Define a post route.
      *
-     * @param string $uri
-     * @param string $action
+     * @param  string  $uri
+     * @param  string  $action
      *
      * @return void
      */
     protected function post(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'post',
             'action' => "update$action",
-            'name'   => 'update',
+            'name' => 'update',
         ];
     }
 
     /**
      * Define a attach route.
      *
-     * @param string $uri
-     * @param string $action
+     * @param  string  $uri
+     * @param  string  $action
      *
      * @return void
      */
     protected function attach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'patch',
             'action' => "attach$action",
-            'name'   => 'attach',
+            'name' => 'attach',
         ];
     }
 
     /**
      * Define a detach route.
      *
-     * @param string $uri
-     * @param string $action
+     * @param  string  $uri
+     * @param  string  $action
      *
      * @return void
      */
     protected function detach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri'    => $uri,
+            'uri' => $uri,
             'method' => 'delete',
             'action' => "detach$action",
-            'name'   => 'detach',
+            'name' => 'detach',
         ];
     }
 
     public function __destruct()
     {
-        if (!$this->registered) {
+        if (! $this->registered) {
             $this->register();
         }
     }
