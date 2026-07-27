@@ -11,7 +11,10 @@ use Hans\Valravn\Tests\Instances\Http\Controllers\SampleHasOneController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphedByManyController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToController;
 use Hans\Valravn\Tests\Instances\Http\Controllers\SampleMorphToManyController;
+use Hans\Valravn\Tests\Instances\Middlewares\SampleBMiddleware;
+use Hans\Valravn\Tests\Instances\Middlewares\SampleMiddleware;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\Test;
 
 class RelationsTest extends TestCase
@@ -27,7 +30,6 @@ class RelationsTest extends TestCase
     #[Test]
     public function relationsBelongsTo(): void
     {
-        $this->withoutExceptionHandling();
         $this->service
             ->name('samples')
             ->relations(
@@ -39,6 +41,74 @@ class RelationsTest extends TestCase
 
         $this->getJson(route('samples.relation.view', [1]))->assertOk();
         $this->postJson(route('samples.relation.update', [1, 3]))->assertOk();
+    }
+
+    #[Test]
+    public function relationsBelongsToWithMiddleware(): void
+    {
+        $this->service
+            ->name('samplesWithMiddleware')
+            ->relations(
+                SampleBelongsToController::class,
+                function (RelationsRegisterer $relations) {
+                    $relations->belongsTo('relation')->only('view');
+
+                    $relations->withMiddleware(SampleMiddleware::class)
+                        ->belongsTo('relation')
+                        ->only('update');
+                }
+            );
+
+        $this->getJson(route('samplesWithMiddleware.relation.view', [1]))->assertOk();
+        self::assertNotContains(
+            SampleMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithMiddleware.relation.view')->middleware()
+        );
+
+        $this->postJson(route('samplesWithMiddleware.relation.update', [1, 3]))->assertOk();
+        self::assertContains(
+            SampleMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithMiddleware.relation.update')->middleware()
+        );
+    }
+
+    #[Test]
+    public function relationsBelongsToWithoutMiddleware(): void
+    {
+        $this->service
+            ->name('samplesWithoutMiddleware')
+            ->relations(
+                SampleBelongsToController::class,
+                function (RelationsRegisterer $relations) {
+                    $relations->withoutMiddleware(SampleBMiddleware::class)
+                        ->belongsTo('relation')
+                        ->only('view');
+
+                    $relations->withMiddleware(SampleMiddleware::class)
+                        ->belongsTo('relation')
+                        ->only('update');
+                }
+            );
+
+        $this->getJson(route('samplesWithoutMiddleware.relation.view', [1]))->assertOk();
+        self::assertContains(
+            SampleBMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithoutMiddleware.relation.view')->excludedMiddleware()
+        );
+        self::assertNotContains(
+            SampleMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithoutMiddleware.relation.view')->middleware()
+        );
+
+        $this->postJson(route('samplesWithoutMiddleware.relation.update', [1, 3]))->assertOk();
+        self::assertContains(
+            SampleMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithoutMiddleware.relation.update')->middleware()
+        );
+        self::assertNotContains(
+            SampleBMiddleware::class,
+            Route::getRoutes()->getByName('samplesWithoutMiddleware.relation.update')->excludedMiddleware()
+        );
     }
 
     #[Test]

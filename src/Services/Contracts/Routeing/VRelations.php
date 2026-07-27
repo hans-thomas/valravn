@@ -35,14 +35,19 @@ abstract class VRelations
     protected array $options;
 
     /**
-     * List of requested routes to be register.
+     * List of requested routes to be registered.
      *
      * @var array
      */
     protected array $routes;
 
-    public function __construct(protected string $name, protected string $relation, protected RouteRegistrar $registrar)
-    {
+    public function __construct(
+        protected string $name,
+        protected string $relation,
+        protected RouteRegistrar $registrar,
+        array $options = []
+    ) {
+        $this->options = $options;
     }
 
     /**
@@ -71,14 +76,18 @@ abstract class VRelations
 
         $this->routes($name, $parameter, $action);
 
-        $this->registrar->group(function (Router $registrar) {
-            foreach ($this->routes as $route) {
-                if (in_array($route['name'], array_keys($this->getMethods()))) {
-                    $registrar->{$route['method']}($route['uri'], $route['action'])
-                              ->name($route['name']);
+        $this->registrar->group(
+            function (Router $registrar) {
+                foreach ($this->routes as $route) {
+                    if (in_array($route['name'], array_keys($this->getMethods()))) {
+                        $registrar->{$route['method']}($route['uri'], $route['action'])
+                            ->middleware($this->options['middleware'] ?? [])
+                            ->withoutMiddleware($this->options['excluded_middleware'] ?? [])
+                            ->name($route['name']);
+                    }
                 }
             }
-        });
+        );
     }
 
     /**
