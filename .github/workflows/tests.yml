@@ -1,6 +1,6 @@
 name: "Tests"
 
-on: [push]
+on: [ push ]
 
 permissions:
   contents: read
@@ -12,14 +12,18 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        php: [ 8.1, 8.2, 8.3, 8.4 ]
+        php: [ 8.1, 8.2, 8.3, 8.4, 8.5 ]
         dependency-version: [ prefer-stable ]
-        laravel: [ 10, 11, 12 ]
+        laravel: [ 10, 11, 12, 13 ]
         exclude:
           - laravel: 11
             php: 8.1
           - laravel: 12
             php: 8.1
+          - laravel: 13
+            php: 8.1
+          - laravel: 13
+            php: 8.2
         include:
           - laravel: 10
             testbench: 8
@@ -27,6 +31,8 @@ jobs:
             testbench: 9
           - laravel: 12
             testbench: 10
+          - laravel: 13
+            testbench: 11
 
     name: "TESTS: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
 
