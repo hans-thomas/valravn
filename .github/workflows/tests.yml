@@ -6,7 +6,7 @@ permissions:
   contents: read
 
 jobs:
-  phpstan:
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -14,32 +14,36 @@ jobs:
         os: [ ubuntu-latest ]
         php: [ 8.1, 8.2, 8.3, 8.4 ]
         dependency-version: [ prefer-stable ]
-        laravel: [ 10.*, 11.*, 12.* ]
+        laravel: [ 10, 11, 12 ]
         exclude:
-          - laravel: 11.*
+          - laravel: 11
             php: 8.1
-          - laravel: 12.*
+          - laravel: 12
             php: 8.1
         include:
-          - laravel: 10.*
-            testbench: 8.*
-          - laravel: 11.*
-            testbench: 9.*
-          - laravel: 12.*
-            testbench: 10.*
+          - laravel: 10
+            testbench: 8
+          - laravel: 11
+            testbench: 9
+          - laravel: 12
+            testbench: 10
 
-    name: "PHPSTAN: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
+    name: "TESTS: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: curl, mbstring
+          extensions: curl, mbstring, xdebug
           tools: composer:v2
-          coverage: none
+          coverage: xdebug
+          ini-values: xdebug.mode="coverage"
+
+      - name: Disable advisories policy
+        run: composer config policy.advisories.block false
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
@@ -50,20 +54,20 @@ jobs:
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: dependencies-latest-composer-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:^${{ matrix.laravel }}" "orchestra/testbench:^${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
 
       - name: Restore cache PHPStan results
         id: phpstan-cache-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache
           key: "phpstan-result-cache-${{ matrix.php }}-${{ github.run_id }}"
@@ -73,61 +77,11 @@ jobs:
       - name: Run PHPStan
         run: composer analys -- --no-interaction --no-progress --ansi
 
-  tests:
-    runs-on: ${{ matrix.os }}
-    needs: phpstan
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-        php: [ 8.1, 8.2, 8.3, 8.4 ]
-        laravel: [ 10.*, 11.* ]
-        dependency-version: [ prefer-stable ]
-        exclude:
-          - laravel: 11.*
-            php: 8.1
-        include:
-          - laravel: 10.*
-            testbench: 8.*
-          - laravel: 11.*
-            testbench: 9.*
-
-    name: "PHPUNIT: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}"
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: xdebug
-          ini-values: xdebug.mode="coverage"
-          coverage: xdebug
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-
-      - name: Install dependencies
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
-
       - name: Run test suite
         run: composer run-script test:coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
