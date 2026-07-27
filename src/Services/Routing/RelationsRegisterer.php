@@ -28,7 +28,7 @@ class RelationsRegisterer
     {
         return tap(
             new HasOne($this->name, $relation, $this->registrar->name("$this->name.$relation."), $this->options),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -36,7 +36,7 @@ class RelationsRegisterer
     {
         return tap(
             new HasMany($this->name, $relation, $this->registrar->name("$this->name.$relation."), $this->options),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -44,7 +44,7 @@ class RelationsRegisterer
     {
         return tap(
             new BelongsTo($this->name, $relation, $this->registrar->name("$this->name.$relation."), $this->options),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -57,7 +57,7 @@ class RelationsRegisterer
                 $this->registrar->name("$this->name.$relation."),
                 $this->options
             ),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -65,7 +65,7 @@ class RelationsRegisterer
     {
         return tap(
             new MorphTo($this->name, $relation, $this->registrar->name("$this->name.$relation."), $this->options),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -73,9 +73,12 @@ class RelationsRegisterer
     {
         return tap(
             new MorphToMany(
-                $this->name, $relation, $this->registrar->name("$this->name.$relation."), $this->options
+                $this->name,
+                $relation,
+                $this->registrar->name("$this->name.$relation."),
+                $this->options
             ),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 
@@ -88,7 +91,7 @@ class RelationsRegisterer
                 $this->registrar->name("$this->name.$relation."),
                 $this->options
             ),
-            fn(VRelations $relation) => $this->flushOptions()
+            fn (VRelations $relation) => $this->flushOptions()
         );
     }
 

@@ -21,7 +21,7 @@ abstract class VRelations
      * @var array|string[]
      */
     protected array $attributes = [
-        'view' => 'GET',
+        'view'   => 'GET',
         'update' => 'POST',
         'attach' => 'PATCH',
         'detach' => 'DELETE',
@@ -53,9 +53,9 @@ abstract class VRelations
     /**
      * Get needed routes for the relation instance.
      *
-     * @param  string  $name
-     * @param  string  $parameter
-     * @param  string  $action
+     * @param string $name
+     * @param string $parameter
+     * @param string $action
      *
      * @return void
      */
@@ -145,78 +145,78 @@ abstract class VRelations
     /**
      * Define a get route.
      *
-     * @param  string  $uri
-     * @param  string  $action
+     * @param string $uri
+     * @param string $action
      *
      * @return void
      */
     protected function get(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'get',
             'action' => "view$action",
-            'name' => 'view',
+            'name'   => 'view',
         ];
     }
 
     /**
      * Define a post route.
      *
-     * @param  string  $uri
-     * @param  string  $action
+     * @param string $uri
+     * @param string $action
      *
      * @return void
      */
     protected function post(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'post',
             'action' => "update$action",
-            'name' => 'update',
+            'name'   => 'update',
         ];
     }
 
     /**
      * Define a attach route.
      *
-     * @param  string  $uri
-     * @param  string  $action
+     * @param string $uri
+     * @param string $action
      *
      * @return void
      */
     protected function attach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'patch',
             'action' => "attach$action",
-            'name' => 'attach',
+            'name'   => 'attach',
         ];
     }
 
     /**
      * Define a detach route.
      *
-     * @param  string  $uri
-     * @param  string  $action
+     * @param string $uri
+     * @param string $action
      *
      * @return void
      */
     protected function detach(string $uri, string $action): void
     {
         $this->routes[] = [
-            'uri' => $uri,
+            'uri'    => $uri,
             'method' => 'delete',
             'action' => "detach$action",
-            'name' => 'detach',
+            'name'   => 'detach',
         ];
     }
 
     public function __destruct()
     {
-        if (! $this->registered) {
+        if (!$this->registered) {
             $this->register();
         }
     }
