@@ -100,7 +100,6 @@ class RelationsRegisterer
         $this->options = [];
     }
 
-
     /**
      * @deprecated Use middleware() instead
      */
