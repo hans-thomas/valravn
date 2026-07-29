@@ -100,7 +100,16 @@ class RelationsRegisterer
         $this->options = [];
     }
 
+
+    /**
+     * @deprecated Use middleware() instead
+     */
     public function withMiddleware(...$middleware): self
+    {
+        return $this->middleware(...$middleware);
+    }
+
+    public function middleware(...$middleware): self
     {
         $this->options['middleware'] = Arr::wrap($middleware);
 

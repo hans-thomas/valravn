@@ -44,7 +44,7 @@ class RelationsTest extends TestCase
     }
 
     #[Test]
-    public function relationsBelongsToWithMiddleware(): void
+    public function relationsBelongsToMiddleware(): void
     {
         $this->service
             ->name('samplesWithMiddleware')
@@ -53,7 +53,7 @@ class RelationsTest extends TestCase
                 function (RelationsRegisterer $relations) {
                     $relations->belongsTo('relation')->only('view');
 
-                    $relations->withMiddleware(SampleMiddleware::class)
+                    $relations->middleware(SampleMiddleware::class)
                         ->belongsTo('relation')
                         ->only('update');
                 }
@@ -84,7 +84,7 @@ class RelationsTest extends TestCase
                         ->belongsTo('relation')
                         ->only('view');
 
-                    $relations->withMiddleware(SampleMiddleware::class)
+                    $relations->middleware(SampleMiddleware::class)
                         ->belongsTo('relation')
                         ->only('update');
                 }
