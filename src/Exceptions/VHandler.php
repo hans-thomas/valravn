@@ -46,7 +46,7 @@ class VHandler
      * @param Throwable   $e
      * @param int         $defaultErrorCode
      * @param string|null $message
-     * @param int    $responseCode
+     * @param int         $responseCode
      *
      * @throws Exception
      *

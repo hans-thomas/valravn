@@ -95,7 +95,7 @@ class VHandlerTest extends TestCase
             '>='
         )) {
             self::assertEmpty($this->handler->render(request(), $e)->getCharset());
-            self::assertEquals(401,$this->handler->render(request(), $e)->getStatusCode());
+            self::assertEquals(401, $this->handler->render(request(), $e)->getStatusCode());
         } else {
             self::expectException(RouteNotFoundException::class);
             $this->handler->render(request(), $e);
