@@ -34,8 +34,8 @@ class VHandler
                     self::throw($e, defaultErrorCode: 9994) :
                     null,
                 $e instanceof AuthenticationException => request()->wantsJson() ?
-                    self::throw($e, 9994) :
-                    redirect($e->redirectTo(request())),
+                    self::throw($e, 9993, responseCode: 401) :
+                    null,
                 default                               => self::throw($e)
             };
     }
@@ -46,13 +46,13 @@ class VHandler
      * @param Throwable   $e
      * @param int         $defaultErrorCode
      * @param string|null $message
-     * @param int|null    $responseCode
+     * @param int         $responseCode
      *
      * @throws Exception
      *
      * @return JsonResponse
      */
-    private static function throw(Throwable $e, int $defaultErrorCode = 9999, ?string $message = null, ?int $responseCode = null): JsonResponse
+    private static function throw(Throwable $e, int $defaultErrorCode = 9999, ?string $message = null, int $responseCode = 500): JsonResponse
     {
         if (method_exists($e, $method = 'getErrorCode')) {
             $errorCode = $e->{$method}();
@@ -66,8 +66,6 @@ class VHandler
             $responseCode = $e->getStatusCode();
         } elseif ($responseCode === null && property_exists($e, 'status')) {
             $responseCode = $e->status;
-        } else {
-            $responseCode = 500;
         }
 
         $e = new VException(

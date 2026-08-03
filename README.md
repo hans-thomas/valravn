@@ -17,11 +17,11 @@ override or create and use classes on top of valravn classes.
 
 ## Capability table
 
-| Version                                                | Laravel |
-|--------------------------------------------------------|---------|
-| [1.x](https://github.com/hans-thomas/valravn/tree/1.x) | 10.x    |
-| [2.x](https://github.com/hans-thomas/valravn/tree/2.x) | 11.x    |
-| [3.x](https://github.com/hans-thomas/valravn/tree/3.x) | 12.x    |
+| Version                                                | Laravel          |
+|--------------------------------------------------------|------------------|
+| [1.x](https://github.com/hans-thomas/valravn/tree/1.x) | 10.x             |
+| [2.x](https://github.com/hans-thomas/valravn/tree/2.x) | 11.x             |
+| [3.x](https://github.com/hans-thomas/valravn/tree/3.x) | 10.x, 11.x, 12.x |
 
 for more information [see documentation](https://valravn.vercel.app/).
 
