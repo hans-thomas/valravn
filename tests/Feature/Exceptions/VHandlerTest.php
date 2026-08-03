@@ -4,6 +4,7 @@ namespace Hans\Valravn\Tests\Feature\Exceptions;
 
 use Hans\Valravn\Exceptions\VHandler;
 use Hans\Valravn\Tests\TestCase;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
@@ -12,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class VHandlerTest extends TestCase
@@ -71,13 +73,47 @@ class VHandlerTest extends TestCase
     }
 
     #[Test]
+    public function AuthenticationExceptionMatchExpressionTest(): void
+    {
+        $e = new AuthenticationException();
+
+        self::assertJsonStringEqualsJsonString(
+            '{"title":"Unexpected error!","detail":"Unauthenticated.","code":"LEcx9993"}',
+            $this->handler->render(request(), $e)->getContent()
+        );
+        self::assertEquals(
+            401,
+            $this->handler->render(request(), $e)->getStatusCode()
+        );
+
+        request()->initialize();
+        request()->headers->set('Accept', 'text/html');
+
+        if (version_compare(
+            $this->app->version(),
+            '13',
+            '>='
+        )) {
+            self::assertEmpty($this->handler->render(request(), $e)->getCharset());
+            self::assertEquals(401,$this->handler->render(request(), $e)->getStatusCode());
+        } else {
+            self::expectException(RouteNotFoundException::class);
+            $this->handler->render(request(), $e);
+        }
+    }
+
+    #[Test]
     public function getErrorCodeFromErrorInstance(): void
     {
         $e = new class(85, 'test exception.') extends \Exception {
             private int $errorCode;
 
-            public function __construct(int $errorCode, string $message = '', int $code = 0, ?Throwable $previous = null)
-            {
+            public function __construct(
+                int $errorCode,
+                string $message = '',
+                int $code = 0,
+                ?Throwable $previous = null
+            ) {
                 parent::__construct($message, $code, $previous);
                 $this->errorCode = $errorCode;
             }
