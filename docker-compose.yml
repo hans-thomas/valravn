@@ -1,7 +1,7 @@
 services:
 
   app:
-    build: .
+    image: valravn-app:latest
     working_dir: $APP_DEST
     volumes:
       - $APP_SRC:$APP_DEST
